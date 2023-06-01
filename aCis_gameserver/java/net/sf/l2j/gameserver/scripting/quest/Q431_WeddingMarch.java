@@ -26,10 +26,10 @@ public class Q431_WeddingMarch extends Quest
 		
 		setItemsIds(SILVER_CRYSTAL);
 		
-		addStartNpc(KANTABILON);
+		addQuestStart(KANTABILON);
 		addTalkId(KANTABILON);
 		
-		addKillId(20786, 20787);
+		addMyDying(20786, 20787);
 	}
 	
 	@Override
@@ -89,17 +89,15 @@ public class Q431_WeddingMarch extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), SILVER_CRYSTAL, 1, 50, 500000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

@@ -22,10 +22,10 @@ public class Q263_OrcSubjugation extends Quest
 		
 		setItemsIds(ORC_AMULET, ORC_NECKLACE);
 		
-		addStartNpc(30346); // Kayleen
+		addQuestStart(30346); // Kayleen
 		addTalkId(30346);
 		
-		addKillId(20385, 20386, 20387, 20388);
+		addMyDying(20385, 20386, 20387, 20388);
 	}
 	
 	@Override
@@ -90,16 +90,14 @@ public class Q263_OrcSubjugation extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(player, (npc.getNpcId() == 20385) ? ORC_AMULET : ORC_NECKLACE, 1, 0, 500000);
-		
-		return null;
 	}
 }

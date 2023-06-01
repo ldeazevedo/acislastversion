@@ -23,10 +23,10 @@ public class Q053_LinnaeusSpecialBait extends Quest
 		
 		setItemsIds(CRIMSON_DRAKE_HEART);
 		
-		addStartNpc(31577); // Linnaeus
+		addQuestStart(31577); // Linnaeus
 		addTalkId(31577);
 		
-		addKillId(20670); // Crimson Drake
+		addMyDying(20670); // Crimson Drake
 	}
 	
 	@Override
@@ -82,17 +82,15 @@ public class Q053_LinnaeusSpecialBait extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, CRIMSON_DRAKE_HEART, 1, 100, 500000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

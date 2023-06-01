@@ -24,7 +24,7 @@ public class Q012_SecretMeetingWithVarkaSilenos extends Quest
 		
 		setItemsIds(MUNITIONS_BOX);
 		
-		addStartNpc(CADMON);
+		addQuestStart(CADMON);
 		addTalkId(CADMON, HELMUT, NARAN_ASHANUK);
 	}
 	

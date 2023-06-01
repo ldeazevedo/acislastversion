@@ -52,10 +52,10 @@ public class Q402_PathToAHumanKnight extends Quest
 		
 		setItemsIds(MARK_OF_ESQUIRE, COIN_OF_LORDS_1, COIN_OF_LORDS_2, COIN_OF_LORDS_3, COIN_OF_LORDS_4, COIN_OF_LORDS_5, COIN_OF_LORDS_6, GLUDIO_GUARD_MARK_1, BUGBEAR_NECKLACE, EINHASAD_CHURCH_MARK_1, EINHASAD_CRUCIFIX, GLUDIO_GUARD_MARK_2, SPIDER_LEG, EINHASAD_CHURCH_MARK_2, LIZARDMAN_TOTEM, GLUDIO_GUARD_MARK_3, GIANT_SPIDER_HUSK, EINHASAD_CHURCH_MARK_3, LIZARDMAN_TOTEM, GLUDIO_GUARD_MARK_3, GIANT_SPIDER_HUSK, EINHASAD_CHURCH_MARK_3, HORRIBLE_SKULL);
 		
-		addStartNpc(SIR_KLAUS_VASPER);
+		addQuestStart(SIR_KLAUS_VASPER);
 		addTalkId(SIR_KLAUS_VASPER, BATHIS, RAYMOND, BEZIQUE, LEVIAN, GILBERT, BIOTIN, SIR_AARON_TANFORD, SIR_COLLIN_WINDAWOOD);
 		
-		addKillId(20775, 27024, 20038, 20043, 20050, 20030, 20027, 20024, 20103, 20106, 20108, 20404);
+		addMyDying(20775, 27024, 20038, 20043, 20050, 20030, 20027, 20024, 20103, 20106, 20108, 20404);
 	}
 	
 	@Override
@@ -307,13 +307,13 @@ public class Q402_PathToAHumanKnight extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -353,7 +353,5 @@ public class Q402_PathToAHumanKnight extends Quest
 					dropItems(player, HORRIBLE_SKULL, 1, 10, 400000);
 				break;
 		}
-		
-		return null;
 	}
 }

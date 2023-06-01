@@ -3812,7 +3812,7 @@ public final class SystemMessageId
 	 * ID: 681<br>
 	 * Message: The clan does not own a clan hall.
 	 */
-	// CLAN_HAS_NO_CLAN_HALL(681) // Doesn't exist in Hellbound anymore
+	public static final SystemMessageId CLAN_HAS_NO_CLAN_HALL;
 	
 	/**
 	 * ID: 683<br>
@@ -12434,6 +12434,7 @@ public final class SystemMessageId
 		SUBMITTED_A_BID = new SystemMessageId(678);
 		CANCELED_BID = new SystemMessageId(679);
 		CANNOT_PARTICIPATE_IN_AUCTION = new SystemMessageId(680);
+		CLAN_HAS_NO_CLAN_HALL = new SystemMessageId(681);
 		SWEEP_NOT_ALLOWED = new SystemMessageId(683);
 		CANNOT_POSITION_MERCS_DURING_SIEGE = new SystemMessageId(684);
 		CANNOT_DECLARE_WAR_ON_ALLY = new SystemMessageId(685);

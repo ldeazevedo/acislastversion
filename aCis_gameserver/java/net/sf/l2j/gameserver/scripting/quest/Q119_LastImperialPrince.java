@@ -23,7 +23,7 @@ public class Q119_LastImperialPrince extends Quest
 		
 		setItemsIds(ANTIQUE_BROOCH);
 		
-		addStartNpc(NAMELESS_SPIRIT);
+		addQuestStart(NAMELESS_SPIRIT);
 		addTalkId(NAMELESS_SPIRIT, DEVORIN);
 	}
 	

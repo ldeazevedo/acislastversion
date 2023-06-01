@@ -93,12 +93,12 @@ public class Q227_TestOfTheReformer extends SecondClassQuest
 		
 		setItemsIds(BOOK_OF_REFORM, LETTER_OF_INTRODUCTION, SLA_LETTER, GREETINGS, OL_MAHUM_MONEY, KATARI_LETTER, NYAKURI_LETTER, UNDEAD_LIST, RAMUS_LETTER, RIPPED_DIARY, HUGE_NAIL, LETTER_OF_BETRAYER, BONE_FRAGMENT_4, BONE_FRAGMENT_5, BONE_FRAGMENT_6, BONE_FRAGMENT_7, BONE_FRAGMENT_8, BONE_FRAGMENT_9, KAKAN_LETTER);
 		
-		addStartNpc(PUPINA);
+		addQuestStart(PUPINA);
 		addTalkId(PUPINA, SLA, RAMUS, KATARI, KAKAN, NYAKURI, OL_MAHUM_PILGRIM);
 		
-		addAttackId(NAMELESS_REVENANT, CRIMSON_WEREWOLF);
-		addKillId(MISERY_SKELETON, SKELETON_ARCHER, SKELETON_MARKSMAN, SKELETON_LORD, SILENT_HORROR, NAMELESS_REVENANT, ARURAUNE, OL_MAHUM_INSPECTOR, OL_MAHUM_BETRAYER, CRIMSON_WEREWOLF, KRUDEL_LIZARDMAN);
-		addDecayId(OL_MAHUM_PILGRIM, OL_MAHUM_INSPECTOR, OL_MAHUM_BETRAYER, CRIMSON_WEREWOLF, KRUDEL_LIZARDMAN);
+		addAttacked(NAMELESS_REVENANT, CRIMSON_WEREWOLF);
+		addDecayed(OL_MAHUM_PILGRIM, OL_MAHUM_INSPECTOR, OL_MAHUM_BETRAYER, CRIMSON_WEREWOLF, KRUDEL_LIZARDMAN);
+		addMyDying(MISERY_SKELETON, SKELETON_ARCHER, SKELETON_MARKSMAN, SKELETON_LORD, SILENT_HORROR, NAMELESS_REVENANT, ARURAUNE, OL_MAHUM_INSPECTOR, OL_MAHUM_BETRAYER, CRIMSON_WEREWOLF, KRUDEL_LIZARDMAN);
 	}
 	
 	@Override
@@ -379,13 +379,13 @@ public class Q227_TestOfTheReformer extends SecondClassQuest
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		final Player player = attacker.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int cond = st.getCond();
 		switch (npc.getNpcId())
@@ -403,12 +403,10 @@ public class Q227_TestOfTheReformer extends SecondClassQuest
 				}
 				break;
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onDecay(Npc npc)
+	public void onDecayed(Npc npc)
 	{
 		if (npc == _olMahumPilgrim_Katari)
 		{
@@ -438,18 +436,16 @@ public class Q227_TestOfTheReformer extends SecondClassQuest
 		{
 			_krudelLizardman = null;
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		int cond = st.getCond();
 		switch (npc.getNpcId())
@@ -576,7 +572,5 @@ public class Q227_TestOfTheReformer extends SecondClassQuest
 				}
 				break;
 		}
-		
-		return null;
 	}
 }

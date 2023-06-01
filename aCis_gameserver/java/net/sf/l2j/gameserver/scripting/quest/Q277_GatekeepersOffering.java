@@ -21,10 +21,10 @@ public class Q277_GatekeepersOffering extends Quest
 	{
 		super(277, "Gatekeeper's Offering");
 		
-		addStartNpc(30576); // Tamil
+		addQuestStart(30576); // Tamil
 		addTalkId(30576);
 		
-		addKillId(20333); // Graystone Golem
+		addMyDying(20333); // Graystone Golem
 	}
 	
 	@Override
@@ -77,17 +77,15 @@ public class Q277_GatekeepersOffering extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, STARSTONE, 1, 20, 500000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

@@ -27,7 +27,7 @@ public class MacroList extends LinkedHashMap<Integer, Macro>
 	
 	private static final CLogger LOGGER = new CLogger(MacroList.class.getName());
 	
-	private static final String INSERT_MACRO = "REPLACE INTO character_macroses (char_obj_id,id,icon,name,descr,acronym,commands) values(?,?,?,?,?,?,?)";
+	private static final String INSERT_OR_UPDATE_MACRO = "INSERT INTO character_macroses (char_obj_id,id,icon,name,descr,acronym,commands) VALUES (?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE icon=VALUES(icon),name=VALUES(name),descr=VALUES(descr),acronym=VALUES(acronym),commands=VALUES(commands)";
 	private static final String DELETE_MACRO = "DELETE FROM character_macroses WHERE char_obj_id=? AND id=?";
 	private static final String LOAD_MACROS = "SELECT char_obj_id, id, icon, name, descr, acronym, commands FROM character_macroses WHERE char_obj_id=?";
 	
@@ -48,74 +48,70 @@ public class MacroList extends LinkedHashMap<Integer, Macro>
 		return _revision;
 	}
 	
-	public Macro[] getMacros()
-	{
-		return values().toArray(new Macro[size()]);
-	}
-	
 	/**
 	 * Add a {@link Macro} to this {@link MacroList}.
-	 * @param macro : The Macro object to add.
+	 * @param macro : The {@link Macro} to add.
 	 */
 	public void registerMacro(Macro macro)
 	{
+		// Compute a proper Macro id.
 		if (macro.id == 0)
 		{
 			macro.id = _macroId++;
 			
 			while (get(macro.id) != null)
 				macro.id = _macroId++;
-			
-			put(macro.id, macro);
 		}
-		else
-		{
-			final Macro old = put(macro.id, macro);
-			if (old != null)
-				deleteMacroFromDb(old);
-		}
+		
+		// Add or replace the Macro.
+		put(macro.id, macro);
+		
+		// Save the Macro into db.
 		registerMacroInDb(macro);
+		
+		// Refresh the Macro window.
 		sendUpdate();
 	}
 	
 	/**
 	 * Delete the {@link Macro} corresponding to the id from this {@link MacroList}.
-	 * @param id : The id of the Macro to delete.
+	 * @param id : The id of the {@link Macro} to delete.
 	 */
 	public void deleteMacro(int id)
 	{
-		final Macro toRemove = get(id);
-		if (toRemove != null)
-			deleteMacroFromDb(toRemove);
+		final Macro macro = remove(id);
+		if (macro == null)
+			return;
 		
-		remove(id);
+		// Delete the Macro from db.
+		deleteMacroFromDb(macro);
 		
-		// Delete all existing shortcuts refering to this macro id.
+		// Delete all existing shortcuts refering to this Macro id.
 		_owner.getShortcutList().deleteShortcuts(id, ShortcutType.MACRO);
 		
+		// Refresh the Macro window.
 		sendUpdate();
 	}
 	
 	/**
-	 * Refresh {@link Macro}s list. Used on onEnterWorld.
+	 * Refresh the {@link Macro}s window. Used on onEnterWorld.
 	 */
 	public void sendUpdate()
 	{
 		_revision++;
 		
-		final Macro[] macros = getMacros();
-		if (macros.length == 0)
-			_owner.sendPacket(new SendMacroList(_revision, macros.length, null));
+		if (isEmpty())
+			_owner.sendPacket(new SendMacroList(_revision, size(), null));
 		else
 		{
-			for (Macro macro : macros)
-				_owner.sendPacket(new SendMacroList(_revision, macros.length, macro));
+			for (Macro macro : values())
+				_owner.sendPacket(new SendMacroList(_revision, size(), macro));
 		}
 	}
 	
 	/**
 	 * Save the given {@link Macro} to the database.
-	 * @param macro : The Macro to save.
+	 * @param macro : The {@link Macro} to save.
 	 */
 	private void registerMacroInDb(Macro macro)
 	{
@@ -133,7 +129,7 @@ public class MacroList extends LinkedHashMap<Integer, Macro>
 			sb.setLength(255);
 		
 		try (Connection con = ConnectionPool.getConnection();
-			PreparedStatement ps = con.prepareStatement(INSERT_MACRO))
+			PreparedStatement ps = con.prepareStatement(INSERT_OR_UPDATE_MACRO))
 		{
 			ps.setInt(1, _owner.getObjectId());
 			ps.setInt(2, macro.id);
@@ -151,8 +147,8 @@ public class MacroList extends LinkedHashMap<Integer, Macro>
 	}
 	
 	/**
-	 * Delete the given {@link Macro} to the database.
-	 * @param macro : The Macro to delete.
+	 * Delete the given {@link Macro} from the database.
+	 * @param macro : The {@link Macro} to delete.
 	 */
 	private void deleteMacroFromDb(Macro macro)
 	{

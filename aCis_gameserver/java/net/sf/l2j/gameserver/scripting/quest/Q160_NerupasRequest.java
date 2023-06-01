@@ -32,7 +32,7 @@ public class Q160_NerupasRequest extends Quest
 		
 		setItemsIds(SILVERY_SPIDERSILK, UNOREN_RECEIPT, CREAMEES_TICKET, NIGHTSHADE_LEAF);
 		
-		addStartNpc(NERUPA);
+		addQuestStart(NERUPA);
 		addTalkId(NERUPA, UNOREN, CREAMEES, JULIA);
 	}
 	

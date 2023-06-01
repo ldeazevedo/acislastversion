@@ -275,10 +275,10 @@ public class Q372_LegacyOfInsolence extends Quest
 	{
 		super(372, "Legacy of Insolence");
 		
-		addStartNpc(WALDERAL);
+		addQuestStart(WALDERAL);
 		addTalkId(WALDERAL, PATRIN, HOLLY, CLAUDIA, DESMOND);
 		
-		addKillId(MONSTERS_DROPS[0]);
+		addMyDying(MONSTERS_DROPS[0]);
 	}
 	
 	@Override
@@ -371,13 +371,13 @@ public class Q372_LegacyOfInsolence extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		
@@ -389,7 +389,6 @@ public class Q372_LegacyOfInsolence extends Quest
 				break;
 			}
 		}
-		return null;
 	}
 	
 	private static String checkAndRewardItems(Player player, int itemType, int rewardType, int npcId)

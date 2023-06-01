@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminAdmin;
+import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminAlternativeSpawn;
 import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminAnnouncements;
 import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminBookmark;
 import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminClanHall;
@@ -43,6 +44,7 @@ public class AdminCommandHandler
 	protected AdminCommandHandler()
 	{
 		registerHandler(new AdminAdmin());
+		registerHandler(new AdminAlternativeSpawn());
 		registerHandler(new AdminAnnouncements());
 		registerHandler(new AdminBookmark());
 		registerHandler(new AdminClanHall());

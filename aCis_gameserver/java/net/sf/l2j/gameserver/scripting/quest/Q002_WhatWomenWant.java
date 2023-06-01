@@ -33,7 +33,7 @@ public class Q002_WhatWomenWant extends Quest
 		
 		setItemsIds(ARUJIEN_LETTER_1, ARUJIEN_LETTER_2, ARUJIEN_LETTER_3, POETRY_BOOK, GREENIS_LETTER);
 		
-		addStartNpc(ARUJIEN);
+		addQuestStart(ARUJIEN);
 		addTalkId(ARUJIEN, MIRABEL, HERBIEL, GREENIS);
 	}
 	

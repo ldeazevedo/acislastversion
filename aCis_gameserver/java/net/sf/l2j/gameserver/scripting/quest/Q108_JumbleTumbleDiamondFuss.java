@@ -91,10 +91,10 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 		
 		setItemsIds(GOUPH_CONTRACT, REEP_CONTRACT, ELVEN_WINE, BRUNON_DICE, BRUNON_CONTRACT, AQUAMARINE, CHRYSOBERYL, GEM_BOX, COAL_PIECE, BRUNON_LETTER, BERRY_TART, BAT_DIAGRAM, STAR_DIAMOND);
 		
-		addStartNpc(GOUPH);
+		addQuestStart(GOUPH);
 		addTalkId(GOUPH, REEP, MURDOC, AIRY, BRUNON, MARON, TOROCCO);
 		
-		addKillId(GOBLIN_BRIGAND_LEADER, GOBLIN_BRIGAND_LIEUTENANT, BLADE_BAT);
+		addMyDying(GOBLIN_BRIGAND_LEADER, GOBLIN_BRIGAND_LIEUTENANT, BLADE_BAT);
 	}
 	
 	@Override
@@ -298,13 +298,13 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -326,6 +326,5 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest
 				}
 				break;
 		}
-		return null;
 	}
 }

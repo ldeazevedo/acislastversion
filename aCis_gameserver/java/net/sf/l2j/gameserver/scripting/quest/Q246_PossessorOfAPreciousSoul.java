@@ -38,10 +38,10 @@ public class Q246_PossessorOfAPreciousSoul extends Quest
 		
 		setItemsIds(WATERBINDER, EVERGREEN, RAIN_SONG, RELIC_BOX);
 		
-		addStartNpc(CARADINE);
+		addQuestStart(CARADINE);
 		addTalkId(CARADINE, OSSIAN, LADD);
 		
-		addKillId(PILGRIM_OF_SPLENDOR, JUDGE_OF_SPLENDOR, BARAKIEL);
+		addMyDying(PILGRIM_OF_SPLENDOR, JUDGE_OF_SPLENDOR, BARAKIEL);
 	}
 	
 	@Override
@@ -172,7 +172,7 @@ public class Q246_PossessorOfAPreciousSoul extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		final int npcId = npc.getNpcId();
@@ -196,11 +196,11 @@ public class Q246_PossessorOfAPreciousSoul extends Quest
 		else
 		{
 			if (!player.isSubClassActive())
-				return null;
+				return;
 			
 			QuestState st = checkPlayerCondition(player, npc, 2);
 			if (st == null)
-				return null;
+				return;
 			
 			if (Rnd.get(10) < 2)
 			{
@@ -220,6 +220,5 @@ public class Q246_PossessorOfAPreciousSoul extends Quest
 				}
 			}
 		}
-		return null;
 	}
 }

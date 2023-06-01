@@ -39,7 +39,7 @@ public class PlayableCast<T extends Playable> extends CreatureCast<T>
 		callSkill(skill, new Creature[]
 		{
 			_actor
-		});
+		}, item);
 	}
 	
 	@Override
@@ -58,7 +58,7 @@ public class PlayableCast<T extends Playable> extends CreatureCast<T>
 			_actor.addItemSkillTimeStamp(skill, itemInstance);
 		}
 		
-		super.doCast(skill, target, null);
+		super.doCast(skill, target, itemInstance);
 	}
 	
 	@Override

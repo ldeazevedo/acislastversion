@@ -55,10 +55,10 @@ public class Q215_TrialOfThePilgrim extends SecondClassQuest
 		
 		setItemsIds(BOOK_OF_SAGE, VOUCHER_OF_TRIAL, SPIRIT_OF_FLAME, ESSENCE_OF_FLAME, BOOK_OF_GERALD, GRAY_BADGE, PICTURE_OF_NAHIR, HAIR_OF_NAHIR, STATUE_OF_EINHASAD, BOOK_OF_DARKNESS, DEBRIS_OF_WILLOW, TAG_OF_RUMOR);
 		
-		addStartNpc(SANTIAGO);
+		addQuestStart(SANTIAGO);
 		addTalkId(SANTIAGO, TANAPI, ANCESTOR_MARTANKUS, GAURI_TWINKLEROCK, DORF, GERALD, PRIMOS, PETRON, ANDELLIA, URUHA, CASIAN);
 		
-		addKillId(LAVA_SALAMANDER, NAHIR, BLACK_WILLOW);
+		addMyDying(LAVA_SALAMANDER, NAHIR, BLACK_WILLOW);
 	}
 	
 	@Override
@@ -320,13 +320,13 @@ public class Q215_TrialOfThePilgrim extends SecondClassQuest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -345,7 +345,5 @@ public class Q215_TrialOfThePilgrim extends SecondClassQuest
 					st.setCond(14);
 				break;
 		}
-		
-		return null;
 	}
 }

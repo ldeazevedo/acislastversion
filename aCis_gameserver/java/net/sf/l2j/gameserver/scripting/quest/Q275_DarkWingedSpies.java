@@ -28,10 +28,10 @@ public class Q275_DarkWingedSpies extends Quest
 		
 		setItemsIds(DARKWING_BAT_FANG, VARANGKA_PARASITE);
 		
-		addStartNpc(30567); // Tantus
+		addQuestStart(30567); // Tantus
 		addTalkId(30567);
 		
-		addKillId(DARKWING_BAT, VARANGKA_TRACKER);
+		addMyDying(DARKWING_BAT, VARANGKA_TRACKER);
 	}
 	
 	@Override
@@ -90,13 +90,13 @@ public class Q275_DarkWingedSpies extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -122,7 +122,5 @@ public class Q275_DarkWingedSpies extends Quest
 				}
 				break;
 		}
-		
-		return null;
 	}
 }

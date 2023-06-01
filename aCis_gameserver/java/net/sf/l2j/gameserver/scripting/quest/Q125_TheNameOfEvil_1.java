@@ -53,14 +53,14 @@ public class Q125_TheNameOfEvil_1 extends Quest
 		
 		setItemsIds(ORNITHOMIMUS_CLAW, DEINONYCHUS_BONE, EPITAPH_OF_WISDOM, GAZKH_FRAGMENT);
 		
-		addStartNpc(MUSHIKA);
+		addQuestStart(MUSHIKA);
 		addTalkId(MUSHIKA, KARAKAWEI, ULU_KAIMU, BALU_KAIMU, CHUTA_KAIMU);
 		
 		for (int i : ORNITHOMIMUS)
-			addKillId(i);
+			addMyDying(i);
 		
 		for (int i : DEINONYCHUS)
-			addKillId(i);
+			addMyDying(i);
 	}
 	
 	@Override
@@ -221,13 +221,13 @@ public class Q125_TheNameOfEvil_1 extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 3);
 		if (st == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		if (ArraysUtil.contains(ORNITHOMIMUS, npcId))
@@ -240,6 +240,5 @@ public class Q125_TheNameOfEvil_1 extends Quest
 			if (dropItems(player, DEINONYCHUS_BONE, 1, 2, 50000) && player.getInventory().getItemCount(ORNITHOMIMUS_CLAW) == 2)
 				st.setCond(4);
 		}
-		return null;
 	}
 }

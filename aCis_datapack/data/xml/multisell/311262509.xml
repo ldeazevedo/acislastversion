@@ -1619,7 +1619,7 @@
 	<item>
 		<ingredient id="8135" count="1"/>
 		<production id="7902" count="1"/>
-	</item>	
+	</item>
 	<item>
 		<ingredient id="8136" count="1"/>
 		<production id="7902" count="1"/>
@@ -1627,5 +1627,17 @@
 	<item>
 		<ingredient id="8137" count="1"/>
 		<production id="7902" count="1"/>
+	</item>
+	<item>
+		<ingredient id="8108" count="1"/>
+		<production id="7884" count="1"/>
+	</item>
+	<item>
+		<ingredient id="8109" count="1"/>
+		<production id="7884" count="1"/>
+	</item>
+	<item>
+		<ingredient id="8110" count="1"/>
+		<production id="7884" count="1"/>
 	</item>
 </list>

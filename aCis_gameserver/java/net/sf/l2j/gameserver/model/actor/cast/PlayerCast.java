@@ -79,12 +79,12 @@ public class PlayerCast extends PlayableCast<Player>
 		final int coolTime = skill.getCoolTime();
 		final long castInterruptTime = System.currentTimeMillis() + hitTime - 200;
 		
-		setCastTask(skill, target, hitTime, coolTime, castInterruptTime);
+		setCastTask(skill, target, null, hitTime, coolTime, castInterruptTime);
 		
 		if (skill.getSkillType() == SkillType.FUSION)
 			_actor.startFusionSkill(target, skill);
 		else
-			callSkill(skill, _targets);
+			callSkill(skill, _targets, null);
 		
 		_actor.broadcastPacket(new MagicSkillUse(_actor, target, skill.getId(), skill.getLevel(), hitTime, reuseDelay, false));
 		_actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.USE_S1).addSkillName(skill));
@@ -121,13 +121,13 @@ public class PlayerCast extends PlayableCast<Player>
 		callSkill(skill, new Creature[]
 		{
 			_actor
-		});
+		}, item);
 	}
 	
 	@Override
 	public void doToggleCast(L2Skill skill, Creature target)
 	{
-		setCastTask(skill, target, 0, 0, 0);
+		setCastTask(skill, target, null, 0, 0, 0);
 		
 		_actor.broadcastPacket(new MagicSkillUse(_actor, _actor, _skill.getId(), _skill.getLevel(), 0, 0));
 		
@@ -170,7 +170,7 @@ public class PlayerCast extends PlayableCast<Player>
 			
 			final ISkillHandler handler = SkillHandler.getInstance().getHandler(_skill.getSkillType());
 			if (handler != null)
-				handler.useSkill(_actor, _skill, _targets);
+				handler.useSkill(_actor, _skill, _targets, _item);
 			else
 				_skill.useSkill(_actor, _targets);
 		}
@@ -325,7 +325,7 @@ public class PlayerCast extends PlayableCast<Player>
 				break;
 			
 			case SWEEP:
-				if (skill.getTargetType() != SkillTargetType.AREA_CORPSE_MOB)
+				if (skill.getTargetType() != SkillTargetType.AREA_CORPSE_MOB && target instanceof Monster)
 				{
 					final int spoilerId = ((Monster) target).getSpoilState().getSpoilerId();
 					if (spoilerId == 0)

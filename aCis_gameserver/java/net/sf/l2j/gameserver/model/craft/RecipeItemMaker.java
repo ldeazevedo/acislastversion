@@ -3,7 +3,6 @@ package net.sf.l2j.gameserver.model.craft;
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.Config;
-import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.item.Recipe;
@@ -14,7 +13,6 @@ import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.ItemList;
 import net.sf.l2j.gameserver.network.serverpackets.RecipeItemMakeInfo;
 import net.sf.l2j.gameserver.network.serverpackets.RecipeShopItemInfo;
-import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
@@ -106,9 +104,6 @@ public class RecipeItemMaker implements Runnable
 			return;
 		}
 		
-		updateMakeInfo(true);
-		updateStatus();
-		
 		_player.setCrafting(false);
 		_isValid = true;
 	}
@@ -156,6 +151,9 @@ public class RecipeItemMaker implements Runnable
 			return;
 		}
 		
+		// Refresh inventory.
+		_target.sendPacket(new ItemList(_target, false));
+		
 		// Success ; we reward the player and update the craft window.
 		if (Rnd.get(100) < _recipe.getSuccessRate())
 		{
@@ -176,11 +174,7 @@ public class RecipeItemMaker implements Runnable
 			updateMakeInfo(false);
 		}
 		
-		// Update load and mana bar of craft window.
-		updateStatus();
-		
 		_player.setCrafting(false);
-		_target.sendPacket(new ItemList(_target, false));
 	}
 	
 	/**
@@ -193,17 +187,6 @@ public class RecipeItemMaker implements Runnable
 			_target.sendPacket(new RecipeItemMakeInfo(_recipe.getId(), _target, (success) ? 1 : 0));
 		else
 			_target.sendPacket(new RecipeShopItemInfo(_player, _recipe.getId()));
-	}
-	
-	/**
-	 * Update {@link Player} customer MP and load status.
-	 */
-	private void updateStatus()
-	{
-		final StatusUpdate su = new StatusUpdate(_target);
-		su.addAttribute(StatusType.CUR_MP, (int) _target.getStatus().getMp());
-		su.addAttribute(StatusType.CUR_LOAD, _target.getCurrentWeight());
-		_target.sendPacket(su);
 	}
 	
 	/**
@@ -287,7 +270,5 @@ public class RecipeItemMaker implements Runnable
 			_target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.EARNED_S2_S1_S).addItemName(itemId).addNumber(itemCount));
 		else
 			_target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.EARNED_ITEM_S1).addItemName(itemId));
-		
-		updateMakeInfo(true); // success
 	}
 }

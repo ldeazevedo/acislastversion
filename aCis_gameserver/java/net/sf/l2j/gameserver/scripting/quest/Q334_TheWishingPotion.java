@@ -411,13 +411,12 @@ public class Q334_TheWishingPotion extends Quest
 		
 		setItemsIds(ALCHEMY_TEXT, SECRET_BOOK, FIRST_POTION_RECIPE, SECOND_POTION_RECIPE, MATILD_ORB, FORBIDDEN_LOVE_SCROLL, AMBER_SCALE, WIND_SOULSTONE, ANT_SOLDIER_APHID, GLASS_EYE, HORROR_ECTOPLASM, SILENOS_HORN, BUGBEAR_BLOOD, TYRANTS_CHITIN);
 		
-		addStartNpc(ALCHEMIST_MATILD);
+		addQuestStart(ALCHEMIST_MATILD);
 		addTalkId(TORAI, ALCHEMIST_MATILD, FAIRY_RUPINA, CHEST_OF_WISDOM);
 		
-		addSpawnId(GRIMA, SUCCUBUS_OF_SEDUCTION, GREAT_DEMON_KING, ALEXANDRO_SANCHES, BONAPARTERIUS, RAMSEBALIUS, FAIRY_RUPINA, CHEST_OF_WISDOM);
-		addDecayId(GREAT_DEMON_KING, ALEXANDRO_SANCHES, BONAPARTERIUS, RAMSEBALIUS);
-		
-		addKillId(WHISPERING_WIND, ANT_SOLDIER, ANT_WARRIOR_CAPTAIN, SILENOS, TYRANT, TYRANT_KINGPIN, AMBER_BASILISK, HORROR_MIST_RIPPER, TURAK_BUGBEAR, TURAK_BUGBEAR_WARRIOR, GLASS_JAGUAR, GRIMA, SUCCUBUS_OF_SEDUCTION, GREAT_DEMON_KING, SECRET_KEEPER_TREE, ALEXANDRO_SANCHES, BONAPARTERIUS, RAMSEBALIUS);
+		addCreated(GRIMA, SUCCUBUS_OF_SEDUCTION, GREAT_DEMON_KING, ALEXANDRO_SANCHES, BONAPARTERIUS, RAMSEBALIUS, FAIRY_RUPINA, CHEST_OF_WISDOM);
+		addDecayed(GREAT_DEMON_KING, ALEXANDRO_SANCHES, BONAPARTERIUS, RAMSEBALIUS);
+		addMyDying(WHISPERING_WIND, ANT_SOLDIER, ANT_WARRIOR_CAPTAIN, SILENOS, TYRANT, TYRANT_KINGPIN, AMBER_BASILISK, HORROR_MIST_RIPPER, TURAK_BUGBEAR, TURAK_BUGBEAR_WARRIOR, GLASS_JAGUAR, GRIMA, SUCCUBUS_OF_SEDUCTION, GREAT_DEMON_KING, SECRET_KEEPER_TREE, ALEXANDRO_SANCHES, BONAPARTERIUS, RAMSEBALIUS);
 	}
 	
 	@Override
@@ -499,167 +498,6 @@ public class Q334_TheWishingPotion extends Quest
 		}
 		
 		return htmltext;
-	}
-	
-	@Override
-	public String onDecay(Npc npc)
-	{
-		if (!npc.isDead())
-		{
-			switch (npc.getNpcId())
-			{
-				case ALEXANDRO_SANCHES:
-				case BONAPARTERIUS:
-				case RAMSEBALIUS:
-					npc.broadcastNpcSay(NpcStringId.ID_33411);
-					break;
-				
-				case GREAT_DEMON_KING:
-					npc.broadcastNpcSay(NpcStringId.ID_33409);
-					npc.broadcastNpcSay(NpcStringId.ID_33410);
-					break;
-			}
-		}
-		
-		return super.onDecay(npc);
-	}
-	
-	@Override
-	public String onKill(Npc npc, Creature killer)
-	{
-		final Player player = killer.getActingPlayer();
-		
-		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
-		if (st == null)
-			return null;
-		
-		switch (npc.getNpcId())
-		{
-			case SECRET_KEEPER_TREE:
-				if (st.getCond() == 1)
-				{
-					st.setCond(2);
-					dropItemsAlways(player, SECRET_BOOK, 1, 1);
-				}
-				break;
-			
-			case AMBER_BASILISK:
-				checkDropAndReward(player, st, st.getCond(), AMBER_SCALE);
-				break;
-			
-			case ANT_SOLDIER:
-			case ANT_WARRIOR_CAPTAIN:
-				checkDropAndReward(player, st, st.getCond(), ANT_SOLDIER_APHID);
-				break;
-			
-			case GLASS_JAGUAR:
-				checkDropAndReward(player, st, st.getCond(), GLASS_EYE);
-				break;
-			
-			case HORROR_MIST_RIPPER:
-				checkDropAndReward(player, st, st.getCond(), HORROR_ECTOPLASM);
-				break;
-			
-			case SILENOS:
-				checkDropAndReward(player, st, st.getCond(), SILENOS_HORN);
-				break;
-			
-			case TURAK_BUGBEAR:
-			case TURAK_BUGBEAR_WARRIOR:
-				checkDropAndReward(player, st, st.getCond(), BUGBEAR_BLOOD);
-				break;
-			
-			case TYRANT:
-			case TYRANT_KINGPIN:
-				checkDropAndReward(player, st, st.getCond(), TYRANTS_CHITIN);
-				break;
-			
-			case WHISPERING_WIND:
-				checkDropAndReward(player, st, st.getCond(), WIND_SOULSTONE);
-				break;
-			
-			case SUCCUBUS_OF_SEDUCTION:
-				if (st.getCond() == 5 && !player.getInventory().hasItems(FORBIDDEN_LOVE_SCROLL) && st.getInteger("wish") == 1)
-				{
-					if (dropItems(player, FORBIDDEN_LOVE_SCROLL, 1, 0, 28000))
-						st.set("wish", 0);
-				}
-				break;
-			
-			case GRIMA:
-				if (st.getCond() == 5 && st.getInteger("wish") == 2 && Rnd.get(1000) < 33)
-				{
-					st.set("wish", 0);
-					playSound(player, SOUND_ITEMGET);
-					
-					if (Rnd.get(1000) == 0)
-						giveItems(player, ADENA, 100000000);
-					else
-						giveItems(player, ADENA, 900000);
-				}
-				break;
-			
-			case ALEXANDRO_SANCHES:
-				checkRewardOrSpawn(player, npc, BONAPARTERIUS, NpcStringId.ID_33414);
-				break;
-			
-			case BONAPARTERIUS:
-				checkRewardOrSpawn(player, npc, RAMSEBALIUS, NpcStringId.ID_33413);
-				break;
-			
-			case RAMSEBALIUS:
-				checkRewardOrSpawn(player, npc, GREAT_DEMON_KING, NpcStringId.ID_33412);
-				break;
-			
-			case GREAT_DEMON_KING:
-				st.set("wish", 0);
-				playSound(player, SOUND_ITEMGET);
-				giveItems(player, ADENA, 1406956);
-				break;
-		}
-		
-		return null;
-	}
-	
-	@Override
-	public String onSpawn(Npc npc)
-	{
-		switch (npc.getNpcId())
-		{
-			case FAIRY_RUPINA:
-				npc.broadcastNpcSay(NpcStringId.ID_33420);
-				break;
-			
-			case GRIMA:
-				npc.broadcastNpcSay(NpcStringId.ID_33422);
-				break;
-			
-			case SUCCUBUS_OF_SEDUCTION:
-				npc.broadcastNpcSay(NpcStringId.ID_33423);
-				break;
-			
-			case ALEXANDRO_SANCHES:
-				npc.broadcastNpcSay(NpcStringId.ID_33424);
-				break;
-			
-			case BONAPARTERIUS:
-				npc.broadcastNpcSay(NpcStringId.ID_33425);
-				break;
-			
-			case RAMSEBALIUS:
-				npc.broadcastNpcSay(NpcStringId.ID_33426);
-				break;
-			
-			case GREAT_DEMON_KING:
-				npc.broadcastNpcSay(NpcStringId.ID_33418);
-				break;
-			
-			case CHEST_OF_WISDOM:
-				npc.broadcastNpcSay(NpcStringId.ID_33421);
-				break;
-		}
-		
-		return null;
 	}
 	
 	@Override
@@ -870,6 +708,161 @@ public class Q334_TheWishingPotion extends Quest
 			st.set("exchange", 0);
 		}
 		return null;
+	}
+	
+	@Override
+	public void onCreated(Npc npc)
+	{
+		switch (npc.getNpcId())
+		{
+			case FAIRY_RUPINA:
+				npc.broadcastNpcSay(NpcStringId.ID_33420);
+				break;
+			
+			case GRIMA:
+				npc.broadcastNpcSay(NpcStringId.ID_33422);
+				break;
+			
+			case SUCCUBUS_OF_SEDUCTION:
+				npc.broadcastNpcSay(NpcStringId.ID_33423);
+				break;
+			
+			case ALEXANDRO_SANCHES:
+				npc.broadcastNpcSay(NpcStringId.ID_33424);
+				break;
+			
+			case BONAPARTERIUS:
+				npc.broadcastNpcSay(NpcStringId.ID_33425);
+				break;
+			
+			case RAMSEBALIUS:
+				npc.broadcastNpcSay(NpcStringId.ID_33426);
+				break;
+			
+			case GREAT_DEMON_KING:
+				npc.broadcastNpcSay(NpcStringId.ID_33418);
+				break;
+			
+			case CHEST_OF_WISDOM:
+				npc.broadcastNpcSay(NpcStringId.ID_33421);
+				break;
+		}
+	}
+	
+	@Override
+	public void onDecayed(Npc npc)
+	{
+		if (!npc.isDead())
+		{
+			switch (npc.getNpcId())
+			{
+				case ALEXANDRO_SANCHES:
+				case BONAPARTERIUS:
+				case RAMSEBALIUS:
+					npc.broadcastNpcSay(NpcStringId.ID_33411);
+					break;
+				
+				case GREAT_DEMON_KING:
+					npc.broadcastNpcSay(NpcStringId.ID_33409);
+					npc.broadcastNpcSay(NpcStringId.ID_33410);
+					break;
+			}
+		}
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
+	{
+		final Player player = killer.getActingPlayer();
+		
+		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
+		if (st == null)
+			return;
+		
+		switch (npc.getNpcId())
+		{
+			case SECRET_KEEPER_TREE:
+				if (st.getCond() == 1)
+				{
+					st.setCond(2);
+					dropItemsAlways(player, SECRET_BOOK, 1, 1);
+				}
+				break;
+			
+			case AMBER_BASILISK:
+				checkDropAndReward(player, st, st.getCond(), AMBER_SCALE);
+				break;
+			
+			case ANT_SOLDIER:
+			case ANT_WARRIOR_CAPTAIN:
+				checkDropAndReward(player, st, st.getCond(), ANT_SOLDIER_APHID);
+				break;
+			
+			case GLASS_JAGUAR:
+				checkDropAndReward(player, st, st.getCond(), GLASS_EYE);
+				break;
+			
+			case HORROR_MIST_RIPPER:
+				checkDropAndReward(player, st, st.getCond(), HORROR_ECTOPLASM);
+				break;
+			
+			case SILENOS:
+				checkDropAndReward(player, st, st.getCond(), SILENOS_HORN);
+				break;
+			
+			case TURAK_BUGBEAR:
+			case TURAK_BUGBEAR_WARRIOR:
+				checkDropAndReward(player, st, st.getCond(), BUGBEAR_BLOOD);
+				break;
+			
+			case TYRANT:
+			case TYRANT_KINGPIN:
+				checkDropAndReward(player, st, st.getCond(), TYRANTS_CHITIN);
+				break;
+			
+			case WHISPERING_WIND:
+				checkDropAndReward(player, st, st.getCond(), WIND_SOULSTONE);
+				break;
+			
+			case SUCCUBUS_OF_SEDUCTION:
+				if (st.getCond() == 5 && !player.getInventory().hasItems(FORBIDDEN_LOVE_SCROLL) && st.getInteger("wish") == 1)
+				{
+					if (dropItems(player, FORBIDDEN_LOVE_SCROLL, 1, 0, 28000))
+						st.set("wish", 0);
+				}
+				break;
+			
+			case GRIMA:
+				if (st.getCond() == 5 && st.getInteger("wish") == 2 && Rnd.get(1000) < 33)
+				{
+					st.set("wish", 0);
+					playSound(player, SOUND_ITEMGET);
+					
+					if (Rnd.get(1000) == 0)
+						giveItems(player, ADENA, 100000000);
+					else
+						giveItems(player, ADENA, 900000);
+				}
+				break;
+			
+			case ALEXANDRO_SANCHES:
+				checkRewardOrSpawn(player, npc, BONAPARTERIUS, NpcStringId.ID_33414);
+				break;
+			
+			case BONAPARTERIUS:
+				checkRewardOrSpawn(player, npc, RAMSEBALIUS, NpcStringId.ID_33413);
+				break;
+			
+			case RAMSEBALIUS:
+				checkRewardOrSpawn(player, npc, GREAT_DEMON_KING, NpcStringId.ID_33412);
+				break;
+			
+			case GREAT_DEMON_KING:
+				st.set("wish", 0);
+				playSound(player, SOUND_ITEMGET);
+				giveItems(player, ADENA, 1406956);
+				break;
+		}
 	}
 	
 	private static void checkDropAndReward(Player player, QuestState st, int cond, int itemId)

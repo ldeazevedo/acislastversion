@@ -34,7 +34,7 @@ public class Q037_MakeFormalWear extends Quest
 		
 		setItemsIds(SIGNET_RING, ICE_WINE, BOX_OF_COOKIES);
 		
-		addStartNpc(ALEXIS);
+		addQuestStart(ALEXIS);
 		addTalkId(ALEXIS, LEIKAR, JEREMY, MIST);
 	}
 	

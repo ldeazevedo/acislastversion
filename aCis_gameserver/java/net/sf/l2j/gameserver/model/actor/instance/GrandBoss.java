@@ -22,7 +22,8 @@ public final class GrandBoss extends Monster
 	public GrandBoss(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
-		setRaid(true);
+		
+		setRaidRelated();
 	}
 	
 	@Override

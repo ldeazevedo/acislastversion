@@ -27,7 +27,7 @@ public class Q031_SecretBuriedInTheSwamp extends Quest
 		
 		setItemsIds(KRORIN_JOURNAL);
 		
-		addStartNpc(ABERCROMBIE);
+		addQuestStart(ABERCROMBIE);
 		addTalkId(ABERCROMBIE, CORPSE_OF_DWARF, FORGOTTEN_MONUMENT_1, FORGOTTEN_MONUMENT_2, FORGOTTEN_MONUMENT_3, FORGOTTEN_MONUMENT_4);
 	}
 	

@@ -8,6 +8,7 @@ import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.handler.IAdminCommandHandler;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.entity.Castle;
+import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.model.location.TowerSpawnLocation;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -144,6 +145,18 @@ public class AdminSiege implements IAdminCommandHandler
 		html.replace("%certificates%", castle.getLeftCertificates());
 		
 		final StringBuilder sb = new StringBuilder();
+		
+		// Feed artifacts infos.
+		for (SpawnLocation spawn : castle.getArtifacts().values())
+		{
+			final String teleLoc = spawn.toString().replaceAll(",", "");
+			StringUtil.append(sb, "<a action=\"bypass -h admin_teleport ", teleLoc, "\">", teleLoc, "</a><br1>");
+		}
+		
+		html.replace("%artifacts%", sb.toString());
+		
+		// Cleanup the sb to reuse it.
+		sb.setLength(0);
 		
 		// Feed Control Tower infos.
 		for (TowerSpawnLocation spawn : castle.getControlTowers())

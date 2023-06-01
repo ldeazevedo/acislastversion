@@ -20,10 +20,10 @@ public class Q319_ScentOfDeath extends Quest
 		
 		setItemsIds(ZOMBIE_SKIN);
 		
-		addStartNpc(30138); // Minaless
+		addQuestStart(30138); // Minaless
 		addTalkId(30138);
 		
-		addKillId(20015, 20020);
+		addMyDying(20015, 20020);
 	}
 	
 	@Override
@@ -76,17 +76,15 @@ public class Q319_ScentOfDeath extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, ZOMBIE_SKIN, 1, 5, 200000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

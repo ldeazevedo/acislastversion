@@ -54,10 +54,10 @@ public class Q360_PlunderTheirSupplies extends Quest
 		
 		setItemsIds(RECIPE_OF_SUPPLY, SUPPLY_ITEM, SUSPICIOUS_DOCUMENT);
 		
-		addStartNpc(30873); // Coleman
+		addQuestStart(30873); // Coleman
 		addTalkId(30873);
 		
-		addKillId(20666, 20669);
+		addMyDying(20666, 20669);
 	}
 	
 	@Override
@@ -120,13 +120,13 @@ public class Q360_PlunderTheirSupplies extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropMultipleItems(player, DROPLIST[(npc.getNpcId() == 20666) ? 0 : 1]);
 		
@@ -135,7 +135,5 @@ public class Q360_PlunderTheirSupplies extends Quest
 			takeItems(player, SUSPICIOUS_DOCUMENT, 5);
 			giveItems(player, RECIPE_OF_SUPPLY, 1);
 		}
-		
-		return null;
 	}
 }

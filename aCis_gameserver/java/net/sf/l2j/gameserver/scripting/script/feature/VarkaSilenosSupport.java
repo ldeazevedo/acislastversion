@@ -3,7 +3,6 @@ package net.sf.l2j.gameserver.scripting.script.feature;
 import net.sf.l2j.commons.lang.StringUtil;
 
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
-import net.sf.l2j.gameserver.data.xml.TeleportData;
 import net.sf.l2j.gameserver.enums.TeleportType;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Attackable;
@@ -98,10 +97,10 @@ public class VarkaSilenosSupport extends Quest
 		addTalkId(UDAN, HAGOS, TERANU);
 		
 		// Verify if the killer didn't kill an allied mob. Test his party aswell.
-		addKillId(VARKAS);
+		addMyDying(VARKAS);
 		
 		// Verify if an allied is healing/buff an enemy. Petrify him if it's the case.
-		addSkillSeeId(VARKAS);
+		addSeeSpell(VARKAS);
 	}
 	
 	@Override
@@ -136,11 +135,11 @@ public class VarkaSilenosSupport extends Quest
 			switch (player.getAllianceWithVarkaKetra())
 			{
 				case -4:
-					TeleportData.getInstance().showTeleportList(player, npc, TeleportType.STANDARD);
+					npc.showTeleportWindow(player, TeleportType.STANDARD);
 					return null;
 				
 				case -5:
-					TeleportData.getInstance().showTeleportList(player, npc, TeleportType.ALLY);
+					npc.showTeleportWindow(player, TeleportType.ALLY);
 					return null;
 			}
 		}
@@ -252,7 +251,7 @@ public class VarkaSilenosSupport extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		if (player != null)
@@ -266,11 +265,11 @@ public class VarkaSilenosSupport extends Quest
 			else
 				testVarkaDemote(player);
 		}
-		return null;
+		super.onMyDying(npc, killer);
 	}
 	
 	@Override
-	public String onSkillSee(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
+	public void onSeeSpell(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
 	{
 		// Caster is an allied.
 		if (caster.isAlliedWithVarka())
@@ -314,9 +313,7 @@ public class VarkaSilenosSupport extends Quest
 					break;
 			}
 		}
-		
-		// Continue normal behavior.
-		return super.onSkillSee(npc, caster, skill, targets, isPet);
+		super.onSeeSpell(npc, caster, skill, targets, isPet);
 	}
 	
 	/**

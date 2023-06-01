@@ -40,10 +40,10 @@ public class Q107_MercilessPunishment extends Quest
 		
 		setItemsIds(HATOS_ORDER_1, HATOS_ORDER_2, HATOS_ORDER_3, LETTER_TO_HUMAN, LETTER_TO_DARKELF, LETTER_TO_ELF);
 		
-		addStartNpc(HATOS);
+		addQuestStart(HATOS);
 		addTalkId(HATOS, PARUGON);
 		
-		addKillId(27041); // Baranka's Messenger
+		addMyDying(27041); // Baranka's Messenger
 	}
 	
 	@Override
@@ -159,13 +159,13 @@ public class Q107_MercilessPunishment extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int cond = st.getCond();
 		
@@ -187,7 +187,5 @@ public class Q107_MercilessPunishment extends Quest
 			playSound(player, SOUND_MIDDLE);
 			giveItems(player, LETTER_TO_ELF, 1);
 		}
-		
-		return null;
 	}
 }

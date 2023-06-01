@@ -15,7 +15,7 @@ import net.sf.l2j.gameserver.enums.items.ShotType;
 import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
 import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
-import net.sf.l2j.gameserver.handler.ISkillHandler;
+import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.handler.SkillHandler;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Attackable;
@@ -26,6 +26,7 @@ import net.sf.l2j.gameserver.model.entity.Duel;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.MagicSkillUse;
+import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.L2Skill;
@@ -387,21 +388,10 @@ public class Cubic
 			if (target == null)
 				return;
 			
-			final Creature[] targets =
-			{
-				target
-			};
+			_castTask = ThreadPool.schedule(() -> useHealSkill(skill, target), CAST_DELAY);
 			
-			_castTask = ThreadPool.schedule(() ->
-			{
-				final ISkillHandler handler = SkillHandler.getInstance().getHandler(skill.getSkillType());
-				if (handler != null)
-					handler.useSkill(_owner, skill, targets);
-				else
-					skill.useSkill(_owner, targets);
-			}, CAST_DELAY);
-			
-			_owner.broadcastPacket(new MagicSkillUse(_owner, target, skill.getId(), skill.getLevel(), CAST_DELAY, CAST_DELAY));
+			// Life Cubic for Beginners got a level of 8 on L2J, but it's 20 on L2OFF.
+			_owner.broadcastPacket(new MagicSkillUse(_owner, target, skill.getId(), (skill.getLevel() == 8) ? 20 : skill.getLevel(), CAST_DELAY, CAST_DELAY));
 		}
 		else
 		{
@@ -453,13 +443,24 @@ public class Cubic
 						break;
 					
 					default:
-						SkillHandler.getInstance().getHandler(skill.getSkillType()).useSkill(_owner, skill, targets);
+						SkillHandler.getInstance().getHandler(skill.getSkillType()).useSkill(_owner, skill, targets, null);
 						break;
 				}
 			}, CAST_DELAY);
 			
 			_owner.broadcastPacket(new MagicSkillUse(_owner, target, skill.getId(), skill.getLevel(), CAST_DELAY, CAST_DELAY));
 		}
+	}
+	
+	private static void useHealSkill(L2Skill skill, Creature target)
+	{
+		if (!target.canBeHealed())
+			return;
+		
+		target.getStatus().addHp(skill.getPower() * target.getStatus().calcStat(Stats.HEAL_EFFECTIVNESS, 100, null, null) / 100.);
+		
+		if (target instanceof Player)
+			target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.REJUVENATING_HP));
 	}
 	
 	private void useDisablerSkill(L2Skill skill, Creature target)

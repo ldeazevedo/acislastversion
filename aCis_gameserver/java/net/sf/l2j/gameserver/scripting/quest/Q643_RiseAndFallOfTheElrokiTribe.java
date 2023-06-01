@@ -26,10 +26,10 @@ public class Q643_RiseAndFallOfTheElrokiTribe extends Quest
 		
 		setItemsIds(BONES);
 		
-		addStartNpc(SINGSING);
+		addQuestStart(SINGSING);
 		addTalkId(SINGSING, KARAKAWEI);
 		
-		addKillId(22208, 22209, 22210, 22211, 22212, 22213, 22221, 22222, 22226, 22227);
+		addMyDying(22208, 22209, 22210, 22211, 22212, 22213, 22221, 22222, 22226, 22227);
 	}
 	
 	@Override
@@ -105,16 +105,14 @@ public class Q643_RiseAndFallOfTheElrokiTribe extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), BONES, 1, 0, 750000);
-		
-		return null;
 	}
 }

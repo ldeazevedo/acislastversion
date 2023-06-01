@@ -1,17 +1,13 @@
 package net.sf.l2j.gameserver.scripting.script.ai.boss;
 
-import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.random.Rnd;
 
-import net.sf.l2j.Config;
-import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.actor.instance.GrandBoss;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.network.NpcStringId;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
@@ -36,136 +32,67 @@ public class Orfen extends AttackableAIScript
 		NpcStringId.ID_1000031
 	};
 	
+	// Grand boss
 	private static final int ORFEN = 29014;
+	
+	// Monsters
 	private static final int RAIKEL_LEOS = 29016;
 	private static final int RIBA_IREN = 29018;
-	
-	private static final byte ALIVE = 0;
-	private static final byte DEAD = 1;
-	
-	private boolean _isTeleported;
 	
 	public Orfen()
 	{
 		super("ai/boss");
-		
-		final StatSet info = GrandBossManager.getInstance().getStatSet(ORFEN);
-		final int status = GrandBossManager.getInstance().getBossStatus(ORFEN);
-		
-		if (status == DEAD)
-		{
-			// load the unlock date and time for Orfen from DB
-			long temp = info.getLong("respawn_time") - System.currentTimeMillis();
-			if (temp > 0)
-			{
-				// The time has not yet expired. Mark Orfen as currently locked (dead).
-				startQuestTimer("orfen_unlock", null, null, temp);
-			}
-			else
-			{
-				// The time has already expired while the server was offline. Spawn Orfen in a random place.
-				final GrandBoss orfen = (GrandBoss) addSpawn(ORFEN, ORFEN_LOCATION[Rnd.get(1, 3)], false, 0, false);
-				GrandBossManager.getInstance().setBossStatus(ORFEN, ALIVE);
-				spawnBoss(orfen);
-			}
-		}
-		else
-		{
-			final int loc_x = info.getInteger("loc_x");
-			final int loc_y = info.getInteger("loc_y");
-			final int loc_z = info.getInteger("loc_z");
-			final int heading = info.getInteger("heading");
-			final int hp = info.getInteger("currentHP");
-			final int mp = info.getInteger("currentMP");
-			
-			final GrandBoss orfen = (GrandBoss) addSpawn(ORFEN, loc_x, loc_y, loc_z, heading, false, 0, false);
-			orfen.getStatus().setHpMp(hp, mp);
-			spawnBoss(orfen);
-		}
 	}
 	
 	@Override
 	protected void registerNpcs()
 	{
-		addAttackId(ORFEN, RIBA_IREN);
-		addFactionCallId(RAIKEL_LEOS, RIBA_IREN);
-		addKillId(ORFEN);
-		addSkillSeeId(ORFEN);
+		addAttacked(ORFEN, RIBA_IREN);
+		addClanAttacked(RAIKEL_LEOS, RIBA_IREN);
+		addCreated(ORFEN);
+		addMyDying(ORFEN);
+		addSeeSpell(ORFEN);
 	}
 	
 	@Override
 	public String onTimer(String name, Npc npc, Player player)
 	{
-		if (name.equalsIgnoreCase("orfen_unlock"))
+		if (name.equalsIgnoreCase("3001"))
 		{
-			final GrandBoss orfen = (GrandBoss) addSpawn(ORFEN, ORFEN_LOCATION[Rnd.get(1, 3)], false, 0, false);
-			GrandBossManager.getInstance().setBossStatus(ORFEN, ALIVE);
-			spawnBoss(orfen);
-		}
-		else if (name.equalsIgnoreCase("3001"))
-		{
-			if (_isTeleported)
+			if (npc.isScriptValue(1))
 			{
 				// HPs raised over 95%, instantly random teleport elsewhere. Teleport flag is set back to false.
 				if (npc.getStatus().getHpRatio() > 0.95)
 				{
 					teleportOrfen(npc, Rnd.get(1, 3));
 					
-					_isTeleported = false;
+					npc.setScriptValue(0);
 				}
 				// Orfen already ported once and is lured out of her lair ; teleport her back.
 				else if (!npc.isInsideZone(ZoneId.SWAMP))
 					teleportOrfen(npc, 0);
 			}
 		}
+		
 		return super.onTimer(name, npc, player);
 	}
 	
 	@Override
-	public String onSkillSee(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
-	{
-		Creature originalCaster = isPet ? caster.getSummon() : caster;
-		if (skill.getAggroPoints() > 0 && Rnd.get(100) < 20 && npc.isIn3DRadius(originalCaster, 1000))
-		{
-			// Random chat.
-			npc.broadcastNpcSay(Rnd.get(ORFEN_CHAT), caster.getName());
-			
-			// Teleport caster near Orfen.
-			originalCaster.teleportTo(npc.getPosition(), 0);
-			
-			// Cast a skill.
-			npc.getAI().tryToCast(originalCaster, 4064, 1);
-		}
-		return super.onSkillSee(npc, caster, skill, targets, isPet);
-	}
-	
-	@Override
-	public String onFactionCall(Attackable caller, Attackable called, Creature target)
-	{
-		if (called.getNpcId() == RAIKEL_LEOS && Rnd.get(100) < 5)
-			called.getAI().tryToCast(target, 4067, 4);
-		else if (called.getNpcId() == RIBA_IREN && caller.getNpcId() != RIBA_IREN && (caller.getStatus().getHpRatio() < 0.5) && Rnd.get(100) < ((caller.getNpcId() == ORFEN) ? 90 : 10))
-			called.getAI().tryToCast(caller, 4516, 1);
-		
-		return super.onFactionCall(caller, called, target);
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		if (attacker instanceof Playable)
 		{
 			// Curses
 			if (attacker.testCursesOnAttack(npc))
-				return null;
+				return;
 			
 			if (npc.getNpcId() == ORFEN)
 			{
 				// Orfen didn't yet teleport, and reached 50% HP.
-				if (!_isTeleported && npc.getStatus().getHpRatio() < 0.5)
+				if (npc.isScriptValue(0) && npc.getStatus().getHpRatio() < 0.5)
 				{
 					// Set teleport flag to true.
-					_isTeleported = true;
+					npc.setScriptValue(1);
 					
 					// Teleport Orfen to her lair.
 					teleportOrfen(npc, 0);
@@ -191,28 +118,58 @@ public class Orfen extends AttackableAIScript
 			else if (npc.getStatus().getHpRatio() < 0.5)
 				npc.getAI().tryToCast(attacker, 4516, 1);
 		}
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onClanAttacked(Attackable caller, Attackable called, Creature attacker, int damage)
+	{
+		if (called.getNpcId() == RAIKEL_LEOS && Rnd.get(100) < 5)
+			called.getAI().tryToCast(attacker, 4067, 4);
+		else if (called.getNpcId() == RIBA_IREN && caller.getNpcId() != RIBA_IREN && (caller.getStatus().getHpRatio() < 0.5) && Rnd.get(100) < ((caller.getNpcId() == ORFEN) ? 90 : 10))
+			called.getAI().tryToCast(caller, 4516, 1);
+		
+		super.onClanAttacked(caller, called, attacker, damage);
+	}
+	
+	@Override
+	public void onCreated(Npc npc)
+	{
+		// Broadcast spawn sound.
+		npc.broadcastPacket(new PlaySound(1, "BS01_A", npc));
+		
+		// Fire a 10s task to check Orfen status.
+		startQuestTimerAtFixedRate("3001", npc, null, 10000);
+		
+		super.onCreated(npc);
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		cancelQuestTimers("3001", npc);
 		
 		npc.broadcastPacket(new PlaySound(1, "BS02_D", npc));
-		GrandBossManager.getInstance().setBossStatus(ORFEN, DEAD);
 		
-		long respawnTime = (long) Config.SPAWN_INTERVAL_ORFEN + Rnd.get(-Config.RANDOM_SPAWN_TIME_ORFEN, Config.RANDOM_SPAWN_TIME_ORFEN);
-		respawnTime *= 3600000;
-		
-		startQuestTimer("orfen_unlock", null, null, respawnTime);
-		
-		// also save the respawn time so that the info is maintained past reboots
-		StatSet info = GrandBossManager.getInstance().getStatSet(ORFEN);
-		info.set("respawn_time", System.currentTimeMillis() + respawnTime);
-		GrandBossManager.getInstance().setStatSet(ORFEN, info);
-		
-		return super.onKill(npc, killer);
+		super.onMyDying(npc, killer);
+	}
+	
+	@Override
+	public void onSeeSpell(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
+	{
+		Creature originalCaster = isPet ? caster.getSummon() : caster;
+		if (skill.getAggroPoints() > 0 && Rnd.get(100) < 20 && npc.isIn3DRadius(originalCaster, 1000))
+		{
+			// Random chat.
+			npc.broadcastNpcSay(Rnd.get(ORFEN_CHAT), caster.getName());
+			
+			// Teleport caster near Orfen.
+			originalCaster.teleportTo(npc.getPosition(), 0);
+			
+			// Cast a skill.
+			npc.getAI().tryToCast(originalCaster, 4064, 1);
+		}
+		super.onSeeSpell(npc, caster, skill, targets, isPet);
 	}
 	
 	/**
@@ -229,22 +186,7 @@ public class Orfen extends AttackableAIScript
 		final SpawnLocation loc = ORFEN_LOCATION[index];
 		
 		// Edit the spawn location and teleport the Npc.
-		npc.getSpawn().setLoc(loc);
+		npc.setSpawnLocation(loc);
 		npc.teleportTo(loc, 0);
-	}
-	
-	private void spawnBoss(GrandBoss npc)
-	{
-		// Reset variable.
-		_isTeleported = false;
-		
-		// Add boss to GrandBossManager.
-		GrandBossManager.getInstance().addBoss(npc);
-		
-		// Broadcast spawn sound.
-		npc.broadcastPacket(new PlaySound(1, "BS01_A", npc));
-		
-		// Fire a 10s task to check Orfen status.
-		startQuestTimerAtFixedRate("3001", npc, null, 10000);
 	}
 }

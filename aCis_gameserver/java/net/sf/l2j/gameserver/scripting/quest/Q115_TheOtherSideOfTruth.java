@@ -82,7 +82,7 @@ public class Q115_TheOtherSideOfTruth extends Quest
 		
 		setItemsIds(MISA_LETTER, RAFFORTY_LETTER, PIECE_OF_TABLET, REPORT_PIECE);
 		
-		addStartNpc(RAFFORTY);
+		addQuestStart(RAFFORTY);
 		addTalkId(RAFFORTY, MISA, KIERRE, SCULPTURE_1, SCULPTURE_2, SCULPTURE_3, SCULPTURE_4);
 	}
 	

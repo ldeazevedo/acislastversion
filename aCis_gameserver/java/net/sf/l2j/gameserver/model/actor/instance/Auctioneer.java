@@ -467,7 +467,7 @@ public final class Auctioneer extends Folk
 		
 		// Page feeding.
 		for (int j = 1; j <= max; j++)
-			StringUtil.append(sb, "<td><center><a action=\"bypass -h npc_", getObjectId(), "_list ", j, "\"> Page ", j, " </a></center></td>");
+			StringUtil.append(sb, "<td align=center><a action=\"bypass -h npc_", getObjectId(), "_list ", j, "\"> Page ", j, " </a></td>");
 		
 		sb.append("</tr></table>");
 		

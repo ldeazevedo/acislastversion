@@ -23,10 +23,10 @@
 	<object id="24160024" x="147459" y="-49363" z="-2132" type="1" texture="none" mapX="0" mapY="0"/><!-- goddard_castle_throne -->
 	<object id="22130016" x="77555" y="-153420" z="-405" type="1" texture="none" mapX="0" mapY="0"/><!-- schuttgart_castle_throne -->
 	<object id="20160010" x="10128" y="-49162" z="-280" type="1" texture="none" mapX="0" mapY="0"/><!-- rune_castle_throne -->
-	<object id="20230001" x="12110" y="182771" z="-3538" type="2" texture="none" mapX="0" mapY="0"/><!-- floran_arena_001 -->
-	<object id="20230002" x="12979" y="183365" z="-3538" type="2" texture="none" mapX="0" mapY="0"/><!-- floran_arena_002 -->
+	<object id="20230001" x="12110" y="182770" z="-3538" type="2" texture="none" mapX="0" mapY="0"/><!-- floran_arena_001 -->
+	<object id="20230002" x="12978" y="183364" z="-3538" type="2" texture="none" mapX="0" mapY="0"/><!-- floran_arena_002 -->
 	<object id="22220001" x="73766" y="142489" z="-3748" type="2" texture="none" mapX="0" mapY="0"/><!-- giran_arena_001 -->
 	<object id="22220002" x="72200" y="143102" z="-3748" type="2" texture="none" mapX="0" mapY="0"/><!-- giran_arena_002 -->
-	<object id="17220015" x="-88697" y="142316" z="-3621" type="2" texture="none" mapX="0" mapY="0"/><!-- gludin_arena_001 -->
-	<object id="17220016" x="-87136" y="142491" z="-3623" type="2" texture="none" mapX="0" mapY="0"/><!-- gludin_arena_002 -->
+	<object id="17220015" x="-88696" y="142315" z="-3621" type="2" texture="none" mapX="0" mapY="0"/><!-- gludin_arena_001 -->
+	<object id="17220016" x="-87136" y="142490" z="-3623" type="2" texture="none" mapX="0" mapY="0"/><!-- gludin_arena_002 -->
 </list>

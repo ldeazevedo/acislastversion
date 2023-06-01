@@ -3,7 +3,6 @@ package net.sf.l2j.gameserver.handler.admincommandhandlers;
 import java.util.StringTokenizer;
 
 import net.sf.l2j.commons.data.Pagination;
-import net.sf.l2j.commons.lang.StringUtil;
 
 import net.sf.l2j.gameserver.handler.IAdminCommandHandler;
 import net.sf.l2j.gameserver.model.WorldObject;
@@ -48,31 +47,28 @@ public class AdminKnownlist implements IAdminCommandHandler
 	
 	private static void showKnownlist(Player player, WorldObject worldObject, int page)
 	{
-		final Pagination<WorldObject> list = new Pagination<>(worldObject.getKnownType(WorldObject.class).stream(), page, PAGE_LIMIT_18);
-		
-		// Load static Htm.
+		// Load static htm.
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/admin/knownlist.htm");
 		html.replace("%target%", worldObject.getName());
 		
-		final StringBuilder sb = new StringBuilder(2000);
-		sb.append("<table width=270><tr><td width=150></td><td width=120></td></tr>");
+		int row = 0;
 		
 		// Generate data.
-		if (list.isEmpty())
-			sb.append("<tr><td>No objects in vicinity.</td></tr>");
-		else
+		final Pagination<WorldObject> list = new Pagination<>(worldObject.getKnownType(WorldObject.class).stream(), page, PAGE_LIMIT_15);
+		for (WorldObject wo : list)
 		{
-			for (WorldObject wo : list)
-				StringUtil.append(sb, "<tr><td>", wo.getName(), "</td><td>", wo.getClass().getSimpleName(), "</td></tr>");
+			list.append(((row % 2) == 0 ? "<table width=280 bgcolor=000000><tr>" : "<table width=280><tr>"));
+			list.append("<td width=160>", wo.getName(), "</td><td width=120>", wo.getClass().getSimpleName(), "</td>");
+			list.append("</tr></table><img src=\"L2UI.SquareGray\" width=280 height=1>");
+			
+			row++;
 		}
 		
-		sb.append("</table>");
+		list.generateSpace(20);
+		list.generatePages("bypass admin_knownlist %page%");
 		
-		list.generateSpace(sb);
-		list.generatePages(sb, "bypass admin_knownlist %page%");
-		
-		html.replace("%content%", sb.toString());
+		html.replace("%content%", list.getContent());
 		
 		player.sendPacket(html);
 	}

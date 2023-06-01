@@ -11,6 +11,7 @@ import net.sf.l2j.commons.pool.ThreadPool;
 
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.BuyListManager;
+import net.sf.l2j.gameserver.data.manager.SpawnManager;
 import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.data.xml.WalkerRouteData;
 import net.sf.l2j.gameserver.enums.TeleportMode;
@@ -18,11 +19,14 @@ import net.sf.l2j.gameserver.handler.IAdminCommandHandler;
 import net.sf.l2j.gameserver.model.AdminCommand;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Creature;
+import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.buylist.NpcBuyList;
-import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.location.WalkerLocation;
+import net.sf.l2j.gameserver.model.spawn.ASpawn;
+import net.sf.l2j.gameserver.model.spawn.MultiSpawn;
+import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.network.serverpackets.BuyList;
 import net.sf.l2j.gameserver.network.serverpackets.CameraMode;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
@@ -133,12 +137,13 @@ public class AdminAdmin implements IAdminCommandHandler
 				try
 				{
 					final int page = (st.hasMoreTokens()) ? Integer.parseInt(st.nextToken()) : 1;
+					final String search = (st.hasMoreTokens()) ? st.nextToken().toLowerCase() : "";
 					
-					sendHelp(player, page);
+					sendHelp(player, page, search);
 				}
 				catch (Exception e)
 				{
-					sendHelp(player, 1);
+					sendHelp(player, 1, "");
 				}
 			}
 			else if (command.startsWith("admin_link"))
@@ -313,35 +318,38 @@ public class AdminAdmin implements IAdminCommandHandler
 	 * Send to the {@link Player} all {@link AdminCommand}s informations.
 	 * @param player : The Player used as reference.
 	 * @param page : The current page we are checking.
+	 * @param search : The {@link String} used as search.
 	 */
-	private static void sendHelp(Player player, int page)
+	private static void sendHelp(Player player, int page, String search)
 	{
-		final StringBuilder sb = new StringBuilder(2000);
-		sb.append("<html><body>");
+		// Generate data.
+		final Pagination<AdminCommand> list = new Pagination<>(AdminData.getInstance().getAdminCommands().stream(), page, PAGE_LIMIT_7, ac -> ac.getName().substring(6).contains(search) || ac.getParams().contains(search));
+		list.append("<html><body>");
 		
-		final Pagination<AdminCommand> list = new Pagination<>(AdminData.getInstance().getAdminCommands().stream(), page, PAGE_LIMIT_8);
+		list.generateSearch("bypass admin_help", 45);
+		
 		for (AdminCommand command : list)
 		{
-			sb.append(((list.indexOf(command) % 2) == 0 ? "<table width=280 height=40 bgcolor=000000><tr>" : "<table width=280 height=40><tr>"));
+			list.append(((list.indexOf(command) % 2) == 0 ? "<table width=280 height=41 bgcolor=000000><tr>" : "<table width=280 height=41><tr>"));
 			
 			// Write the admin command in gold color, with "//".
-			StringUtil.append(sb, "<td width=280 height=34><font color=\"LEVEL\">//", command.getName().substring(6), "</font>");
+			list.append("<td width=280 height=34><font color=\"LEVEL\">//", command.getName().substring(6), "</font>");
 			
 			// If params exist, write them in blue in the same line than command.
 			if (!command.getParams().isBlank())
-				StringUtil.append(sb, " <font color=\"33cccc\">", command.getParams(), "</font>");
+				list.append(" <font color=\"33cccc\">", command.getParams(), "</font>");
 			
 			// Pass a line, then write the description.
-			StringUtil.append(sb, "<br1>", command.getDesc(), "</td>");
+			list.append("<br1>", command.getDesc(), "</td>");
 			
-			sb.append("</tr></table><img src=\"L2UI.SquareGray\" width=277 height=1>");
+			list.append("</tr></table><img src=\"L2UI.SquareGray\" width=280 height=1>");
 		}
-		list.generateSpace(sb, "<img height=41>");
-		list.generatePages(sb, "bypass admin_help %page%");
-		sb.append("</body></html>");
+		list.generateSpace(42);
+		list.generatePages("bypass admin_help %page%");
+		list.append("</body></html>");
 		
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
-		html.setHtml(sb.toString());
+		html.setHtml(list.getContent());
 		player.sendPacket(html);
 	}
 	
@@ -354,10 +362,36 @@ public class AdminAdmin implements IAdminCommandHandler
 		
 		for (Entry<Integer, List<WalkerLocation>> entry : WalkerRouteData.getInstance().getWalkerRoutes().entrySet())
 		{
-			final Location initialLoc = entry.getValue().get(0);
-			final String teleLoc = initialLoc.toString().replaceAll(",", "");
-			
-			StringUtil.append(sb, "<tr><td width=180>NpcId: ", entry.getKey(), " - Path size: ", entry.getValue().size(), "</td><td width=50><a action=\"bypass admin_teleport ", teleLoc, "\">Tele. To</a></td><td width=50 align=right><a action=\"bypass admin_show walker ", entry.getKey(), "\">Show</a></td></tr>");
+			final ASpawn aSpawn = SpawnManager.getInstance().getSpawn(entry.getKey());
+			if (aSpawn == null)
+			{
+				final String teleLoc = entry.getValue().get(0).toString().replaceAll(",", "");
+				
+				StringUtil.append(sb, "<tr><td width=150><a action=\"bypass admin_teleport ", teleLoc, "\">Unspawned</a></td><td width=40>-</td><td width=50 align=right>-</td><td width=40 align=right><a action=\"bypass admin_show walker ", entry.getKey(), "\">Show</a></td></tr>");
+			}
+			else
+			{
+				Npc npc = null;
+				if (aSpawn instanceof MultiSpawn)
+					npc = ((MultiSpawn) aSpawn).getNpcs().iterator().next();
+				else if (aSpawn instanceof Spawn)
+					npc = ((Spawn) aSpawn).getNpc();
+				
+				final String truncatedName = (npc == null) ? "Unspawned" : StringUtil.trimAndDress(npc.getName(), 25);
+				
+				if (npc == null)
+				{
+					final String teleLoc = entry.getValue().get(0).toString().replaceAll(",", "");
+					
+					StringUtil.append(sb, "<tr><td width=150><a action=\"bypass admin_teleport ", teleLoc, "\">", truncatedName, "</a></td><td width=40>-</td><td width=50 align=right>-</td><td width=40 align=right><a action=\"bypass admin_show walker ", entry.getKey(), "\">Show</a></td></tr>");
+				}
+				else
+				{
+					final String teleLoc = entry.getValue().get(npc.getAI().getIndex()).toString().replaceAll(",", "");
+					
+					StringUtil.append(sb, "<tr><td width=150><a action=\"bypass admin_teleport ", teleLoc, "\">", truncatedName, "</a></td><td width=40>", npc.getAI().getIndex(), " / ", entry.getValue().size(), "</td><td width=50 align=right>", ((npc.isReversePath()) ? "Reverse" : "Regular"), "</td><td width=40 align=right><a action=\"bypass admin_show walker ", entry.getKey(), "\">Show</a></td></tr>");
+				}
+			}
 		}
 		
 		html.replace("%routes%", sb.toString());

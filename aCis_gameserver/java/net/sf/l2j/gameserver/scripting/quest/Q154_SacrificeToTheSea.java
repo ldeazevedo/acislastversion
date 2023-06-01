@@ -30,10 +30,10 @@ public class Q154_SacrificeToTheSea extends Quest
 		
 		setItemsIds(FOX_FUR, FOX_FUR_YARN, MAIDEN_DOLL);
 		
-		addStartNpc(ROCKSWELL);
+		addQuestStart(ROCKSWELL);
 		addTalkId(ROCKSWELL, CRISTEL, ROLFE);
 		
-		addKillId(20481, 20544, 20545); // Following Keltirs can be found near Talking Island.
+		addMyDying(20481, 20544, 20545); // Following Keltirs can be found near Talking Island.
 	}
 	
 	@Override
@@ -133,17 +133,15 @@ public class Q154_SacrificeToTheSea extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, FOX_FUR, 1, 10, 400000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

@@ -1,11 +1,13 @@
 package net.sf.l2j.gameserver.model.actor.container.creature;
 
+import java.util.EnumSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
+import net.sf.l2j.gameserver.enums.skills.TriggerType;
 import net.sf.l2j.gameserver.handler.ISkillHandler;
 import net.sf.l2j.gameserver.handler.SkillHandler;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -34,83 +36,60 @@ public class ChanceSkillList extends ConcurrentHashMap<IChanceSkillTrigger, Chan
 		return _owner;
 	}
 	
-	public void onHit(Creature target, boolean ownerWasHit, boolean wasCrit)
+	public void onTargetHit(Creature target, boolean isCrit)
 	{
-		int event;
-		if (ownerWasHit)
-		{
-			event = ChanceCondition.EVT_ATTACKED | ChanceCondition.EVT_ATTACKED_HIT;
-			if (wasCrit)
-				event |= ChanceCondition.EVT_ATTACKED_CRIT;
-		}
-		else
-		{
-			event = ChanceCondition.EVT_HIT;
-			if (wasCrit)
-				event |= ChanceCondition.EVT_CRIT;
-		}
+		final EnumSet<TriggerType> triggers = EnumSet.noneOf(TriggerType.class);
 		
-		onChanceSkillEvent(event, target);
-	}
-	
-	public void onEvadedHit(Creature attacker)
-	{
-		onChanceSkillEvent(ChanceCondition.EVT_EVADED_HIT, attacker);
-	}
-	
-	public void onSkillHit(Creature target, boolean ownerWasHit, boolean wasMagic, boolean wasOffensive)
-	{
-		int event;
-		if (ownerWasHit)
-		{
-			event = ChanceCondition.EVT_HIT_BY_SKILL;
-			if (wasOffensive)
-			{
-				event |= ChanceCondition.EVT_HIT_BY_OFFENSIVE_SKILL;
-				event |= ChanceCondition.EVT_ATTACKED;
-			}
-			else
-			{
-				event |= ChanceCondition.EVT_HIT_BY_GOOD_MAGIC;
-			}
-		}
-		else
-		{
-			event = ChanceCondition.EVT_CAST;
-			event |= wasMagic ? ChanceCondition.EVT_MAGIC : ChanceCondition.EVT_PHYSICAL;
-			event |= wasOffensive ? ChanceCondition.EVT_MAGIC_OFFENSIVE : ChanceCondition.EVT_MAGIC_GOOD;
-		}
+		triggers.add(TriggerType.ON_HIT);
 		
-		onChanceSkillEvent(event, target);
+		if (isCrit)
+			triggers.add(TriggerType.ON_CRIT);
+		
+		onChanceSkillEvent(triggers, target);
 	}
 	
-	public void onStart()
+	public void onSelfHit(Creature target)
 	{
-		onChanceSkillEvent(ChanceCondition.EVT_ON_START, _owner);
+		final EnumSet<TriggerType> triggers = EnumSet.noneOf(TriggerType.class);
+		
+		triggers.add(TriggerType.ON_ATTACKED);
+		triggers.add(TriggerType.ON_ATTACKED_HIT);
+		
+		onChanceSkillEvent(triggers, target);
 	}
 	
-	public void onActionTime()
+	public void onSkillTargetHit(Creature target, L2Skill skill)
 	{
-		onChanceSkillEvent(ChanceCondition.EVT_ON_ACTION_TIME, _owner);
+		final EnumSet<TriggerType> triggers = EnumSet.noneOf(TriggerType.class);
+		
+		if (skill.isDamage())
+			triggers.add(TriggerType.ON_MAGIC_OFFENSIVE);
+		else if (!skill.isOffensive())
+			triggers.add(TriggerType.ON_MAGIC_GOOD);
+		
+		onChanceSkillEvent(triggers, target);
 	}
 	
-	public void onExit()
+	public void onSkillSelfHit(Creature target, L2Skill skill)
 	{
-		onChanceSkillEvent(ChanceCondition.EVT_ON_EXIT, _owner);
+		final EnumSet<TriggerType> triggers = EnumSet.noneOf(TriggerType.class);
+		if (skill.isDamage())
+			triggers.add(TriggerType.ON_ATTACKED);
+		
+		onChanceSkillEvent(triggers, target);
 	}
 	
-	public void onChanceSkillEvent(int event, Creature target)
+	public void onChanceSkillEvent(EnumSet<TriggerType> triggers, Creature target)
 	{
 		if (_owner.isDead())
 			return;
 		
 		for (Map.Entry<IChanceSkillTrigger, ChanceCondition> entry : entrySet())
 		{
-			IChanceSkillTrigger trigger = entry.getKey();
-			ChanceCondition cond = entry.getValue();
-			
-			if (cond != null && cond.trigger(event))
+			final ChanceCondition cond = entry.getValue();
+			if (cond != null && cond.trigger(triggers))
 			{
+				final IChanceSkillTrigger trigger = entry.getKey();
 				if (trigger instanceof L2Skill)
 					makeCast((L2Skill) trigger, target);
 				else if (trigger instanceof EffectChanceSkillTrigger)
@@ -149,7 +128,7 @@ public class ChanceSkillList extends ConcurrentHashMap<IChanceSkillTrigger, Chan
 			// TODO: once core will support all possible effects, use effects (not handler)
 			final ISkillHandler handler = SkillHandler.getInstance().getHandler(skill.getSkillType());
 			if (handler != null)
-				handler.useSkill(_owner, skill, targets);
+				handler.useSkill(_owner, skill, targets, null);
 			else
 				skill.useSkill(_owner, targets);
 		}
@@ -185,7 +164,7 @@ public class ChanceSkillList extends ConcurrentHashMap<IChanceSkillTrigger, Chan
 		// Launch the magic skill and calculate its effects
 		// TODO: once core will support all possible effects, use effects (not handler)
 		if (handler != null)
-			handler.useSkill(caster, triggered, targets);
+			handler.useSkill(caster, triggered, targets, null);
 		else
 			triggered.useSkill(caster, targets);
 	}

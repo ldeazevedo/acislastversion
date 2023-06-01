@@ -10,7 +10,6 @@ import net.sf.l2j.commons.data.xml.IXmlReader;
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.Config;
-import net.sf.l2j.gameserver.data.sql.SpawnTable;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -86,12 +85,11 @@ public class DimensionalRiftManager implements IXmlReader
 					{
 						for (int i = 0; i < count; i++)
 						{
-							final Spawn spawnDat = new Spawn(template);
-							spawnDat.setLoc(riftRoom.getRandomX(), riftRoom.getRandomY(), DimensionalRiftRoom.Z_VALUE, -1);
-							spawnDat.setRespawnDelay(delay);
-							SpawnTable.getInstance().addSpawn(spawnDat, false);
+							final Spawn spawn = new Spawn(template);
+							spawn.setLoc(riftRoom.getRandomX(), riftRoom.getRandomY(), DimensionalRiftRoom.Z_VALUE, -1);
+							spawn.setRespawnDelay(delay);
 							
-							riftRoom.getSpawns().add(spawnDat);
+							riftRoom.getSpawns().add(spawn);
 						}
 					}
 					catch (Exception e)

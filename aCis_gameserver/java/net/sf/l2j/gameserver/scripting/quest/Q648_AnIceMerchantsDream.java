@@ -164,11 +164,11 @@ public class Q648_AnIceMerchantsDream extends Quest
 		
 		setItemsIds(SILVER_HEMOCYTE, SILVER_ICE_CRYSTAL, BLACK_ICE_CRYSTAL);
 		
-		addStartNpc(RAFFORTY, ICE_SHELF);
+		addQuestStart(RAFFORTY, ICE_SHELF);
 		addTalkId(RAFFORTY, ICE_SHELF);
 		
 		for (int npcId : CHANCES.keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 	}
 	
 	@Override
@@ -326,13 +326,13 @@ public class Q648_AnIceMerchantsDream extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int[] chance = CHANCES.get(npc.getNpcId());
 		
@@ -340,7 +340,5 @@ public class Q648_AnIceMerchantsDream extends Quest
 		
 		if (st.getCond() == 2 && chance[1] > 0)
 			dropItems(st.getPlayer(), SILVER_HEMOCYTE, 1, 0, chance[1]);
-		
-		return null;
 	}
 }

@@ -21,10 +21,10 @@ public class Q320_BonesTellTheFuture extends Quest
 		
 		setItemsIds(BONE_FRAGMENT);
 		
-		addStartNpc(30359); // Kaitar
+		addQuestStart(30359); // Kaitar
 		addTalkId(30359);
 		
-		addKillId(20517, 20518);
+		addMyDying(20517, 20518);
 	}
 	
 	@Override
@@ -82,17 +82,15 @@ public class Q320_BonesTellTheFuture extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, BONE_FRAGMENT, 1, 10, (npc.getNpcId() == 20517) ? 180000 : 200000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

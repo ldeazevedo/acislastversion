@@ -25,10 +25,10 @@ public class Q641_AttackSailren extends Quest
 		
 		setItemsIds(GAZKH_FRAGMENT);
 		
-		addStartNpc(STATUE);
+		addQuestStart(STATUE);
 		addTalkId(STATUE);
 		
-		addKillId(22196, 22197, 22198, 22199, 22218, 22223);
+		addMyDying(22196, 22197, 22198, 22199, 22218, 22223);
 	}
 	
 	@Override
@@ -98,17 +98,15 @@ public class Q641_AttackSailren extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), GAZKH_FRAGMENT, 1, 30, 50000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

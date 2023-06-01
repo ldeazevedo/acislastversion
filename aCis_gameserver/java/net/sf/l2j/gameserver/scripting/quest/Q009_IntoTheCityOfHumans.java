@@ -24,7 +24,7 @@ public class Q009_IntoTheCityOfHumans extends Quest
 	{
 		super(9, "Into the City of Humans");
 		
-		addStartNpc(PETUKAI);
+		addQuestStart(PETUKAI);
 		addTalkId(PETUKAI, TANAPI, TAMIL);
 	}
 	

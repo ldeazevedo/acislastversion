@@ -32,12 +32,13 @@ public class SiegeSummon extends Servitor
 	@Override
 	public void onTeleported()
 	{
-		super.onTeleported();
-		
 		if (!isInsideZone(ZoneId.SIEGE))
 		{
 			unSummon(getOwner());
 			getOwner().sendPacket(SystemMessageId.YOUR_SERVITOR_HAS_VANISHED);
+			return;
 		}
+		
+		super.onTeleported();
 	}
 }

@@ -38,10 +38,10 @@ public class Q328_SenseForBusiness extends Quest
 		
 		setItemsIds(MONSTER_EYE_LENS, MONSTER_EYE_CARCASS, BASILISK_GIZZARD);
 		
-		addStartNpc(30436); // Sarien
+		addQuestStart(30436); // Sarien
 		addTalkId(30436);
 		
-		addKillId(20055, 20059, 20067, 20068, 20070, 20072);
+		addMyDying(20055, 20059, 20067, 20068, 20070, 20072);
 	}
 	
 	@Override
@@ -105,13 +105,13 @@ public class Q328_SenseForBusiness extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		final int chance = CHANCES.get(npcId);
@@ -124,7 +124,5 @@ public class Q328_SenseForBusiness extends Quest
 		}
 		else
 			dropItems(player, BASILISK_GIZZARD, 1, 0, chance);
-		
-		return null;
 	}
 }

@@ -1,5 +1,7 @@
 package net.sf.l2j.loginserver.model;
 
+import java.net.InetAddress;
+
 import net.sf.l2j.commons.network.ServerType;
 
 import net.sf.l2j.loginserver.data.manager.GameServerManager;
@@ -9,8 +11,11 @@ public final class Account
 {
 	private final String _login;
 	private final String _password;
+	
 	private final int _accessLevel;
 	private final int _lastServer;
+	
+	private InetAddress _clientIp;
 	
 	public Account(final String login, final String password, final int accessLevel, final int lastServer)
 	{
@@ -38,6 +43,16 @@ public final class Account
 	public int getLastServer()
 	{
 		return _lastServer;
+	}
+	
+	public InetAddress getClientIp()
+	{
+		return _clientIp;
+	}
+	
+	public void setClientIp(InetAddress addr)
+	{
+		_clientIp = addr;
 	}
 	
 	public final boolean isLoginPossible(int serverId)

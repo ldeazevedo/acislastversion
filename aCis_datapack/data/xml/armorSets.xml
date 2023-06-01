@@ -2,7 +2,7 @@
 <list>
 	<armorset name="Wooden Set" chest="23" legs="2386" head="43" gloves="0" feet="0" skillId="3500" shield="0" shieldSkillId="0" enchant6Skill="0"/>
 	<armorset name="Devotion Set" chest="1101" legs="1104" head="44" gloves="0" feet="0" skillId="3501" shield="0" shieldSkillId="0" enchant6Skill="0"/>
-	<armorset name="Mithril Robe Set" chest="58" legs="59" head="47" gloves="0" feet="0" skillId="3502" shield="628" shieldSkillId="3543" enchant6Skill="3611"/>
+	<armorset name="Mithril Heavy Set" chest="58" legs="59" head="47" gloves="0" feet="0" skillId="3502" shield="628" shieldSkillId="3543" enchant6Skill="3611"/>
 	<armorset name="Brigandine Set" chest="352" legs="2378" head="2411" gloves="0" feet="0" skillId="3506" shield="2493" shieldSkillId="3544" enchant6Skill="3611"/>
 	<armorset name="Reinforced Leather Set" chest="394" legs="416" head="0" gloves="0" feet="2422" skillId="3503" shield="0" shieldSkillId="0" enchant6Skill="3612"/>
 	<armorset name="Manticore Skin Set" chest="395" legs="417" head="0" gloves="0" feet="2424" skillId="3505" shield="0" shieldSkillId="0" enchant6Skill="3612"/>

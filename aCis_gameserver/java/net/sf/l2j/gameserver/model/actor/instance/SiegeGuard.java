@@ -6,7 +6,6 @@ import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.actor.ai.type.CreatureAI;
 import net.sf.l2j.gameserver.model.actor.ai.type.SiegeGuardAI;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 
@@ -21,19 +20,15 @@ public final class SiegeGuard extends Attackable
 	}
 	
 	@Override
-	public CreatureAI getAI()
+	public SiegeGuardAI getAI()
 	{
-		CreatureAI ai = _ai;
-		if (ai == null)
-		{
-			synchronized (this)
-			{
-				ai = _ai;
-				if (ai == null)
-					_ai = ai = new SiegeGuardAI(this);
-			}
-		}
-		return ai;
+		return (SiegeGuardAI) _ai;
+	}
+	
+	@Override
+	public void setAI()
+	{
+		_ai = new SiegeGuardAI(this);
 	}
 	
 	@Override
@@ -70,21 +65,16 @@ public final class SiegeGuard extends Attackable
 	@Override
 	public boolean returnHome()
 	{
-		// TODO Is this necessary?
-		if (isDead())
-			return false;
-		
-		// TODO is getSpawn() necessary?
-		if (getSpawn() != null && !isIn2DRadius(getSpawn().getLoc(), getDriftRange()))
+		// We check if a SpawnLocation exists, and if we're far from it (using drift range).
+		if (getSpawnLocation() != null && !isIn2DRadius(getSpawnLocation(), getDriftRange()))
 		{
 			getAggroList().cleanAllHate();
 			
 			setIsReturningToSpawnPoint(true);
 			forceRunStance();
-			getAI().tryToMoveTo(getSpawn().getLoc(), null);
+			getAI().tryToMoveTo(getSpawnLocation(), null);
 			return true;
 		}
-		
 		return false;
 	}
 	

@@ -62,10 +62,10 @@ public class Q374_WhisperOfDreams_Part1 extends Quest
 		
 		setItemsIds(DEATH_WAVE_LIGHT, CAVE_BEAST_TOOTH, SEALED_MYSTERIOUS_STONE, MYSTERIOUS_STONE);
 		
-		addStartNpc(MANAKIA);
+		addQuestStart(MANAKIA);
 		addTalkId(MANAKIA, TORAI);
 		
-		addKillId(CAVE_BEAST, DEATH_WAVE);
+		addMyDying(CAVE_BEAST, DEATH_WAVE);
 	}
 	
 	@Override
@@ -174,14 +174,14 @@ public class Q374_WhisperOfDreams_Part1 extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		// Drop tooth or light to anyone.
 		QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), (npc.getNpcId() == CAVE_BEAST) ? CAVE_BEAST_TOOTH : DEATH_WAVE_LIGHT, 1, 65, 500000);
 		
@@ -189,7 +189,5 @@ public class Q374_WhisperOfDreams_Part1 extends Quest
 		st = getRandomPartyMember(player, npc, "condStone", "1");
 		if (st != null && dropItems(st.getPlayer(), SEALED_MYSTERIOUS_STONE, 1, 1, 1000))
 			st.unset("condStone");
-		
-		return null;
 	}
 }

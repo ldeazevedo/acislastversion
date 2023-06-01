@@ -22,7 +22,7 @@
 	<aCar name="admin_delbk" accessLevel="7" params="name" desc="Delete the associated Bookmark."/>
 
 	<!-- CLANHALL -->
-	<aCar name="admin_ch" accessLevel="7" params="[set|remove|open|close|teleportto|end chId]" desc="Open the Clan Hall panel."/>
+	<aCar name="admin_ch" accessLevel="7" params="[set|remove|open|close|teleportto|end|siege chId]" desc="Open the Clan Hall panel."/>
 
 	<!-- CURSED WEAPONS -->
 	<aCar name="admin_cw" accessLevel="7" params="[add|remove|teleportto itemid|name]" desc="Open the Cursed Weapons panel."/>
@@ -131,12 +131,18 @@
 	<aCar name="admin_npc_index" accessLevel="7" params="" desc=""/>
 	<aCar name="admin_spawn_once" accessLevel="7" params="" desc=""/>
 	<aCar name="admin_show_npcs" accessLevel="7" params="" desc=""/>
-	<aCar name="admin_spawnnight" accessLevel="7" params="" desc=""/>
-	<aCar name="admin_spawnday" accessLevel="7" params="" desc=""/>
 	<aCar name="admin_spawnfence" accessLevel="7" params="" desc=""/>
 	<aCar name="admin_deletefence" accessLevel="7" params="" desc=""/>
 	<aCar name="admin_listfence" accessLevel="7" params="" desc=""/>
 	<aCar name="admin_delete" accessLevel="7" params="" desc=""/>
+
+	<!-- SPAWN -->
+	<aCar name="admin_maker" accessLevel="7" params="[delete|respawn|switch|scripts|spawn [name]]" desc="Open the Maker panel."/>
+	<aCar name="admin_terr" accessLevel="7" params="[go|visual|visual_clear [name]]" desc="Run one Territory-based command."/>
+	<aCar name="admin_spawn_event" accessLevel="7" params="name" desc="Spawn NPCs of Makers with given event name."/>
+	<aCar name="admin_despawn_event" accessLevel="7" params="name" desc="Despawn NPCs of Makers with given event name."/>
+	<aCar name="admin_spawn_night" accessLevel="7" params="" desc="Spawn nocturnal NPCs, despawn diurnal NCPs."/>
+	<aCar name="admin_spawn_day" accessLevel="7" params="" desc="Spawn diurnal NPCs, despawn nocturnal NPCs."/>
  
  	<!-- SUMMON -->
 	<aCar name="admin_ride" accessLevel="7" params="1|2 or strider|wyvern" desc="Ride the associated mount. Most checks are undone."/>

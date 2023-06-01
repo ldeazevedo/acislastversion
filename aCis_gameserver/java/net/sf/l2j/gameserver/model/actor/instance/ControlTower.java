@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -15,10 +12,6 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 
 public class ControlTower extends Npc
 {
-	private final List<Spawn> _spawns = new ArrayList<>();
-	
-	private boolean _isActive = true;
-	
 	public ControlTower(int objectId, NpcTemplate template)
 	{
 		super(objectId, template);
@@ -58,12 +51,9 @@ public class ControlTower extends Npc
 			final Siege siege = getCastle().getSiege();
 			if (siege.isInProgress())
 			{
-				_isActive = false;
+				setScriptValue(1);
 				
-				for (Spawn spawn : _spawns)
-					spawn.setRespawnState(false);
-				
-				// If siege life controls reach 0, broadcast a message to defenders.
+				// If Life Control Tower amount reach 0, broadcast a message to defenders.
 				if (siege.getControlTowerCount() == 0)
 					siege.announce(SystemMessageId.TOWER_DESTROYED_NO_RESURRECTION, SiegeSide.DEFENDER);
 				
@@ -91,20 +81,5 @@ public class ControlTower extends Npc
 	public boolean hasRandomAnimation()
 	{
 		return false;
-	}
-	
-	public final List<Spawn> getSpawns()
-	{
-		return _spawns;
-	}
-	
-	public void addSpawn(Spawn spawn)
-	{
-		_spawns.add(spawn);
-	}
-	
-	public final boolean isActive()
-	{
-		return _isActive;
 	}
 }

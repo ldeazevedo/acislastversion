@@ -2,17 +2,13 @@ package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
 
-import net.sf.l2j.gameserver.data.manager.RaidBossManager;
-import net.sf.l2j.gameserver.enums.BossStatus;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.spawn.BossSpawn;
 import net.sf.l2j.gameserver.network.NpcStringId;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
-import net.sf.l2j.gameserver.skills.L2Skill;
 
 public class Q616_MagicalPowerOfFire_Part2 extends Quest
 {
@@ -29,13 +25,9 @@ public class Q616_MagicalPowerOfFire_Part2 extends Quest
 	private static final int RED_TOTEM = 7243;
 	private static final int FIRE_HEART_OF_NASTRON = 7244;
 	
-	// Other
-	private static final int CHECK_INTERVAL = 600000; // 10 minutes
-	private static final int IDLE_INTERVAL = 2; // (X * CHECK_INTERVAL) = 20 minutes
-	
+	// Instances
 	private Npc _npc;
-	
-	private int _status = -1;
+	private Npc _raid;
 	
 	public Q616_MagicalPowerOfFire_Part2()
 	{
@@ -43,20 +35,11 @@ public class Q616_MagicalPowerOfFire_Part2 extends Quest
 		
 		setItemsIds(FIRE_HEART_OF_NASTRON);
 		
-		addStartNpc(UDAN_MARDUI);
+		addQuestStart(UDAN_MARDUI);
 		addTalkId(UDAN_MARDUI, KETRAS_HOLY_ALTAR);
 		
-		addAttackId(SOUL_OF_FIRE_NASTRON);
-		addKillId(SOUL_OF_FIRE_NASTRON);
-		
-		switch (RaidBossManager.getInstance().getStatus(SOUL_OF_FIRE_NASTRON))
-		{
-			case ALIVE:
-				spawnNpc();
-			case DEAD:
-				startQuestTimerAtFixedRate("check", null, null, CHECK_INTERVAL);
-				break;
-		}
+		addDecayed(SOUL_OF_FIRE_NASTRON);
+		addMyDying(SOUL_OF_FIRE_NASTRON);
 	}
 	
 	@Override
@@ -96,14 +79,19 @@ public class Q616_MagicalPowerOfFire_Part2 extends Quest
 		{
 			if (player.getInventory().hasItems(RED_TOTEM))
 			{
-				if (_status < 0)
+				if (_raid == null)
 				{
-					if (spawnRaid())
-					{
-						st.setCond(2);
-						playSound(player, SOUND_MIDDLE);
-						takeItems(player, RED_TOTEM, 1);
-					}
+					// Spawn raid.
+					_raid = addSpawn(SOUL_OF_FIRE_NASTRON, 142528, -82528, -6496, Rnd.get(65536), false, 1200000, false);
+					_raid.broadcastNpcSay(NpcStringId.ID_61650);
+					
+					// Despawn npc.
+					_npc = npc;
+					_npc.deleteMe();
+					
+					st.setCond(2);
+					playSound(player, SOUND_MIDDLE);
+					takeItems(player, RED_TOTEM, 1);
 				}
 				else
 					htmltext = "31558-04.htm";
@@ -113,26 +101,6 @@ public class Q616_MagicalPowerOfFire_Part2 extends Quest
 		}
 		
 		return htmltext;
-	}
-	
-	@Override
-	public String onTimer(String name, Npc npc, Player player)
-	{
-		if (name.equals("check"))
-		{
-			final BossSpawn bs = RaidBossManager.getInstance().getBossSpawn(SOUL_OF_FIRE_NASTRON);
-			if (bs != null && bs.getStatus() == BossStatus.ALIVE)
-			{
-				final Npc raid = bs.getBoss();
-				
-				if (_status >= 0 && _status-- == 0)
-					despawnRaid(raid);
-				
-				spawnNpc();
-			}
-		}
-		
-		return null;
 	}
 	
 	@Override
@@ -181,85 +149,35 @@ public class Q616_MagicalPowerOfFire_Part2 extends Quest
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onDecayed(Npc npc)
 	{
-		final Player player = attacker.getActingPlayer();
-		if (player != null)
-			_status = IDLE_INTERVAL;
-		
-		return null;
+		if (npc == _raid)
+		{
+			// Raid is not dead, decay it.
+			if (!_raid.isDead())
+			{
+				// Respawn npc (it cancels respawn task).
+				_npc.getSpawn().doRespawn(_npc);
+				
+				_raid.broadcastNpcSay(NpcStringId.ID_61651);
+			}
+			
+			_npc = null;
+			_raid = null;
+		}
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
-		if (player != null)
-		{
-			for (QuestState st : getPartyMembers(player, npc, 2))
-			{
-				Player pm = st.getPlayer();
-				st.setCond(3);
-				playSound(pm, SOUND_MIDDLE);
-				giveItems(pm, FIRE_HEART_OF_NASTRON, 1);
-			}
-		}
 		
-		npc.broadcastNpcSay(NpcStringId.ID_61651);
+		final QuestState st = getRandomPartyMember(player, npc, 2);
+		if (st == null)
+			return;
 		
-		// despawn raid (reset info)
-		despawnRaid(npc);
-		
-		// despawn npc
-		if (_npc != null)
-		{
-			_npc.deleteMe();
-			_npc = null;
-		}
-		
-		return null;
-	}
-	
-	private void spawnNpc()
-	{
-		// spawn npc, if not spawned
-		if (_npc == null)
-			_npc = addSpawn(KETRAS_HOLY_ALTAR, 142368, -82512, -6487, 58000, false, 0, false);
-	}
-	
-	private boolean spawnRaid()
-	{
-		final BossSpawn bs = RaidBossManager.getInstance().getBossSpawn(SOUL_OF_FIRE_NASTRON);
-		if (bs != null && bs.getStatus() == BossStatus.ALIVE)
-		{
-			final Npc raid = bs.getBoss();
-			
-			// set temporarily spawn location (to provide correct behavior of checkAndReturnToSpawn())
-			raid.getSpawn().setLoc(142624, -82285, -6491, Rnd.get(65536));
-			
-			// teleport raid from secret place
-			raid.teleportTo(142624, -82285, -6491, 100);
-			raid.broadcastNpcSay(NpcStringId.ID_61650);
-			
-			// set raid status
-			_status = IDLE_INTERVAL;
-			
-			return true;
-		}
-		
-		return false;
-	}
-	
-	private void despawnRaid(Npc raid)
-	{
-		// reset spawn location
-		raid.getSpawn().setLoc(-105300, -252700, -15542, 0);
-		
-		// teleport raid back to secret place
-		if (!raid.isDead())
-			raid.teleportTo(-105300, -252700, -15542, 0);
-		
-		// reset raid status
-		_status = -1;
+		st.setCond(3);
+		playSound(st.getPlayer(), SOUND_MIDDLE);
+		giveItems(st.getPlayer(), FIRE_HEART_OF_NASTRON, 1);
 	}
 }

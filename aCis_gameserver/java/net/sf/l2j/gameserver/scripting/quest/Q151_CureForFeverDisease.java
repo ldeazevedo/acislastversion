@@ -25,10 +25,10 @@ public class Q151_CureForFeverDisease extends Quest
 		
 		setItemsIds(FEVER_MEDICINE, POISON_SAC);
 		
-		addStartNpc(ELIAS);
+		addQuestStart(ELIAS);
 		addTalkId(ELIAS, YOHANES);
 		
-		addKillId(20103, 20106, 20108);
+		addMyDying(20103, 20106, 20108);
 	}
 	
 	@Override
@@ -106,17 +106,15 @@ public class Q151_CureForFeverDisease extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, POISON_SAC, 1, 1, 200000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

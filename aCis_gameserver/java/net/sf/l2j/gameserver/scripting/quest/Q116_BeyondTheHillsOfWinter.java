@@ -30,7 +30,7 @@ public class Q116_BeyondTheHillsOfWinter extends Quest
 		
 		setItemsIds(GOODS);
 		
-		addStartNpc(FILAUR);
+		addQuestStart(FILAUR);
 		addTalkId(FILAUR, OBI);
 	}
 	

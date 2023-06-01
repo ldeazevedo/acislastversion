@@ -18,7 +18,6 @@ import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
-import net.sf.l2j.gameserver.data.sql.SpawnTable;
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
 import net.sf.l2j.gameserver.enums.CabalType;
 import net.sf.l2j.gameserver.enums.FestivalType;
@@ -4196,7 +4195,6 @@ public class FestivalOfDarknessManager
 				// Needed as doSpawn() is required to be called also for the NpcInstance it returns.
 				spawn.setRespawnState(true);
 				
-				SpawnTable.getInstance().addSpawn(spawn, false);
 				_witchInst = spawn.doSpawn(false);
 			}
 			catch (Exception e)
@@ -4301,7 +4299,6 @@ public class FestivalOfDarknessManager
 					spawn.setRespawnDelay(respawnDelay);
 					spawn.setRespawnState(true);
 					
-					SpawnTable.getInstance().addSpawn(spawn, false);
 					FestivalMonster festivalMob = (FestivalMonster) spawn.doSpawn(false);
 					
 					// Set the offering bonus to 2x or 5x the amount per kill, if this spawn is part of an increased challenge or is a festival chest.
@@ -4366,20 +4363,12 @@ public class FestivalOfDarknessManager
 		{
 			// Delete all the NPCs in the current festival arena.
 			if (_witchInst != null)
-			{
-				_witchInst.getSpawn().setRespawnState(false);
-				_witchInst.deleteMe();
-				SpawnTable.getInstance().deleteSpawn(_witchInst.getSpawn(), false);
-			}
+				_witchInst.getSpawn().doDelete();
 			
 			if (_npcInsts != null)
 				for (FestivalMonster monsterInst : _npcInsts)
 					if (monsterInst != null)
-					{
-						monsterInst.getSpawn().setRespawnState(false);
-						monsterInst.deleteMe();
-						SpawnTable.getInstance().deleteSpawn(monsterInst.getSpawn(), false);
-					}
+						monsterInst.getSpawn().doDelete();
 		}
 		
 		public void relocatePlayer(Player participant, boolean isRemoving)

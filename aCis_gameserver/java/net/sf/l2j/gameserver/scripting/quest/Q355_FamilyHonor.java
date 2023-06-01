@@ -65,10 +65,10 @@ public class Q355_FamilyHonor extends Quest
 		
 		setItemsIds(GALIBREDO_BUST);
 		
-		addStartNpc(GALIBREDO);
+		addQuestStart(GALIBREDO);
 		addTalkId(GALIBREDO, PATRIN);
 		
-		addKillId(TIMAK_ORC_TROOP_LEADER, TIMAK_ORC_TROOP_SHAMAN, TIMAK_ORC_TROOP_WARRIOR, TIMAK_ORC_TROOP_ARCHER);
+		addMyDying(TIMAK_ORC_TROOP_LEADER, TIMAK_ORC_TROOP_SHAMAN, TIMAK_ORC_TROOP_WARRIOR, TIMAK_ORC_TROOP_ARCHER);
 	}
 	
 	@Override
@@ -175,20 +175,18 @@ public class Q355_FamilyHonor extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int[] chances = CHANCES.get(npc.getNpcId());
 		final int random = Rnd.get(100);
 		
 		if (random < chances[1])
 			dropItemsAlways(st.getPlayer(), (random < chances[0]) ? GALIBREDO_BUST : WORK_OF_BERONA, 1, 0);
-		
-		return null;
 	}
 }

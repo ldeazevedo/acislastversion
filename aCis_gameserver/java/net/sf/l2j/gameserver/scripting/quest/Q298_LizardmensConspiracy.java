@@ -26,10 +26,10 @@ public class Q298_LizardmensConspiracy extends Quest
 		
 		setItemsIds(PATROL_REPORT, WHITE_GEM, RED_GEM);
 		
-		addStartNpc(PRAGA);
+		addQuestStart(PRAGA);
 		addTalkId(PRAGA, ROHMER);
 		
-		addKillId(20926, 20927, 20922, 20923, 20924);
+		addMyDying(20926, 20927, 20922, 20923, 20924);
 	}
 	
 	@Override
@@ -104,13 +104,13 @@ public class Q298_LizardmensConspiracy extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 2);
 		if (st == null)
-			return null;
+			return;
 		
 		player = st.getPlayer();
 		switch (npc.getNpcId())
@@ -136,7 +136,5 @@ public class Q298_LizardmensConspiracy extends Quest
 					st.setCond(3);
 				break;
 		}
-		
-		return null;
 	}
 }

@@ -4,9 +4,7 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 
 /**
- * This class leads the behavior of muted NPCs.<br>
- * Their behaviors are the same than NPCs, they just can't talk to player.<br>
- * Some specials instances, such as CabaleBuffers or TownPets got their own muted onAction.
+ * An instance similar to {@link Folk}, except they can't be interacted by {@link Player}s.
  */
 public final class MutedFolk extends Folk
 {

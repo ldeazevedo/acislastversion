@@ -58,11 +58,11 @@ public class Q632_NecromancersRequest extends Quest
 		
 		setItemsIds(VAMPIRE_HEART, ZOMBIE_BRAIN);
 		
-		addStartNpc(31522); // Mysterious Wizard
+		addQuestStart(31522); // Mysterious Wizard
 		addTalkId(31522);
 		
-		addKillId(VAMPIRES);
-		addKillId(UNDEADS);
+		addMyDying(VAMPIRES);
+		addMyDying(UNDEADS);
 	}
 	
 	@Override
@@ -123,23 +123,21 @@ public class Q632_NecromancersRequest extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		if (ArraysUtil.contains(UNDEADS, npc.getNpcId()))
 		{
 			dropItems(st.getPlayer(), ZOMBIE_BRAIN, 1, 0, 330000);
-			return null;
+			return;
 		}
 		
 		if (st.getCond() == 1 && dropItems(st.getPlayer(), VAMPIRE_HEART, 1, 200, 500000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

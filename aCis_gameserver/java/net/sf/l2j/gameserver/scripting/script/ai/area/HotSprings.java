@@ -6,7 +6,7 @@ import java.util.Map;
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.gameserver.data.SkillTable;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -37,25 +37,25 @@ public class HotSprings extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(MONSTERS_DISEASES.keySet(), ScriptEventType.ON_ATTACK_ACT, ScriptEventType.ON_FACTION_CALL, ScriptEventType.ON_SKILL_SEE);
+		addEventIds(MONSTERS_DISEASES.keySet(), EventHandler.ATTACK_FINISHED, EventHandler.CLAN_ATTACKED, EventHandler.SEE_SPELL);
 	}
 	
 	@Override
-	public String onAttackAct(Npc npc, Player victim)
+	public void onAttackFinished(Npc npc, Player player)
 	{
 		// Try to apply Malaria.
-		tryToApplyEffect(npc, victim, 4554);
+		tryToApplyEffect(npc, player, 4554);
 		
 		// Try to apply another disease, based on npcId.
-		tryToApplyEffect(npc, victim, MONSTERS_DISEASES.get(npc.getNpcId()));
+		tryToApplyEffect(npc, player, MONSTERS_DISEASES.get(npc.getNpcId()));
 		
-		return super.onAttackAct(npc, victim);
+		super.onAttackFinished(npc, player);
 	}
 	
 	@Override
-	public String onFactionCall(Attackable caller, Attackable called, Creature target)
+	public void onClanAttacked(Attackable caller, Attackable called, Creature attacker, int damage)
 	{
-		final Player player = target.getActingPlayer();
+		final Player player = attacker.getActingPlayer();
 		if (player != null)
 		{
 			// Try to apply Malaria.
@@ -64,11 +64,11 @@ public class HotSprings extends AttackableAIScript
 			// Try to apply another disease, based on npcId.
 			tryToApplyEffect(called, player, MONSTERS_DISEASES.get(called.getNpcId()));
 		}
-		return super.onFactionCall(caller, called, target);
+		super.onClanAttacked(caller, called, attacker, damage);
 	}
 	
 	@Override
-	public String onSkillSee(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
+	public void onSeeSpell(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
 	{
 		// Try to apply Malaria.
 		tryToApplyEffect(npc, caster, 4554);
@@ -76,7 +76,7 @@ public class HotSprings extends AttackableAIScript
 		// Try to apply another disease, based on npcId.
 		tryToApplyEffect(npc, caster, MONSTERS_DISEASES.get(npc.getNpcId()));
 		
-		return super.onSkillSee(npc, caster, skill, targets, isPet);
+		super.onSeeSpell(npc, caster, skill, targets, isPet);
 	}
 	
 	/**

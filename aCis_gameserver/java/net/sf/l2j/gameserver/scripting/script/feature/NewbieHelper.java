@@ -8,13 +8,12 @@ import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
 
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
-import net.sf.l2j.gameserver.data.sql.SpawnTable;
 import net.sf.l2j.gameserver.data.xml.NewbieBuffData;
-import net.sf.l2j.gameserver.data.xml.TeleportData;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.TeleportType;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
+import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -22,7 +21,6 @@ import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.holder.NewbieBuffHolder;
 import net.sf.l2j.gameserver.model.location.Location;
-import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
@@ -247,7 +245,7 @@ public class NewbieHelper extends Quest
 		addTalkId(30009, 30019, 30131, 30400, 30530, 30575, 30008, 30017, 30129, 30370, 30528, 30573, 30598, 30599, 30600, 30601, 30602, 31076, 31077);
 		addFirstTalkId(30009, 30019, 30131, 30400, 30530, 30575, 30008, 30017, 30129, 30370, 30528, 30573, 30598, 30599, 30600, 30601, 30602, 31076, 31077);
 		
-		addKillId(18342);
+		addMyDying(18342);
 	}
 	
 	@Override
@@ -474,7 +472,7 @@ public class NewbieHelper extends Quest
 				htmltext = getInvalidHtm(npc);
 			else
 			{
-				TeleportData.getInstance().showTeleportList(player, npc, TeleportType.NEWBIE_TOKEN);
+				npc.showTeleportWindow(player, TeleportType.NEWBIE_TOKEN);
 				return null;
 			}
 		}
@@ -510,14 +508,10 @@ public class NewbieHelper extends Quest
 			if (!ArraysUtil.contains(RADARS, npcId))
 				return null;
 			
-			for (Spawn spawn : SpawnTable.getInstance().getSpawns())
-			{
-				if (npcId == spawn.getNpcId())
-				{
-					player.getRadarList().addMarker(spawn.getLoc());
-					break;
-				}
-			}
+			npc = World.getInstance().getNpc(npcId);
+			if (npc != null)
+				player.getRadarList().addMarker(npc.getSpawnLocation());
+			
 			htmltext = "newbie_guide_move_to_loc.htm";
 		}
 		return htmltext;
@@ -638,17 +632,17 @@ public class NewbieHelper extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final QuestState qs = player.getQuestList().getQuestState(QUEST_NAME_TUTORIAL);
 		if (qs == null)
-			return null;
+			return;
 		
 		final int ex = qs.getInteger("Ex");
 		if (ex <= 1)
@@ -663,7 +657,6 @@ public class NewbieHelper extends Quest
 			((Monster) npc).dropItem(player, new IntIntHolder(BLUE_GEMSTONE, 1));
 			playSound(player, SOUND_TUTORIAL);
 		}
-		return null;
 	}
 	
 	private static String getInvalidHtm(Npc npc)

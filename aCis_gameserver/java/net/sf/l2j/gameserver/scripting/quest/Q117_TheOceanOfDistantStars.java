@@ -32,9 +32,9 @@ public class Q117_TheOceanOfDistantStars extends Quest
 		
 		setItemsIds(GREY_STAR, ENGRAVED_HAMMER);
 		
-		addStartNpc(ABEY);
+		addQuestStart(ABEY);
 		addTalkId(ABEY, ANCIENT_GHOST, GHOST, OBI, BOX);
-		addKillId(BANDIT_WARRIOR, BANDIT_INSPECTOR);
+		addMyDying(BANDIT_WARRIOR, BANDIT_INSPECTOR);
 	}
 	
 	@Override
@@ -184,17 +184,15 @@ public class Q117_TheOceanOfDistantStars extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 7);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, GREY_STAR, 1, 1, 200000))
 			st.setCond(8);
-		
-		return null;
 	}
 }

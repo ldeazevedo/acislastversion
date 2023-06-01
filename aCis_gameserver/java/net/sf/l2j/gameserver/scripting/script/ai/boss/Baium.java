@@ -12,7 +12,7 @@ import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -106,7 +106,8 @@ public class Baium extends AttackableAIScript
 			for (SpawnLocation loc : ARCHANGEL_LOCS)
 			{
 				final Npc angel = addSpawn(ARCHANGEL, loc, false, 0, true);
-				((Monster) angel).setMinion(true);
+				((Monster) angel).setRaidRelated();
+				
 				angel.forceRunStance();
 				
 				_minions.add(angel);
@@ -123,7 +124,7 @@ public class Baium extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(LIVE_BAIUM, ScriptEventType.ON_ATTACK, ScriptEventType.ON_KILL, ScriptEventType.ON_SPAWN);
+		addEventIds(LIVE_BAIUM, EventHandler.ATTACKED, EventHandler.CREATED, EventHandler.MY_DYING);
 	}
 	
 	@Override
@@ -177,7 +178,8 @@ public class Baium extends AttackableAIScript
 			for (SpawnLocation loc : ARCHANGEL_LOCS)
 			{
 				final Npc angel = addSpawn(ARCHANGEL, loc, false, 0, true);
-				((Monster) angel).setMinion(true);
+				((Monster) angel).setRaidRelated();
+				
 				angel.forceRunStance();
 				
 				_minions.add(angel);
@@ -305,32 +307,33 @@ public class Baium extends AttackableAIScript
 	}
 	
 	@Override
-	public String onSpawn(Npc npc)
-	{
-		npc.disableCoreAi(true);
-		return super.onSpawn(npc);
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		if (npc.isInvul())
-			return null;
+			return;
 		
 		if (attacker instanceof Playable)
 		{
 			// Curses
 			if (attacker.testCursesOnAttack(npc))
-				return null;
+				return;
 			
 			// Refresh timer on every hit.
 			_timeTracker = System.currentTimeMillis();
 		}
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onCreated(Npc npc)
+	{
+		npc.disableCoreAi(true);
+		
+		super.onCreated(npc);
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		// Stop all tasks.
 		cancelQuestTimers("baium_despawn");
@@ -360,7 +363,7 @@ public class Baium extends AttackableAIScript
 		}
 		_minions.clear();
 		
-		return super.onKill(npc, killer);
+		super.onMyDying(npc, killer);
 	}
 	
 	/**
@@ -423,7 +426,7 @@ public class Baium extends AttackableAIScript
 		final int chance = Rnd.get(100);
 		
 		// If Baium feels surrounded or see 2+ angels, he unleashes his wrath upon heads :).
-		if (getPlayersCountInRadius(600, npc, false) >= 20 || npc.getKnownTypeInRadius(Monster.class, 600).size() >= 2)
+		if (getPlayersCountInRadius(600, npc) >= 20 || npc.getKnownTypeInRadius(Monster.class, 600).size() >= 2)
 		{
 			if (chance < 25)
 				skill = 4130;

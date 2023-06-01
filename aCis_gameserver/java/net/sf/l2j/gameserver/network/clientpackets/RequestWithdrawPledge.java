@@ -51,5 +51,9 @@ public final class RequestWithdrawPledge extends L2GameClientPacket
 		
 		player.sendPacket(SystemMessageId.YOU_HAVE_WITHDRAWN_FROM_CLAN);
 		player.sendPacket(SystemMessageId.YOU_MUST_WAIT_BEFORE_JOINING_ANOTHER_CLAN);
+		
+		// Refresh surrounding Clan War tags.
+		for (Player attacker : player.getKnownType(Player.class, m -> clan.getWarList().contains(m.getClanId())))
+			attacker.broadcastUserInfo();
 	}
 }

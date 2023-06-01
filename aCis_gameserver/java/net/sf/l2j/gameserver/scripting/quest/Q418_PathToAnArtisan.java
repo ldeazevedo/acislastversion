@@ -40,10 +40,10 @@ public class Q418_PathToAnArtisan extends Quest
 		
 		setItemsIds(SILVERA_RING, FIRST_PASS_CERTIFICATE, SECOND_PASS_CERTIFICATE, BOOGLE_RATMAN_TOOTH, BOOGLE_RATMAN_LEADER_TOOTH, KLUTO_LETTER, FOOTPRINT_OF_THIEF, STOLEN_SECRET_BOX, SECRET_BOX);
 		
-		addStartNpc(SILVERA);
+		addQuestStart(SILVERA);
 		addTalkId(SILVERA, KLUTO, PINTER, OBI, HITCHI, LOCKIRIN, RYDEL);
 		
-		addKillId(20389, 20390, 20017);
+		addMyDying(20389, 20390, 20017);
 	}
 	
 	@Override
@@ -241,13 +241,13 @@ public class Q418_PathToAnArtisan extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -266,7 +266,5 @@ public class Q418_PathToAnArtisan extends Quest
 					st.setCond(6);
 				break;
 		}
-		
-		return null;
 	}
 }

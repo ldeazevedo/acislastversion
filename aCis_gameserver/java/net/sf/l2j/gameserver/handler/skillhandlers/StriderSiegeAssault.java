@@ -11,6 +11,7 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.entity.Siege;
+import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.Formulas;
@@ -24,7 +25,7 @@ public class StriderSiegeAssault implements ISkillHandler
 	};
 	
 	@Override
-	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
+	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets, ItemInstance itemInstance)
 	{
 		if (!(activeChar instanceof Player))
 			return;
@@ -37,7 +38,7 @@ public class StriderSiegeAssault implements ISkillHandler
 		if (door.isAlikeDead())
 			return;
 		
-		final boolean isCrit = Formulas.calcCrit(activeChar, door, skill);
+		final boolean isCrit = skill.getBaseCritRate() > 0 && Formulas.calcCrit(skill.getBaseCritRate() * 10 * Formulas.getSTRBonus(activeChar));
 		final boolean ss = activeChar.isChargedShot(ShotType.SOULSHOT);
 		final ShieldDefense sDef = Formulas.calcShldUse(activeChar, door, skill, isCrit);
 		

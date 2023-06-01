@@ -56,11 +56,11 @@ public class Q325_GrimCollector extends Quest
 		
 		setItemsIds(ZOMBIE_HEAD, ZOMBIE_HEART, ZOMBIE_LIVER, SKULL, RIB_BONE, SPINE, ARM_BONE, THIGH_BONE, COMPLETE_SKELETON, ANATOMY_DIAGRAM);
 		
-		addStartNpc(CURTIS);
+		addQuestStart(CURTIS);
 		addTalkId(CURTIS, VARSAK, SAMED);
 		
 		for (int npcId : DROPLIST.keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 	}
 	
 	private static int getNumberOfPieces(Player player)
@@ -200,13 +200,13 @@ public class Q325_GrimCollector extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		if (player.getInventory().hasItems(ANATOMY_DIAGRAM))
 		{
@@ -220,7 +220,5 @@ public class Q325_GrimCollector extends Quest
 				}
 			}
 		}
-		
-		return null;
 	}
 }

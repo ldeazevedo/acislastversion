@@ -23,10 +23,10 @@ public class Q654_JourneyToASettlement extends Quest
 		
 		setItemsIds(ANTELOPE_SKIN);
 		
-		addStartNpc(31453); // Nameless Spirit
+		addQuestStart(31453); // Nameless Spirit
 		addTalkId(31453);
 		
-		addKillId(21294, 21295); // Canyon Antelope, Canyon Antelope Slave
+		addMyDying(21294, 21295); // Canyon Antelope, Canyon Antelope Slave
 	}
 	
 	@Override
@@ -89,17 +89,15 @@ public class Q654_JourneyToASettlement extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 2);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, ANTELOPE_SKIN, 1, 1, 50000))
 			st.setCond(3);
-		
-		return null;
 	}
 }

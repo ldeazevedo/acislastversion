@@ -22,10 +22,10 @@ public class Q608_SlayTheEnemyCommander extends Quest
 		
 		setItemsIds(HEAD_OF_MOS);
 		
-		addStartNpc(31370); // Kadun Zu Ketra
+		addQuestStart(31370); // Kadun Zu Ketra
 		addTalkId(31370);
 		
-		addKillId(25312); // Mos
+		addMyDying(25312); // Mos
 	}
 	
 	@Override
@@ -94,7 +94,7 @@ public class Q608_SlayTheEnemyCommander extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
@@ -108,7 +108,5 @@ public class Q608_SlayTheEnemyCommander extends Quest
 				giveItems(pm, HEAD_OF_MOS, 1);
 			}
 		}
-		
-		return null;
 	}
 }

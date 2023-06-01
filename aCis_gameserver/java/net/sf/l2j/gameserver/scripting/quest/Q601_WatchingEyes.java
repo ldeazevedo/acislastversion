@@ -47,10 +47,10 @@ public class Q601_WatchingEyes extends Quest
 		
 		setItemsIds(PROOF_OF_AVENGER);
 		
-		addStartNpc(31683); // Eye of Argos
+		addQuestStart(31683); // Eye of Argos
 		addTalkId(31683);
 		
-		addKillId(21306, 21308, 21309, 21310, 21311);
+		addMyDying(21306, 21308, 21309, 21310, 21311);
 	}
 	
 	@Override
@@ -125,17 +125,15 @@ public class Q601_WatchingEyes extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), PROOF_OF_AVENGER, 1, 100, 500000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

@@ -49,10 +49,10 @@ public class Q212_TrialOfDuty extends SecondClassQuest
 		
 		setItemsIds(LETTER_OF_DUSTIN, KNIGHTS_TEAR, MIRROR_OF_ORPIC, TEAR_OF_CONFESSION, REPORT_PIECE_1, REPORT_PIECE_2, TEAR_OF_LOYALTY, MILITAS_ARTICLE, SAINTS_ASHES_URN, ATHEBALDT_SKULL, ATHEBALDT_RIBS, ATHEBALDT_SHIN, LETTER_OF_WINDAWOOD, OLD_KNIGHT_SWORD);
 		
-		addStartNpc(HANNAVALT);
+		addQuestStart(HANNAVALT);
 		addTalkId(HANNAVALT, DUSTIN, SIR_COLLIN, SIR_ARON, SIR_KIEL, SILVERSHADOW, SPIRIT_TALIANUS);
 		
-		addKillId(20144, 20190, 20191, 20200, 20201, 20270, 27119, 20577, 20578, 20579, 20580, 20581, 20582);
+		addMyDying(20144, 20190, 20191, 20200, 20201, 20270, 27119, 20577, 20578, 20579, 20580, 20581, 20582);
 	}
 	
 	@Override
@@ -265,13 +265,13 @@ public class Q212_TrialOfDuty extends SecondClassQuest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		int cond = st.getCond();
 		switch (npc.getNpcId())
@@ -348,7 +348,5 @@ public class Q212_TrialOfDuty extends SecondClassQuest
 				}
 				break;
 		}
-		
-		return null;
 	}
 }

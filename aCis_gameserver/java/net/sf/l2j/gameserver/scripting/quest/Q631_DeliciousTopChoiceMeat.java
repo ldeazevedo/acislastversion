@@ -86,11 +86,11 @@ public class Q631_DeliciousTopChoiceMeat extends Quest
 		
 		setItemsIds(TOP_QUALITY_MEAT);
 		
-		addStartNpc(TUNATUN);
+		addQuestStart(TUNATUN);
 		addTalkId(TUNATUN);
 		
 		for (int npcId : CHANCES.keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 	}
 	
 	@Override
@@ -173,17 +173,15 @@ public class Q631_DeliciousTopChoiceMeat extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), TOP_QUALITY_MEAT, 1, 120, CHANCES.get(npc.getNpcId())))
 			st.setCond(2);
-		
-		return null;
 	}
 }

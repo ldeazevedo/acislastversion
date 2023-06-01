@@ -23,10 +23,10 @@ public class Q157_RecoverSmuggledGoods extends Quest
 		
 		setItemsIds(ADAMANTITE_ORE);
 		
-		addStartNpc(30005); // Wilford
+		addQuestStart(30005); // Wilford
 		addTalkId(30005);
 		
-		addKillId(20121); // Toad
+		addMyDying(20121); // Toad
 	}
 	
 	@Override
@@ -83,17 +83,15 @@ public class Q157_RecoverSmuggledGoods extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, ADAMANTITE_ORE, 1, 20, 400000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

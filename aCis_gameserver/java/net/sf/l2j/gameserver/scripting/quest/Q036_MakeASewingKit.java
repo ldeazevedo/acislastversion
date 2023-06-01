@@ -25,10 +25,10 @@ public class Q036_MakeASewingKit extends Quest
 		
 		setItemsIds(REINFORCED_STEEL);
 		
-		addStartNpc(30847); // Ferris
+		addQuestStart(30847); // Ferris
 		addTalkId(30847);
 		
-		addKillId(20566); // Iron Golem
+		addMyDying(20566); // Iron Golem
 	}
 	
 	@Override
@@ -110,17 +110,15 @@ public class Q036_MakeASewingKit extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, REINFORCED_STEEL, 1, 5, 500000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

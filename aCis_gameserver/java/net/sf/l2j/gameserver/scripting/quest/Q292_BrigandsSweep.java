@@ -38,10 +38,10 @@ public class Q292_BrigandsSweep extends Quest
 		
 		setItemsIds(GOBLIN_NECKLACE, GOBLIN_PENDANT, GOBLIN_LORD_PENDANT, SUSPICIOUS_MEMO, SUSPICIOUS_CONTRACT);
 		
-		addStartNpc(SPIRON);
+		addQuestStart(SPIRON);
 		addTalkId(SPIRON, BALANKI);
 		
-		addKillId(GOBLIN_BRIGAND, GOBLIN_BRIGAND_LEADER, GOBLIN_BRIGAND_LIEUTENANT, GOBLIN_SNOOPER, GOBLIN_LORD);
+		addMyDying(GOBLIN_BRIGAND, GOBLIN_BRIGAND_LEADER, GOBLIN_BRIGAND_LIEUTENANT, GOBLIN_SNOOPER, GOBLIN_LORD);
 	}
 	
 	@Override
@@ -148,13 +148,13 @@ public class Q292_BrigandsSweep extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int chance = Rnd.get(10);
 		
@@ -183,7 +183,5 @@ public class Q292_BrigandsSweep extends Quest
 			takeItems(player, SUSPICIOUS_MEMO, -1);
 			giveItems(player, SUSPICIOUS_CONTRACT, 1);
 		}
-		
-		return null;
 	}
 }

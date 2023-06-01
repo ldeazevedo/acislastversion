@@ -20,7 +20,6 @@ import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.container.creature.ChanceSkillList;
-import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
@@ -44,6 +43,8 @@ public class CreatureAttack<T extends Creature>
 	private HitHolder[] _hitHolders;
 	private WeaponType _weaponType;
 	private int _afterAttackDelay;
+	private boolean _isSoulshot;
+	private boolean _isHit;
 	
 	private ScheduledFuture<?> _attackTask;
 	
@@ -71,7 +72,7 @@ public class CreatureAttack<T extends Creature>
 		if (_actor.isAttackingDisabled())
 			return false;
 		
-		if (!target.isAttackableBy(_actor) || !_actor.knows(target))
+		if (!_actor.knows(target) || !target.isAttackableBy(_actor))
 			return false;
 		
 		if (!GeoEngine.getInstance().canSeeTarget(_actor, target))
@@ -103,7 +104,14 @@ public class CreatureAttack<T extends Creature>
 		// Something happens to the target between the attacker attacking and the actual damage being dealt.
 		// There is no PEACE zone check here. If the attack starts outside and in the meantime the mainTarget walks into a PEACE zone, it gets hit.
 		final Creature mainTarget = _hitHolders[0]._target;
-		if (mainTarget.isDead() || !_actor.knows(mainTarget))
+		if (!_actor.knows(mainTarget) || mainTarget.isDead())
+		{
+			stop();
+			return;
+		}
+		
+		// Test curses. Prevents messing up drop calculation.
+		if (_actor instanceof Playable && mainTarget.isRaidRelated() && _actor.testCursesOnAttack((Npc) mainTarget))
 		{
 			stop();
 			return;
@@ -115,14 +123,22 @@ public class CreatureAttack<T extends Creature>
 		if (player != null && player.getSummon() != mainTarget && !(player.getSummon() == _actor && mainTarget == player))
 			player.updatePvPStatus(mainTarget);
 		
-		_actor.rechargeShots(true, false);
-		
-		// Test curses. Prevents messing up drop calculation.
-		if (_actor instanceof Playable && mainTarget.isRaidRelated() && _actor.testCursesOnAttack((Npc) mainTarget))
+		if (_isHit)
 		{
-			stop();
-			return;
+			// Discharge soulshot.
+			_actor.setChargedShot(ShotType.SOULSHOT, false);
+			
+			// If hit by a CW or by an hero while holding a CW, CP are reduced to 0.
+			if (_actor instanceof Player && mainTarget instanceof Player && !mainTarget.isInvul())
+			{
+				final Player actorPlayer = (Player) _actor;
+				final Player targetPlayer = (Player) mainTarget;
+				if (actorPlayer.isCursedWeaponEquipped() || (actorPlayer.isHero() && targetPlayer.isCursedWeaponEquipped()))
+					targetPlayer.getStatus().setCp(0);
+			}
 		}
+		
+		_actor.rechargeShots(true, false);
 		
 		switch (_weaponType)
 		{
@@ -137,7 +153,7 @@ public class CreatureAttack<T extends Creature>
 					
 					doHit(_hitHolders[1]);
 					
-					_attackTask = ThreadPool.schedule(this::onFinishedAttack, _afterAttackDelay);
+					_attackTask = ThreadPool.schedule(() -> onFinishedAttack(mainTarget), _afterAttackDelay);
 				}, _afterAttackDelay);
 				break;
 			
@@ -145,7 +161,7 @@ public class CreatureAttack<T extends Creature>
 				for (HitHolder hitHolder : _hitHolders)
 					doHit(hitHolder);
 				
-				_attackTask = ThreadPool.schedule(this::onFinishedAttack, _afterAttackDelay);
+				_attackTask = ThreadPool.schedule(() -> onFinishedAttack(mainTarget), _afterAttackDelay);
 				break;
 			
 			case BOW:
@@ -160,25 +176,25 @@ public class CreatureAttack<T extends Creature>
 					
 				}, _afterAttackDelay);
 				
-				onFinishedAttackBow();
+				onFinishedAttackBow(mainTarget);
 				break;
 			
 			default:
 				doHit(_hitHolders[0]);
 				
-				_attackTask = ThreadPool.schedule(this::onFinishedAttack, _afterAttackDelay);
+				_attackTask = ThreadPool.schedule(() -> onFinishedAttack(mainTarget), _afterAttackDelay);
 				break;
 		}
 	}
 	
-	private void onFinishedAttackBow()
+	protected void onFinishedAttackBow(Creature mainTarget)
 	{
 		clearAttackTask(false);
 		
 		_actor.getAI().notifyEvent(AiEventType.FINISHED_ATTACK_BOW, null, null);
 	}
 	
-	private void onFinishedAttack()
+	protected void onFinishedAttack(Creature mainTarget)
 	{
 		clearAttackTask(false);
 		
@@ -190,11 +206,7 @@ public class CreatureAttack<T extends Creature>
 		final Creature target = hitHolder._target;
 		if (hitHolder._miss)
 		{
-			if (target.hasAI())
-				target.getAI().notifyEvent(AiEventType.EVADED, _actor, null);
-			
-			if (target.getChanceSkills() != null)
-				target.getChanceSkills().onEvadedHit(_actor);
+			target.getAI().notifyEvent(AiEventType.EVADED, _actor, null);
 			
 			if (target instanceof Player)
 				target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.AVOIDED_S1_ATTACK).addCharName(_actor));
@@ -206,8 +218,7 @@ public class CreatureAttack<T extends Creature>
 		{
 			_actor.getAI().startAttackStance();
 			
-			if (target.hasAI())
-				target.getAI().notifyEvent(AiEventType.ATTACKED, _actor, null);
+			target.getAI().notifyEvent(AiEventType.ATTACKED, _actor, null);
 			
 			int reflectedDamage = 0;
 			
@@ -251,16 +262,16 @@ public class CreatureAttack<T extends Creature>
 			final ChanceSkillList chanceSkills = _actor.getChanceSkills();
 			if (chanceSkills != null)
 			{
-				chanceSkills.onHit(target, false, hitHolder._crit);
+				chanceSkills.onTargetHit(target, hitHolder._crit);
 				
 				// Reflect triggers onHit
 				if (reflectedDamage > 0)
-					chanceSkills.onHit(target, true, false);
+					chanceSkills.onSelfHit(target);
 			}
 			
 			// Maybe launch chance skills on target
 			if (target.getChanceSkills() != null)
-				target.getChanceSkills().onHit(_actor, true, hitHolder._crit);
+				target.getChanceSkills().onSelfHit(_actor);
 			
 			// Launch weapon Special ability effect if available
 			if (hitHolder._crit)
@@ -275,13 +286,12 @@ public class CreatureAttack<T extends Creature>
 	/**
 	 * Launch a physical attack against a {@link Creature}.
 	 * @param target : The {@link Creature} used as target.
-	 * @return True if the hit was actually successful, false otherwise.
 	 */
-	public boolean doAttack(Creature target)
+	public void doAttack(Creature target)
 	{
 		final int timeAtk = Formulas.calculateTimeBetweenAttacks(_actor);
 		final Weapon weaponItem = _actor.getActiveWeaponItem();
-		final Attack attack = new Attack(_actor, _actor.isChargedShot(ShotType.SOULSHOT), (weaponItem != null) ? weaponItem.getCrystalType().getId() : 0);
+		final boolean isSoulshot = _actor.isChargedShot(ShotType.SOULSHOT);
 		
 		_actor.getPosition().setHeadingTo(target);
 		
@@ -290,63 +300,50 @@ public class CreatureAttack<T extends Creature>
 		switch (_actor.getAttackType())
 		{
 			case BOW:
-				hits = doAttackHitByBow(attack, target, timeAtk, weaponItem);
+				hits = doAttackHitByBow(target, weaponItem, timeAtk, isSoulshot);
 				break;
 			
 			case POLE:
-				hits = doAttackHitByPole(attack, target, timeAtk / 2);
+				hits = doAttackHitByPole(target, weaponItem, timeAtk / 2, isSoulshot);
 				break;
 			
 			case DUAL:
 			case DUALFIST:
-				hits = doAttackHitByDual(attack, target, timeAtk / 2);
-				break;
-			
-			case FIST:
-				hits = (_actor.getSecondaryWeaponItem() instanceof Armor) ? doAttackHitSimple(attack, target, timeAtk / 2) : doAttackHitByDual(attack, target, timeAtk / 2);
+				hits = doAttackHitByDual(target, weaponItem, timeAtk / 2, isSoulshot);
 				break;
 			
 			default:
-				hits = doAttackHitSimple(attack, target, timeAtk / 2);
+				hits = doAttackHitSimple(target, weaponItem, timeAtk / 2, isSoulshot);
 				break;
 		}
 		
-		// Process attack, store result.
-		final boolean isHit = attack.processHits(hits);
-		
-		// Check if hit isn't missed ; if we didn't miss the hit, discharge the shoulshots, if any.
-		if (isHit)
-			_actor.setChargedShot(ShotType.SOULSHOT, false);
-		
-		if (attack.hasHits())
-			_actor.broadcastPacket(attack);
-		
-		return isHit;
+		if (hits != null)
+			_actor.broadcastPacket(new Attack(_actor, hits));
 	}
 	
 	/**
 	 * Launch a Bow attack.
-	 * @param attack : The {@link Attack} serverpacket in which {@link HitHolder}s will be added.
+	 * @param weapon : The used {@link Weapon}.
 	 * @param target : The targeted {@link Creature}.
 	 * @param sAtk : The Attack Speed of the attacker.
-	 * @param weapon : The {@link Weapon} used to retrieve the reuse delay.
+	 * @param isSoulshot : True if a soulshot was charged, false otherwise.
 	 * @return An array of generated {@link HitHolder}s.
 	 */
-	private HitHolder[] doAttackHitByBow(Attack attack, Creature target, int sAtk, Weapon weapon)
+	private HitHolder[] doAttackHitByBow(Creature target, Weapon weapon, int sAtk, boolean isSoulshot)
 	{
 		_actor.reduceArrowCount();
 		_actor.getStatus().reduceMp(_actor.getActiveWeaponItem().getMpConsume());
 		
 		final HitHolder[] hits = new HitHolder[]
 		{
-			getHitHolder(attack, target, false)
+			getHitHolder(target, isSoulshot, false)
 		};
 		
 		int reuse = weapon.getReuseDelay();
 		if (reuse != 0)
 			reuse = (reuse * 345) / _actor.getStatus().getPAtkSpd();
 		
-		setAttackTask(hits, WeaponType.BOW, reuse);
+		setAttackTask(hits, weapon, reuse, isSoulshot);
 		
 		_attackTask = ThreadPool.schedule(this::onHitTimer, sAtk);
 		
@@ -360,20 +357,21 @@ public class CreatureAttack<T extends Creature>
 	
 	/**
 	 * Launch a Dual wield attack.
-	 * @param attack : The {@link Attack} serverpacket in which {@link HitHolder}s will be added.
 	 * @param target : The targeted {@link Creature}.
+	 * @param weapon : The used {@link Weapon}.
 	 * @param sAtk : The Attack Speed of the attacker.
+	 * @param isSoulshot : True if a soulshot was charged, false otherwise.
 	 * @return An array of generated {@link HitHolder}s.
 	 */
-	private HitHolder[] doAttackHitByDual(Attack attack, Creature target, int sAtk)
+	private HitHolder[] doAttackHitByDual(Creature target, Weapon weapon, int sAtk, boolean isSoulshot)
 	{
 		final HitHolder[] hits = new HitHolder[]
 		{
-			getHitHolder(attack, target, true),
-			getHitHolder(attack, target, true)
+			getHitHolder(target, isSoulshot, true),
+			getHitHolder(target, isSoulshot, true)
 		};
 		
-		setAttackTask(hits, WeaponType.DUAL, sAtk / 2);
+		setAttackTask(hits, weapon, sAtk / 2, isSoulshot);
 		
 		_attackTask = ThreadPool.schedule(this::onHitTimer, sAtk / 2);
 		
@@ -382,15 +380,16 @@ public class CreatureAttack<T extends Creature>
 	
 	/**
 	 * Launch a Pole attack.
-	 * @param attack : The {@link Attack} serverpacket in which {@link HitHolder}s will be added.
 	 * @param target : The targeted {@link Creature}.
+	 * @param weapon : The used {@link Weapon}.
 	 * @param sAtk : The Attack Speed of the attacker.
+	 * @param isSoulshot : True if a soulshot was charged, false otherwise.
 	 * @return An array of generated {@link HitHolder}s.
 	 */
-	private HitHolder[] doAttackHitByPole(Attack attack, Creature target, int sAtk)
+	private HitHolder[] doAttackHitByPole(Creature target, Weapon weapon, int sAtk, boolean isSoulshot)
 	{
 		final ArrayList<HitHolder> hitHolders = new ArrayList<>();
-		hitHolders.add(getHitHolder(attack, target, false));
+		hitHolders.add(getHitHolder(target, isSoulshot, false));
 		
 		final int maxAttackedCount;
 		if (_actor.getFirstEffect(EffectType.POLEARM_TARGET_SINGLE) != null)
@@ -423,13 +422,13 @@ public class CreatureAttack<T extends Creature>
 				if (attackedCount > maxAttackedCount)
 					break;
 				
-				hitHolders.add(getHitHolder(attack, knownCreature, false));
+				hitHolders.add(getHitHolder(knownCreature, isSoulshot, false));
 			}
 		}
 		
 		final HitHolder[] hits = hitHolders.toArray(new HitHolder[] {});
 		
-		setAttackTask(hits, WeaponType.POLE, sAtk);
+		setAttackTask(hits, weapon, sAtk, isSoulshot);
 		
 		_attackTask = ThreadPool.schedule(this::onHitTimer, sAtk);
 		
@@ -438,19 +437,20 @@ public class CreatureAttack<T extends Creature>
 	
 	/**
 	 * Launch a simple attack.
-	 * @param attack : The {@link Attack} serverpacket in which {@link HitHolder}s will be added.
 	 * @param target : The targeted {@link Creature}.
+	 * @param weapon : The used {@link Weapon}.
 	 * @param sAtk : The Attack Speed of the attacker.
+	 * @param isSoulshot : True if a soulshot was charged, false otherwise.
 	 * @return An array of generated {@link HitHolder}s.
 	 */
-	private HitHolder[] doAttackHitSimple(Attack attack, Creature target, int sAtk)
+	private HitHolder[] doAttackHitSimple(Creature target, Weapon weapon, int sAtk, boolean isSoulshot)
 	{
 		final HitHolder[] hits = new HitHolder[]
 		{
-			getHitHolder(attack, target, false)
+			getHitHolder(target, isSoulshot, false)
 		};
 		
-		setAttackTask(hits, WeaponType.ETC, sAtk);
+		setAttackTask(hits, weapon, sAtk, isSoulshot);
 		
 		_attackTask = ThreadPool.schedule(this::onHitTimer, sAtk);
 		
@@ -458,12 +458,12 @@ public class CreatureAttack<T extends Creature>
 	}
 	
 	/**
-	 * @param attack : The {@link Attack} serverpacket in which {@link HitHolder}s will be added.
 	 * @param target : The targeted {@link Creature}.
+	 * @param isSoulshot : If true, a soulshot was charged and will be used.
 	 * @param isSplit : If true, damages will be split in 2. Used for dual wield attacks.
 	 * @return a new {@link HitHolder} with generated damage, shield resistance, critical and miss informations.
 	 */
-	private HitHolder getHitHolder(Attack attack, Creature target, boolean isSplit)
+	private HitHolder getHitHolder(Creature target, boolean isSoulshot, boolean isSplit)
 	{
 		boolean crit = false;
 		ShieldDefense shld = ShieldDefense.FAILED;
@@ -474,7 +474,7 @@ public class CreatureAttack<T extends Creature>
 		{
 			crit = Formulas.calcCrit(_actor, target, null);
 			shld = Formulas.calcShldUse(_actor, target, null, crit);
-			damage = (int) Formulas.calcPhysicalAttackDamage(_actor, target, shld, crit, attack.soulshot);
+			damage = (int) Formulas.calcPhysicalAttackDamage(_actor, target, shld, crit, isSoulshot);
 			
 			if (isSplit)
 				damage /= 2;
@@ -512,13 +512,40 @@ public class CreatureAttack<T extends Creature>
 		}
 	}
 	
-	private void setAttackTask(HitHolder[] hitHolders, WeaponType weaponType, int afterAttackDelay)
+	private void setAttackTask(HitHolder[] hitHolders, Weapon weapon, int afterAttackDelay, boolean isSoulshot)
 	{
+		final WeaponType weaponType = (weapon == null) ? WeaponType.ETC : weapon.getItemType();
+		final int weaponGrade = (weapon == null) ? 0 : weapon.getCrystalType().getId();
+		
+		// Set variables.
 		_isAttackingNow = true;
 		_isBowCoolingDown = (weaponType == WeaponType.BOW);
 		_hitHolders = hitHolders;
 		_weaponType = weaponType;
 		_afterAttackDelay = afterAttackDelay;
+		_isSoulshot = isSoulshot;
+		_isHit = false;
+		
+		// Generate flags for every HitHolder. Feed _isHit.
+		for (HitHolder hit : _hitHolders)
+		{
+			if (hit._miss)
+			{
+				hit._flags = Attack.HITFLAG_MISS;
+				continue;
+			}
+			
+			_isHit = true;
+			
+			if (_isSoulshot)
+				hit._flags = Attack.HITFLAG_SS | weaponGrade;
+			
+			if (hit._crit)
+				hit._flags |= Attack.HITFLAG_CRIT;
+			
+			if (hit._sDef != ShieldDefense.FAILED)
+				hit._flags |= Attack.HITFLAG_SHLD;
+		}
 	}
 	
 	private void clearAttackTask(boolean clearBowCooldown)

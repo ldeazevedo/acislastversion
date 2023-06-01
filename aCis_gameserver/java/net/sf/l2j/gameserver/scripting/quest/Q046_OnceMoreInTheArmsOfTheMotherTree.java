@@ -33,7 +33,7 @@ public class Q046_OnceMoreInTheArmsOfTheMotherTree extends Quest
 		
 		setItemsIds(ORDER_DOCUMENT_1, ORDER_DOCUMENT_2, ORDER_DOCUMENT_3, MAGIC_SWORD_HILT, GEMSTONE_POWDER, PURIFIED_MAGIC_NECKLACE);
 		
-		addStartNpc(GALLADUCCI);
+		addQuestStart(GALLADUCCI);
 		addTalkId(GALLADUCCI, GENTLER, SANDRA, DUSTIN);
 	}
 	

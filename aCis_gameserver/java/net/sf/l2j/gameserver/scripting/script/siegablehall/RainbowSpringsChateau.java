@@ -22,9 +22,9 @@ import net.sf.l2j.commons.util.ArraysUtil;
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
+import net.sf.l2j.gameserver.data.manager.SpawnManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
-import net.sf.l2j.gameserver.data.sql.SpawnTable;
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
 import net.sf.l2j.gameserver.enums.SiegeStatus;
 import net.sf.l2j.gameserver.model.World;
@@ -171,11 +171,6 @@ public final class RainbowSpringsChateau extends ClanHallSiege
 		if (_rainbow == null)
 			return;
 		
-		addFirstTalkId(MESSENGER, CARETAKER);
-		addTalkId(MESSENGER, CARETAKER);
-		addFirstTalkId(YETIS);
-		addTalkId(YETIS);
-		
 		loadAttackers();
 		
 		long delay = _rainbow.getNextSiegeTime();
@@ -187,6 +182,15 @@ public final class RainbowSpringsChateau extends ClanHallSiege
 		}
 		else
 			LOGGER.warn("No date was set for Rainbow Springs Chateau siege. Siege is canceled.");
+	}
+	
+	@Override
+	protected void registerNpcs()
+	{
+		addFirstTalkId(MESSENGER, CARETAKER);
+		addTalkId(MESSENGER, CARETAKER);
+		addFirstTalkId(YETIS);
+		addTalkId(YETIS);
 	}
 	
 	@Override
@@ -421,50 +425,21 @@ public final class RainbowSpringsChateau extends ClanHallSiege
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
-	{
-		if (!_rainbow.isInSiege() || !(killer instanceof Playable))
-			return null;
-		
-		final Clan clan = killer.getActingPlayer().getClan();
-		if (clan == null || !_acceptedClans.contains(clan))
-			return null;
-		
-		final int npcId = npc.getNpcId();
-		final int index = _acceptedClans.indexOf(clan);
-		
-		if (npcId == CHEST)
-		{
-			shoutRandomText(npc);
-		}
-		else if (npcId == GOURDS[index])
-		{
-			if (_siegeEnd != null)
-			{
-				_siegeEnd.cancel(false);
-				_siegeEnd = null;
-			}
-			ThreadPool.execute(new SiegeEnd(clan));
-		}
-		return null;
-	}
-	
-	@Override
-	public String onItemUse(ItemInstance item, Player player, WorldObject target)
+	public void onItemUse(ItemInstance item, Player player, WorldObject target)
 	{
 		if (!_rainbow.isInSiege())
-			return null;
+			return;
 		
 		if (!(target instanceof Npc))
-			return null;
+			return;
 		
 		final int npcId = ((Npc) target).getNpcId();
 		if (!ArraysUtil.contains(YETIS, npcId))
-			return null;
+			return;
 		
 		final Clan clan = player.getClan();
 		if (clan == null || !_acceptedClans.contains(clan))
-			return null;
+			return;
 			
 		// Nectar must spawn the enraged yeti. Dunno if it makes any other thing
 		// Also, the items must execute:
@@ -500,17 +475,17 @@ public final class RainbowSpringsChateau extends ClanHallSiege
 				_gourds[(iterator - 1) - i] = curSpawn;
 				
 				if (curSpawn.getNpc() != null)
-					curSpawn.getNpc().teleportTo(oldSpawn.getLoc(), 0);
+					curSpawn.getNpc().teleportTo(oldSpawn.getSpawnLocation(), 0);
 			}
 		}
 		else if (itemId == RAINBOW_SULFUR)
 		{
-			for (int id : ARENA_ZONES)
+			for (int index = 0; index < ARENA_ZONES.length; index++)
 			{
-				if (id == _acceptedClans.indexOf(clan))
+				if (index == _acceptedClans.indexOf(clan))
 					continue;
 				
-				final ZoneType zone = ZoneManager.getInstance().getZoneById(id);
+				final ZoneType zone = ZoneManager.getInstance().getZoneById(ARENA_ZONES[index]);
 				for (Creature creature : zone.getCharacters())
 				{
 					for (L2Skill sk : DEBUFFS)
@@ -518,7 +493,34 @@ public final class RainbowSpringsChateau extends ClanHallSiege
 				}
 			}
 		}
-		return null;
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
+	{
+		if (!_rainbow.isInSiege() || !(killer instanceof Playable))
+			return;
+		
+		final Clan clan = killer.getActingPlayer().getClan();
+		if (clan == null || !_acceptedClans.contains(clan))
+			return;
+		
+		final int npcId = npc.getNpcId();
+		final int index = _acceptedClans.indexOf(clan);
+		
+		if (npcId == CHEST)
+		{
+			shoutRandomText(npc);
+		}
+		else if (npcId == GOURDS[index])
+		{
+			if (_siegeEnd != null)
+			{
+				_siegeEnd.cancel(false);
+				_siegeEnd = null;
+			}
+			ThreadPool.execute(new SiegeEnd(clan));
+		}
 	}
 	
 	@Override
@@ -559,7 +561,6 @@ public final class RainbowSpringsChateau extends ClanHallSiege
 					LOGGER.error("Failed to initialize a spawn.", e);
 				}
 			}
-			SpawnTable.getInstance().addSpawn(_gourds[i], false);
 			_gourds[i].doSpawn(false);
 		}
 	}
@@ -732,7 +733,7 @@ public final class RainbowSpringsChateau extends ClanHallSiege
 					_rainbow.updateSiegeStatus(SiegeStatus.REGISTRATION_OVER);
 				}
 				else
-					World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.SIEGE_OF_S1_HAS_BEEN_CANCELED_DUE_TO_LACK_OF_INTEREST).addString(_hall.getName()));
+					World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.SIEGE_OF_S1_HAS_BEEN_CANCELED_DUE_TO_LACK_OF_INTEREST).addFortId(_hall.getId()));
 			}
 		}
 	}
@@ -762,12 +763,7 @@ public final class RainbowSpringsChateau extends ClanHallSiege
 		{
 			// Unspawn gourds.
 			for (int i = 0; i < _acceptedClans.size(); i++)
-			{
-				if (_gourds[i].getNpc() != null)
-					_gourds[i].getNpc().deleteMe();
-				
-				SpawnTable.getInstance().deleteSpawn(_gourds[i], false);
-			}
+				_gourds[i].doDelete();
 			
 			if (_winner != null)
 			{
@@ -789,5 +785,17 @@ public final class RainbowSpringsChateau extends ClanHallSiege
 				}
 			}, 120000);
 		}
+	}
+	
+	@Override
+	public void spawnNpcs()
+	{
+		SpawnManager.getInstance().spawnEventNpcs("agit_defend_warfare_start(62)", true, true);
+	}
+	
+	@Override
+	public void unspawnNpcs()
+	{
+		SpawnManager.getInstance().despawnEventNpcs("agit_defend_warfare_start(62)", true);
 	}
 }

@@ -1,19 +1,21 @@
 package net.sf.l2j.gameserver.model;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import net.sf.l2j.commons.logging.CLogger;
+import net.sf.l2j.commons.util.ArraysUtil;
 
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
-import net.sf.l2j.gameserver.data.sql.SpawnTable;
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
 import net.sf.l2j.gameserver.model.location.Location;
-import net.sf.l2j.gameserver.model.spawn.Spawn;
+import net.sf.l2j.gameserver.model.spawn.ASpawn;
 import net.sf.l2j.gameserver.model.zone.type.subtype.ZoneType;
 import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
 import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
@@ -92,6 +94,21 @@ public final class World
 	public WorldObject getObject(int objectId)
 	{
 		return _objects.get(objectId);
+	}
+	
+	public Npc getNpc(int npcId)
+	{
+		return (Npc) _objects.values().stream().filter(o -> ((o instanceof Npc) && ((Npc) o).getNpcId() == npcId)).findFirst().orElse(null);
+	}
+	
+	public List<Npc> getNpcs(int npcId)
+	{
+		return _objects.values().stream().filter(o -> ((o instanceof Npc) && ((Npc) o).getNpcId() == npcId)).map(o -> (Npc) o).collect(Collectors.toList());
+	}
+	
+	public List<Npc> getNpcs(int... npcIds)
+	{
+		return _objects.values().stream().filter(o -> ((o instanceof Npc) && ArraysUtil.contains(npcIds, ((Npc) o).getNpcId()))).map(o -> (Npc) o).collect(Collectors.toList());
 	}
 	
 	public void addPlayer(Player cha)
@@ -214,14 +231,11 @@ public final class World
 				{
 					if (obj instanceof Npc)
 					{
-						((Npc) obj).deleteMe();
-						
-						final Spawn spawn = ((Npc) obj).getSpawn();
+						final ASpawn spawn = ((Npc) obj).getSpawn();
 						if (spawn != null)
-						{
-							spawn.setRespawnState(false);
-							SpawnTable.getInstance().deleteSpawn(spawn, false);
-						}
+							spawn.doDelete();
+						else
+							((Npc) obj).deleteMe();
 					}
 				}
 			}

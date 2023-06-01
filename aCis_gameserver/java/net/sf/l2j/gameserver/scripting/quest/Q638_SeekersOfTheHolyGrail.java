@@ -25,11 +25,11 @@ public class Q638_SeekersOfTheHolyGrail extends Quest
 		
 		setItemsIds(PAGAN_TOTEM);
 		
-		addStartNpc(INNOCENTIN);
+		addQuestStart(INNOCENTIN);
 		addTalkId(INNOCENTIN);
 		
 		for (int i = 22138; i < 22175; i++)
-			addKillId(i);
+			addMyDying(i);
 	}
 	
 	@Override
@@ -93,16 +93,14 @@ public class Q638_SeekersOfTheHolyGrail extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItemsAlways(st.getPlayer(), PAGAN_TOTEM, 1, 0);
-		
-		return null;
 	}
 }

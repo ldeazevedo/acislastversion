@@ -5,7 +5,7 @@ import java.util.Map;
 
 import net.sf.l2j.commons.util.ArraysUtil;
 
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.itemcontainer.PcInventory;
@@ -143,7 +143,7 @@ public class OracleTeleporter extends Quest
 		
 		addTalkId(TEMPLE_PRIEST);
 		addTalkId(RIFT_POSTERS);
-		addEventIds(RETURN_LOCATIONS.keySet(), ScriptEventType.ON_TALK);
+		addEventIds(RETURN_LOCATIONS.keySet(), EventHandler.TALKED);
 	}
 	
 	@Override

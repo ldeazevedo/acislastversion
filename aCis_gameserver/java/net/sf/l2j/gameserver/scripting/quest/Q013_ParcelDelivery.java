@@ -23,7 +23,7 @@ public class Q013_ParcelDelivery extends Quest
 		
 		setItemsIds(PACKAGE);
 		
-		addStartNpc(FUNDIN);
+		addQuestStart(FUNDIN);
 		addTalkId(FUNDIN, VULCAN);
 	}
 	

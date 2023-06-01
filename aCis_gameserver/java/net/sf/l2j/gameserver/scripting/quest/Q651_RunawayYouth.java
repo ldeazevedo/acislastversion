@@ -36,7 +36,7 @@ public class Q651_RunawayYouth extends Quest
 	{
 		super(651, "Runaway Youth");
 		
-		addStartNpc(IVAN);
+		addQuestStart(IVAN);
 		addTalkId(IVAN, BATIDAE);
 		
 		addSpawn(IVAN, 118600, -161235, -1119, 0, false, 0, false);

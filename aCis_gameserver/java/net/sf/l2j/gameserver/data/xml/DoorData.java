@@ -10,6 +10,7 @@ import java.util.Map;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.data.xml.IXmlReader;
 import net.sf.l2j.commons.geometry.Polygon;
+import net.sf.l2j.commons.geometry.algorithm.Kong;
 
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.enums.DoorType;
@@ -50,6 +51,8 @@ public class DoorData implements IXmlReader
 	@Override
 	public void parseDocument(Document doc, Path path)
 	{
+		final List<Point2D> coords = new ArrayList<>();
+		
 		forEach(doc, "list", listNode -> forEach(listNode, "door", doorNode ->
 		{
 			final StatSet set = parseAttributes(doorNode);
@@ -64,12 +67,12 @@ public class DoorData implements IXmlReader
 				set.set("posZ", parseInteger(attrs, "z"));
 			});
 			
-			final List<Point2D> coords = new ArrayList<>();
 			forEach(doorNode, "coordinates", coordinatesNode -> forEach(coordinatesNode, "loc", locNode ->
 			{
 				final NamedNodeMap attrs = locNode.getAttributes();
 				coords.add(new Point2D(parseInteger(attrs, "x"), parseInteger(attrs, "y")));
 			}));
+			set.set("coords", coords.toArray(Point2D[]::new));
 			
 			int minX = Integer.MAX_VALUE;
 			int maxX = Integer.MIN_VALUE;
@@ -111,7 +114,18 @@ public class DoorData implements IXmlReader
 			}
 			final int limit = set.getEnum("type", DoorType.class) == DoorType.WALL ? GeoStructure.CELL_IGNORE_HEIGHT * 4 : GeoStructure.CELL_IGNORE_HEIGHT;
 			final boolean[][] inside = new boolean[sizeX][sizeY];
-			final Polygon polygon = new Polygon(id, coords);
+			Polygon polygon = null;
+			try
+			{
+				polygon = new Polygon(Kong.doTriangulation(coords));
+				coords.clear();
+			}
+			catch (Exception e)
+			{
+				LOGGER.warn("Cannot load door id {}", set.getInteger("id"));
+				return;
+			}
+			
 			for (int ix = 0; ix < sizeX; ix++)
 			{
 				for (int iy = 0; iy < sizeY; iy++)
@@ -144,7 +158,6 @@ public class DoorData implements IXmlReader
 			set.set("geoY", y);
 			set.set("geoZ", geoZ);
 			set.set("geoData", GeoEngine.calculateGeoObject(inside));
-			set.set("coords", coords.toArray(Point2D[]::new));
 			set.set("pAtk", 0);
 			set.set("mAtk", 0);
 			set.set("runSpd", 0);

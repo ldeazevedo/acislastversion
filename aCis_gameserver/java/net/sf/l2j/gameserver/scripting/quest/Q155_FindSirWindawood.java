@@ -24,7 +24,7 @@ public class Q155_FindSirWindawood extends Quest
 		
 		setItemsIds(OFFICIAL_LETTER);
 		
-		addStartNpc(ABELLOS);
+		addQuestStart(ABELLOS);
 		addTalkId(WINDAWOOD, ABELLOS);
 	}
 	

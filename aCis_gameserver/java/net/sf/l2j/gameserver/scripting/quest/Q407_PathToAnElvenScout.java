@@ -38,10 +38,10 @@ public class Q407_PathToAnElvenScout extends Quest
 		
 		setItemsIds(REISA_LETTER, PRIAS_TORN_LETTER_1, PRIAS_TORN_LETTER_2, PRIAS_TORN_LETTER_3, PRIAS_TORN_LETTER_4, MORETTI_HERB, MORETTI_LETTER, PRIAS_LETTER, HONORARY_GUARD, RUSTED_KEY);
 		
-		addStartNpc(REISA);
+		addQuestStart(REISA);
 		addTalkId(REISA, MORETTI, BABENCO, PRIAS);
 		
-		addKillId(20053, 27031);
+		addMyDying(20053, 27031);
 	}
 	
 	@Override
@@ -179,13 +179,13 @@ public class Q407_PathToAnElvenScout extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int cond = st.getCond();
 		if (npc.getNpcId() == 20053)
@@ -217,7 +217,5 @@ public class Q407_PathToAnElvenScout extends Quest
 		}
 		else if ((cond == 4 || cond == 5) && dropItems(player, RUSTED_KEY, 1, 1, 600000))
 			st.setCond(6);
-		
-		return null;
 	}
 }

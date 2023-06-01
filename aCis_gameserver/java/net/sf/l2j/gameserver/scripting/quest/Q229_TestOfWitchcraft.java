@@ -88,12 +88,12 @@ public class Q229_TestOfWitchcraft extends SecondClassQuest
 		
 		setItemsIds(ORIM_DIAGRAM, ALEXANDRIA_BOOK, IKER_LIST, DIRE_WYRM_FANG, LETO_LIZARDMAN_CHARM, EN_GOLEM_HEARTSTONE, LARA_MEMO, NESTLE_MEMO, LEOPOLD_JOURNAL, AKLANTOTH_GEM_1, AKLANTOTH_GEM_2, AKLANTOTH_GEM_3, AKLANTOTH_GEM_4, AKLANTOTH_GEM_5, AKLANTOTH_GEM_6, BRIMSTONE_1, ORIM_INSTRUCTIONS, ORIM_LETTER_1, ORIM_LETTER_2, SIR_VASPER_LETTER, VADIN_CRUCIFIX, TAMLIN_ORC_AMULET, VADIN_SANCTIONS, IKER_AMULET, SOULTRAP_CRYSTAL, PURGATORY_KEY, ZERUEL_BIND_CRYSTAL, BRIMSTONE_2, SWORD_OF_BINDING);
 		
-		addStartNpc(ORIM);
+		addQuestStart(ORIM);
 		addTalkId(LARA, ALEXANDRIA, IKER, VADIN, NESTLE, SIR_KLAUS_VASPER, LEOPOLD, KAIRA, ORIM, RODERIK, ENDRIGO, EVERT);
 		
-		addAttackId(NAMELESS_REVENANT, SKELETAL_MERCENARY, DREVANUL_PRINCE_ZERUEL);
-		addKillId(DIRE_WYRM, ENCHANTED_STONE_GOLEM, LETO_LIZARDMAN, LETO_LIZARDMAN_ARCHER, LETO_LIZARDMAN_SOLDIER, LETO_LIZARDMAN_WARRIOR, LETO_LIZARDMAN_SHAMAN, LETO_LIZARDMAN_OVERLORD, TAMLIN_ORC, TAMLIN_ORC_ARCHER, NAMELESS_REVENANT, SKELETAL_MERCENARY, DREVANUL_PRINCE_ZERUEL);
-		addDecayId(DREVANUL_PRINCE_ZERUEL);
+		addAttacked(NAMELESS_REVENANT, SKELETAL_MERCENARY, DREVANUL_PRINCE_ZERUEL);
+		addDecayed(DREVANUL_PRINCE_ZERUEL);
+		addMyDying(DIRE_WYRM, ENCHANTED_STONE_GOLEM, LETO_LIZARDMAN, LETO_LIZARDMAN_ARCHER, LETO_LIZARDMAN_SOLDIER, LETO_LIZARDMAN_WARRIOR, LETO_LIZARDMAN_SHAMAN, LETO_LIZARDMAN_OVERLORD, TAMLIN_ORC, TAMLIN_ORC_ARCHER, NAMELESS_REVENANT, SKELETAL_MERCENARY, DREVANUL_PRINCE_ZERUEL);
 	}
 	
 	@Override
@@ -474,13 +474,13 @@ public class Q229_TestOfWitchcraft extends SecondClassQuest
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		final Player player = attacker.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -521,12 +521,10 @@ public class Q229_TestOfWitchcraft extends SecondClassQuest
 				}
 				break;
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onDecay(Npc npc)
+	public void onDecayed(Npc npc)
 	{
 		if (npc == _drevanulPrinceZeruel_Orim)
 		{
@@ -536,18 +534,16 @@ public class Q229_TestOfWitchcraft extends SecondClassQuest
 		{
 			_drevanulPrinceZeruel_Evert = null;
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -642,7 +638,5 @@ public class Q229_TestOfWitchcraft extends SecondClassQuest
 				}
 				break;
 		}
-		
-		return null;
 	}
 }

@@ -765,6 +765,29 @@ public class PcInventory extends Inventory
 		return validateWeight(weight);
 	}
 	
+	/**
+	 * @param tradeList : The {@link TradeList} to test.
+	 * @return True if each item count from the {@link TradeList} set as parameter can pass an Integer.MAX_VALUE check, or false otherwise.
+	 */
+	public boolean validateTradeListCount(TradeList tradeList)
+	{
+		for (TradeItem tradeItem : tradeList)
+		{
+			long count = tradeItem.getCount();
+			
+			if (tradeItem.getItem().isStackable())
+			{
+				final ItemInstance item = getItemByItemId(tradeItem.getItem().getItemId());
+				if (item != null)
+					count += item.getCount();
+			}
+			
+			if (count > Integer.MAX_VALUE)
+				return false;
+		}
+		return true;
+	}
+	
 	@Override
 	public String toString()
 	{

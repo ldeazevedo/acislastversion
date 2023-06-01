@@ -24,7 +24,7 @@ public class Q156_MillenniumLove extends Quest
 		
 		setItemsIds(LILITH_LETTER, THEON_DIARY);
 		
-		addStartNpc(LILITH);
+		addQuestStart(LILITH);
 		addTalkId(LILITH, BAENEDES);
 	}
 	

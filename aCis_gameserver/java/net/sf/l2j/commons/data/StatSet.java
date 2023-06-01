@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
+import net.sf.l2j.gameserver.network.NpcStringId;
 
 /**
  * This class, extending {@link HashMap}, is used to store pairs :
@@ -515,5 +516,16 @@ public class StatSet extends HashMap<String, Object>
 			return Enum.valueOf(enumClass, (String) val);
 		
 		return defaultValue;
+	}
+	
+	public NpcStringId getNpcStringId(final String name)
+	{
+		return NpcStringId.get(getInteger(name));
+	}
+	
+	public NpcStringId getNpcStringId(final String name, final NpcStringId defaultValue)
+	{
+		final int id = getInteger(name, 0);
+		return (id > 0) ? NpcStringId.get(id) : defaultValue;
 	}
 }

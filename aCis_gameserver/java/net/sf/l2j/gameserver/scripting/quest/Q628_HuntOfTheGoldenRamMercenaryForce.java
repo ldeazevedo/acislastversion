@@ -64,12 +64,12 @@ public class Q628_HuntOfTheGoldenRamMercenaryForce extends Quest
 		
 		setItemsIds(SPLINTER_STAKATO_CHITIN, NEEDLE_STAKATO_CHITIN, GOLDEN_RAM_BADGE_RECRUIT, GOLDEN_RAM_BADGE_SOLDIER);
 		
-		addStartNpc(KAHMAN);
+		addQuestStart(KAHMAN);
 		addFirstTalkId(PIERCE, KAHMAN, ABERCROMBIE, SELINA);
 		addTalkId(KAHMAN, ABERCROMBIE, SELINA);
 		
 		for (int npcId : CHANCES.keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 	}
 	
 	@Override
@@ -214,13 +214,13 @@ public class Q628_HuntOfTheGoldenRamMercenaryForce extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int cond = st.getCond();
 		final int npcId = npc.getNpcId();
@@ -245,7 +245,5 @@ public class Q628_HuntOfTheGoldenRamMercenaryForce extends Quest
 					dropItems(st.getPlayer(), NEEDLE_STAKATO_CHITIN, 1, 100, CHANCES.get(npcId));
 				break;
 		}
-		
-		return null;
 	}
 }

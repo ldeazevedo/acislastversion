@@ -27,10 +27,10 @@ public class Q271_ProofOfValor extends Quest
 		
 		setItemsIds(KASHA_WOLF_FANG);
 		
-		addStartNpc(30577); // Rukain
+		addQuestStart(30577); // Rukain
 		addTalkId(30577);
 		
-		addKillId(20475); // Kasha Wolf
+		addMyDying(20475); // Kasha Wolf
 	}
 	
 	@Override
@@ -91,17 +91,15 @@ public class Q271_ProofOfValor extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItemsAlways(player, KASHA_WOLF_FANG, (Rnd.get(4) == 0) ? 2 : 1, 50))
 			st.setCond(2);
-		
-		return null;
 	}
 }

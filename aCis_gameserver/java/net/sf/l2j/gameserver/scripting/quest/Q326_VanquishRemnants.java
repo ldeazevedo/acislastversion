@@ -25,10 +25,10 @@ public class Q326_VanquishRemnants extends Quest
 		
 		setItemsIds(RED_CROSS_BADGE, BLUE_CROSS_BADGE, BLACK_CROSS_BADGE);
 		
-		addStartNpc(30435); // Leopold
+		addQuestStart(30435); // Leopold
 		addTalkId(30435);
 		
-		addKillId(20053, 20437, 20058, 20436, 20061, 20439, 20063, 20066, 20438);
+		addMyDying(20053, 20437, 20058, 20436, 20061, 20439, 20063, 20066, 20438);
 	}
 	
 	@Override
@@ -105,13 +105,13 @@ public class Q326_VanquishRemnants extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -133,7 +133,5 @@ public class Q326_VanquishRemnants extends Quest
 				dropItems(player, BLACK_CROSS_BADGE, 1, 0, 120000);
 				break;
 		}
-		
-		return null;
 	}
 }

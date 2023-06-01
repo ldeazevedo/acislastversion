@@ -25,7 +25,7 @@ public final class ServerList extends L2LoginServerPacket
 		for (GameServerInfo gsi : GameServerManager.getInstance().getRegisteredGameServers().values())
 		{
 			final ServerType type = (account.getAccessLevel() < 0 || (gsi.getType() == ServerType.GM_ONLY && account.getAccessLevel() <= 0)) ? ServerType.DOWN : gsi.getType();
-			final String hostName = gsi.getHostName();
+			final String hostName = (isLocalIp(account.getClientIp()) && gsi.getGameServerThread() != null) ? gsi.getGameServerThread().getConnectionIp() : gsi.getHostName();
 			
 			_servers.add(new ServerData(type, hostName, gsi));
 		}
@@ -76,5 +76,10 @@ public final class ServerList extends L2LoginServerPacket
 			writeD(bits);
 			writeC(server.isShowingBrackets() ? 0x01 : 0x00);
 		}
+	}
+	
+	public static boolean isLocalIp(InetAddress address)
+	{
+		return address == null || address.isLinkLocalAddress() || address.isLoopbackAddress() || address.isAnyLocalAddress() || address.isSiteLocalAddress();
 	}
 }

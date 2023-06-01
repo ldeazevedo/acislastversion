@@ -32,10 +32,10 @@ public class Q044_HelpTheSon extends Quest
 		
 		setItemsIds(GEMSTONE_FRAGMENT, GEMSTONE);
 		
-		addStartNpc(LUNDY);
+		addQuestStart(LUNDY);
 		addTalkId(LUNDY, DRIKUS);
 		
-		addKillId(MAILLE, MAILLE_SCOUT, MAILLE_GUARD);
+		addMyDying(MAILLE, MAILLE_SCOUT, MAILLE_GUARD);
 	}
 	
 	@Override
@@ -130,17 +130,15 @@ public class Q044_HelpTheSon extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 2);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItemsAlways(player, GEMSTONE_FRAGMENT, 1, 30))
 			st.setCond(3);
-		
-		return null;
 	}
 }

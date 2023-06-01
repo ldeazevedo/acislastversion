@@ -24,29 +24,29 @@ public class TargetCorpseAlly implements ITargetHandler
 	@Override
 	public Creature[] getTargetList(Creature caster, Creature target, L2Skill skill)
 	{
+		final Player player = caster.getActingPlayer();
+		
 		final List<Player> list = new ArrayList<>();
-		if (caster instanceof Player)
+		
+		if (player.getClan() != null)
 		{
-			final boolean castInsideBossZone = Baium.BAIUM_LAIR.isInsideZone(caster);
+			final boolean isInsideBaiumZone = Baium.BAIUM_LAIR.isInsideZone(caster);
 			
-			final Player player = caster.getActingPlayer();
-			if (player.getClan() != null)
+			for (Player targetPlayer : player.getKnownTypeInRadius(Player.class, skill.getSkillRadius(), p -> p.isDead()))
 			{
-				for (Player targetPlayer : player.getKnownTypeInRadius(Player.class, skill.getSkillRadius()))
-				{
-					if (!targetPlayer.isDead() || targetPlayer.getClan() == null || castInsideBossZone != Baium.BAIUM_LAIR.isInsideZone(targetPlayer))
-						continue;
-					
-					// Avoid select player that are not in same clan.
-					if (player.getClanId() != targetPlayer.getClanId() || (player.getAllyId() > 0 && player.getAllyId() != targetPlayer.getAllyId()))
-						continue;
-					
-					// Do not select player from opposing duel side
-					if (player.isInDuel() && (player.getDuelId() != targetPlayer.getDuelId() || player.getTeam() != targetPlayer.getTeam()))
-						continue;
-					
-					list.add(targetPlayer);
-				}
+				// Target isn't the same zone state than caster.
+				if (isInsideBaiumZone != Baium.BAIUM_LAIR.isInsideZone(targetPlayer))
+					continue;
+				
+				// Target isn't a clan or alliance member, ignore it.
+				if (!targetPlayer.isInSameClan(player) && !targetPlayer.isInSameAlly(player))
+					continue;
+				
+				// Target isn't sharing same Duel team, ignore it.
+				if (player.isInDuel() && (player.getDuelId() != targetPlayer.getDuelId() || player.getTeam() != targetPlayer.getTeam()))
+					continue;
+				
+				list.add(targetPlayer);
 			}
 		}
 		

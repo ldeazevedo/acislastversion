@@ -11,7 +11,7 @@ import net.sf.l2j.commons.util.ArraysUtil;
 
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.enums.actors.NpcAiType;
 import net.sf.l2j.gameserver.enums.actors.NpcRace;
@@ -21,7 +21,6 @@ import net.sf.l2j.gameserver.model.clanhall.ClanHall;
 import net.sf.l2j.gameserver.model.clanhall.SiegableHall;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.item.DropCategory;
-import net.sf.l2j.gameserver.model.item.DropData;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
@@ -42,7 +41,6 @@ public class NpcTemplate extends CreatureTemplate
 	private final int _enchantEffect;
 	private final int _corpseTime;
 	
-	private int _dropHerbGroup;
 	private NpcRace _race = NpcRace.UNKNOWN;
 	private NpcAiType _aiType;
 	
@@ -64,7 +62,7 @@ public class NpcTemplate extends CreatureTemplate
 	private List<ClassId> _teachInfo;
 	
 	private final Map<NpcSkillType, List<L2Skill>> _skills = new HashMap<>();
-	private final Map<ScriptEventType, List<Quest>> _questEvents = new HashMap<>();
+	private final Map<EventHandler, List<Quest>> _questEvents = new HashMap<>();
 	
 	private Castle _castle;
 	private ClanHall _clanHall;
@@ -88,7 +86,6 @@ public class NpcTemplate extends CreatureTemplate
 		_lHand = set.getInteger("lHand", 0);
 		_enchantEffect = set.getInteger("enchant", 0);
 		_corpseTime = set.getInteger("corpseTime", 7);
-		_dropHerbGroup = set.getInteger("dropHerbGroup", 0);
 		
 		if (set.containsKey("raceId"))
 			setRace(set.getInteger("raceId"));
@@ -230,11 +227,6 @@ public class NpcTemplate extends CreatureTemplate
 		return _corpseTime;
 	}
 	
-	public int getDropHerbGroup()
-	{
-		return _dropHerbGroup;
-	}
-	
 	public NpcRace getRace()
 	{
 		return _race;
@@ -320,7 +312,7 @@ public class NpcTemplate extends CreatureTemplate
 	}
 	
 	/**
-	 * @return the {@link List} of all possible UNCATEGORIZED {@link DropData}s of this {@link NpcTemplate}.
+	 * @return the {@link List} of all {@link DropCategory}s of this {@link NpcTemplate}.
 	 */
 	public List<DropCategory> getDropData()
 	{
@@ -328,60 +320,12 @@ public class NpcTemplate extends CreatureTemplate
 	}
 	
 	/**
-	 * @return the {@link List} of all possible {@link DropData}s of this {@link NpcTemplate} linked to DROP behavior.
+	 * Add a {@link DropCategory} to drop list.
+	 * @param category : The {@link DropCategory} to be added.
 	 */
-	public List<DropData> getAllDropData()
+	public void addDropData(DropCategory category)
 	{
-		final List<DropData> list = new ArrayList<>();
-		for (DropCategory category : _categories)
-		{
-			if (!category.isSweep())
-				list.addAll(category.getAllDrops());
-		}
-		return list;
-	}
-	
-	/**
-	 * @return the {@link List} of all possible {@link DropData}s of this {@link NpcTemplate} linked to SPOIL behavior.
-	 */
-	public List<DropData> getAllSpoilData()
-	{
-		final List<DropData> list = new ArrayList<>();
-		for (DropCategory category : _categories)
-		{
-			if (category.isSweep())
-				list.addAll(category.getAllDrops());
-		}
-		return list;
-	}
-	
-	/**
-	 * Add a {@link DropData} to a given category. If the category does not exist, create it.
-	 * @param drop : The DropData to add.
-	 * @param categoryType : The category type we refer.
-	 */
-	public void addDropData(DropData drop, int categoryType)
-	{
-		final boolean isBossType = isType("RaidBoss") || isType("GrandBoss");
-		
-		synchronized (_categories)
-		{
-			// Category exists, stores the drop and return.
-			for (DropCategory cat : _categories)
-			{
-				if (cat.getCategoryType() == categoryType)
-				{
-					cat.addDropData(drop, isBossType);
-					return;
-				}
-			}
-			
-			// Category doesn't exist, create and store it.
-			final DropCategory cat = new DropCategory(categoryType);
-			cat.addDropData(drop, isBossType);
-			
-			_categories.add(cat);
-		}
+		_categories.add(category);
 	}
 	
 	/**
@@ -518,30 +462,30 @@ public class NpcTemplate extends CreatureTemplate
 	}
 	
 	/**
-	 * @return the {@link Map} of {@link Quest}s {@link List} categorized by {@link ScriptEventType}.
+	 * @return the {@link Map} of {@link Quest}s {@link List} categorized by {@link EventHandler}.
 	 */
-	public Map<ScriptEventType, List<Quest>> getEventQuests()
+	public Map<EventHandler, List<Quest>> getEventQuests()
 	{
 		return _questEvents;
 	}
 	
 	/**
 	 * @param type : The ScriptEventType to refer.
-	 * @return the {@link List} of {@link Quest}s associated to a {@link ScriptEventType}.
+	 * @return the {@link List} of {@link Quest}s associated to a {@link EventHandler}.
 	 */
-	public List<Quest> getEventQuests(ScriptEventType type)
+	public List<Quest> getEventQuests(EventHandler type)
 	{
 		return _questEvents.getOrDefault(type, Collections.emptyList());
 	}
 	
 	/**
-	 * Add a {@link Quest} to the given {@link ScriptEventType} {@link List}.<br>
+	 * Add a {@link Quest} to the given {@link EventHandler} {@link List}.<br>
 	 * <br>
 	 * Create the category if it's not existing.
 	 * @param type : The ScriptEventType to test.
 	 * @param quest : The Quest to add.
 	 */
-	public void addQuestEvent(ScriptEventType type, Quest quest)
+	public void addQuestEvent(EventHandler type, Quest quest)
 	{
 		List<Quest> list = _questEvents.get(type);
 		if (list == null)

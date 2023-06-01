@@ -18,22 +18,21 @@ import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.manager.CastleManorManager;
 import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
+import net.sf.l2j.gameserver.data.manager.SpawnManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
-import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.enums.SealType;
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.enums.SpawnType;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.actor.instance.ControlTower;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.HolyThing;
-import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.item.MercenaryTicket;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.location.Location;
+import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.model.location.TowerSpawnLocation;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.model.pledge.ClanMember;
@@ -61,8 +60,6 @@ public class Castle
 	private static final String DELETE_OWNER = "UPDATE clan_data SET hasCastle=0 WHERE hasCastle=?";
 	private static final String UPDATE_OWNER = "UPDATE clan_data SET hasCastle=? WHERE clan_id=?";
 	
-	private static final String LOAD_GUARDS = "SELECT npcId,x,y,z,heading,respawnDelay FROM castle_siege_guards WHERE castleId=?";
-	
 	private static final String LOAD_TRAPS = "SELECT * FROM castle_trapupgrade WHERE castleId=?";
 	private static final String UPDATE_TRAP = "REPLACE INTO castle_trapupgrade (castleId, towerIndex, level) values (?,?,?)";
 	private static final String DELETE_TRAP = "DELETE FROM castle_trapupgrade WHERE castleId=?";
@@ -77,7 +74,6 @@ public class Castle
 	
 	private final List<Door> _doors = new ArrayList<>();
 	private final List<MercenaryTicket> _tickets = new ArrayList<>(60);
-	private final List<Integer> _artifacts = new ArrayList<>(1);
 	private final List<Integer> _relatedNpcIds = new ArrayList<>();
 	
 	private final Set<ItemInstance> _droppedTickets = new ConcurrentSkipListSet<>();
@@ -86,6 +82,7 @@ public class Castle
 	private final List<TowerSpawnLocation> _controlTowers = new ArrayList<>();
 	private final List<TowerSpawnLocation> _flameTowers = new ArrayList<>();
 	
+	private final Map<Integer, SpawnLocation> _artifacts = new HashMap<>(1);
 	private final Map<SpawnType, List<Location>> _spawns = new HashMap<>();
 	
 	private Siege _siege;
@@ -366,13 +363,7 @@ public class Castle
 		
 		// Unspawn Mercenaries, if any.
 		for (Npc npc : _siegeGuards)
-		{
-			final Spawn spawn = npc.getSpawn();
-			if (spawn != null)
-				spawn.setRespawnState(false);
-			
 			npc.doDie(npc);
-		}
 		
 		// Clear the List.
 		_siegeGuards.clear();
@@ -639,6 +630,9 @@ public class Castle
 	{
 		if (_ownerId > 0)
 		{
+			// Spawn Guards.
+			SpawnManager.getInstance().spawnEventNpcs("pc_siege_warfare_start(" + _castleId + ")", true, true);
+			
 			for (ItemInstance item : _droppedTickets)
 			{
 				// Retrieve MercenaryTicket information.
@@ -650,7 +644,6 @@ public class Castle
 				{
 					final Spawn spawn = new Spawn(ticket.getNpcId());
 					spawn.setLoc(item.getPosition());
-					spawn.setRespawnState(false);
 					
 					// Spawn the Npc and associate it to this Castle.
 					final Npc guard = spawn.doSpawn(false);
@@ -670,57 +663,9 @@ public class Castle
 			
 			_droppedTickets.clear();
 		}
+		// Spawn Guards.
 		else
-		{
-			try (Connection con = ConnectionPool.getConnection();
-				PreparedStatement ps = con.prepareStatement(LOAD_GUARDS))
-			{
-				ps.setInt(1, _castleId);
-				
-				try (ResultSet rs = ps.executeQuery())
-				{
-					while (rs.next())
-					{
-						final NpcTemplate template = NpcData.getInstance().getTemplate(rs.getInt("npcId"));
-						if (template == null)
-							continue;
-						
-						final Spawn spawn = new Spawn(template);
-						spawn.setLoc(rs.getInt("x"), rs.getInt("y"), rs.getInt("z"), rs.getInt("heading"));
-						spawn.setRespawnDelay(rs.getInt("respawnDelay"));
-						spawn.setRespawnState(true);
-						
-						double distToTower = Double.MAX_VALUE;
-						ControlTower towerToAdd = null;
-						
-						for (ControlTower tower : _siege.getControlTowers())
-						{
-							final double distance = tower.distance3D(spawn.getLoc());
-							if (distToTower > distance)
-							{
-								distToTower = distance;
-								towerToAdd = tower;
-							}
-						}
-						
-						if (towerToAdd != null)
-						{
-							towerToAdd.addSpawn(spawn);
-							
-							// Spawn the Npc and associate it to this Castle.
-							final Npc guard = spawn.doSpawn(false);
-							guard.setCastle(this);
-							
-							_siegeGuards.add(guard);
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				LOGGER.error("Couldn't load siege guards.", e);
-			}
-		}
+			SpawnManager.getInstance().spawnEventNpcs("siege_warfare_start(" + _castleId + ")", true, true);
 	}
 	
 	/**
@@ -729,21 +674,13 @@ public class Castle
 	public void despawnSiegeGuardsOrMercenaries()
 	{
 		for (Npc npc : _siegeGuards)
-		{
-			final Spawn spawn = npc.getSpawn();
-			if (spawn != null)
-				spawn.setRespawnState(false);
-			
-			npc.doDie(npc);
-		}
+			npc.deleteMe();
 		
 		_siegeGuards.clear();
 		
-		if (_ownerId <= 0)
-		{
-			for (ControlTower tower : _siege.getControlTowers())
-				tower.getSpawns().clear();
-		}
+		// Despawn Guards.
+		SpawnManager.getInstance().despawnEventNpcs("pc_siege_warfare_start(" + _castleId + ")", true);
+		SpawnManager.getInstance().despawnEventNpcs("siege_warfare_start(" + _castleId + ")", true);
 	}
 	
 	public List<TowerSpawnLocation> getControlTowers()
@@ -891,20 +828,14 @@ public class Castle
 		_treasury = treasury;
 	}
 	
-	public List<Integer> getArtifacts()
+	public Map<Integer, SpawnLocation> getArtifacts()
 	{
 		return _artifacts;
 	}
 	
-	public void setArtifacts(String idsToSplit)
-	{
-		for (String idToSplit : idsToSplit.split(";"))
-			_artifacts.add(Integer.parseInt(idToSplit));
-	}
-	
 	public boolean isGoodArtifact(WorldObject object)
 	{
-		return object instanceof HolyThing && _artifacts.contains(((HolyThing) object).getNpcId());
+		return object instanceof HolyThing && _artifacts.containsKey(((HolyThing) object).getNpcId());
 	}
 	
 	/**

@@ -2,6 +2,7 @@ package net.sf.l2j.gameserver.scripting;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -9,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.Config;
@@ -17,11 +17,13 @@ import net.sf.l2j.gameserver.data.DocumentSkill.Skill;
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
+import net.sf.l2j.gameserver.data.manager.SpawnManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
+import net.sf.l2j.gameserver.data.xml.DoorData;
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.data.xml.NpcData;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.enums.QuestStatus;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
@@ -33,6 +35,7 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
+import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.GrandBoss;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.entity.Castle;
@@ -45,6 +48,8 @@ import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.model.pledge.ClanMember;
+import net.sf.l2j.gameserver.model.spawn.MinionSpawn;
+import net.sf.l2j.gameserver.model.spawn.NpcMaker;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.model.zone.type.subtype.ZoneType;
 import net.sf.l2j.gameserver.network.SystemMessageId;
@@ -697,6 +702,15 @@ public class Quest
 	}
 	
 	/**
+	 * Cancel all {@link QuestTimer}s, regardless timer name, {@link Npc} and {@link Player}.
+	 */
+	public final void cancelQuestTimers()
+	{
+		// Cancel all quest timers.
+		_timers.stream().forEach(QuestTimer::cancel);
+	}
+	
+	/**
 	 * Cancel all {@link QuestTimer}s by given timer name, regardless {@link Npc} and {@link Player}.
 	 * @param name : The matching name of the timer (should not be null).
 	 */
@@ -866,8 +880,7 @@ public class Quest
 			
 			// Create spawn.
 			final Spawn spawn = new Spawn(template);
-			spawn.setLoc(x, y, z, heading);
-			spawn.setRespawnState(false);
+			spawn.setLoc(x, y, z + 20, heading);
 			
 			// Spawn NPC.
 			final Npc npc = spawn.doSpawn(isSummonSpawn);
@@ -878,7 +891,86 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Couldn't spawn npcId {} for {}.", npcId, toString());
+			LOGGER.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
+			return null;
+		}
+	}
+	
+	/**
+	 * Instantly spawn a {@link Npc} based on npcId parameter, near another {@link Npc} which is considered its master.
+	 * @param master : The {@link Npc} which is considered its master.
+	 * @param npcId : The npcId to retrieve as {@link NpcTemplate}.
+	 * @param despawnDelay : Define despawn delay in milliseconds, 0 for none.
+	 * @param isSummonSpawn : If true, spawn with animation (if any exists).
+	 * @return The spawned {@link Npc}, null if some problem occurs.
+	 */
+	public Npc createOnePrivate(Npc master, int npcId, long despawnDelay, boolean isSummonSpawn)
+	{
+		try
+		{
+			// Get NPC template.
+			final NpcTemplate template = NpcData.getInstance().getTemplate(npcId);
+			if (template == null)
+				return null;
+			
+			// Create the Spawn.
+			final MinionSpawn spawn = new MinionSpawn(template, master);
+			
+			// Spawn the Npc.
+			final Npc npc = spawn.doSpawn(isSummonSpawn);
+			if (despawnDelay > 0)
+				npc.scheduleDespawn(despawnDelay);
+			
+			// Register the Npc as master's private.
+			master.getMinions().add(npc);
+			
+			return npc;
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
+			return null;
+		}
+	}
+	
+	/**
+	 * Instantly spawn a {@link Npc} based on npcId parameter in a defined location (x/y/z).
+	 * @param master : The {@link Npc} which is considered its master.
+	 * @param npcId : The npcId to retrieve as {@link NpcTemplate}.
+	 * @param x : The X coord used to spawn the {@link Npc}.
+	 * @param y : The Y coord used to spawn the {@link Npc}.
+	 * @param z : The Z coord used to spawn the {@link Npc}.
+	 * @param heading : The heading used to spawn the {@link Npc}.
+	 * @param despawnDelay : Define despawn delay in milliseconds, 0 for none.
+	 * @param isSummonSpawn : If true, spawn with animation (if any exists).
+	 * @return The spawned {@link Npc}, null if some problem occurs.
+	 */
+	public Npc createOnePrivateEx(Npc master, int npcId, int x, int y, int z, int heading, long despawnDelay, boolean isSummonSpawn)
+	{
+		try
+		{
+			// Get NPC template.
+			final NpcTemplate template = NpcData.getInstance().getTemplate(npcId);
+			if (template == null)
+				return null;
+			
+			// Create the Spawn.
+			final MinionSpawn spawn = new MinionSpawn(template, master);
+			spawn.setLoc(x, y, z, heading);
+			
+			// Spawn the Npc.
+			final Npc npc = spawn.doSpawn(isSummonSpawn);
+			if (despawnDelay > 0)
+				npc.scheduleDespawn(despawnDelay);
+			
+			// Register the Npc as master's private.
+			master.getMinions().add(npc);
+			
+			return npc;
+		}
+		catch (Exception e)
+		{
+			LOGGER.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
 			return null;
 		}
 	}
@@ -1298,7 +1390,7 @@ public class Quest
 		// Handle the effect.
 		final ISkillHandler handler = SkillHandler.getInstance().getHandler(skill.getSkillType());
 		if (handler != null)
-			handler.useSkill(caster, skill, targets);
+			handler.useSkill(caster, skill, targets, null);
 		else
 			skill.useSkill(caster, targets);
 	}
@@ -1389,11 +1481,11 @@ public class Quest
 	}
 	
 	/**
-	 * Register this {@link Quest} to {@link Npc}'s events by defined {@link Npc} id and {@link ScriptEventType}.
+	 * Register this {@link Quest} to {@link Npc}'s events by defined {@link Npc} id and {@link EventHandler}.
 	 * @param npcId : The id of the {@link Npc}.
-	 * @param eventType : The type of {@link ScriptEventType} to be registered.
+	 * @param eventType : The type of {@link EventHandler} to be registered.
 	 */
-	public final void addEventId(int npcId, ScriptEventType eventType)
+	public final void addEventId(int npcId, EventHandler eventType)
 	{
 		final NpcTemplate t = NpcData.getInstance().getTemplate(npcId);
 		if (t != null)
@@ -1401,11 +1493,11 @@ public class Quest
 	}
 	
 	/**
-	 * Register this {@link Quest} to {@link Npc}'s events by defined {@link Npc} ids and {@link ScriptEventType}.
+	 * Register this {@link Quest} to {@link Npc}'s events by defined {@link Npc} ids and {@link EventHandler}.
 	 * @param npcIds : The ids of the {@link Npc}.
-	 * @param eventType : The type of {@link ScriptEventType} to be registered.
+	 * @param eventType : The type of {@link EventHandler} to be registered.
 	 */
-	public final void addEventIds(int[] npcIds, ScriptEventType eventType)
+	public final void addEventIds(int[] npcIds, EventHandler eventType)
 	{
 		for (int id : npcIds)
 		{
@@ -1416,247 +1508,38 @@ public class Quest
 	}
 	
 	/**
-	 * Register this {@link Quest} to {@link Npc}'s events by defined {@link Npc} id and {@link ScriptEventType}s.
+	 * Register this {@link Quest} to {@link Npc}'s events by defined {@link Npc} id and {@link EventHandler}s.
 	 * @param npcId : The id of the {@link Npc}.
-	 * @param eventTypes : Types of {@link ScriptEventType}s to be registered.
+	 * @param eventTypes : Types of {@link EventHandler}s to be registered.
 	 */
-	public final void addEventIds(int npcId, ScriptEventType... eventTypes)
+	public final void addEventIds(int npcId, EventHandler... eventTypes)
 	{
 		final NpcTemplate t = NpcData.getInstance().getTemplate(npcId);
 		if (t != null)
-			for (ScriptEventType eventType : eventTypes)
+			for (EventHandler eventType : eventTypes)
 				t.addQuestEvent(eventType, this);
 	}
 	
 	/**
-	 * Register this {@link Quest} to {@link Npc}'s events by defined {@link Npc} ids and {@link ScriptEventType}s.
+	 * Register this {@link Quest} to {@link Npc}'s events by defined {@link Npc} ids and {@link EventHandler}s.
 	 * @param npcIds : The ids of the {@link Npc}.
-	 * @param eventTypes : Types of {@link ScriptEventType}s to be registered.
+	 * @param eventTypes : Types of {@link EventHandler}s to be registered.
 	 */
-	public final void addEventIds(int[] npcIds, ScriptEventType... eventTypes)
+	public final void addEventIds(int[] npcIds, EventHandler... eventTypes)
 	{
 		for (int id : npcIds)
 			addEventIds(id, eventTypes);
 	}
 	
 	/**
-	 * Register this {@link Quest} to {@link Npc}'s events by defined {@link Npc} ids and {@link ScriptEventType}s.
+	 * Register this {@link Quest} to {@link Npc}'s events by defined {@link Npc} ids and {@link EventHandler}s.
 	 * @param npcIds : The ids of the {@link Npc}.
-	 * @param eventTypes : Types of {@link ScriptEventType}s to be registered.
+	 * @param eventTypes : Types of {@link EventHandler}s to be registered.
 	 */
-	public final void addEventIds(Iterable<Integer> npcIds, ScriptEventType... eventTypes)
+	public final void addEventIds(Iterable<Integer> npcIds, EventHandler... eventTypes)
 	{
 		for (int id : npcIds)
 			addEventIds(id, eventTypes);
-	}
-	
-	/**
-	 * Register this {@link Quest} to the {@link Npc}, which may start it.
-	 * @param npcIds : The ids of the {@link Npc}.
-	 */
-	public final void addStartNpc(int... npcIds)
-	{
-		addEventIds(npcIds, ScriptEventType.QUEST_START);
-	}
-	
-	/**
-	 * Register this {@link Quest} to the {@link Npc}, which will respond to being under attack event.
-	 * @param npcIds : The ids of the {@link Npc}.
-	 */
-	public final void addAttackId(int... npcIds)
-	{
-		addEventIds(npcIds, ScriptEventType.ON_ATTACK);
-	}
-	
-	/**
-	 * Quest event listener for {@link Npc} being under attack.
-	 * @param npc : Attacked {@link Npc} instance.
-	 * @param attacker : The {@link Creature} who attacks the {@link Npc}.
-	 * @param damage : The amount of given damage.
-	 * @param skill : The skill used to attack the {@link Npc} (can be null).
-	 */
-	public final void notifyAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
-	{
-		String res = null;
-		try
-		{
-			res = onAttack(npc, attacker, damage, skill);
-		}
-		catch (Exception e)
-		{
-			LOGGER.warn(toString(), e);
-			return;
-		}
-		showResult(npc, attacker, res);
-	}
-	
-	/**
-	 * Attack quest event for {@link Creature} attacking the {@link Npc}.
-	 * @param npc : Attacked {@link Npc}.
-	 * @param attacker : Attacking {@link Creature}.
-	 * @param damage : Given damage.
-	 * @param skill : The {@link L2Skill} used to attack the {@link Npc}.
-	 * @return Either text message, html message or html file. Null when not defined.
-	 */
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
-	{
-		return null;
-	}
-	
-	/**
-	 * Register this {@link Quest} to the {@link Npc}, which will respond to attacking {@link Player} (his {@link Summon}) event.
-	 * @param npcIds : The ids of the {@link Npc}.
-	 */
-	public final void addAttackActId(int... npcIds)
-	{
-		addEventIds(npcIds, ScriptEventType.ON_ATTACK_ACT);
-	}
-	
-	/**
-	 * Quest event listener for {@link Player} (his {@link Summon}) being under attack by {@link Npc}.
-	 * @param npc : Attacking {@link Npc}.
-	 * @param victim : Attacked {@link Player} (his {@link Summon}).
-	 */
-	public final void notifyAttackAct(Npc npc, Player victim)
-	{
-		String res = null;
-		try
-		{
-			res = onAttackAct(npc, victim);
-		}
-		catch (Exception e)
-		{
-			LOGGER.warn(toString(), e);
-			return;
-		}
-		showResult(npc, victim, res);
-	}
-	
-	/**
-	 * Attack act quest event for {@link Npc} attacking {@link Player} (his {@link Summon}).
-	 * @param npc : Attacking {@link Npc}.
-	 * @param victim : Attacked {@link Player}(his {@link Summon}).
-	 * @return Either text message, html message or html file. Null when not defined.
-	 */
-	public String onAttackAct(Npc npc, Player victim)
-	{
-		return null;
-	}
-	
-	/**
-	 * Register this {@link Quest} to the {@link Npc}, which will respond to {@link Player} (his {@link Summon}) gaining aggro event.
-	 * @param npcIds : The ids of the {@link Npc}.
-	 */
-	public final void addAggroRangeEnterId(int... npcIds)
-	{
-		addEventIds(npcIds, ScriptEventType.ON_AGGRO);
-	}
-	
-	/**
-	 * Quest event listener for {@link Player} (his {@link Summon}) entering {@link Npc}'s aggro range.
-	 * @param npc : Noticing {@link Npc}.
-	 * @param player : Entering {@link Player} (his {@link Summon}).
-	 * @param isPet : Marks {@link Player}'s {@link Summon} is entering.
-	 */
-	public final void notifyAggro(Npc npc, Player player, boolean isPet)
-	{
-		ThreadPool.execute(() ->
-		{
-			String res = null;
-			try
-			{
-				res = onAggro(npc, player, isPet);
-			}
-			catch (Exception e)
-			{
-				LOGGER.warn(toString(), e);
-				return;
-			}
-			showResult(npc, player, res);
-		});
-	}
-	
-	/**
-	 * Aggro range enter quest event for {@link Player} (his {@link Summon}) entering {@link Npc}'s aggro range.
-	 * @param npc : Noticing {@link Npc}.
-	 * @param player : Entering {@link Player} (his {@link Summon}).
-	 * @param isPet : Marks {@link Player}'s {@link Summon} is entering.
-	 * @return Either text message, html message or html file. Null when not defined.
-	 */
-	public String onAggro(Npc npc, Player player, boolean isPet)
-	{
-		return null;
-	}
-	
-	/**
-	 * Register this {@link Quest} to the {@link Npc}, which will respond to {@link Npc} seeing other {@link Creature} within 400 range.
-	 * @param npcIds : The ids of the {@link Npc}.
-	 */
-	public final void addCreatureSeeId(int... npcIds)
-	{
-		addEventIds(npcIds, ScriptEventType.ON_CREATURE_SEE);
-	}
-	
-	/**
-	 * Quest event listener for {@link Npc} seeing other {@link Creature} within 400 range.
-	 * @param npc : Seeing {@link Npc}.
-	 * @param creature : Seen {@link Creature}.
-	 */
-	public final void notifyCreatureSee(Npc npc, Creature creature)
-	{
-		String res = null;
-		try
-		{
-			res = onCreatureSee(npc, creature);
-		}
-		catch (Exception e)
-		{
-			LOGGER.warn(toString(), e);
-			return;
-		}
-		showResult(npc, creature, res);
-	}
-	
-	/**
-	 * Creature see quest event for {@link Npc} seeing a {@link Creature} within 400 range.
-	 * @param npc : Seeing {@link Npc}.
-	 * @param creature : Seen {@link Creature}.
-	 * @return Either text message, html message or html file. Null when not defined.
-	 */
-	public String onCreatureSee(Npc npc, Creature creature)
-	{
-		return null;
-	}
-	
-	/**
-	 * Quest event listener for {@link Player} (his {@link Summon}) being killed by a {@link Creature}.
-	 * @param killer : Killing {@link Creature}.
-	 * @param player : Killed {@link Player}.
-	 */
-	public final void notifyDeath(Creature killer, Player player)
-	{
-		String res = null;
-		try
-		{
-			res = onDeath(killer, player);
-		}
-		catch (Exception e)
-		{
-			LOGGER.warn(toString(), e);
-			return;
-		}
-		showResult((killer instanceof Npc) ? (Npc) killer : null, player, res);
-	}
-	
-	/**
-	 * Quest event for {@link Player} (his {@link Summon}) being killed by a {@link Creature}.
-	 * @param killer : Killing {@link Creature}.
-	 * @param player : Killed {@link Player}.
-	 * @return Either text message, html message or html file. Null when not defined.
-	 */
-	public String onDeath(Creature killer, Player player)
-	{
-		return null;
 	}
 	
 	/**
@@ -1703,164 +1586,175 @@ public class Quest
 	}
 	
 	/**
-	 * Quest event listener for {@link Player} entering the world.
-	 * @param player : Entering {@link Player}.
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to being under attack event.
+	 * @param npcIds : The ids of the {@link Npc}.
 	 */
-	public final void notifyEnterWorld(Player player)
+	public final void addAttacked(int... npcIds)
 	{
-		String res = null;
-		try
+		addEventIds(npcIds, EventHandler.ATTACKED);
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to being under attack event.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addAttacked(Collection<Integer> npcIds)
+	{
+		addEventIds(npcIds, EventHandler.ATTACKED);
+	}
+	
+	/**
+	 * Attack quest event for {@link Creature} attacking the {@link Npc}.
+	 * @param npc : Attacked {@link Npc}.
+	 * @param attacker : Attacking {@link Creature}.
+	 * @param damage : Given damage.
+	 * @param skill : The {@link L2Skill} used to attack the {@link Npc}.
+	 */
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
+	{
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to attacking {@link Player} (his {@link Summon}) event.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addAttackFinished(int... npcIds)
+	{
+		addEventIds(npcIds, EventHandler.ATTACK_FINISHED);
+	}
+	
+	/**
+	 * Attack act quest event for {@link Npc} attacking {@link Player} (his {@link Summon}).
+	 * @param npc : Attacking {@link Npc}.
+	 * @param player : Attacked {@link Player}(his {@link Summon}).
+	 */
+	public void onAttackFinished(Npc npc, Player player)
+	{
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to ON_CLAN_ATTACKED event.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addClanAttacked(int... npcIds)
+	{
+		addEventIds(npcIds, EventHandler.CLAN_ATTACKED);
+	}
+	
+	/**
+	 * Quest event for {@link Attackable} performing ON_CLAN_ATTACKED event on another {@link Attackable}.
+	 * @param caller : The {@link Attackable} calling for assistance.
+	 * @param called : The {@link Attackable} called by {@link Attackable} caller to assist.
+	 * @param attacker : The {@link Creature} attacker affected by caller/called.
+	 * @param damage : The damage done to the {@link Attackable} caller.
+	 */
+	public void onClanAttacked(Attackable caller, Attackable called, Creature attacker, int damage)
+	{
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to CLAN_DIED event.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addClanDied(int... npcIds)
+	{
+		addEventIds(npcIds, EventHandler.CLAN_DIED);
+	}
+	
+	/**
+	 * Quest event for {@link Npc} performing CLAN_DIED event on another {@link Npc}.
+	 * @param caller : The {@link Npc} calling for assistance.
+	 * @param called : The {@link Npc} called by {@link Npc} caller to assist.
+	 */
+	public void onClanDied(Npc caller, Npc called)
+	{
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to its spawn event.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addCreated(int... npcIds)
+	{
+		addEventIds(npcIds, EventHandler.CREATED);
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to its spawn event.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addCreated(Collection<Integer> npcIds)
+	{
+		addEventIds(npcIds, EventHandler.CREATED);
+	}
+	
+	/**
+	 * Quest event for {@link Npc} being spawned into the world.
+	 * @param npc : Spawned {@link Npc}.
+	 */
+	public void onCreated(Npc npc)
+	{
+	}
+	
+	/**
+	 * Quest event for {@link Player} (his {@link Summon}) being killed by a {@link Creature}.
+	 * @param killer : Killing {@link Creature}.
+	 * @param player : Killed {@link Player}.
+	 */
+	public void onDeath(Creature killer, Player player)
+	{
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to its decay event.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addDecayed(int... npcIds)
+	{
+		addEventIds(npcIds, EventHandler.DECAYED);
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to its decay event.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addDecayed(Collection<Integer> npcIds)
+	{
+		addEventIds(npcIds, EventHandler.DECAYED);
+	}
+	
+	/**
+	 * Quest event for {@link Npc} being decayed from the world.
+	 * @param npc : The decayed {@link Npc}.
+	 */
+	public void onDecayed(Npc npc)
+	{
+	}
+	
+	/**
+	 * Add this quest to the list of quests that triggers, when door opens/closes.
+	 * @param doorIds : A serie of door ids.
+	 */
+	public void addDoorChange(int... doorIds)
+	{
+		for (int doorId : doorIds)
 		{
-			res = onEnterWorld(player);
+			final Door door = DoorData.getInstance().getDoor(doorId);
+			if (door != null)
+				door.addQuestEvent(this);
 		}
-		catch (Exception e)
-		{
-			LOGGER.warn(toString(), e);
-			return;
-		}
-		showResult(null, player, res);
+	}
+	
+	public void onDoorChange(Door door)
+	{
 	}
 	
 	/**
 	 * Quest event for {@link Player} entering the world.
 	 * @param player : Entering {@link Player}.
-	 * @return Either text message, html message or html file. Null when not defined.
 	 */
-	public String onEnterWorld(Player player)
+	public void onEnterWorld(Player player)
 	{
-		return null;
-	}
-	
-	/**
-	 * Register this {@link Quest} to the {@link ZoneType}, which will respond to {@link Creature} entering it.
-	 * @param zoneIds : The ids of the {@link ZoneType}.
-	 */
-	public final void addEnterZoneId(int... zoneIds)
-	{
-		for (int zoneId : zoneIds)
-		{
-			final ZoneType zone = ZoneManager.getInstance().getZoneById(zoneId);
-			if (zone != null)
-				zone.addQuestEvent(ScriptEventType.ON_ENTER_ZONE, this);
-		}
-	}
-	
-	/**
-	 * Quest event listener for {@link Creature} entering the {@link ZoneType}.
-	 * @param character : Entering {@link Creature}.
-	 * @param zone : Specified {@link ZoneType}.
-	 */
-	public final void notifyEnterZone(Creature character, ZoneType zone)
-	{
-		String res = null;
-		try
-		{
-			res = onEnterZone(character, zone);
-		}
-		catch (Exception e)
-		{
-			LOGGER.warn(toString(), e);
-			return;
-		}
-		showResult(null, character, res);
-	}
-	
-	/**
-	 * Quest event for {@link Creature} entering the {@link ZoneType}.
-	 * @param character : Entering {@link Creature}.
-	 * @param zone : Specified {@link ZoneType}.
-	 * @return Either text message, html message or html file. Null when not defined.
-	 */
-	public String onEnterZone(Creature character, ZoneType zone)
-	{
-		return null;
-	}
-	
-	/**
-	 * Register this {@link Quest} to the {@link ZoneType}, which will respond to {@link Player} leaving it.
-	 * @param zoneIds : The ids of the {@link ZoneType}.
-	 */
-	public final void addExitZoneId(int... zoneIds)
-	{
-		for (int zoneId : zoneIds)
-		{
-			final ZoneType zone = ZoneManager.getInstance().getZoneById(zoneId);
-			if (zone != null)
-				zone.addQuestEvent(ScriptEventType.ON_EXIT_ZONE, this);
-		}
-	}
-	
-	/**
-	 * Quest event listener for {@link Creature} leaving the {@link ZoneType}.
-	 * @param character : Leaving {@link Creature}.
-	 * @param zone : Specified {@link ZoneType}.
-	 */
-	public final void notifyExitZone(Creature character, ZoneType zone)
-	{
-		String res = null;
-		try
-		{
-			res = onExitZone(character, zone);
-		}
-		catch (Exception e)
-		{
-			LOGGER.warn(toString(), e);
-			return;
-		}
-		showResult(null, character, res);
-	}
-	
-	/**
-	 * Quest event for {@link Creature} leaving the {@link ZoneType}.
-	 * @param character : Leaving {@link Creature}.
-	 * @param zone : Specified {@link ZoneType}.
-	 * @return Either text message, html message or html file. Null when not defined.
-	 */
-	public String onExitZone(Creature character, ZoneType zone)
-	{
-		return null;
-	}
-	
-	/**
-	 * Register this {@link Quest} to the {@link Npc}, which will respond to faction call event.
-	 * @param npcIds : The ids of the {@link Npc}.
-	 */
-	public final void addFactionCallId(int... npcIds)
-	{
-		addEventIds(npcIds, ScriptEventType.ON_FACTION_CALL);
-	}
-	
-	/**
-	 * Quest event listener for {@link Attackable} performing faction call event on another {@link Attackable}.
-	 * @param caller : The {@link Attackable} calling for assistance.
-	 * @param called : The {@link Attackable} called by {@link Attackable} caller to assist.
-	 * @param target : The {@link Creature} target affected by caller/called.
-	 */
-	public final void notifyFactionCall(Attackable caller, Attackable called, Creature target)
-	{
-		String res = null;
-		try
-		{
-			res = onFactionCall(caller, called, target);
-		}
-		catch (Exception e)
-		{
-			LOGGER.warn(toString(), e);
-			return;
-		}
-		showResult(caller, target, res);
-	}
-	
-	/**
-	 * Quest event for {@link Attackable} performing faction call event on another {@link Attackable}.
-	 * @param caller : The {@link Attackable} calling for assistance.
-	 * @param called : The {@link Attackable} called by {@link Attackable} caller to assist.
-	 * @param target : The {@link Creature} target affected by caller/called.
-	 * @return Either text message, html message or html file. Null when not defined.
-	 */
-	public String onFactionCall(Attackable caller, Attackable called, Creature target)
-	{
-		return null;
 	}
 	
 	/**
@@ -1869,7 +1763,16 @@ public class Quest
 	 */
 	public final void addFirstTalkId(int... npcIds)
 	{
-		addEventIds(npcIds, ScriptEventType.ON_FIRST_TALK);
+		addEventIds(npcIds, EventHandler.FIRST_TALK);
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will override initial dialog with this {@link Quest}.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addFirstTalkId(Collection<Integer> npcIds)
+	{
+		addEventIds(npcIds, EventHandler.FIRST_TALK);
 	}
 	
 	/**
@@ -1909,6 +1812,22 @@ public class Quest
 	}
 	
 	/**
+	 * Register this {@link Quest} to be notified by time change (each in-game minute).
+	 */
+	public final void addGameTime()
+	{
+		GameTimeTaskManager.getInstance().addQuestEvent(this);
+	}
+	
+	/**
+	 * Quest event for time change (each in-game minute).
+	 * @param gameTime : The current game time. Range 0-1439 minutes per game day corresponds 00:00-23:59 time.
+	 */
+	public void onGameTime(int gameTime)
+	{
+	}
+	
+	/**
 	 * Register this {@link Quest} to the {@link Item}, which will respond to {@link Item} use.
 	 * @param itemIds : The ids of the {@link Item}.
 	 */
@@ -1916,31 +1835,10 @@ public class Quest
 	{
 		for (int itemId : itemIds)
 		{
-			Item t = ItemData.getInstance().getTemplate(itemId);
-			if (t != null)
-				t.addQuestEvent(this);
+			final Item item = ItemData.getInstance().getTemplate(itemId);
+			if (item != null)
+				item.addQuestEvent(this);
 		}
-	}
-	
-	/**
-	 * Quest event listener for {@link Item} being used by {@link Player}.
-	 * @param item : {@link Item} being used.
-	 * @param player : {@link Player} using it.
-	 * @param target : {@link Player}'s target.
-	 */
-	public final void notifyItemUse(ItemInstance item, Player player, WorldObject target)
-	{
-		String res = null;
-		try
-		{
-			res = onItemUse(item, player, target);
-		}
-		catch (Exception e)
-		{
-			LOGGER.warn(toString(), e);
-			return;
-		}
-		showResult(null, player, res);
 	}
 	
 	/**
@@ -1948,156 +1846,239 @@ public class Quest
 	 * @param item : {@link Item} being used.
 	 * @param player : {@link Player} using it.
 	 * @param target : {@link Player}'s target.
-	 * @return Either text message, html message or html file. Null when not defined.
 	 */
-	public String onItemUse(ItemInstance item, Player player, WorldObject target)
+	public void onItemUse(ItemInstance item, Player player, WorldObject target)
 	{
-		return null;
+	}
+	
+	/**
+	 * Add the quest to an array of {@link NpcMaker} names.
+	 * @param names : A serie of names.
+	 */
+	public void addMakerNpcsKilledByName(String... names)
+	{
+		for (String name : names)
+			SpawnManager.getInstance().addQuestEventByName(name, this);
+	}
+	
+	/**
+	 * Add the quest to an array of {@link NpcMaker} names.
+	 * @param names : A collection of names.
+	 */
+	public void addMakerNpcsKilledByName(Iterable<String> names)
+	{
+		for (String name : names)
+			SpawnManager.getInstance().addQuestEventByName(name, this);
+	}
+	
+	/**
+	 * Add the quest to an array of {@link NpcMaker} event names.
+	 * @param events : A serie of event names.
+	 */
+	public void addMakerNpcsKilledByEvent(String... events)
+	{
+		for (String event : events)
+			SpawnManager.getInstance().addQuestEventByEvent(event, this);
+	}
+	
+	/**
+	 * Add the quest to an array of {@link NpcMaker} event names.
+	 * @param events : A collection of event names.
+	 */
+	public void addMakerNpcsKilledByEvent(Iterable<String> events)
+	{
+		for (String event : events)
+			SpawnManager.getInstance().addQuestEventByEvent(event, this);
+	}
+	
+	/**
+	 * Quest event for last {@link Npc} being killed in {@link NpcMaker}.
+	 * @param maker : The notified {@link NpcMaker}.
+	 * @param npc : The last killed {@link Npc}.
+	 */
+	public void onMakerNpcsKilled(NpcMaker maker, Npc npc)
+	{
 	}
 	
 	/**
 	 * Register this {@link Quest} to the {@link Npc}, which will respond to kill event.
-	 * @param killIds : The ids of the {@link Npc}.
+	 * @param npcIds : The ids of the {@link Npc}.
 	 */
-	public final void addKillId(int... killIds)
+	public final void addMyDying(int... npcIds)
 	{
-		addEventIds(killIds, ScriptEventType.ON_KILL);
+		addEventIds(npcIds, EventHandler.MY_DYING);
 	}
 	
 	/**
-	 * Quest event listener for {@link Npc} being killed by {@link Creature}.
-	 * @param npc : Killed {@link Npc}.
-	 * @param killer : Killer {@link Creature}.
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to kill event.
+	 * @param npcIds : The ids of the {@link Npc}.
 	 */
-	public final void notifyKill(Npc npc, Creature killer)
+	public final void addMyDying(Collection<Integer> npcIds)
 	{
-		String res = null;
-		try
-		{
-			res = onKill(npc, killer);
-		}
-		catch (Exception e)
-		{
-			LOGGER.warn(toString(), e);
-			return;
-		}
-		showResult(npc, killer, res);
+		addEventIds(npcIds, EventHandler.MY_DYING);
 	}
 	
 	/**
 	 * Quest event for {@link Npc} being killed by {@link Creature}.
 	 * @param npc : Killed {@link Npc}.
 	 * @param killer : Killer {@link Creature}.
-	 * @return Either text message, html message or html file. Null when not defined.
 	 */
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
-		return null;
 	}
 	
 	/**
-	 * Register this {@link Quest} to the {@link Npc}, which will respond to its spawn event.
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to {@link EventHandler#NO_DESIRE} event.
 	 * @param npcIds : The ids of the {@link Npc}.
 	 */
-	public final void addSpawnId(int... npcIds)
+	public final void addNoDesire(int... npcIds)
 	{
-		addEventIds(npcIds, ScriptEventType.ON_SPAWN);
+		addEventIds(npcIds, EventHandler.NO_DESIRE);
 	}
 	
 	/**
-	 * Quest event listener for {@link Npc} being spawned into the world.
-	 * @param npc : Spawned {@link Npc}.
-	 */
-	public final void notifySpawn(Npc npc)
-	{
-		try
-		{
-			onSpawn(npc);
-		}
-		catch (Exception e)
-		{
-			LOGGER.error(toString(), e);
-		}
-	}
-	
-	/**
-	 * Quest event for {@link Npc} being spawned into the world.
-	 * @param npc : Spawned {@link Npc}.
-	 * @return No purpose.
-	 */
-	public String onSpawn(Npc npc)
-	{
-		return null;
-	}
-	
-	/**
-	 * Register this {@link Quest} to the {@link Npc}, which will respond to its decay event.
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to {@link EventHandler#NO_DESIRE} event.
 	 * @param npcIds : The ids of the {@link Npc}.
 	 */
-	public final void addDecayId(int... npcIds)
+	public final void addNoDesireId(Collection<Integer> npcIds)
 	{
-		addEventIds(npcIds, ScriptEventType.ON_DECAY);
+		addEventIds(npcIds, EventHandler.NO_DESIRE);
 	}
 	
 	/**
-	 * Quest event listener for {@link Npc} being decayed from the world.
-	 * @param npc : Decayed {@link Npc}.
+	 * Quest event for {@link Npc} reacting to {@link EventHandler#NO_DESIRE} event.
+	 * @param npc : The {@link Npc} to affect.
 	 */
-	public final void notifyDecay(Npc npc)
+	public void onNoDesire(Npc npc)
 	{
-		try
-		{
-			onDecay(npc);
-		}
-		catch (Exception e)
-		{
-			LOGGER.error(toString(), e);
-		}
 	}
 	
 	/**
-	 * Quest event for {@link Npc} being decayed from the world.
-	 * @param npc : Decayed {@link Npc}.
-	 * @return No purpose.
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to its out of territory event.
+	 * @param npcIds : The ids of the {@link Npc}.
 	 */
-	public String onDecay(Npc npc)
+	public final void addOutOfTerritory(int... npcIds)
 	{
-		return null;
+		addEventIds(npcIds, EventHandler.OUT_OF_TERRITORY);
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to its out of territory event.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addOutOfTerritory(Collection<Integer> npcIds)
+	{
+		addEventIds(npcIds, EventHandler.OUT_OF_TERRITORY);
+	}
+	
+	/**
+	 * Quest event for {@link Npc} being out of territory.
+	 * @param npc : The {@link Npc} which is out of territory.
+	 */
+	public void onOutOfTerritory(Npc npc)
+	{
+	}
+	
+	/**
+	 * Register this {@link Quest} to npcIds which will respond to {@link EventHandler#PARTY_ATTACKED}.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addPartyAttacked(int... npcIds)
+	{
+		addEventIds(npcIds, EventHandler.PARTY_ATTACKED);
+	}
+	
+	/**
+	 * Quest event for {@link Npc} requesting party help from another {@link Npc}.
+	 * @param caller : {@link Npc} requester.
+	 * @param called : {@link Npc} requested.
+	 * @param target : The {@link Creature} target affected by caller/called.
+	 * @param damage : The damage done to the {@link Npc} caller.
+	 */
+	public void onPartyAttacked(Npc caller, Npc called, Creature target, int damage)
+	{
+	}
+	
+	/**
+	 * Register this {@link Quest} to npcIds which will respond to {@link EventHandler#PARTY_DIED}.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addPartyDied(int... npcIds)
+	{
+		addEventIds(npcIds, EventHandler.PARTY_DIED);
+	}
+	
+	/**
+	 * Quest event for {@link Npc} requesting party kill from another {@link Npc}.
+	 * @param caller : {@link Npc} requester.
+	 * @param called : {@link Npc} requested.
+	 */
+	public void onPartyDied(Npc caller, Npc called)
+	{
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which may start it.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addQuestStart(int... npcIds)
+	{
+		addEventIds(npcIds, EventHandler.QUEST_START);
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to {@link Npc} seeing other {@link Creature} within 400 range.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addSeeCreature(int... npcIds)
+	{
+		addEventIds(npcIds, EventHandler.SEE_CREATURE);
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to {@link Npc} seeing other {@link Creature} within 400 range.
+	 * @param npcIds : The ids of the {@link Npc}.
+	 */
+	public final void addSeeCreature(Collection<Integer> npcIds)
+	{
+		addEventIds(npcIds, EventHandler.SEE_CREATURE);
+	}
+	
+	/**
+	 * Creature see quest event for {@link Npc} seeing a {@link Creature} within 400 range.
+	 * @param npc : Seeing {@link Npc}.
+	 * @param creature : Seen {@link Creature}.
+	 */
+	public void onSeeCreature(Npc npc, Creature creature)
+	{
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to its out of territory event.
+	 * @param ids : The ids of the {@link Npc}.
+	 */
+	public final void addSeeItem(int... ids)
+	{
+		addEventIds(ids, EventHandler.SEE_ITEM);
+	}
+	
+	/**
+	 * Quest event for {@link Npc} seeing particular {@link ItemInstance}s.
+	 * @param npc : The {@link Npc} which is out of territory.
+	 * @param quantity : The quantity of items to check.
+	 * @param items : The {@link List} of {@link ItemInstance}s to check.
+	 */
+	public void onSeeItem(Npc npc, int quantity, List<ItemInstance> items)
+	{
 	}
 	
 	/**
 	 * Register this {@link Quest} to the {@link Npc}, which will respond to seeing other skill casted event.
 	 * @param npcIds : The ids of the {@link Npc}.
 	 */
-	public final void addSkillSeeId(int... npcIds)
+	public final void addSeeSpell(int... npcIds)
 	{
-		addEventIds(npcIds, ScriptEventType.ON_SKILL_SEE);
-	}
-	
-	/**
-	 * Quest event listener for {@link Npc} seeing a skill casted by {@link Player} (his {@link Summon}).
-	 * @param npc : Noticing {@link Npc}.
-	 * @param caster : {@link Player} casting the {@link Skill}.
-	 * @param skill : Casted {@link Skill}.
-	 * @param targets : Affected targets.
-	 * @param isPet : Marks {@link Player}'s {@link Summon} is casting.
-	 */
-	public final void notifySkillSee(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
-	{
-		ThreadPool.execute(() ->
-		{
-			String res = null;
-			try
-			{
-				res = onSkillSee(npc, caster, skill, targets, isPet);
-			}
-			catch (Exception e)
-			{
-				LOGGER.warn(toString(), e);
-				return;
-			}
-			showResult(npc, caster, res);
-		});
+		addEventIds(npcIds, EventHandler.SEE_SPELL);
 	}
 	
 	/**
@@ -2107,53 +2088,29 @@ public class Quest
 	 * @param skill : Casted {@link Skill}.
 	 * @param targets : Affected targets.
 	 * @param isPet : Marks {@link Player}'s {@link Summon} is casting.
-	 * @return Either text message, html message or html file. Null when not defined.
 	 */
-	public String onSkillSee(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
+	public void onSeeSpell(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
 	{
-		return null;
 	}
 	
 	/**
-	 * Register this {@link Quest} to the {@link Npc}, which will respond to itself casting skill event.
-	 * @param npcIds : The ids of the {@link Npc}.
+	 * Register this {@link Quest} to the {@link Castle}, which will respond to siege status change event.
+	 * @param castleId : The id of the {@link Castle}.
 	 */
-	public final void addSpellFinishedId(int... npcIds)
+	public final void addSiegeNotify(int castleId)
 	{
-		addEventIds(npcIds, ScriptEventType.ON_SPELL_FINISHED);
+		// Castle always have a Siege, just register it.
+		final Castle castle = CastleManager.getInstance().getCastleById(castleId);
+		if (castle != null)
+			castle.getSiege().addQuestEvent(this);
 	}
 	
 	/**
-	 * Quest event listener for {@link Npc} casting a skill on {@link Player} (his {@link Summon}).
-	 * @param npc : Casting {@link Npc}.
-	 * @param player : Target {@link Player} (his {@link Summon}).
-	 * @param skill : Casted {@link Skill}.
+	 * Quest event for {@link Castle} having a {@link Siege} status change event.
+	 * @param siege : Notified {@link Siege}.
 	 */
-	public final void notifySpellFinished(Npc npc, Player player, L2Skill skill)
+	public void onSiegeEvent(Siege siege)
 	{
-		String res = null;
-		try
-		{
-			res = onSpellFinished(npc, player, skill);
-		}
-		catch (Exception e)
-		{
-			LOGGER.warn(toString(), e);
-			return;
-		}
-		showResult(npc, player, res);
-	}
-	
-	/**
-	 * Quest event for {@link Npc} casting a skill on {@link Player} (his {@link Summon}).
-	 * @param npc : Casting {@link Npc}.
-	 * @param player : Target {@link Player} (his {@link Summon}).
-	 * @param skill : Casted {@link Skill}.
-	 * @return Either text message, html message or html file. Null when not defined.
-	 */
-	public String onSpellFinished(Npc npc, Player player, L2Skill skill)
-	{
-		return null;
 	}
 	
 	/**
@@ -2162,7 +2119,16 @@ public class Quest
 	 */
 	public final void addTalkId(int... talkIds)
 	{
-		addEventIds(talkIds, ScriptEventType.ON_TALK);
+		addEventIds(talkIds, EventHandler.TALKED);
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to {@link Player} talk event.
+	 * @param talkIds : The ids of the {@link Npc}.
+	 */
+	public final void addTalkId(Collection<Integer> talkIds)
+	{
+		addEventIds(talkIds, EventHandler.TALKED);
 	}
 	
 	/**
@@ -2230,38 +2196,67 @@ public class Quest
 	}
 	
 	/**
-	 * Register this {@link Quest} to the {@link Castle}, which will respond to siege status change event.
-	 * @param castleId : The id of the {@link Castle}.
+	 * Register this {@link Quest} to the {@link Npc}, which will respond to itself casting skill event.
+	 * @param npcIds : The ids of the {@link Npc}.
 	 */
-	public final void addSiegeNotify(int castleId)
+	public final void addUseSkillFinished(int... npcIds)
 	{
-		// Castle always have a Siege, just register it.
-		final Castle castle = CastleManager.getInstance().getCastleById(castleId);
-		if (castle != null)
-			castle.getSiege().addQuestEvent(this);
+		addEventIds(npcIds, EventHandler.USE_SKILL_FINISHED);
 	}
 	
 	/**
-	 * Quest event for {@link Castle} having a {@link Siege} status change event.
-	 * @param siege : Notified {@link Siege}.
+	 * Quest event for {@link Npc} casting a skill on {@link Player} (his {@link Summon}).
+	 * @param npc : Casting {@link Npc}.
+	 * @param player : Target {@link Player} (his {@link Summon}).
+	 * @param skill : Casted {@link Skill}.
 	 */
-	public void onSiegeEvent(Siege siege)
+	public void onUseSkillFinished(Npc npc, Player player, L2Skill skill)
 	{
 	}
 	
 	/**
-	 * Register this {@link Quest} to be notified by time change (each in-game minute).
+	 * Register this {@link Quest} to the {@link ZoneType}, which will respond to {@link Creature} entering it.
+	 * @param zoneIds : The ids of the {@link ZoneType}.
 	 */
-	public final void addGameTimeNotify()
+	public final void addZoneEnter(int... zoneIds)
 	{
-		GameTimeTaskManager.getInstance().addQuestEvent(this);
+		for (int zoneId : zoneIds)
+		{
+			final ZoneType zone = ZoneManager.getInstance().getZoneById(zoneId);
+			if (zone != null)
+				zone.addQuestEvent(EventHandler.ZONE_ENTER, this);
+		}
 	}
 	
 	/**
-	 * Quest event for time change (each in-game minute).
-	 * @param gameTime : The current game time. Range 0-1439 minutes per game day corresponds 00:00-23:59 time.
+	 * Quest event for {@link Creature} entering the {@link ZoneType}.
+	 * @param creature : Entering {@link Creature}.
+	 * @param zone : Specified {@link ZoneType}.
 	 */
-	public void onGameTime(int gameTime)
+	public void onZoneEnter(Creature creature, ZoneType zone)
+	{
+	}
+	
+	/**
+	 * Register this {@link Quest} to the {@link ZoneType}, which will respond to {@link Player} leaving it.
+	 * @param zoneIds : The ids of the {@link ZoneType}.
+	 */
+	public final void addZoneExit(int... zoneIds)
+	{
+		for (int zoneId : zoneIds)
+		{
+			final ZoneType zone = ZoneManager.getInstance().getZoneById(zoneId);
+			if (zone != null)
+				zone.addQuestEvent(EventHandler.ZONE_EXIT, this);
+		}
+	}
+	
+	/**
+	 * Quest event for {@link Creature} leaving the {@link ZoneType}.
+	 * @param creature : Leaving {@link Creature}.
+	 * @param zone : Specified {@link ZoneType}.
+	 */
+	public void onZoneExit(Creature creature, ZoneType zone)
 	{
 	}
 }

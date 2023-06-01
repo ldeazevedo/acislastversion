@@ -20,10 +20,10 @@ public class Q261_CollectorsDream extends Quest
 		
 		setItemsIds(GIANT_SPIDER_LEG);
 		
-		addStartNpc(30222); // Alshupes
+		addQuestStart(30222); // Alshupes
 		addTalkId(30222);
 		
-		addKillId(20308, 20460, 20466);
+		addMyDying(20308, 20460, 20466);
 	}
 	
 	@Override
@@ -81,17 +81,15 @@ public class Q261_CollectorsDream extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItemsAlways(player, GIANT_SPIDER_LEG, 1, 8))
 			st.setCond(2);
-		
-		return null;
 	}
 }

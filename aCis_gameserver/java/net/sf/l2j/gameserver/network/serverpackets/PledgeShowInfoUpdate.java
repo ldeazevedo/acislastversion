@@ -11,6 +11,7 @@ public class PledgeShowInfoUpdate extends L2GameServerPacket
 	private final int _chId;
 	private final int _rank;
 	private final int _reputation;
+	private final int _dissolution;
 	private final int _allyId;
 	private final String _allyName;
 	private final int _allyCrestId;
@@ -25,6 +26,7 @@ public class PledgeShowInfoUpdate extends L2GameServerPacket
 		_chId = clan.getClanHallId();
 		_rank = clan.getRank();
 		_reputation = clan.getReputationScore();
+		_dissolution = clan.getDissolvingExpiryTime() > 0 ? 3 : 0;
 		_allyId = clan.getAllyId();
 		_allyName = clan.getAllyName();
 		_allyCrestId = clan.getAllyCrestId();
@@ -42,7 +44,7 @@ public class PledgeShowInfoUpdate extends L2GameServerPacket
 		writeD(_chId);
 		writeD(_rank);
 		writeD(_reputation);
-		writeD(0);
+		writeD(_dissolution);
 		writeD(0);
 		writeD(_allyId);
 		writeS(_allyName);

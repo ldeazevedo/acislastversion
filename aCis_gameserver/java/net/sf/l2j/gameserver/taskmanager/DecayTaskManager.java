@@ -56,6 +56,11 @@ public final class DecayTaskManager implements Runnable
 		}
 	}
 	
+	public final Long get(Creature creature)
+	{
+		return _creatures.get(creature);
+	}
+	
 	/**
 	 * Adds a {@link Creature} to the {@link DecayTaskManager} with additional interval.
 	 * @param creature : The {@link Creature} to be added.
@@ -79,33 +84,11 @@ public final class DecayTaskManager implements Runnable
 	/**
 	 * Removes the {@link Creature} passed as parameter from the {@link DecayTaskManager}.
 	 * @param creature : The {@link Creature} to be removed.
+	 * @return True if an entry was successfully removed or false otherwise.
 	 */
-	public final void cancel(Creature creature)
+	public final boolean cancel(Creature creature)
 	{
-		_creatures.remove(creature);
-	}
-	
-	/**
-	 * Removes the {@link Monster} passed as parameter from the {@link DecayTaskManager}.
-	 * @param monster : The {@link Monster} to be tested.
-	 * @return boolean : True, when action can be applied on a corpse.
-	 */
-	public final boolean isCorpseActionAllowed(Monster monster)
-	{
-		// Verify if a corpse exists.
-		Long time = _creatures.get(monster);
-		if (time == null)
-			return false;
-		
-		// Get corpse action interval, which is half the corpse decay.
-		int corpseTime = monster.getTemplate().getCorpseTime() * 1000 / 2;
-		
-		// If the Monster is spoiled or seeded, double the corpse action interval.
-		if (monster.getSpoilState().isSpoiled() || monster.getSeedState().isSeeded())
-			corpseTime *= 2;
-		
-		// Check last corpse action time.
-		return System.currentTimeMillis() < time - corpseTime;
+		return _creatures.remove(creature) != null;
 	}
 	
 	public static final DecayTaskManager getInstance()

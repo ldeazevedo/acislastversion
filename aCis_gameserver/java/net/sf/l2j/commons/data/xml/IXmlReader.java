@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -302,6 +303,18 @@ public interface IXmlReader
 	default <T extends Enum<T>> T parseEnum(NamedNodeMap attrs, Class<T> clazz, String name, T defaultValue)
 	{
 		return parseEnum(attrs.getNamedItem(name), clazz, defaultValue);
+	}
+	
+	default Location parseLocation(NamedNodeMap attrs)
+	{
+		final int[] loc = Arrays.stream(attrs.getNamedItem("loc").getNodeValue().split(";")).mapToInt(Integer::parseInt).toArray();
+		return new Location(loc[0], loc[1], loc[2]);
+	}
+	
+	default SpawnLocation parseSpawnLocation(NamedNodeMap attrs)
+	{
+		final int[] pos = Arrays.stream(attrs.getNamedItem("pos").getNodeValue().split(";")).mapToInt(Integer::parseInt).toArray();
+		return new SpawnLocation(pos[0], pos[1], pos[2], pos[3]);
 	}
 	
 	default StatSet parseAttributes(Node node)

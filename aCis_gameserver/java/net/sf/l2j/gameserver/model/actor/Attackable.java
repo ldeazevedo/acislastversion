@@ -4,18 +4,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.IntentionType;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.ai.type.AttackableAI;
-import net.sf.l2j.gameserver.model.actor.ai.type.CreatureAI;
 import net.sf.l2j.gameserver.model.actor.attack.AttackableAttack;
 import net.sf.l2j.gameserver.model.actor.container.attackable.AggroList;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
@@ -26,7 +23,6 @@ import net.sf.l2j.gameserver.model.actor.instance.RiftInvader;
 import net.sf.l2j.gameserver.model.actor.status.AttackableStatus;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
-import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
 /**
@@ -48,6 +44,18 @@ public class Attackable extends Npc
 	}
 	
 	@Override
+	public AttackableAI<? extends Attackable> getAI()
+	{
+		return (AttackableAI<?>) _ai;
+	}
+	
+	@Override
+	public void setAI()
+	{
+		_ai = new AttackableAI<>(this);
+	}
+	
+	@Override
 	public AttackableStatus getStatus()
 	{
 		return (AttackableStatus) _status;
@@ -57,22 +65,6 @@ public class Attackable extends Npc
 	public void setStatus()
 	{
 		_status = new AttackableStatus(this);
-	}
-	
-	@Override
-	public CreatureAI getAI()
-	{
-		CreatureAI ai = _ai;
-		if (ai == null)
-		{
-			synchronized (this)
-			{
-				ai = _ai;
-				if (ai == null)
-					_ai = ai = new AttackableAI(this);
-			}
-		}
-		return ai;
 	}
 	
 	@Override
@@ -111,10 +103,6 @@ public class Attackable extends Npc
 		if (!super.doDie(killer))
 			return false;
 		
-		// Test the ON_KILL ScriptEventType.
-		for (Quest quest : getTemplate().getEventQuests(ScriptEventType.ON_KILL))
-			ThreadPool.schedule(() -> quest.notifyKill(this, killer), 3000);
-		
 		_attackedBy.clear();
 		
 		return true;
@@ -131,7 +119,7 @@ public class Attackable extends Npc
 		forceWalkStance();
 		
 		// Stop the AI if region is inactive.
-		if (!isInActiveRegion() && hasAI())
+		if (!isInActiveRegion())
 			getAI().stopAITask();
 	}
 	
@@ -170,8 +158,7 @@ public class Attackable extends Npc
 		getAttackByList().clear();
 		
 		// Stop all AI related tasks.
-		if (hasAI())
-			getAI().tryToIdle();
+		getAI().tryToIdle();
 	}
 	
 	@Override
@@ -180,6 +167,24 @@ public class Attackable extends Npc
 		forceRunStance();
 		getAggroList().addDamageHate(creature, 0, hate);
 		getAI().tryToAttack(creature);
+	}
+	
+	@Override
+	public boolean isLethalable()
+	{
+		switch (getNpcId())
+		{
+			case 22215: // Tyrannosaurus
+			case 22216: // Tyrannosaurus
+			case 22217: // Tyrannosaurus
+			case 35062: // Headquarters
+			case 35410: // Gustav
+			case 35368: // Bloody Lord Nurka 1
+			case 35375: // Bloody Lord Nurka 2
+			case 35629: // Lidia von Hellmann
+				return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -199,30 +204,18 @@ public class Attackable extends Npc
 	 */
 	public boolean returnHome()
 	{
-		// TODO Is this necessary?
-		// Do nothing if the Attackable is already dead.
-		if (isDead())
+		// Do nothing if already on territory.
+		if (isInMyTerritory())
 			return false;
 		
-		// TODO Gordon temporary bypass (the only attackable i can think of that doesn't return to its spawn)
-		if (getNpcId() == 29095)
-			return false;
-		
-		// Minions are simply squeezed if they lose activity.
-		if (isMinion() && !isRaidRelated())
-		{
-			deleteMe();
-			return true;
-		}
-		
-		// For regular Attackable, we check if a spawn exists, and if we're far from it (using drift range).
-		if (getSpawn() != null && !isIn2DRadius(getSpawn().getLoc(), getDriftRange()))
+		// We check if a SpawnLocation exists, and if we're far from it (using drift range).
+		if (getSpawnLocation() != null && !isIn2DRadius(getSpawnLocation(), getDriftRange()))
 		{
 			_aggroList.cleanAllHate();
 			
 			setIsReturningToSpawnPoint(true);
 			forceWalkStance();
-			getAI().tryToMoveTo(getSpawn().getLoc(), null);
+			getAI().tryToMoveTo(getSpawnLocation(), null);
 			return true;
 		}
 		return false;
@@ -277,14 +270,6 @@ public class Attackable extends Npc
 	 * @return The {@link ItemInstance} used as weapon of this {@link Attackable} (null by default).
 	 */
 	public ItemInstance getActiveWeapon()
-	{
-		return null;
-	}
-	
-	/**
-	 * @return The {@link Attackable} leader of this {@link Attackable}, or null if this {@link Attackable} isn't linked to any master.
-	 */
-	public Attackable getMaster()
 	{
 		return null;
 	}

@@ -9,7 +9,7 @@ import net.sf.l2j.commons.util.ArraysUtil;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.xml.NpcData;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -566,7 +566,7 @@ public class FeedableBeasts extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(FEEDABLE_BEASTS, ScriptEventType.ON_KILL, ScriptEventType.ON_SKILL_SEE);
+		addEventIds(FEEDABLE_BEASTS, EventHandler.MY_DYING, EventHandler.SEE_SPELL);
 	}
 	
 	public void spawnNext(Npc npc, int growthLevel, Player player, int food)
@@ -675,10 +675,22 @@ public class FeedableBeasts extends AttackableAIScript
 	}
 	
 	@Override
-	public String onSkillSee(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
+	public void onMyDying(Npc npc, Creature killer)
+	{
+		// Remove the feedinfo of the mob that got killed, if any
+		FEED_INFO.remove(npc.getObjectId());
+		
+		super.onMyDying(npc, killer);
+	}
+	
+	@Override
+	public void onSeeSpell(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
 	{
 		if (!ArraysUtil.contains(targets, npc))
-			return super.onSkillSee(npc, caster, skill, targets, isPet);
+		{
+			super.onSeeSpell(npc, caster, skill, targets, isPet);
+			return;
+		}
 		
 		// Gather some values on local variables
 		int npcId = npc.getNpcId();
@@ -686,7 +698,10 @@ public class FeedableBeasts extends AttackableAIScript
 		
 		// Check if the npc and skills used are valid for this script. Exit if invalid.
 		if (!ArraysUtil.contains(FEEDABLE_BEASTS, npcId) || (skillId != SKILL_GOLDEN_SPICE && skillId != SKILL_CRYSTAL_SPICE))
-			return super.onSkillSee(npc, caster, skill, targets, isPet);
+		{
+			super.onSeeSpell(npc, caster, skill, targets, isPet);
+			return;
+		}
 		
 		// First gather some values on local variables
 		int objectId = npc.getObjectId();
@@ -698,7 +713,10 @@ public class FeedableBeasts extends AttackableAIScript
 		// Prevent exploit which allows 2 players to simultaneously raise the same 0-growth beast
 		// If the mob is at 0th level (when it still listens to all feeders) lock it to the first feeder!
 		if (growthLevel == 0 && FEED_INFO.containsKey(objectId))
-			return super.onSkillSee(npc, caster, skill, targets, isPet);
+		{
+			super.onSeeSpell(npc, caster, skill, targets, isPet);
+			return;
+		}
 		
 		FEED_INFO.put(objectId, caster.getObjectId());
 		
@@ -716,34 +734,27 @@ public class FeedableBeasts extends AttackableAIScript
 		{
 			// Do nothing if this mob doesn't eat the specified food (food gets consumed but has no effect).
 			if (GROWTH_CAPABLE_MOBS.get(npcId).getMob(food, 0, 0) == null)
-				return super.onSkillSee(npc, caster, skill, targets, isPet);
+			{
+				super.onSeeSpell(npc, caster, skill, targets, isPet);
+				return;
+			}
 			
 			// Rare random talk...
 			if (Rnd.get(20) == 0)
 				npc.broadcastNpcSay(Rnd.get(TEXT[growthLevel]));
 			
+			// check if this is the same player as the one who raised it from growth 0. if no, then do not allow a chance to raise the pet (food gets consumed but has no effect).
 			if (growthLevel > 0 && FEED_INFO.getOrDefault(objectId, 0) != caster.getObjectId())
 			{
-				// check if this is the same player as the one who raised it from growth 0.
-				// if no, then do not allow a chance to raise the pet (food gets consumed but has no effect).
-				return super.onSkillSee(npc, caster, skill, targets, isPet);
+				super.onSeeSpell(npc, caster, skill, targets, isPet);
+				return;
 			}
 			
 			// Polymorph the mob, with a certain chance, given its current growth level
 			if (Rnd.get(100) < GROWTH_CAPABLE_MOBS.get(npcId).getChance())
 				spawnNext(npc, growthLevel, caster, food);
 		}
-		
-		return super.onSkillSee(npc, caster, skill, targets, isPet);
-	}
-	
-	@Override
-	public String onKill(Npc npc, Creature killer)
-	{
-		// Remove the feedinfo of the mob that got killed, if any
-		FEED_INFO.remove(npc.getObjectId());
-		
-		return super.onKill(npc, killer);
+		super.onSeeSpell(npc, caster, skill, targets, isPet);
 	}
 	
 	/**

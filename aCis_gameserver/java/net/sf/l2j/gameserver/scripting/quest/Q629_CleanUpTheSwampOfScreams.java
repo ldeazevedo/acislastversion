@@ -42,11 +42,11 @@ public class Q629_CleanUpTheSwampOfScreams extends Quest
 		
 		setItemsIds(TALON_OF_STAKATO, GOLDEN_RAM_COIN);
 		
-		addStartNpc(PIERCE);
+		addQuestStart(PIERCE);
 		addTalkId(PIERCE);
 		
 		for (int npcId : CHANCES.keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 	}
 	
 	@Override
@@ -116,16 +116,14 @@ public class Q629_CleanUpTheSwampOfScreams extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), TALON_OF_STAKATO, 1, 100, CHANCES.get(npc.getNpcId()));
-		
-		return null;
 	}
 }

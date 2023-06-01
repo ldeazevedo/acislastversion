@@ -35,10 +35,10 @@ public class Q368_TrespassingIntoTheSacredArea extends Quest
 		
 		setItemsIds(FANG);
 		
-		addStartNpc(RESTINA);
+		addQuestStart(RESTINA);
 		addTalkId(RESTINA);
 		
-		addKillId(20794, 20795, 20796, 20797);
+		addMyDying(20794, 20795, 20796, 20797);
 	}
 	
 	@Override
@@ -97,16 +97,14 @@ public class Q368_TrespassingIntoTheSacredArea extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), FANG, 1, 0, CHANCES.get(npc.getNpcId()));
-		
-		return null;
 	}
 }

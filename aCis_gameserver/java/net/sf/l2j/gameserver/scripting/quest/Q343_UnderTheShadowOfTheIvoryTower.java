@@ -53,11 +53,11 @@ public class Q343_UnderTheShadowOfTheIvoryTower extends Quest
 		DROPS.put(20565, new IntIntHolder(650000, 12)); // Enchanted Stone Golem
 		DROPS.put(20566, new IntIntHolder(680000, 13)); // Enchanted Iron Golem
 		
-		addStartNpc(CEMA);
+		addQuestStart(CEMA);
 		addTalkId(CEMA, ICARUS, MARSHA, TRUMPIN);
 		
 		for (int npcId : DROPS.keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 	}
 	
 	@Override
@@ -454,24 +454,22 @@ public class Q343_UnderTheShadowOfTheIvoryTower extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final IntIntHolder data = DROPS.get(npc.getNpcId());
 		if (data == null)
-			return null;
+			return;
 		
 		dropItems(player, NEBULITE_ORB, 1, -1, data.getId());
 		
 		final int memoStateEx = st.getInteger("memoStateEx");
 		if (memoStateEx > 1 && Rnd.get(100) <= data.getValue())
 			st.set("memoStateEx", memoStateEx - 1);
-		
-		return null;
 	}
 }

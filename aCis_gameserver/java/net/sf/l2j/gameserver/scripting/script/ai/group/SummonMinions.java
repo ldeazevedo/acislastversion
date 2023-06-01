@@ -5,7 +5,7 @@ import java.util.Map;
 
 import net.sf.l2j.commons.random.Rnd;
 
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
@@ -57,11 +57,11 @@ public class SummonMinions extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(MINIONS.keySet(), ScriptEventType.ON_ATTACK);
+		addEventIds(MINIONS.keySet(), EventHandler.ATTACKED);
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		if (npc.isScriptValue(0))
 		{
@@ -83,7 +83,6 @@ public class SummonMinions extends AttackableAIScript
 			}
 			npc.setScriptValue(1);
 		}
-		
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 }

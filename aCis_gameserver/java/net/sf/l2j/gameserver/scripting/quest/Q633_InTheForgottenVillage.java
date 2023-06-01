@@ -62,14 +62,14 @@ public class Q633_InTheForgottenVillage extends Quest
 		
 		setItemsIds(RIB_BONE, ZOMBIE_LIVER);
 		
-		addStartNpc(MINA);
+		addQuestStart(MINA);
 		addTalkId(MINA);
 		
 		for (int i : MOBS.keySet())
-			addKillId(i);
+			addMyDying(i);
 		
 		for (int i : UNDEADS.keySet())
-			addKillId(i);
+			addMyDying(i);
 	}
 	
 	@Override
@@ -135,7 +135,7 @@ public class Q633_InTheForgottenVillage extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		final int npcId = npc.getNpcId();
@@ -144,7 +144,7 @@ public class Q633_InTheForgottenVillage extends Quest
 		{
 			final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 			if (st == null)
-				return null;
+				return;
 			
 			dropItems(st.getPlayer(), ZOMBIE_LIVER, 1, 0, UNDEADS.get(npcId));
 		}
@@ -152,12 +152,10 @@ public class Q633_InTheForgottenVillage extends Quest
 		{
 			final QuestState st = getRandomPartyMember(player, npc, 1);
 			if (st == null)
-				return null;
+				return;
 			
 			if (dropItems(st.getPlayer(), RIB_BONE, 1, 200, MOBS.get(npcId)))
 				st.setCond(2);
 		}
-		
-		return null;
 	}
 }

@@ -30,10 +30,10 @@ public class Q379_FantasyWine extends Quest
 		
 		setItemsIds(LEAF, STONE);
 		
-		addStartNpc(HARLAN);
+		addQuestStart(HARLAN);
 		addTalkId(HARLAN);
 		
-		addKillId(ENKU_CHAMPION, ENKU_SHAMAN);
+		addMyDying(ENKU_CHAMPION, ENKU_SHAMAN);
 	}
 	
 	@Override
@@ -114,13 +114,13 @@ public class Q379_FantasyWine extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		if (npc.getNpcId() == ENKU_CHAMPION)
 		{
@@ -129,7 +129,5 @@ public class Q379_FantasyWine extends Quest
 		}
 		else if (dropItemsAlways(player, STONE, 1, 100) && player.getInventory().getItemCount(LEAF) >= 80)
 			st.setCond(2);
-		
-		return null;
 	}
 }

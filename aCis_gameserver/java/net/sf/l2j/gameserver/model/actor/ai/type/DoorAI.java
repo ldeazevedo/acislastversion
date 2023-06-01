@@ -3,7 +3,7 @@ package net.sf.l2j.gameserver.model.actor.ai.type;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 
-public class DoorAI extends CreatureAI
+public class DoorAI extends CreatureAI<Door>
 {
 	public DoorAI(Door door)
 	{

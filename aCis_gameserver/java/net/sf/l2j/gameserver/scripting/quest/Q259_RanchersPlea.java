@@ -34,10 +34,10 @@ public class Q259_RanchersPlea extends Quest
 		
 		setItemsIds(GIANT_SPIDER_SKIN);
 		
-		addStartNpc(EDMOND);
+		addQuestStart(EDMOND);
 		addTalkId(EDMOND, MARIUS);
 		
-		addKillId(GIANT_SPIDER, TALON_SPIDER, BLADE_SPIDER);
+		addMyDying(GIANT_SPIDER, TALON_SPIDER, BLADE_SPIDER);
 	}
 	
 	@Override
@@ -128,16 +128,14 @@ public class Q259_RanchersPlea extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItemsAlways(player, GIANT_SPIDER_SKIN, 1, 0);
-		
-		return null;
 	}
 }

@@ -33,7 +33,7 @@ public class Q363_SorrowfulSoundOfFlute extends Quest
 		
 		setItemsIds(NANARIN_FLUTE, BLACK_BEER, CLOTHES);
 		
-		addStartNpc(NANARIN);
+		addQuestStart(NANARIN);
 		addTalkId(NANARIN, OPIX, ALDO, RANSPO, HOLVAS, BARBADO, POITAN);
 	}
 	

@@ -26,15 +26,15 @@ public class SummonPlayer extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addAttackId(PORTA, PERUM);
-		addSpellFinishedId(PORTA, PERUM);
+		addAttacked(PORTA, PERUM);
+		addUseSkillFinished(PORTA, PERUM);
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		if (!(attacker instanceof Player))
-			return null;
+			return;
 		
 		if (npc.getScriptValue() == 0)
 		{
@@ -58,11 +58,11 @@ public class SummonPlayer extends AttackableAIScript
 				}
 			}
 		}
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 	
 	@Override
-	public String onSpellFinished(Npc npc, Player player, L2Skill skill)
+	public void onUseSkillFinished(Npc npc, Player player, L2Skill skill)
 	{
 		if (skill.getId() == 4161)
 		{
@@ -71,6 +71,6 @@ public class SummonPlayer extends AttackableAIScript
 			if (((Attackable) npc).getAggroList().getMostHatedCreature() == player && Rnd.get(100) < 33)
 				npc.getAI().tryToCast(player, Rnd.get(npc.getTemplate().getSkills(NpcSkillType.SHORT_RANGE)));
 		}
-		return super.onSpellFinished(npc, player, skill);
+		super.onUseSkillFinished(npc, player, skill);
 	}
 }

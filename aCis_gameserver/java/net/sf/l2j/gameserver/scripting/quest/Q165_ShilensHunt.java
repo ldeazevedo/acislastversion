@@ -40,10 +40,10 @@ public class Q165_ShilensHunt extends Quest
 		
 		setItemsIds(DARK_BEZOAR);
 		
-		addStartNpc(30348); // Nelsya
+		addQuestStart(30348); // Nelsya
 		addTalkId(30348);
 		
-		addKillId(ASHEN_WOLF, YOUNG_BROWN_KELTIR, BROWN_KELTIR, ELDER_BROWN_KELTIR);
+		addMyDying(ASHEN_WOLF, YOUNG_BROWN_KELTIR, BROWN_KELTIR, ELDER_BROWN_KELTIR);
 	}
 	
 	@Override
@@ -106,17 +106,15 @@ public class Q165_ShilensHunt extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, DARK_BEZOAR, 1, 13, CHANCES.get(npc.getNpcId())))
 			st.setCond(2);
-		
-		return null;
 	}
 }

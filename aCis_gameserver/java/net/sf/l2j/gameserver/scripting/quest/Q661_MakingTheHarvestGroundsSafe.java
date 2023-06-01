@@ -33,10 +33,10 @@ public class Q661_MakingTheHarvestGroundsSafe extends Quest
 		
 		setItemsIds(STING_OF_GIANT_POISON_BEE, CLOUDY_GEM, TALON_OF_YOUNG_ARANEID);
 		
-		addStartNpc(NORMAN);
+		addQuestStart(NORMAN);
 		addTalkId(NORMAN);
 		
-		addKillId(GIANT_POISON_BEE, CLOUDY_BEAST, YOUNG_ARANEID);
+		addMyDying(GIANT_POISON_BEE, CLOUDY_BEAST, YOUNG_ARANEID);
 	}
 	
 	@Override
@@ -99,16 +99,14 @@ public class Q661_MakingTheHarvestGroundsSafe extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(player, npc.getNpcId() - 12812, 1, 0, 500000);
-		
-		return null;
 	}
 }

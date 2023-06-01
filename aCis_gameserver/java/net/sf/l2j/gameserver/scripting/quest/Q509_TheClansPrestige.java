@@ -87,10 +87,10 @@ public class Q509_TheClansPrestige extends Quest
 		
 		setItemsIds(DAIMON_EYES, HESTIA_FAIRY_STONE, NUCLEUS_OF_LESSER_GOLEM, FALSTON_FANG, SHAID_TALON);
 		
-		addStartNpc(VALDIS);
+		addQuestStart(VALDIS);
 		addTalkId(VALDIS);
 		
-		addKillId(DAIMON_THE_WHITE_EYED, HESTIA_GUARDIAN_DEITY, PLAGUE_GOLEM, DEMON_AGENT_FALSTON, QUEEN_SHYEED);
+		addMyDying(DAIMON_THE_WHITE_EYED, HESTIA_GUARDIAN_DEITY, PLAGUE_GOLEM, DEMON_AGENT_FALSTON, QUEEN_SHYEED);
 	}
 	
 	@Override
@@ -163,20 +163,18 @@ public class Q509_TheClansPrestige extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		// Retrieve the qS of the clan leader.
 		final QuestState st = getClanLeaderQuestState(player, npc);
 		if (st == null || !st.isStarted())
-			return null;
+			return;
 		
 		// Reward only if quest is setup on good index.
 		final int raid = st.getInteger("raid");
 		if (REWARDS[raid - 1][0] == npc.getNpcId())
 			dropItemsAlways(st.getPlayer(), REWARDS[raid - 1][1], 1, 1);
-		
-		return null;
 	}
 }

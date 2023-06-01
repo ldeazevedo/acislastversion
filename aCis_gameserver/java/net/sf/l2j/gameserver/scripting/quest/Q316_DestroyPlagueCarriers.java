@@ -29,11 +29,11 @@ public class Q316_DestroyPlagueCarriers extends Quest
 		
 		setItemsIds(WERERAT_FANG, VAROOL_FOULCLAW_FANG);
 		
-		addStartNpc(30155); // Ellenia
+		addQuestStart(30155); // Ellenia
 		addTalkId(30155);
 		
-		addAttackId(VAROOL_FOULCLAW);
-		addKillId(SUKAR_WERERAT, SUKAR_WERERAT_LEADER, VAROOL_FOULCLAW);
+		addAttacked(VAROOL_FOULCLAW);
+		addMyDying(SUKAR_WERERAT, SUKAR_WERERAT_LEADER, VAROOL_FOULCLAW);
 	}
 	
 	@Override
@@ -98,25 +98,23 @@ public class Q316_DestroyPlagueCarriers extends Quest
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		if (npc.getScriptValue() == 0)
 		{
 			npc.broadcastNpcSay(NpcStringId.ID_31603);
 			npc.setScriptValue(1);
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -129,7 +127,5 @@ public class Q316_DestroyPlagueCarriers extends Quest
 				dropItems(player, VAROOL_FOULCLAW_FANG, 1, 1, 200000);
 				break;
 		}
-		
-		return null;
 	}
 }

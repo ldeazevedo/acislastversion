@@ -7,10 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 
 import net.sf.l2j.commons.logging.CLogger;
 
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -32,7 +33,7 @@ public abstract class ZoneType
 	private final int _id;
 	protected final Map<Integer, Creature> _characters = new ConcurrentHashMap<>();
 	
-	private Map<ScriptEventType, List<Quest>> _questEvents;
+	private Map<EventHandler, List<Quest>> _questEvents;
 	private ZoneForm _zone;
 	
 	protected ZoneType(int id)
@@ -108,7 +109,7 @@ public abstract class ZoneType
 	 * <br>
 	 * If the Creature is inside the zone, but not yet part of _characters {@link Map} :
 	 * <ul>
-	 * <li>Fire {@link Quest#notifyEnterZone}.</li>
+	 * <li>Fire {@link Quest#onZoneEnter}.</li>
 	 * <li>Add the Creature to the Map.</li>
 	 * <li>Fire zone onEnter() event.</li>
 	 * </ul>
@@ -128,11 +129,11 @@ public abstract class ZoneType
 			if (!_characters.containsKey(character.getObjectId()))
 			{
 				// Notify to scripts.
-				final List<Quest> quests = getQuestByEvent(ScriptEventType.ON_ENTER_ZONE);
+				final List<Quest> quests = getQuestByEvent(EventHandler.ZONE_ENTER);
 				if (quests != null)
 				{
 					for (Quest quest : quests)
-						quest.notifyEnterZone(character, this);
+						quest.onZoneEnter(character, this);
 				}
 				
 				// Register player.
@@ -149,7 +150,7 @@ public abstract class ZoneType
 	/**
 	 * Remove a {@link Creature} from this zone.
 	 * <ul>
-	 * <li>Fire {@link Quest#notifyExitZone}.</li>
+	 * <li>Fire {@link Quest#onZoneExit}.</li>
 	 * <li>Remove the Creature from the {@link Map}.</li>
 	 * <li>Fire zone onExit() event.</li>
 	 * </ul>
@@ -161,11 +162,11 @@ public abstract class ZoneType
 		if (_characters.remove(character.getObjectId()) != null)
 		{
 			// Notify to scripts.
-			final List<Quest> quests = getQuestByEvent(ScriptEventType.ON_EXIT_ZONE);
+			final List<Quest> quests = getQuestByEvent(EventHandler.ZONE_EXIT);
 			if (quests != null)
 			{
 				for (Quest quest : quests)
-					quest.notifyExitZone(character, this);
+					quest.onZoneExit(character, this);
 			}
 			
 			// Notify Zone implementation.
@@ -188,9 +189,9 @@ public abstract class ZoneType
 	}
 	
 	/**
-	 * @param <A> : The generic type.
-	 * @param type : The instance type to filter.
-	 * @return a {@link List} of filtered type {@link Creature}s within this zone. Generate a temporary List.
+	 * @param <A> : The object type must be an instance of WorldObject.
+	 * @param type : The class specifying object type.
+	 * @return a {@link List} of filtered type {@link Creature}s within this zone.
 	 */
 	@SuppressWarnings("unchecked")
 	public final <A> List<A> getKnownTypeInside(Class<A> type)
@@ -198,12 +199,38 @@ public abstract class ZoneType
 		if (_characters.isEmpty())
 			return Collections.emptyList();
 		
-		List<A> result = new ArrayList<>();
+		final List<A> result = new ArrayList<>();
 		
 		for (Creature obj : _characters.values())
 		{
-			if (type.isAssignableFrom(obj.getClass()))
-				result.add((A) obj);
+			if (!type.isAssignableFrom(obj.getClass()))
+				continue;
+			
+			result.add((A) obj);
+		}
+		return result;
+	}
+	
+	/**
+	 * @param <A> : The object type must be an instance of WorldObject.
+	 * @param type : The class specifying object type.
+	 * @param predicate : The {@link Predicate} to match.
+	 * @return a {@link List} of filtered type {@link Creature}s based on a {@link Predicate} within this zone.
+	 */
+	@SuppressWarnings("unchecked")
+	public final <A> List<A> getKnownTypeInside(Class<A> type, Predicate<A> predicate)
+	{
+		if (_characters.isEmpty())
+			return Collections.emptyList();
+		
+		final List<A> result = new ArrayList<>();
+		
+		for (Creature obj : _characters.values())
+		{
+			if (!type.isAssignableFrom(obj.getClass()) || !predicate.test((A) obj))
+				continue;
+			
+			result.add((A) obj);
 		}
 		return result;
 	}
@@ -215,7 +242,7 @@ public abstract class ZoneType
 	 * @param type : The EventType to test.
 	 * @param quest : The Quest to add.
 	 */
-	public void addQuestEvent(ScriptEventType type, Quest quest)
+	public void addQuestEvent(EventHandler type, Quest quest)
 	{
 		if (_questEvents == null)
 			_questEvents = new HashMap<>();
@@ -237,9 +264,9 @@ public abstract class ZoneType
 	
 	/**
 	 * @param type : The EventType to test.
-	 * @return the {@link List} of available {@link Quest}s associated to this zone for a given {@link ScriptEventType}.
+	 * @return the {@link List} of available {@link Quest}s associated to this zone for a given {@link EventHandler}.
 	 */
-	public List<Quest> getQuestByEvent(ScriptEventType type)
+	public List<Quest> getQuestByEvent(EventHandler type)
 	{
 		return (_questEvents == null) ? null : _questEvents.get(type);
 	}
@@ -282,23 +309,20 @@ public abstract class ZoneType
 	 * @param y : The Y parameter used as teleport location.
 	 * @param z : The Z parameter used as teleport location.
 	 */
-	public void movePlayersTo(int x, int y, int z)
+	public void instantTeleport(int x, int y, int z)
 	{
-		for (Player player : getKnownTypeInside(Player.class))
-		{
-			if (player.isOnline())
-				player.teleportTo(x, y, z, 0);
-		}
+		for (Player player : getKnownTypeInside(Player.class, p -> p.isOnline()))
+			player.teleportTo(x, y, z, 0);
 	}
 	
 	/**
 	 * Teleport all {@link Player}s located in this {@link ZoneType} to a specific {@link Location}.
-	 * @see #movePlayersTo(int, int, int)
-	 * @param loc : The Location used as coords.
+	 * @see #instantTeleport(int, int, int)
+	 * @param loc : The {@link Location} used as coords.
 	 */
-	public void movePlayersTo(Location loc)
+	public void instantTeleport(Location loc)
 	{
-		movePlayersTo(loc.getX(), loc.getY(), loc.getZ());
+		instantTeleport(loc.getX(), loc.getY(), loc.getZ());
 	}
 	
 	/**

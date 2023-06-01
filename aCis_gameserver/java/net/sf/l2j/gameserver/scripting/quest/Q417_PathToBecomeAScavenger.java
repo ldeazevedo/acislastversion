@@ -58,10 +58,10 @@ public class Q417_PathToBecomeAScavenger extends Quest
 		
 		setItemsIds(PIPPI_LETTER, RAUT_TELEPORT_SCROLL, SUCCUBUS_UNDIES, MION_LETTER, BRONK_INGOT, SHARI_AXE, ZIMENF_POTION, BRONK_PAY, SHARI_PAY, ZIMENF_PAY, BEAR_PICTURE, TARANTULA_PICTURE, HONEY_JAR, BEAD, BEAD_PARCEL_1, BEAD_PARCEL_2);
 		
-		addStartNpc(PIPPI);
+		addQuestStart(PIPPI);
 		addTalkId(RAUT, SHARI, MION, PIPPI, BRONK, ZIMENF, TOMA, TORAI, YASHENI);
 		
-		addKillId(HUNTER_TARANTULA, PLUNDER_TARANTULA, HUNTER_BEAR, HONEY_BEAR);
+		addMyDying(HUNTER_TARANTULA, PLUNDER_TARANTULA, HUNTER_BEAR, HONEY_BEAR);
 	}
 	
 	@Override
@@ -366,13 +366,13 @@ public class Q417_PathToBecomeAScavenger extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -406,7 +406,5 @@ public class Q417_PathToBecomeAScavenger extends Quest
 					st.setCond(8);
 				break;
 		}
-		
-		return null;
 	}
 }

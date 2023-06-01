@@ -90,4 +90,10 @@ public class SiegeFlag extends Npc
 	{
 		return false;
 	}
+	
+	@Override
+	public boolean isLethalable()
+	{
+		return false;
+	}
 }

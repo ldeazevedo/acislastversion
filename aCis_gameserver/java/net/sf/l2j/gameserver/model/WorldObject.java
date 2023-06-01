@@ -3,6 +3,7 @@ package net.sf.l2j.gameserver.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import net.sf.l2j.commons.logging.CLogger;
@@ -39,6 +40,34 @@ public abstract class WorldObject
 		_objectId = objectId;
 	}
 	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(_objectId);
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		
+		if (obj == null)
+			return false;
+		
+		if (getClass() != obj.getClass())
+			return false;
+		
+		final WorldObject other = (WorldObject) obj;
+		return _objectId == other._objectId;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return getClass().getSimpleName() + ":" + getName() + "[" + getObjectId() + "]";
+	}
+	
 	public boolean isAttackableBy(Creature attacker)
 	{
 		return false;
@@ -47,12 +76,6 @@ public abstract class WorldObject
 	public boolean isAttackableWithoutForceBy(Playable attacker)
 	{
 		return false;
-	}
-	
-	@Override
-	public String toString()
-	{
-		return (getClass().getSimpleName() + ":" + getName() + "[" + getObjectId() + "]");
 	}
 	
 	public void onAction(Player player, boolean isCtrlPressed, boolean isShiftPressed)
@@ -69,7 +92,7 @@ public abstract class WorldObject
 	 */
 	public void decayMe()
 	{
-		setRegion(null);
+		setIsVisible(false);
 		
 		World.getInstance().removeObject(this);
 	}
@@ -415,10 +438,10 @@ public abstract class WorldObject
 	}
 	
 	/**
-	 * @param target : The WorldObject to check.
-	 * @return true if the {@link WorldObject} set as parameter is registered in same grid of regions than this WorldObject.
+	 * @param target : The {@link WorldObject} to check.
+	 * @return True if the {@link WorldObject} set as parameter is registered in same grid of regions than this WorldObject, false otherwise.
 	 */
-	public final boolean knows(WorldObject target)
+	public boolean knows(WorldObject target)
 	{
 		// Object doesn't exist, return false.
 		if (target == null)

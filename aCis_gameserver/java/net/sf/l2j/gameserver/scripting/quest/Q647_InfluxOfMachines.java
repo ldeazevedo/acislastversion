@@ -25,11 +25,11 @@ public class Q647_InfluxOfMachines extends Quest
 		
 		setItemsIds(DESTROYED_GOLEM_SHARD);
 		
-		addStartNpc(GUTENHAGEN);
+		addQuestStart(GUTENHAGEN);
 		addTalkId(GUTENHAGEN);
 		
 		for (int i = 22052; i < 22079; i++)
-			addKillId(i);
+			addMyDying(i);
 	}
 	
 	@Override
@@ -84,17 +84,15 @@ public class Q647_InfluxOfMachines extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), DESTROYED_GOLEM_SHARD, 1, 500, 300000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

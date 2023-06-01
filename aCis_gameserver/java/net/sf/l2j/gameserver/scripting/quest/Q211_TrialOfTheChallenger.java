@@ -55,10 +55,10 @@ public class Q211_TrialOfTheChallenger extends SecondClassQuest
 		
 		setItemsIds(LETTER_OF_KASH, WATCHER_EYE_1, WATCHER_EYE_2, SCROLL_OF_SHYSLASSYS, BROKEN_KEY);
 		
-		addStartNpc(KASH);
+		addQuestStart(KASH);
 		addTalkId(FILAUR, KASH, MARTIEN, RALDO, CHEST_OF_SHYSLASSYS);
 		
-		addKillId(SHYSLASSYS, GORR, BARAHAM, SUCCUBUS_QUEEN);
+		addMyDying(SHYSLASSYS, GORR, BARAHAM, SUCCUBUS_QUEEN);
 	}
 	
 	@Override
@@ -247,13 +247,13 @@ public class Q211_TrialOfTheChallenger extends SecondClassQuest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -288,7 +288,5 @@ public class Q211_TrialOfTheChallenger extends SecondClassQuest
 				addSpawn(RALDO, npc, false, 100000, true);
 				break;
 		}
-		
-		return null;
 	}
 }

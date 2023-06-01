@@ -24,10 +24,10 @@ public class Q273_InvadersOfTheHolyLand extends Quest
 		
 		setItemsIds(BLACK_SOULSTONE, RED_SOULSTONE);
 		
-		addStartNpc(30566); // Varkees
+		addQuestStart(30566); // Varkees
 		addTalkId(30566);
 		
-		addKillId(20311, 20312, 20313);
+		addMyDying(20311, 20312, 20313);
 	}
 	
 	@Override
@@ -96,13 +96,13 @@ public class Q273_InvadersOfTheHolyLand extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		
@@ -116,7 +116,5 @@ public class Q273_InvadersOfTheHolyLand extends Quest
 			dropItemsAlways(player, BLACK_SOULSTONE, 1, 0);
 		else
 			dropItemsAlways(player, RED_SOULSTONE, 1, 0);
-		
-		return null;
 	}
 }

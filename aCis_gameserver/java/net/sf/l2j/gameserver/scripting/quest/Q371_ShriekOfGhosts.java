@@ -50,10 +50,10 @@ public class Q371_ShriekOfGhosts extends Quest
 		
 		setItemsIds(URN, PORCELAIN);
 		
-		addStartNpc(REVA);
+		addQuestStart(REVA);
 		addTalkId(REVA, PATRIN);
 		
-		addKillId(20818, 20820, 20824);
+		addMyDying(20818, 20820, 20824);
 	}
 	
 	@Override
@@ -164,20 +164,18 @@ public class Q371_ShriekOfGhosts extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int[] chances = CHANCES.get(npc.getNpcId());
 		final int random = Rnd.get(100);
 		
 		if (random < chances[1])
 			dropItemsAlways(st.getPlayer(), (random < chances[0]) ? URN : PORCELAIN, 1, 0);
-		
-		return null;
 	}
 }

@@ -28,7 +28,6 @@ import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.WorldRegion;
-import net.sf.l2j.gameserver.model.actor.ai.type.AttackableAI;
 import net.sf.l2j.gameserver.model.actor.ai.type.CreatureAI;
 import net.sf.l2j.gameserver.model.actor.attack.CreatureAttack;
 import net.sf.l2j.gameserver.model.actor.cast.CreatureCast;
@@ -75,6 +74,7 @@ import net.sf.l2j.gameserver.skills.funcs.FuncPDefMod;
 import net.sf.l2j.gameserver.skills.funcs.FuncRegenHpMul;
 import net.sf.l2j.gameserver.skills.funcs.FuncRegenMpMul;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
+import net.sf.l2j.gameserver.taskmanager.DecayTaskManager;
 
 /**
  * An instance type extending {@link WorldObject} which represents the mother class of all character objects of the world such as players, NPCs and monsters.
@@ -83,11 +83,10 @@ public abstract class Creature extends WorldObject
 {
 	protected String _title;
 	
-	protected volatile CreatureAI _ai;
-	
 	private CreatureTemplate _template;
 	private NpcTemplate _polymorphTemplate;
 	
+	protected CreatureAI<? extends Creature> _ai;
 	protected CreatureStatus<? extends Creature> _status;
 	protected CreatureMove<? extends Creature> _move;
 	protected CreatureAttack<? extends Creature> _attack;
@@ -128,6 +127,7 @@ public abstract class Creature extends WorldObject
 		
 		addFuncsToNewCharacter();
 		
+		setAI();
 		setStatus();
 		setMove();
 		setAttack();
@@ -163,6 +163,19 @@ public abstract class Creature extends WorldObject
 	public String toString()
 	{
 		return "[Creature objId=" + getObjectId() + "]";
+	}
+	
+	@Override
+	public boolean knows(WorldObject target)
+	{
+		if (!super.knows(target))
+			return false;
+		
+		// If current Creature isn't a GM, it can't see any invisible Players.
+		if (!isGM() && target instanceof Player && !((Player) target).getAppearance().isVisible())
+			return false;
+		
+		return true;
 	}
 	
 	/**
@@ -247,7 +260,7 @@ public abstract class Creature extends WorldObject
 	}
 	
 	/**
-	 * @return true if the player is GM.
+	 * @return True if the {@link Creature} is a GM, false otherwise.
 	 */
 	public boolean isGM()
 	{
@@ -256,7 +269,7 @@ public abstract class Creature extends WorldObject
 	
 	/**
 	 * Send a {@link L2GameServerPacket} to all known {@link Player}s.
-	 * @param packet : The packet to send.
+	 * @param packet : The {@link L2GameServerPacket} to send.
 	 */
 	public void broadcastPacket(L2GameServerPacket packet)
 	{
@@ -265,7 +278,7 @@ public abstract class Creature extends WorldObject
 	
 	/**
 	 * Send a {@link L2GameServerPacket} to all known {@link Player}s. Overidden on Player, which uses selfToo boolean flag to send the packet to self.
-	 * @param packet : The packet to send.
+	 * @param packet : The {@link L2GameServerPacket} to send.
 	 * @param selfToo : If true, we also send it to self.
 	 */
 	public void broadcastPacket(L2GameServerPacket packet, boolean selfToo)
@@ -276,7 +289,7 @@ public abstract class Creature extends WorldObject
 	
 	/**
 	 * Send a {@link L2GameServerPacket} to self and to all known {@link Player}s in a given radius. Overidden on Player, which also send the packet to self.
-	 * @param packet : The packet to send.
+	 * @param packet : The {@link L2GameServerPacket} to send.
 	 * @param radius : The radius to check.
 	 */
 	public void broadcastPacketInRadius(L2GameServerPacket packet, int radius)
@@ -289,23 +302,17 @@ public abstract class Creature extends WorldObject
 	}
 	
 	/**
-	 * <B><U> Overriden in </U> :</B><BR>
-	 * <BR>
-	 * <li>Player</li><BR>
-	 * <BR>
-	 * @param mov The packet to send.
+	 * Send a {@link L2GameServerPacket} to self.
+	 * @param packet : The {@link L2GameServerPacket} to send.
 	 */
-	public void sendPacket(L2GameServerPacket mov)
+	public void sendPacket(L2GameServerPacket packet)
 	{
 		// default implementation
 	}
 	
 	/**
-	 * <B><U> Overridden in </U> :</B><BR>
-	 * <BR>
-	 * <li>Player</li><BR>
-	 * <BR>
-	 * @param text The string to send.
+	 * Send a custom {@link String} text to self.
+	 * @param text : The {@link String} to send.
 	 */
 	public void sendMessage(String text)
 	{
@@ -491,8 +498,7 @@ public abstract class Creature extends WorldObject
 		getStatus().broadcastStatusUpdate();
 		
 		// Notify Creature AI
-		if (hasAI())
-			getAI().notifyEvent(AiEventType.DEAD, null, null);
+		getAI().notifyEvent(AiEventType.DEAD, null, null);
 		
 		return true;
 	}
@@ -501,13 +507,7 @@ public abstract class Creature extends WorldObject
 	{
 		getStatus().stopHpMpRegeneration();
 		
-		if (hasAI())
-			getAI().stopAITask();
-	}
-	
-	public void detachAI()
-	{
-		_ai = null;
+		getAI().stopAITask();
 	}
 	
 	/**
@@ -542,41 +542,6 @@ public abstract class Creature extends WorldObject
 	}
 	
 	/**
-	 * @return the CreatureAI of the Creature and if its null create a new one.
-	 */
-	public CreatureAI getAI()
-	{
-		CreatureAI ai = _ai;
-		if (ai == null)
-		{
-			synchronized (this)
-			{
-				ai = _ai;
-				if (ai == null)
-					_ai = ai = new CreatureAI(this);
-			}
-		}
-		return ai;
-	}
-	
-	public void setAI(CreatureAI newAI)
-	{
-		final CreatureAI oldAI = getAI();
-		if (oldAI != null && oldAI != newAI && oldAI instanceof AttackableAI)
-			((AttackableAI) oldAI).stopAITask();
-		
-		_ai = newAI;
-	}
-	
-	/**
-	 * @return true if this object has a running AI.
-	 */
-	public boolean hasAI()
-	{
-		return _ai != null;
-	}
-	
-	/**
 	 * @return true if this object is a raid boss.
 	 */
 	public boolean isRaidBoss()
@@ -588,14 +553,6 @@ public abstract class Creature extends WorldObject
 	 * @return true if this object is either a raid minion or a raid boss.
 	 */
 	public boolean isRaidRelated()
-	{
-		return false;
-	}
-	
-	/**
-	 * @return true if this object is a minion.
-	 */
-	public boolean isMinion()
 	{
 		return false;
 	}
@@ -845,6 +802,11 @@ public abstract class Creature extends WorldObject
 		_isTeleporting = value;
 	}
 	
+	public final void setRunning(boolean value)
+	{
+		_isRunning = value;
+	}
+	
 	/**
 	 * @return True if this {@link Creature} is invulnerable, false otherwise. If invulnerable, HPs can't decrease and effects, bad or good, can't be applied.
 	 */
@@ -872,11 +834,29 @@ public abstract class Creature extends WorldObject
 	}
 	
 	/**
-	 * @return True if this {@link Creature} is undead. Overidden in {@link Npc}.
+	 * @return True if this {@link Creature} is subject to lethal strikes, false otherwise.
+	 */
+	public boolean isLethalable()
+	{
+		return true;
+	}
+	
+	/**
+	 * @return True if this {@link Creature} is undead, false otherwise.
 	 */
 	public boolean isUndead()
 	{
 		return false;
+	}
+	
+	public CreatureAI<? extends Creature> getAI()
+	{
+		return _ai;
+	}
+	
+	public void setAI()
+	{
+		_ai = new CreatureAI<>(this);
 	}
 	
 	public CreatureStatus<? extends Creature> getStatus()
@@ -1288,7 +1268,7 @@ public abstract class Creature extends WorldObject
 	 */
 	public boolean isInCombat()
 	{
-		return hasAI() && AttackStanceTaskManager.getInstance().isInAttackStance(this);
+		return AttackStanceTaskManager.getInstance().isInAttackStance(this);
 	}
 	
 	/**
@@ -1496,30 +1476,6 @@ public abstract class Creature extends WorldObject
 			return;
 		
 		_chanceSkills.remove(effect);
-	}
-	
-	public void onStartChanceEffect()
-	{
-		if (_chanceSkills == null)
-			return;
-		
-		_chanceSkills.onStart();
-	}
-	
-	public void onActionTimeChanceEffect()
-	{
-		if (_chanceSkills == null)
-			return;
-		
-		_chanceSkills.onActionTime();
-	}
-	
-	public void onExitChanceEffect()
-	{
-		if (_chanceSkills == null)
-			return;
-		
-		_chanceSkills.onExit();
 	}
 	
 	/**
@@ -1943,5 +1899,14 @@ public abstract class Creature extends WorldObject
 	public boolean canBeHealed()
 	{
 		return !isDead() && !isInvul();
+	}
+	
+	/**
+	 * Enforce the decay behavior of this {@link Creature} if registered into {@link DecayTaskManager}.
+	 */
+	public void forceDecay()
+	{
+		if (DecayTaskManager.getInstance().cancel(this))
+			onDecay();
 	}
 }

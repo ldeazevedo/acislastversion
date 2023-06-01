@@ -13,6 +13,7 @@ import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.data.xml.IXmlReader;
 
 import net.sf.l2j.gameserver.data.SkillTable;
+import net.sf.l2j.gameserver.enums.DropType;
 import net.sf.l2j.gameserver.model.MinionData;
 import net.sf.l2j.gameserver.model.PetDataEntry;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
@@ -83,24 +84,22 @@ public class NpcData implements IXmlReader
 			});
 			forEach(npcNode, "drops", dropsNode ->
 			{
-				final String type = set.getString("type");
-				final boolean isRaid = type.equalsIgnoreCase("RaidBoss") || type.equalsIgnoreCase("GrandBoss");
 				final List<DropCategory> drops = new ArrayList<>();
 				forEach(dropsNode, "category", categoryNode ->
 				{
 					final NamedNodeMap categoryAttrs = categoryNode.getAttributes();
-					final DropCategory category = new DropCategory(parseInteger(categoryAttrs, "id"));
+					final DropCategory category = new DropCategory(parseEnum(categoryAttrs, DropType.class, "type"), parseDouble(categoryAttrs, "chance", 100.0));
 					forEach(categoryNode, "drop", dropNode ->
 					{
 						final NamedNodeMap dropAttrs = dropNode.getAttributes();
-						final DropData data = new DropData(parseInteger(dropAttrs, "itemid"), parseInteger(dropAttrs, "min"), parseInteger(dropAttrs, "max"), parseInteger(dropAttrs, "chance"));
+						final DropData data = new DropData(parseInteger(dropAttrs, "itemid"), parseInteger(dropAttrs, "min"), parseInteger(dropAttrs, "max"), parseDouble(dropAttrs, "chance"));
 						
 						if (ItemData.getInstance().getTemplate(data.getItemId()) == null)
 						{
 							LOGGER.warn("Droplist data for undefined itemId: {}.", data.getItemId());
 							return;
 						}
-						category.addDropData(data, isRaid);
+						category.addDropData(data);
 					});
 					drops.add(category);
 				});
@@ -112,11 +111,7 @@ public class NpcData implements IXmlReader
 				forEach(minionsNode, "minion", minionNode ->
 				{
 					final NamedNodeMap minionAttrs = minionNode.getAttributes();
-					final MinionData data = new MinionData();
-					data.setMinionId(parseInteger(minionAttrs, "id"));
-					data.setAmountMin(parseInteger(minionAttrs, "min"));
-					data.setAmountMax(parseInteger(minionAttrs, "max"));
-					minions.add(data);
+					minions.add(new MinionData(parseInteger(minionAttrs, "id"), parseInteger(minionAttrs, "min"), parseInteger(minionAttrs, "max")));
 				});
 				set.set("minions", minions);
 			});

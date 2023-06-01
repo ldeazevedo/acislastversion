@@ -2,6 +2,8 @@ package net.sf.l2j.gameserver.model.location;
 
 import java.util.Objects;
 
+import net.sf.l2j.commons.random.Rnd;
+
 /**
  * A datatype used to retain a 2D (x/y) point. It got the capability to be set and cleaned.
  */
@@ -154,5 +156,67 @@ public class Point2D
 	public boolean isIn2DRadius(Point2D point, int radius)
 	{
 		return distance2D(point) < radius;
+	}
+	
+	/**
+	 * Add a strict offset on the current {@link Point2D}, leading to 8 possibilities (center non included).
+	 * @param offset : The offset used to impact X and Y.
+	 */
+	public void addStrictOffset(int offset)
+	{
+		int x = 0;
+		int y = 0;
+		while (x == 0 && y == 0)
+		{
+			x = Rnd.get(-1, 1);
+			y = Rnd.get(-1, 1);
+		}
+		
+		x *= offset;
+		y *= offset;
+		
+		_x += x;
+		_y += y;
+	}
+	
+	/**
+	 * Add a random offset (can be negative as positive) to the current {@link Point2D}.
+	 * @param offset : The offset used to impact X and Y.
+	 */
+	public void addRandomOffset(int offset)
+	{
+		_x += Rnd.get(-offset, offset);
+		_y += Rnd.get(-offset, offset);
+	}
+	
+	/**
+	 * Add a random offset between a minimum and a maximum values to the current {@link Point2D}.
+	 * @param minOffset : The minimum offset used to impact X and Y.
+	 * @param maxOffset : The maximum offset used to impact X and Y.
+	 */
+	public void addRandomOffsetBetween(int minOffset, int maxOffset)
+	{
+		if (minOffset < 0 || maxOffset < 0 || maxOffset < minOffset)
+			return;
+		
+		// Get random angle in radians.
+		final double angle = Math.toRadians(Rnd.get(360));
+		
+		// Get random offset.
+		final int offset = Rnd.get(minOffset, maxOffset);
+		
+		// Convert angle and distance to XY offset, then add it to coords.
+		_x += (int) (offset * Math.cos(angle));
+		_y += (int) (offset * Math.sin(angle));
+	}
+	
+	/**
+	 * Add a positive offset to the current {@link Point2D}.
+	 * @param offset : The offset used to impact X and Y.
+	 */
+	public void addPositiveOffset(int offset)
+	{
+		_x += Rnd.get(offset);
+		_y += Rnd.get(offset);
 	}
 }

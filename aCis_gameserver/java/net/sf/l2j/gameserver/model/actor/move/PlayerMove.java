@@ -8,7 +8,6 @@ import java.util.List;
 import net.sf.l2j.commons.math.MathUtil;
 
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
-import net.sf.l2j.gameserver.enums.FloodProtector;
 import net.sf.l2j.gameserver.enums.actors.MoveType;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.geoengine.geodata.GeoStructure;
@@ -18,7 +17,6 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.zone.type.WaterZone;
-import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 import net.sf.l2j.gameserver.network.serverpackets.MoveToLocation;
 import net.sf.l2j.gameserver.network.serverpackets.MoveToPawn;
@@ -49,12 +47,6 @@ public class PlayerMove extends CreatureMove<Player>
 	
 	private void moveToPawn(WorldObject pawn, int offset)
 	{
-		if (!_actor.getClient().performAction(FloodProtector.MOVE))
-		{
-			_actor.sendPacket(ActionFailed.STATIC_PACKET);
-			return;
-		}
-		
 		// Get the current position of the pawn.
 		final int tx = pawn.getX();
 		final int ty = pawn.getY();
@@ -117,12 +109,6 @@ public class PlayerMove extends CreatureMove<Player>
 	@Override
 	protected void moveToLocation(Location destination, boolean pathfinding)
 	{
-		if (!_actor.getClient().performAction(FloodProtector.MOVE))
-		{
-			_actor.sendPacket(ActionFailed.STATIC_PACKET);
-			return;
-		}
-		
 		if (_task != null)
 			updatePosition(true);
 		

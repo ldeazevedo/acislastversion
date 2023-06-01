@@ -130,6 +130,17 @@ public final class ScriptData implements IXmlReader, Runnable
 	}
 	
 	/**
+	 * Notifies all {@link ScheduledQuest} to stop.<br>
+	 * <br>
+	 * Note: Can be used to store script values and variables.
+	 */
+	public final void stopAllScripts()
+	{
+		for (ScheduledQuest sq : _scheduled)
+			sq.stop();
+	}
+	
+	/**
 	 * Returns the {@link Quest} by given quest name.
 	 * @param questName : The name of the quest.
 	 * @return Quest : Quest to be returned, null if quest does not exist.

@@ -40,10 +40,10 @@ public class Q370_AnElderSowsSeeds extends Quest
 		
 		setItemsIds(SPELLBOOK_PAGE, CHAPTER_OF_FIRE, CHAPTER_OF_WATER, CHAPTER_OF_WIND, CHAPTER_OF_EARTH);
 		
-		addStartNpc(CASIAN);
+		addQuestStart(CASIAN);
 		addTalkId(CASIAN);
 		
-		addKillId(20082, 20084, 20086, 20089, 20090);
+		addMyDying(20082, 20084, 20086, 20089, 20090);
 	}
 	
 	@Override
@@ -104,16 +104,14 @@ public class Q370_AnElderSowsSeeds extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), SPELLBOOK_PAGE, 1, 0, CHANCES.get(npc.getNpcId()));
-		
-		return null;
 	}
 }

@@ -7,11 +7,12 @@ import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
 
 import net.sf.l2j.gameserver.enums.AiEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.enums.GaugeColor;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.items.ShotType;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
+import net.sf.l2j.gameserver.enums.skills.SkillType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.handler.ISkillHandler;
@@ -51,6 +52,7 @@ public class CreatureCast<T extends Creature>
 	protected Creature[] _targets;
 	protected Creature _target;
 	protected L2Skill _skill;
+	protected ItemInstance _item;
 	protected int _hitTime;
 	protected int _coolTime;
 	
@@ -155,7 +157,7 @@ public class CreatureCast<T extends Creature>
 		
 		final long castInterruptTime = System.currentTimeMillis() + hitTime - 200;
 		
-		setCastTask(skill, target, hitTime, coolTime, castInterruptTime);
+		setCastTask(skill, target, itemInstance, hitTime, coolTime, castInterruptTime);
 		
 		if (_hitTime > 410)
 		{
@@ -288,7 +290,7 @@ public class CreatureCast<T extends Creature>
 				((Summon) target).updateAndBroadcastStatus(1);
 		}
 		
-		callSkill(_skill, _targets);
+		callSkill(_skill, _targets, _item);
 		
 		_castTask = ThreadPool.schedule(this::onMagicFinalizer, (_hitTime == 0 || _coolTime == 0) ? 0 : _coolTime);
 	}
@@ -417,8 +419,9 @@ public class CreatureCast<T extends Creature>
 	 * Launch the magic skill and calculate its effects on each target contained in the targets array.
 	 * @param skill : The {@link L2Skill} to use.
 	 * @param targets : The array of {@link Creature} targets.
+	 * @param itemInstance : The {@link ItemInstance} used for skill cast.
 	 */
-	public void callSkill(L2Skill skill, Creature[] targets)
+	public void callSkill(L2Skill skill, Creature[] targets, ItemInstance itemInstance)
 	{
 		// Raid Curses system.
 		if (_actor instanceof Playable && _actor.testCursesOnSkillSee(skill, targets))
@@ -441,16 +444,32 @@ public class CreatureCast<T extends Creature>
 						activeWeaponItem.castSkillOnMagic(_actor, target, skill);
 					
 					if (_actor.getChanceSkills() != null)
-						_actor.getChanceSkills().onSkillHit(target, false, skill.isMagic(), skill.isOffensive());
+						_actor.getChanceSkills().onSkillTargetHit(target, skill);
 					
 					if (target.getChanceSkills() != null)
-						target.getChanceSkills().onSkillHit(_actor, true, skill.isMagic(), skill.isOffensive());
+						target.getChanceSkills().onSkillSelfHit(_actor, skill);
+			}
+		}
+		
+		if (skill.isOffensive())
+		{
+			switch (skill.getSkillType())
+			{
+				case AGGREDUCE:
+				case AGGREMOVE:
+				case AGGREDUCE_CHAR:
+					break;
+				
+				default:
+					for (final Creature target : targets)
+						target.getAI().notifyEvent(AiEventType.ATTACKED, _actor, null);
+					break;
 			}
 		}
 		
 		final ISkillHandler handler = SkillHandler.getInstance().getHandler(skill.getSkillType());
 		if (handler != null)
-			handler.useSkill(_actor, skill, targets);
+			handler.useSkill(_actor, skill, targets, itemInstance);
 		else
 			skill.useSkill(_actor, targets);
 		
@@ -493,8 +512,8 @@ public class CreatureCast<T extends Creature>
 				{
 					case CORPSE_MOB:
 					case AREA_CORPSE_MOB:
-						if (target instanceof Npc && target.isDead())
-							((Npc) target).endDecayTask();
+						if (skill.getSkillType() != SkillType.HARVEST)
+							target.forceDecay();
 						break;
 					default:
 						break;
@@ -504,27 +523,8 @@ public class CreatureCast<T extends Creature>
 			// Notify NPCs in a 1000 range of a skill use.
 			for (Npc npc : _actor.getKnownTypeInRadius(Npc.class, 1000))
 			{
-				for (Quest quest : npc.getTemplate().getEventQuests(ScriptEventType.ON_SKILL_SEE))
-					quest.notifySkillSee(npc, player, skill, targets, _actor instanceof Summon);
-			}
-		}
-		
-		if (skill.isOffensive())
-		{
-			switch (skill.getSkillType())
-			{
-				case AGGREDUCE:
-				case AGGREMOVE:
-				case AGGREDUCE_CHAR:
-					break;
-				
-				default:
-					for (final Creature target : targets)
-					{
-						if (target != null && target.hasAI())
-							target.getAI().notifyEvent(AiEventType.ATTACKED, _actor, null);
-					}
-					break;
+				for (Quest quest : npc.getTemplate().getEventQuests(EventHandler.SEE_SPELL))
+					quest.onSeeSpell(npc, player, skill, targets, _actor instanceof Summon);
 			}
 		}
 	}
@@ -534,10 +534,11 @@ public class CreatureCast<T extends Creature>
 		_isCastingNow = false;
 	}
 	
-	protected void setCastTask(L2Skill skill, Creature target, int hitTime, int coolTime, long castInterruptTime)
+	protected void setCastTask(L2Skill skill, Creature target, ItemInstance item, int hitTime, int coolTime, long castInterruptTime)
 	{
 		_skill = skill;
 		_target = target;
+		_item = item;
 		_hitTime = hitTime;
 		_coolTime = coolTime;
 		_castInterruptTime = castInterruptTime;

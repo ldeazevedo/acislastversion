@@ -1,17 +1,16 @@
 package net.sf.l2j.commons.geometry;
 
 import net.sf.l2j.gameserver.model.location.Location;
+import net.sf.l2j.gameserver.model.location.Point2D;
+import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 
-/**
- * @author Hasha
- */
 public abstract class AShape
 {
 	/**
 	 * Returns size of the AShape floor projection.
-	 * @return int : Size.
+	 * @return long : Size.
 	 */
-	public abstract int getSize();
+	public abstract long getSize();
 	
 	/**
 	 * Returns surface area of the AShape.
@@ -48,4 +47,19 @@ public abstract class AShape
 	 * @return {@link Location} : Random location inside AShape.
 	 */
 	public abstract Location getRandomLocation();
+	
+	/**
+	 * Add the visualization of itself to given {@link ExServerPrimitive} packet.
+	 * @param info : The name to be displayed.
+	 * @param debug : The given {@link ExServerPrimitive} packet to be added into.
+	 * @param z : The Z coordinate as a view reference.
+	 */
+	public abstract void visualize(String info, ExServerPrimitive debug, int z);
+	
+	protected Point2D _center;
+	
+	public Point2D getCenter()
+	{
+		return _center;
+	}
 }

@@ -86,8 +86,8 @@ public class Sailren extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addAttackId(VELOCIRAPTOR, PTEROSAUR, TREX, SAILREN);
-		addKillId(VELOCIRAPTOR, PTEROSAUR, TREX, SAILREN);
+		addAttacked(VELOCIRAPTOR, PTEROSAUR, TREX, SAILREN);
+		addMyDying(VELOCIRAPTOR, PTEROSAUR, TREX, SAILREN);
 	}
 	
 	@Override
@@ -184,13 +184,32 @@ public class Sailren extends AttackableAIScript
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
+	{
+		if (attacker instanceof Playable)
+		{
+			final Player player = attacker.getActingPlayer();
+			if (player == null || !_minions.contains(npc) || !SAILREN_LAIR.getAllowedPlayers().contains(player.getObjectId()))
+				return;
+			
+			// Curses
+			if (attacker.testCursesOnAttack(npc, SAILREN))
+				return;
+			
+			// Refresh timer on every hit.
+			_timeTracker = System.currentTimeMillis();
+		}
+		super.onAttacked(npc, attacker, damage, skill);
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		if (killer instanceof Playable)
 		{
 			final Player player = killer.getActingPlayer();
 			if (player == null || !_minions.contains(npc) || !SAILREN_LAIR.getAllowedPlayers().contains(player.getObjectId()))
-				return null;
+				return;
 		}
 		
 		switch (npc.getNpcId())
@@ -249,26 +268,6 @@ public class Sailren extends AttackableAIScript
 				}
 				break;
 		}
-		
-		return super.onKill(npc, killer);
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
-	{
-		if (attacker instanceof Playable)
-		{
-			final Player player = attacker.getActingPlayer();
-			if (player == null || !_minions.contains(npc) || !SAILREN_LAIR.getAllowedPlayers().contains(player.getObjectId()))
-				return null;
-			
-			// Curses
-			if (attacker.testCursesOnAttack(npc, SAILREN))
-				return null;
-			
-			// Refresh timer on every hit.
-			_timeTracker = System.currentTimeMillis();
-		}
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onMyDying(npc, killer);
 	}
 }

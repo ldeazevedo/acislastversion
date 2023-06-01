@@ -42,10 +42,10 @@ public class Q300_HuntingLetoLizardman extends Quest
 		
 		setItemsIds(BRACELET);
 		
-		addStartNpc(30126); // Rath
+		addQuestStart(30126); // Rath
 		addTalkId(30126);
 		
-		addKillId(LETO_LIZARDMAN, LETO_LIZARDMAN_ARCHER, LETO_LIZARDMAN_SOLDIER, LETO_LIZARDMAN_WARRIOR, LETO_LIZARDMAN_OVERLORD);
+		addMyDying(LETO_LIZARDMAN, LETO_LIZARDMAN_ARCHER, LETO_LIZARDMAN_SOLDIER, LETO_LIZARDMAN_WARRIOR, LETO_LIZARDMAN_OVERLORD);
 	}
 	
 	@Override
@@ -108,17 +108,15 @@ public class Q300_HuntingLetoLizardman extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), BRACELET, 1, 60, CHANCES.get(npc.getNpcId())))
 			st.setCond(2);
-		
-		return null;
 	}
 }

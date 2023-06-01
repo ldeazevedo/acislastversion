@@ -41,10 +41,10 @@ public class Q408_PathToAnElvenWizard extends Quest
 		
 		setItemsIds(ROSELLA_LETTER, RED_DOWN, MAGICAL_POWERS_RUBY, PURE_AQUAMARINE, APPETIZING_APPLE, GOLD_LEAVES, IMMORTAL_LOVE, AMETHYST, NOBILITY_AMETHYST, FERTILITY_PERIDOT, CHARM_OF_GRAIN, SAP_OF_THE_MOTHER_TREE, LUCKY_POTPOURRI);
 		
-		addStartNpc(ROSELLA);
+		addQuestStart(ROSELLA);
 		addTalkId(ROSELLA, GREENIS, THALIA, NORTHWIND);
 		
-		addKillId(20047, 20019, 20466);
+		addMyDying(20047, 20019, 20466);
 	}
 	
 	@Override
@@ -236,13 +236,13 @@ public class Q408_PathToAnElvenWizard extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -261,7 +261,5 @@ public class Q408_PathToAnElvenWizard extends Quest
 					dropItems(player, RED_DOWN, 1, 5, 700000);
 				break;
 		}
-		
-		return null;
 	}
 }

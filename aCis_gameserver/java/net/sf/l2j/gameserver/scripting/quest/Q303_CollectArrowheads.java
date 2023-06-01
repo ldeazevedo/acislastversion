@@ -20,10 +20,10 @@ public class Q303_CollectArrowheads extends Quest
 		
 		setItemsIds(ORCISH_ARROWHEAD);
 		
-		addStartNpc(30029); // Minia
+		addQuestStart(30029); // Minia
 		addTalkId(30029);
 		
-		addKillId(20361);
+		addMyDying(20361);
 	}
 	
 	@Override
@@ -77,17 +77,15 @@ public class Q303_CollectArrowheads extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, ORCISH_ARROWHEAD, 1, 10, 400000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

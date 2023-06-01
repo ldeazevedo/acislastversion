@@ -24,10 +24,10 @@ public class Q267_WrathOfVerdure extends Quest
 		
 		setItemsIds(GOBLIN_CLUB);
 		
-		addStartNpc(31853); // Bremec
+		addQuestStart(31853); // Bremec
 		addTalkId(31853);
 		
-		addKillId(20325); // Goblin
+		addMyDying(20325); // Goblin
 	}
 	
 	@Override
@@ -89,16 +89,14 @@ public class Q267_WrathOfVerdure extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(player, GOBLIN_CLUB, 1, 0, 500000);
-		
-		return null;
 	}
 }

@@ -19,7 +19,7 @@ public class Q015_SweetWhispers extends Quest
 	{
 		super(15, "Sweet Whispers");
 		
-		addStartNpc(VLADIMIR);
+		addQuestStart(VLADIMIR);
 		addTalkId(VLADIMIR, HIERARCH, MYSTERIOUS_NECRO);
 	}
 	

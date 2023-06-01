@@ -61,11 +61,11 @@ public class Q226_TestOfTheHealer extends SecondClassQuest
 		
 		setItemsIds(REPORT_OF_PERRIN, KRISTINA_LETTER, PICTURE_OF_WINDY, GOLDEN_STATUE, WINDY_PEBBLES, ORDER_OF_SORIUS, SECRET_LETTER_1, SECRET_LETTER_2, SECRET_LETTER_3, SECRET_LETTER_4);
 		
-		addStartNpc(BANDELLOS);
+		addQuestStart(BANDELLOS);
 		addTalkId(BANDELLOS, SORIUS, ALLANA, PERRIN, GUPU, ORPHAN_GIRL, WINDY_SHAORING, MYSTERIOUS_DARKELF, PIPER_LONGBOW, SLEIN_SHINING_BLADE, KAIN_FLYING_KNIFE, KRISTINA, DAURIN_HAMMERCRUSH);
 		
-		addKillId(LETO_LIZARDMAN_LEADER, LETO_LIZARDMAN_ASSASSIN, LETO_LIZARDMAN_SNIPER, LETO_LIZARDMAN_WIZARD, LETO_LIZARDMAN_LORD, TATOMA);
-		addDecayId(LETO_LIZARDMAN_LEADER, TATOMA);
+		addDecayed(LETO_LIZARDMAN_LEADER, TATOMA);
+		addMyDying(LETO_LIZARDMAN_LEADER, LETO_LIZARDMAN_ASSASSIN, LETO_LIZARDMAN_SNIPER, LETO_LIZARDMAN_WIZARD, LETO_LIZARDMAN_LORD, TATOMA);
 	}
 	
 	@Override
@@ -385,13 +385,26 @@ public class Q226_TestOfTheHealer extends SecondClassQuest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onDecayed(Npc npc)
+	{
+		if (npc == _tatoma)
+		{
+			_tatoma = null;
+		}
+		else if (npc == _letoLeader)
+		{
+			_letoLeader = null;
+		}
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int cond = st.getCond();
 		switch (npc.getNpcId())
@@ -440,22 +453,5 @@ public class Q226_TestOfTheHealer extends SecondClassQuest
 				}
 				break;
 		}
-		
-		return null;
-	}
-	
-	@Override
-	public String onDecay(Npc npc)
-	{
-		if (npc == _tatoma)
-		{
-			_tatoma = null;
-		}
-		else if (npc == _letoLeader)
-		{
-			_letoLeader = null;
-		}
-		
-		return null;
 	}
 }

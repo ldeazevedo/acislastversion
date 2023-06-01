@@ -12,7 +12,7 @@ import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 
 import net.sf.l2j.gameserver.data.xml.ScriptData;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -134,7 +134,7 @@ public final class QuestList extends ArrayList<QuestState>
 		
 		final Npc npc = (Npc) object;
 		
-		for (Quest script : npc.getTemplate().getEventQuests(ScriptEventType.ON_TALK))
+		for (Quest script : npc.getTemplate().getEventQuests(EventHandler.TALKED))
 		{
 			if (script == null || !script.equals(quest))
 				continue;

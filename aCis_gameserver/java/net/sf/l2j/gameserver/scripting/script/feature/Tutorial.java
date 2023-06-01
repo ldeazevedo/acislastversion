@@ -157,7 +157,7 @@ public class Tutorial extends Quest
 				{
 					case 0:
 						st.set("Ex", -2);
-						st.set("ucMemo", 0);
+						st.set("ucMemo", 1);
 						
 						startQuestTimer("QT", null, player, 10000);
 						break;

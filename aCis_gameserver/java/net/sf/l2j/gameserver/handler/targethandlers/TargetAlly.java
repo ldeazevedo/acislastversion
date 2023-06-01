@@ -32,30 +32,21 @@ public class TargetAlly implements ITargetHandler
 		final List<Creature> list = new ArrayList<>();
 		list.add(player);
 		
-		if (skill.addSummon(caster, player, false))
-			list.add(player.getSummon());
-		
-		if (player.getClan() != null)
+		for (Playable playable : player.getKnownTypeInRadius(Playable.class, skill.getSkillRadius(), p -> !p.isDead()))
 		{
-			for (Playable playable : caster.getKnownTypeInRadius(Playable.class, skill.getSkillRadius()))
+			// Bypass other checks if target is Player's Summon.
+			if (playable != player.getSummon())
 			{
-				if (playable.isDead())
+				// Target isn't a clan or alliance member, ignore it.
+				if (!playable.isInSameClan(player) && !playable.isInSameAlly(player))
 					continue;
 				
-				final Player targetPlayer = playable.getActingPlayer();
-				if (targetPlayer == null || targetPlayer.getClan() == null)
+				// Target isn't sharing same Duel team, ignore it.
+				if (player.isInDuel() && (playable.getActingPlayer().getDuelId() != player.getDuelId() || player.getTeam() != playable.getActingPlayer().getTeam()))
 					continue;
-				
-				// Only buff allies
-				if (player.getClanId() != targetPlayer.getClanId() || (player.getAllyId() > 0 && player.getAllyId() != targetPlayer.getAllyId()))
-					continue;
-				
-				// Do not buff opposing duel side
-				if (player.isInDuel() && (player.getDuelId() != targetPlayer.getDuelId() || player.getTeam() != targetPlayer.getTeam()))
-					continue;
-				
-				list.add(playable);
 			}
+			
+			list.add(playable);
 		}
 		
 		return list.toArray(new Creature[list.size()]);

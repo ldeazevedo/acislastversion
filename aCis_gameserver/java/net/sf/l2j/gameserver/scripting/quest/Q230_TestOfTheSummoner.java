@@ -157,11 +157,11 @@ public class Q230_TestOfTheSummoner extends SecondClassQuest
 		
 		setItemsIds(LETO_LIZARDMAN_AMULET, SAC_OF_REDSPORES, KARUL_BUGBEAR_TOTEM, SHARDS_OF_MANASHEN, BREKA_ORC_TOTEM, CRIMSON_BLOODSTONE, TALONS_OF_TYRANT, WINGS_OF_DRONEANT, TUSK_OF_WINDSUS, FANGS_OF_WYRM, LARA_LIST_1, LARA_LIST_2, LARA_LIST_3, LARA_LIST_4, LARA_LIST_5, GALATEA_LETTER, BEGINNER_ARCANA, ALMORS_ARCANA, CAMONIELL_ARCANA, BELTHUS_ARCANA, BASILLIA_ARCANA, CELESTIEL_ARCANA, BRYNTHEA_ARCANA, CRYSTAL_OF_PROGRESS_1, CRYSTAL_OF_INPROGRESS_1, CRYSTAL_OF_FOUL_1, CRYSTAL_OF_DEFEAT_1, CRYSTAL_OF_VICTORY_1, CRYSTAL_OF_PROGRESS_2, CRYSTAL_OF_INPROGRESS_2, CRYSTAL_OF_FOUL_2, CRYSTAL_OF_DEFEAT_2, CRYSTAL_OF_VICTORY_2, CRYSTAL_OF_PROGRESS_3, CRYSTAL_OF_INPROGRESS_3, CRYSTAL_OF_FOUL_3, CRYSTAL_OF_DEFEAT_3, CRYSTAL_OF_VICTORY_3, CRYSTAL_OF_PROGRESS_4, CRYSTAL_OF_INPROGRESS_4, CRYSTAL_OF_FOUL_4, CRYSTAL_OF_DEFEAT_4, CRYSTAL_OF_VICTORY_4, CRYSTAL_OF_PROGRESS_5, CRYSTAL_OF_INPROGRESS_5, CRYSTAL_OF_FOUL_5, CRYSTAL_OF_DEFEAT_5, CRYSTAL_OF_VICTORY_5, CRYSTAL_OF_PROGRESS_6, CRYSTAL_OF_INPROGRESS_6, CRYSTAL_OF_FOUL_6, CRYSTAL_OF_DEFEAT_6, CRYSTAL_OF_VICTORY_6);
 		
-		addStartNpc(GALATEA);
+		addQuestStart(GALATEA);
 		addTalkId(GALATEA, ALMORS, CAMONIELL, BELTHUS, BASILLA, CELESTIEL, BRYNTHEA, LARA);
 		
-		addKillId(NOBLE_ANT, NOBLE_ANT_LEADER, WYRM, TYRANT, TYRANT_KINGPIN, BREKA_ORC, BREKA_ORC_ARCHER, BREKA_ORC_SHAMAN, BREKA_ORC_OVERLORD, BREKA_ORC_WARRIOR, FETTERED_SOUL, WINDSUS, GIANT_FUNGUS, MANASHEN_GARGOYLE, LETO_LIZARDMAN, LETO_LIZARDMAN_ARCHER, LETO_LIZARDMAN_SOLDIER, LETO_LIZARDMAN_WARRIOR, LETO_LIZARDMAN_SHAMAN, LETO_LIZARDMAN_OVERLORD, KARUL_BUGBEAR, PAKO_THE_CAT, UNICORN_RACER, SHADOW_TUREN, MIMI_THE_CAT, UNICORN_PHANTASM, SILHOUETTE_TILFO);
-		addAttackId(PAKO_THE_CAT, UNICORN_RACER, SHADOW_TUREN, MIMI_THE_CAT, UNICORN_PHANTASM, SILHOUETTE_TILFO);
+		addAttacked(PAKO_THE_CAT, UNICORN_RACER, SHADOW_TUREN, MIMI_THE_CAT, UNICORN_PHANTASM, SILHOUETTE_TILFO);
+		addMyDying(NOBLE_ANT, NOBLE_ANT_LEADER, WYRM, TYRANT, TYRANT_KINGPIN, BREKA_ORC, BREKA_ORC_ARCHER, BREKA_ORC_SHAMAN, BREKA_ORC_OVERLORD, BREKA_ORC_WARRIOR, FETTERED_SOUL, WINDSUS, GIANT_FUNGUS, MANASHEN_GARGOYLE, LETO_LIZARDMAN, LETO_LIZARDMAN_ARCHER, LETO_LIZARDMAN_SOLDIER, LETO_LIZARDMAN_WARRIOR, LETO_LIZARDMAN_SHAMAN, LETO_LIZARDMAN_OVERLORD, KARUL_BUGBEAR, PAKO_THE_CAT, UNICORN_RACER, SHADOW_TUREN, MIMI_THE_CAT, UNICORN_PHANTASM, SILHOUETTE_TILFO);
 		
 		setTriggeredOnDeath();
 	}
@@ -594,14 +594,14 @@ public class Q230_TestOfTheSummoner extends SecondClassQuest
 	}
 	
 	@Override
-	public String onDeath(Creature killer, Player player)
+	public void onDeath(Creature killer, Player player)
 	{
 		if (!(killer instanceof Attackable))
-			return null;
+			return;
 		
 		QuestState st = checkPlayerState(player, (Npc) killer, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (((Npc) killer).getNpcId())
 		{
@@ -659,180 +659,16 @@ public class Q230_TestOfTheSummoner extends SecondClassQuest
 				}
 				break;
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
-	{
-		final Player player = killer.getActingPlayer();
-		
-		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
-		if (st == null)
-			return null;
-		
-		final int npcId = npc.getNpcId();
-		
-		switch (npcId)
-		{
-			case GIANT_FUNGUS:
-				if (st.getInteger("Lara") == 1)
-					dropItems(player, SAC_OF_REDSPORES, 1, 30, 800000);
-				break;
-			
-			case LETO_LIZARDMAN:
-			case LETO_LIZARDMAN_ARCHER:
-				if (st.getInteger("Lara") == 1)
-					dropItems(player, LETO_LIZARDMAN_AMULET, 1, 30, 250000);
-				break;
-			
-			case LETO_LIZARDMAN_SOLDIER:
-			case LETO_LIZARDMAN_WARRIOR:
-				if (st.getInteger("Lara") == 1)
-					dropItems(player, LETO_LIZARDMAN_AMULET, 1, 30, 500000);
-				break;
-			
-			case LETO_LIZARDMAN_SHAMAN:
-			case LETO_LIZARDMAN_OVERLORD:
-				if (st.getInteger("Lara") == 1)
-					dropItems(player, LETO_LIZARDMAN_AMULET, 1, 30, 750000);
-				break;
-			
-			case MANASHEN_GARGOYLE:
-				if (st.getInteger("Lara") == 2)
-					dropItems(player, SHARDS_OF_MANASHEN, 1, 30, 800000);
-				break;
-			
-			case KARUL_BUGBEAR:
-				if (st.getInteger("Lara") == 2)
-					dropItems(player, KARUL_BUGBEAR_TOTEM, 1, 30, 800000);
-				break;
-			
-			case BREKA_ORC:
-			case BREKA_ORC_ARCHER:
-			case BREKA_ORC_WARRIOR:
-				if (st.getInteger("Lara") == 3)
-					dropItems(player, BREKA_ORC_TOTEM, 1, 30, 250000);
-				break;
-			
-			case BREKA_ORC_SHAMAN:
-			case BREKA_ORC_OVERLORD:
-				if (st.getInteger("Lara") == 3)
-					dropItems(player, BREKA_ORC_TOTEM, 1, 30, 500000);
-				break;
-			
-			case FETTERED_SOUL:
-				if (st.getInteger("Lara") == 3)
-					dropItems(player, CRIMSON_BLOODSTONE, 1, 30, 600000);
-				break;
-			
-			case WINDSUS:
-				if (st.getInteger("Lara") == 4)
-					dropItems(player, TUSK_OF_WINDSUS, 1, 30, 700000);
-				break;
-			
-			case TYRANT:
-			case TYRANT_KINGPIN:
-				if (st.getInteger("Lara") == 4)
-					dropItems(player, TALONS_OF_TYRANT, 1, 30, 500000);
-				break;
-			
-			case NOBLE_ANT:
-			case NOBLE_ANT_LEADER:
-				if (st.getInteger("Lara") == 5)
-					dropItems(player, WINGS_OF_DRONEANT, 1, 30, 600000);
-				break;
-			
-			case WYRM:
-				if (st.getInteger("Lara") == 5)
-					dropItems(player, FANGS_OF_WYRM, 1, 30, 500000);
-				break;
-			
-			case PAKO_THE_CAT:
-				if (st.getInteger("Almors") == 3 && _duelsInProgress.containsKey(npcId))
-				{
-					st.set("Almors", 6);
-					playSound(player, SOUND_MIDDLE);
-					takeItems(player, CRYSTAL_OF_INPROGRESS_1, -1);
-					giveItems(player, CRYSTAL_OF_VICTORY_1, 1);
-					npc.broadcastNpcSay(NpcStringId.ID_23065);
-					_duelsInProgress.remove(npcId);
-				}
-				break;
-			
-			case UNICORN_RACER:
-				if (st.getInteger("Camoniell") == 3 && _duelsInProgress.containsKey(npcId))
-				{
-					st.set("Camoniell", 6);
-					playSound(player, SOUND_MIDDLE);
-					takeItems(player, CRYSTAL_OF_INPROGRESS_2, -1);
-					giveItems(player, CRYSTAL_OF_VICTORY_2, 1);
-					npc.broadcastNpcSay(NpcStringId.ID_23062);
-					_duelsInProgress.remove(npcId);
-				}
-				break;
-			
-			case SHADOW_TUREN:
-				if (st.getInteger("Belthus") == 3 && _duelsInProgress.containsKey(npcId))
-				{
-					st.set("Belthus", 6);
-					playSound(player, SOUND_MIDDLE);
-					takeItems(player, CRYSTAL_OF_INPROGRESS_3, -1);
-					giveItems(player, CRYSTAL_OF_VICTORY_3, 1);
-					npc.broadcastNpcSay(NpcStringId.ID_23074);
-					_duelsInProgress.remove(npcId);
-				}
-				break;
-			
-			case MIMI_THE_CAT:
-				if (st.getInteger("Basilla") == 3 && _duelsInProgress.containsKey(npcId))
-				{
-					st.set("Basilla", 6);
-					playSound(player, SOUND_MIDDLE);
-					takeItems(player, CRYSTAL_OF_INPROGRESS_4, -1);
-					giveItems(player, CRYSTAL_OF_VICTORY_4, 1);
-					npc.broadcastNpcSay(NpcStringId.ID_23068);
-					_duelsInProgress.remove(npcId);
-				}
-				break;
-			
-			case UNICORN_PHANTASM:
-				if (st.getInteger("Celestiel") == 3 && _duelsInProgress.containsKey(npcId))
-				{
-					st.set("Celestiel", 6);
-					playSound(player, SOUND_MIDDLE);
-					takeItems(player, CRYSTAL_OF_INPROGRESS_5, -1);
-					giveItems(player, CRYSTAL_OF_VICTORY_5, 1);
-					npc.broadcastNpcSay(NpcStringId.ID_23071);
-					_duelsInProgress.remove(npcId);
-				}
-				break;
-			
-			case SILHOUETTE_TILFO:
-				if (st.getInteger("Brynthea") == 3 && _duelsInProgress.containsKey(npcId))
-				{
-					st.set("Brynthea", 6);
-					playSound(player, SOUND_MIDDLE);
-					takeItems(player, CRYSTAL_OF_INPROGRESS_6, -1);
-					giveItems(player, CRYSTAL_OF_VICTORY_6, 1);
-					npc.broadcastNpcSay(NpcStringId.ID_23077);
-					_duelsInProgress.remove(npcId);
-				}
-				break;
-		}
-		
-		return null;
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		final Player player = attacker.getActingPlayer();
 		
 		QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		final boolean isPet = attacker instanceof Summon;
@@ -1038,8 +874,166 @@ public class Q230_TestOfTheSummoner extends SecondClassQuest
 				}
 				break;
 		}
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
+	{
+		final Player player = killer.getActingPlayer();
 		
-		return null;
+		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
+		if (st == null)
+			return;
+		
+		final int npcId = npc.getNpcId();
+		
+		switch (npcId)
+		{
+			case GIANT_FUNGUS:
+				if (st.getInteger("Lara") == 1)
+					dropItems(player, SAC_OF_REDSPORES, 1, 30, 800000);
+				break;
+			
+			case LETO_LIZARDMAN:
+			case LETO_LIZARDMAN_ARCHER:
+				if (st.getInteger("Lara") == 1)
+					dropItems(player, LETO_LIZARDMAN_AMULET, 1, 30, 250000);
+				break;
+			
+			case LETO_LIZARDMAN_SOLDIER:
+			case LETO_LIZARDMAN_WARRIOR:
+				if (st.getInteger("Lara") == 1)
+					dropItems(player, LETO_LIZARDMAN_AMULET, 1, 30, 500000);
+				break;
+			
+			case LETO_LIZARDMAN_SHAMAN:
+			case LETO_LIZARDMAN_OVERLORD:
+				if (st.getInteger("Lara") == 1)
+					dropItems(player, LETO_LIZARDMAN_AMULET, 1, 30, 750000);
+				break;
+			
+			case MANASHEN_GARGOYLE:
+				if (st.getInteger("Lara") == 2)
+					dropItems(player, SHARDS_OF_MANASHEN, 1, 30, 800000);
+				break;
+			
+			case KARUL_BUGBEAR:
+				if (st.getInteger("Lara") == 2)
+					dropItems(player, KARUL_BUGBEAR_TOTEM, 1, 30, 800000);
+				break;
+			
+			case BREKA_ORC:
+			case BREKA_ORC_ARCHER:
+			case BREKA_ORC_WARRIOR:
+				if (st.getInteger("Lara") == 3)
+					dropItems(player, BREKA_ORC_TOTEM, 1, 30, 250000);
+				break;
+			
+			case BREKA_ORC_SHAMAN:
+			case BREKA_ORC_OVERLORD:
+				if (st.getInteger("Lara") == 3)
+					dropItems(player, BREKA_ORC_TOTEM, 1, 30, 500000);
+				break;
+			
+			case FETTERED_SOUL:
+				if (st.getInteger("Lara") == 3)
+					dropItems(player, CRIMSON_BLOODSTONE, 1, 30, 600000);
+				break;
+			
+			case WINDSUS:
+				if (st.getInteger("Lara") == 4)
+					dropItems(player, TUSK_OF_WINDSUS, 1, 30, 700000);
+				break;
+			
+			case TYRANT:
+			case TYRANT_KINGPIN:
+				if (st.getInteger("Lara") == 4)
+					dropItems(player, TALONS_OF_TYRANT, 1, 30, 500000);
+				break;
+			
+			case NOBLE_ANT:
+			case NOBLE_ANT_LEADER:
+				if (st.getInteger("Lara") == 5)
+					dropItems(player, WINGS_OF_DRONEANT, 1, 30, 600000);
+				break;
+			
+			case WYRM:
+				if (st.getInteger("Lara") == 5)
+					dropItems(player, FANGS_OF_WYRM, 1, 30, 500000);
+				break;
+			
+			case PAKO_THE_CAT:
+				if (st.getInteger("Almors") == 3 && _duelsInProgress.containsKey(npcId))
+				{
+					st.set("Almors", 6);
+					playSound(player, SOUND_MIDDLE);
+					takeItems(player, CRYSTAL_OF_INPROGRESS_1, -1);
+					giveItems(player, CRYSTAL_OF_VICTORY_1, 1);
+					npc.broadcastNpcSay(NpcStringId.ID_23065);
+					_duelsInProgress.remove(npcId);
+				}
+				break;
+			
+			case UNICORN_RACER:
+				if (st.getInteger("Camoniell") == 3 && _duelsInProgress.containsKey(npcId))
+				{
+					st.set("Camoniell", 6);
+					playSound(player, SOUND_MIDDLE);
+					takeItems(player, CRYSTAL_OF_INPROGRESS_2, -1);
+					giveItems(player, CRYSTAL_OF_VICTORY_2, 1);
+					npc.broadcastNpcSay(NpcStringId.ID_23062);
+					_duelsInProgress.remove(npcId);
+				}
+				break;
+			
+			case SHADOW_TUREN:
+				if (st.getInteger("Belthus") == 3 && _duelsInProgress.containsKey(npcId))
+				{
+					st.set("Belthus", 6);
+					playSound(player, SOUND_MIDDLE);
+					takeItems(player, CRYSTAL_OF_INPROGRESS_3, -1);
+					giveItems(player, CRYSTAL_OF_VICTORY_3, 1);
+					npc.broadcastNpcSay(NpcStringId.ID_23074);
+					_duelsInProgress.remove(npcId);
+				}
+				break;
+			
+			case MIMI_THE_CAT:
+				if (st.getInteger("Basilla") == 3 && _duelsInProgress.containsKey(npcId))
+				{
+					st.set("Basilla", 6);
+					playSound(player, SOUND_MIDDLE);
+					takeItems(player, CRYSTAL_OF_INPROGRESS_4, -1);
+					giveItems(player, CRYSTAL_OF_VICTORY_4, 1);
+					npc.broadcastNpcSay(NpcStringId.ID_23068);
+					_duelsInProgress.remove(npcId);
+				}
+				break;
+			
+			case UNICORN_PHANTASM:
+				if (st.getInteger("Celestiel") == 3 && _duelsInProgress.containsKey(npcId))
+				{
+					st.set("Celestiel", 6);
+					playSound(player, SOUND_MIDDLE);
+					takeItems(player, CRYSTAL_OF_INPROGRESS_5, -1);
+					giveItems(player, CRYSTAL_OF_VICTORY_5, 1);
+					npc.broadcastNpcSay(NpcStringId.ID_23071);
+					_duelsInProgress.remove(npcId);
+				}
+				break;
+			
+			case SILHOUETTE_TILFO:
+				if (st.getInteger("Brynthea") == 3 && _duelsInProgress.containsKey(npcId))
+				{
+					st.set("Brynthea", 6);
+					playSound(player, SOUND_MIDDLE);
+					takeItems(player, CRYSTAL_OF_INPROGRESS_6, -1);
+					giveItems(player, CRYSTAL_OF_VICTORY_6, 1);
+					npc.broadcastNpcSay(NpcStringId.ID_23077);
+					_duelsInProgress.remove(npcId);
+				}
+				break;
+		}
 	}
 	
 	private final class ProgressDuelMob

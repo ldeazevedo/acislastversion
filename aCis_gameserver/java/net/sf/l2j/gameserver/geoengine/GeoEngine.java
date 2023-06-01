@@ -1753,6 +1753,39 @@ public class GeoEngine
 	}
 	
 	/**
+	 * Returns the possibility of free movement in given coordinates and distance.
+	 * @param worldX : world x
+	 * @param worldY : world y
+	 * @param worldZ : world z
+	 * @param distance : Distance to move around given coordinates.
+	 * @return boolean : Returns true, if free movement in given coordinates and distance is allowed.
+	 */
+	public final boolean canMoveAround(int worldX, int worldY, int worldZ, int distance)
+	{
+		// Get center coordinates and cell distance.
+		final int geoX = getGeoX(worldX);
+		final int geoY = getGeoY(worldY);
+		final int cells = Math.max(0, distance - GeoStructure.CELL_SIZE / 2) / GeoStructure.CELL_SIZE;
+		
+		// Loop each cell in the square.
+		for (int ix = -cells; ix <= cells; ix++)
+		{
+			for (int iy = -cells; iy <= cells; iy++)
+			{
+				// Get real geo coordinates.
+				final int gx = geoX + ix;
+				final int gy = geoY + iy;
+				
+				// Check NSWE flag for free movement, return if blocked.
+				if (getNsweNearest(gx, gy, worldZ) != GeoStructure.CELL_FLAG_ALL)
+					return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
 	 * Returns the list of location objects as a result of complete path calculation.
 	 * @param ox : origin x
 	 * @param oy : origin y

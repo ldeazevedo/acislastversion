@@ -51,7 +51,7 @@ public class DrChaos extends AttackableAIScript
 		super("ai/boss");
 		
 		addFirstTalkId(DOCTOR_CHAOS); // Different HTMs following actual humor.
-		addSpawnId(DOCTOR_CHAOS); // Timer activation at 30sec + paranoia activity.
+		addCreated(DOCTOR_CHAOS); // Timer activation at 30sec + paranoia activity.
 		
 		StatSet info = GrandBossManager.getInstance().getStatSet(CHAOS_GOLEM);
 		int status = GrandBossManager.getInstance().getBossStatus(CHAOS_GOLEM);
@@ -100,8 +100,8 @@ public class DrChaos extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addKillId(CHAOS_GOLEM); // Message + despawn.
-		addAttackActId(CHAOS_GOLEM); // Random messages when he attacks.
+		addAttackFinished(CHAOS_GOLEM);
+		addMyDying(CHAOS_GOLEM);
 	}
 	
 	@Override
@@ -210,7 +210,18 @@ public class DrChaos extends AttackableAIScript
 	}
 	
 	@Override
-	public String onSpawn(Npc npc)
+	public void onAttackFinished(Npc npc, Player player)
+	{
+		// Choose a message from 3 choices (1/100), and make him speak.
+		final int chance = Rnd.get(300);
+		if (chance < 3)
+			npc.broadcastNpcSay(SHOUTS[chance]);
+		
+		super.onAttackFinished(npc, player);
+	}
+	
+	@Override
+	public void onCreated(Npc npc)
 	{
 		// 30 seconds timer at initialization.
 		_pissedOffTimer = 30;
@@ -218,11 +229,11 @@ public class DrChaos extends AttackableAIScript
 		// Initialization of the paranoia.
 		startQuestTimerAtFixedRate("paranoia_activity", npc, null, 1000);
 		
-		return null;
+		super.onCreated(npc);
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		cancelQuestTimers("golem_despawn");
 		npc.broadcastNpcSay("Urggh! You will pay dearly for this insult.");
@@ -238,18 +249,7 @@ public class DrChaos extends AttackableAIScript
 		info.set("respawn_time", System.currentTimeMillis() + respawnTime);
 		GrandBossManager.getInstance().setStatSet(CHAOS_GOLEM, info);
 		
-		return null;
-	}
-	
-	@Override
-	public String onAttackAct(Npc npc, Player victim)
-	{
-		// Choose a message from 3 choices (1/100), and make him speak.
-		final int chance = Rnd.get(300);
-		if (chance < 3)
-			npc.broadcastNpcSay(SHOUTS[chance]);
-		
-		return null;
+		super.onMyDying(npc, killer);
 	}
 	
 	/**

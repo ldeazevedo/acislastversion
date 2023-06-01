@@ -65,11 +65,11 @@ public class Q369_CollectorOfJewels extends Quest
 		
 		setItemsIds(FLARE_SHARD, FREEZING_SHARD);
 		
-		addStartNpc(NELL);
+		addQuestStart(NELL);
 		addTalkId(NELL);
 		
 		for (int mob : DROPLIST.keySet())
-			addKillId(mob);
+			addMyDying(mob);
 	}
 	
 	@Override
@@ -145,13 +145,13 @@ public class Q369_CollectorOfJewels extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		player = st.getPlayer();
 		final int cond = st.getCond();
@@ -164,7 +164,5 @@ public class Q369_CollectorOfJewels extends Quest
 		}
 		else if (cond == 3 && dropItems(player, drop[0], 1, 200, drop[1]) && player.getInventory().getItemCount((drop[0] == FLARE_SHARD) ? FREEZING_SHARD : FLARE_SHARD) >= 200)
 			st.setCond(4);
-		
-		return null;
 	}
 }

@@ -51,10 +51,10 @@ public class Q344_1000YearsTheEndOfLamentation extends Quest
 		
 		setItemsIds(ARTICLE_DEAD_HERO, OLD_KEY, OLD_HILT, OLD_TOTEM, CRUCIFIX);
 		
-		addStartNpc(GILMORE);
+		addQuestStart(GILMORE);
 		addTalkId(GILMORE, RODEMAI, ORVEN, GARVARENTZ, KAIEN);
 		
-		addKillId(20236, 20237, 20238, 20239, 20240, 20272, 20273, 20274, 20275, 20276);
+		addMyDying(20236, 20237, 20238, 20239, 20240, 20272, 20273, 20274, 20275, 20276);
 	}
 	
 	@Override
@@ -245,16 +245,14 @@ public class Q344_1000YearsTheEndOfLamentation extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(player, ARTICLE_DEAD_HERO, 1, 0, CHANCES.get(npc.getNpcId()));
-		
-		return null;
 	}
 }

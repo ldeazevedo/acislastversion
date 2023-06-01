@@ -32,23 +32,18 @@ public class EffectChanceSkillTrigger extends AbstractEffect implements IChanceS
 	public boolean onStart()
 	{
 		getEffected().addChanceTrigger(this);
-		getEffected().onStartChanceEffect();
 		return super.onStart();
 	}
 	
 	@Override
 	public boolean onActionTime()
 	{
-		getEffected().onActionTimeChanceEffect();
 		return false;
 	}
 	
 	@Override
 	public void onExit()
 	{
-		// trigger only if effect in use and successfully ticked to the end
-		if (getInUse() && getCount() == 0)
-			getEffected().onExitChanceEffect();
 		getEffected().removeChanceEffect(this);
 		super.onExit();
 	}

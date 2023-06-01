@@ -33,9 +33,10 @@ public class Q023_LidiasHeart extends Quest
 		
 		setItemsIds(SILVER_KEY, LIDIA_DIARY, SILVER_SPEAR);
 		
-		addStartNpc(INNOCENTIN);
+		addQuestStart(INNOCENTIN);
 		addTalkId(INNOCENTIN, BROKEN_BOOKSHELF, GHOST_OF_VON_HELLMANN, VIOLET, BOX, TOMBSTONE);
-		addDecayId(GHOST_OF_VON_HELLMANN);
+		
+		addDecayed(GHOST_OF_VON_HELLMANN);
 	}
 	
 	@Override
@@ -143,17 +144,6 @@ public class Q023_LidiasHeart extends Quest
 				giveItems(player, SILVER_KEY, 1);
 				return "31523-06.htm";
 			}
-		}
-		
-		return null;
-	}
-	
-	@Override
-	public String onDecay(Npc npc)
-	{
-		if (npc == _ghost)
-		{
-			_ghost = null;
 		}
 		
 		return null;
@@ -285,5 +275,14 @@ public class Q023_LidiasHeart extends Quest
 		}
 		
 		return htmltext;
+	}
+	
+	@Override
+	public void onDecayed(Npc npc)
+	{
+		if (npc == _ghost)
+		{
+			_ghost = null;
+		}
 	}
 }

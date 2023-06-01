@@ -38,7 +38,7 @@ public class Q655_AGrandPlanForTamingWildBeasts extends Quest
 		
 		setItemsIds(CRYSTAL_OF_PURITY, TRAINER_LICENSE);
 		
-		addStartNpc(MESSENGER);
+		addQuestStart(MESSENGER);
 		addTalkId(MESSENGER);
 	}
 	

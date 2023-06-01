@@ -1,12 +1,12 @@
 package net.sf.l2j.commons.geometry;
 
+import java.awt.Color;
+
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.gameserver.model.location.Location;
+import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 
-/**
- * @author Hasha
- */
 public class Sphere extends Circle
 {
 	// sphere center Z coordinate
@@ -63,5 +63,34 @@ public class Sphere extends Circle
 		
 		// return
 		return new Location(x, y, z);
+	}
+	
+	@Override
+	public void visualize(String info, ExServerPrimitive debug, int z)
+	{
+		final int count = (int) (2 * Math.PI * _r / STEP);
+		final double angle = 2 * Math.PI / count;
+		z = _z - 32;
+		
+		int dXYZ = _r;
+		int dYZX = 0;
+		
+		for (int i = 1; i <= count; i++)
+		{
+			int nextXYZ = (int) (Math.cos(angle * i) * _r);
+			int nextYZX = (int) (Math.sin(angle * i) * _r);
+			
+			// draw line in X-plane
+			debug.addLine(info, Color.YELLOW, true, _x + dXYZ, _y + dYZX, z, _x + nextXYZ, _y + nextYZX, z);
+			
+			// draw line in Y-plane
+			debug.addLine(info, Color.YELLOW, true, _x + dXYZ, _y, z + dYZX, _x + nextXYZ, _y, z + nextYZX);
+			
+			// draw line in Z-plane
+			debug.addLine(info, Color.YELLOW, true, _x, _y + dXYZ, z + dYZX, _x, _y + nextXYZ, z + nextYZX);
+			
+			dXYZ = nextXYZ;
+			dYZX = nextYZX;
+		}
 	}
 }

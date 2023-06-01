@@ -26,7 +26,7 @@ public class Q109_InSearchOfTheNest extends Quest
 		
 		setItemsIds(SCOUT_MEMO);
 		
-		addStartNpc(PIERCE);
+		addQuestStart(PIERCE);
 		addTalkId(PIERCE, SCOUT_CORPSE, KAHMAN);
 	}
 	

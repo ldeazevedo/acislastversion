@@ -26,7 +26,7 @@ public class Q017_LightAndDarkness extends Quest
 		
 		setItemsIds(BLOOD_OF_SAINT);
 		
-		addStartNpc(HIERARCH);
+		addQuestStart(HIERARCH);
 		addTalkId(HIERARCH, SAINT_ALTAR_1, SAINT_ALTAR_2, SAINT_ALTAR_3, SAINT_ALTAR_4);
 	}
 	

@@ -240,177 +240,177 @@
 		<node x="143308" y="-26812"/>
 	</zone>
 	<!-- 4 Sepulchers -->
-	<zone shape="NPoly" minZ="-7260" maxZ="-7010"><!-- conquerors_weakness -->
-		<stat name="skill" val="4146-3"/><!-- s_area_pd_down3 -->
-		<stat name="chance" val="70"/>
-		<!-- stat name="unitTick" val="5" / -->
-		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
-		<node x="186739" y="-86322"/>
-		<node x="190108" y="-86335"/>
-		<node x="190110" y="-84794"/>
-		<node x="186736" y="-84786"/>
-	</zone>
-	<zone shape="NPoly" minZ="-7260" maxZ="-7010"><!-- conquerors_pddown -->
+	<zone id="60000" shape="NPoly" minZ="-7260" maxZ="-7010"><!-- conquerors_weakness -->
 		<stat name="skill" val="4145-3"/><!-- s_area_pa_down3 -->
 		<stat name="chance" val="70"/>
 		<!-- stat name="unitTick" val="5" / -->
 		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
+		<stat name="reuseDelay" val="9000"/>
 		<node x="186739" y="-86322"/>
 		<node x="190108" y="-86335"/>
 		<node x="190110" y="-84794"/>
 		<node x="186736" y="-84786"/>
 	</zone>
-	<zone shape="NPoly" minZ="-7260" maxZ="-7010"><!-- conquerors_poison -->
-		<stat name="skill" val="4148-9"/><!-- s_area_poison9 -->
-		<stat name="chance" val="70"/>
-		<!-- stat name="unitTick" val="5" / -->
-		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
-		<node x="186739" y="-86322"/>
-		<node x="190108" y="-86335"/>
-		<node x="190110" y="-84794"/>
-		<node x="186736" y="-84786"/>
-	</zone>
-	<zone shape="NPoly" minZ="-7260" maxZ="-7010"><!-- conquerors_nonheal -->
-		<stat name="skill" val="4624-9"/><!-- s_area_disease9 -->
-		<stat name="chance" val="70"/>
-		<!-- stat name="unitTick" val="5" / -->
-		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
-		<node x="186739" y="-86322"/>
-		<node x="190108" y="-86335"/>
-		<node x="190110" y="-84794"/>
-		<node x="186736" y="-84786"/>
-	</zone>
-	<zone shape="NPoly" minZ="-7265" maxZ="-7015"><!-- lords_weakness -->
+	<zone id="60001" shape="NPoly" minZ="-7260" maxZ="-7010"><!-- conquerors_pddown -->
 		<stat name="skill" val="4146-3"/><!-- s_area_pd_down3 -->
 		<stat name="chance" val="70"/>
 		<!-- stat name="unitTick" val="5" / -->
 		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
-		<node x="185028" y="-89729"/>
-		<node x="188398" y="-89741"/>
-		<node x="188400" y="-88200"/>
-		<node x="185026" y="-88192"/>
+		<stat name="reuseDelay" val="9000"/>
+		<node x="186739" y="-86322"/>
+		<node x="190108" y="-86335"/>
+		<node x="190110" y="-84794"/>
+		<node x="186736" y="-84786"/>
 	</zone>
-	<zone shape="NPoly" minZ="-7265" maxZ="-7015"><!-- lords_pddown -->
+	<zone id="60002" shape="NPoly" minZ="-7260" maxZ="-7010"><!-- conquerors_poison -->
+		<stat name="skill" val="4148-9"/><!-- s_area_poison9 -->
+		<stat name="chance" val="70"/>
+		<!-- stat name="unitTick" val="5" / -->
+		<stat name="defaultStatus" val="false"/>
+		<stat name="reuseDelay" val="9000"/>
+		<node x="186739" y="-86322"/>
+		<node x="190108" y="-86335"/>
+		<node x="190110" y="-84794"/>
+		<node x="186736" y="-84786"/>
+	</zone>
+	<zone id="60003" shape="NPoly" minZ="-7260" maxZ="-7010"><!-- conquerors_nonheal -->
+		<stat name="skill" val="4624-9"/><!-- s_area_disease9 -->
+		<stat name="chance" val="70"/>
+		<!-- stat name="unitTick" val="5" / -->
+		<stat name="defaultStatus" val="false"/>
+		<stat name="reuseDelay" val="9000"/>
+		<node x="186739" y="-86322"/>
+		<node x="190108" y="-86335"/>
+		<node x="190110" y="-84794"/>
+		<node x="186736" y="-84786"/>
+	</zone>
+	<zone id="60010" shape="NPoly" minZ="-7265" maxZ="-7015"><!-- lords_weakness -->
 		<stat name="skill" val="4145-3"/><!-- s_area_pa_down3 -->
 		<stat name="chance" val="70"/>
 		<!-- stat name="unitTick" val="5" / -->
 		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
+		<stat name="reuseDelay" val="9000"/>
 		<node x="185028" y="-89729"/>
 		<node x="188398" y="-89741"/>
 		<node x="188400" y="-88200"/>
 		<node x="185026" y="-88192"/>
 	</zone>
-	<zone shape="NPoly" minZ="-7265" maxZ="-7015"><!-- lords_poison -->
-		<stat name="skill" val="4148-9"/><!-- s_area_poison9 -->
-		<stat name="chance" val="70"/>
-		<!-- stat name="unitTick" val="5" / -->
-		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
-		<node x="185028" y="-89729"/>
-		<node x="188398" y="-89741"/>
-		<node x="188400" y="-88200"/>
-		<node x="185026" y="-88192"/>
-	</zone>
-	<zone shape="NPoly" minZ="-7265" maxZ="-7015"><!-- lords_nonheal -->
-		<stat name="skill" val="4624-9"/><!-- s_area_disease9 -->
-		<stat name="chance" val="70"/>
-		<!-- stat name="unitTick" val="5" / -->
-		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
-		<node x="185028" y="-89729"/>
-		<node x="188398" y="-89741"/>
-		<node x="188400" y="-88200"/>
-		<node x="185026" y="-88192"/>
-	</zone>
-	<zone shape="NPoly" minZ="-7262" maxZ="-7012"><!-- savants_weakness -->
+	<zone id="60011" shape="NPoly" minZ="-7265" maxZ="-7015"><!-- lords_pddown -->
 		<stat name="skill" val="4146-3"/><!-- s_area_pd_down3 -->
 		<stat name="chance" val="70"/>
 		<!-- stat name="unitTick" val="5" / -->
 		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
-		<node x="172411" y="-81083"/>
-		<node x="173942" y="-81073"/>
-		<node x="173931" y="-77639"/>
-		<node x="172418" y="-77644"/>
+		<stat name="reuseDelay" val="9000"/>
+		<node x="185028" y="-89729"/>
+		<node x="188398" y="-89741"/>
+		<node x="188400" y="-88200"/>
+		<node x="185026" y="-88192"/>
 	</zone>
-	<zone shape="NPoly" minZ="-7262" maxZ="-7012"><!-- savants_pddown -->
+	<zone id="60012" shape="NPoly" minZ="-7265" maxZ="-7015"><!-- lords_poison -->
+		<stat name="skill" val="4148-9"/><!-- s_area_poison9 -->
+		<stat name="chance" val="70"/>
+		<!-- stat name="unitTick" val="5" / -->
+		<stat name="defaultStatus" val="false"/>
+		<stat name="reuseDelay" val="9000"/>
+		<node x="185028" y="-89729"/>
+		<node x="188398" y="-89741"/>
+		<node x="188400" y="-88200"/>
+		<node x="185026" y="-88192"/>
+	</zone>
+	<zone id="60013" shape="NPoly" minZ="-7265" maxZ="-7015"><!-- lords_nonheal -->
+		<stat name="skill" val="4624-9"/><!-- s_area_disease9 -->
+		<stat name="chance" val="70"/>
+		<!-- stat name="unitTick" val="5" / -->
+		<stat name="defaultStatus" val="false"/>
+		<stat name="reuseDelay" val="9000"/>
+		<node x="185028" y="-89729"/>
+		<node x="188398" y="-89741"/>
+		<node x="188400" y="-88200"/>
+		<node x="185026" y="-88192"/>
+	</zone>
+	<zone id="60020" shape="NPoly" minZ="-7262" maxZ="-7012"><!-- savants_weakness -->
 		<stat name="skill" val="4145-3"/><!-- s_area_pa_down3 -->
 		<stat name="chance" val="70"/>
 		<!-- stat name="unitTick" val="5" / -->
 		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
+		<stat name="reuseDelay" val="9000"/>
 		<node x="172411" y="-81083"/>
 		<node x="173942" y="-81073"/>
 		<node x="173931" y="-77639"/>
 		<node x="172418" y="-77644"/>
 	</zone>
-	<zone shape="NPoly" minZ="-7262" maxZ="-7012"><!-- savants_poison -->
-		<stat name="skill" val="4148-9"/><!-- s_area_poison9 -->
-		<stat name="chance" val="70"/>
-		<!-- stat name="unitTick" val="5" / -->
-		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
-		<node x="172411" y="-81083"/>
-		<node x="173942" y="-81073"/>
-		<node x="173931" y="-77639"/>
-		<node x="172418" y="-77644"/>
-	</zone>
-	<zone shape="NPoly" minZ="-7262" maxZ="-7012"><!-- savants_nonheal -->
-		<stat name="skill" val="4624-9"/><!-- s_area_disease9 -->
-		<stat name="chance" val="70"/>
-		<!-- stat name="unitTick" val="5" / -->
-		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
-		<node x="172411" y="-81083"/>
-		<node x="173942" y="-81073"/>
-		<node x="173931" y="-77639"/>
-		<node x="172418" y="-77644"/>
-	</zone>
-	<zone shape="NPoly" minZ="-7262" maxZ="-7012"><!-- magistrates_weakness -->
+	<zone id="60021" shape="NPoly" minZ="-7262" maxZ="-7012"><!-- savants_pddown -->
 		<stat name="skill" val="4146-3"/><!-- s_area_pd_down3 -->
 		<stat name="chance" val="70"/>
 		<!-- stat name="unitTick" val="5" / -->
 		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
+		<stat name="reuseDelay" val="9000"/>
+		<node x="172411" y="-81083"/>
+		<node x="173942" y="-81073"/>
+		<node x="173931" y="-77639"/>
+		<node x="172418" y="-77644"/>
+	</zone>
+	<zone id="60022" shape="NPoly" minZ="-7262" maxZ="-7012"><!-- savants_poison -->
+		<stat name="skill" val="4148-9"/><!-- s_area_poison9 -->
+		<stat name="chance" val="70"/>
+		<!-- stat name="unitTick" val="5" / -->
+		<stat name="defaultStatus" val="false"/>
+		<stat name="reuseDelay" val="9000"/>
+		<node x="172411" y="-81083"/>
+		<node x="173942" y="-81073"/>
+		<node x="173931" y="-77639"/>
+		<node x="172418" y="-77644"/>
+	</zone>
+	<zone id="60023" shape="NPoly" minZ="-7262" maxZ="-7012"><!-- savants_nonheal -->
+		<stat name="skill" val="4624-9"/><!-- s_area_disease9 -->
+		<stat name="chance" val="70"/>
+		<!-- stat name="unitTick" val="5" / -->
+		<stat name="defaultStatus" val="false"/>
+		<stat name="reuseDelay" val="9000"/>
+		<node x="172411" y="-81083"/>
+		<node x="173942" y="-81073"/>
+		<node x="173931" y="-77639"/>
+		<node x="172418" y="-77644"/>
+	</zone>
+	<zone id="60030" shape="NPoly" minZ="-7262" maxZ="-7012"><!-- magistrates_weakness -->
+		<stat name="skill" val="4145-3"/><!-- s_area_pa_down3 -->
+		<stat name="chance" val="70"/>
+		<!-- stat name="unitTick" val="5" / -->
+		<stat name="defaultStatus" val="false"/>
+		<stat name="reuseDelay" val="9000"/>
 		<node x="174822" y="-77261"/>
 		<node x="176354" y="-77251"/>
 		<node x="176342" y="-73817"/>
 		<node x="174829" y="-73822"/>
 	</zone>
-	<zone shape="NPoly" minZ="-7262" maxZ="-7012"><!-- magistrates_pddown -->
-		<stat name="skill" val="4145-3"/><!-- s_area_pa_down3 -->
+	<zone id="60031" shape="NPoly" minZ="-7262" maxZ="-7012"><!-- magistrates_pddown -->
+		<stat name="skill" val="4146-3"/><!-- s_area_pd_down3 -->
 		<stat name="chance" val="70"/>
 		<!-- stat name="unitTick" val="5" / -->
 		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
+		<stat name="reuseDelay" val="9000"/>
 		<node x="174822" y="-77261"/>
 		<node x="176354" y="-77251"/>
 		<node x="176342" y="-73817"/>
 		<node x="174829" y="-73822"/>
 	</zone>
-	<zone shape="NPoly" minZ="-7262" maxZ="-7012"><!-- magistrates_poison -->
+	<zone id="60032" shape="NPoly" minZ="-7262" maxZ="-7012"><!-- magistrates_poison -->
 		<stat name="skill" val="4148-9"/><!-- s_area_poison9 -->
 		<stat name="chance" val="70"/>
 		<!-- stat name="unitTick" val="5" / -->
 		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
+		<stat name="reuseDelay" val="9000"/>
 		<node x="174822" y="-77261"/>
 		<node x="176354" y="-77251"/>
 		<node x="176342" y="-73817"/>
 		<node x="174829" y="-73822"/>
 	</zone>
-	<zone shape="NPoly" minZ="-7262" maxZ="-7012"><!-- magistrates_nonheal -->
+	<zone id="60033" shape="NPoly" minZ="-7262" maxZ="-7012"><!-- magistrates_nonheal -->
 		<stat name="skill" val="4624-9"/><!-- s_area_disease9 -->
 		<stat name="chance" val="70"/>
 		<!-- stat name="unitTick" val="5" / -->
 		<stat name="defaultStatus" val="false"/>
-		<stat name="reuseDelay" val="5000"/>
+		<stat name="reuseDelay" val="9000"/>
 		<node x="174822" y="-77261"/>
 		<node x="176354" y="-77251"/>
 		<node x="176342" y="-73817"/>

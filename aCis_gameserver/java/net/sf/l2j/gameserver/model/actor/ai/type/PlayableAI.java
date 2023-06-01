@@ -13,11 +13,11 @@ import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
-public abstract class PlayableAI extends CreatureAI
+public abstract class PlayableAI<T extends Playable> extends CreatureAI<T>
 {
-	public PlayableAI(Playable playable)
+	public PlayableAI(T actor)
 	{
-		super(playable);
+		super(actor);
 	}
 	
 	@Override
@@ -30,7 +30,7 @@ public abstract class PlayableAI extends CreatureAI
 				final L2Skill skill = _currentIntention.getSkill();
 				final Creature target = _currentIntention.getFinalTarget();
 				
-				if (skill.nextActionIsAttack() && target.isAttackableWithoutForceBy(getActor()))
+				if (skill.nextActionIsAttack() && target.isAttackableWithoutForceBy(_actor))
 					doAttackIntention(target, _currentIntention.isCtrlPressed(), _currentIntention.isShiftPressed());
 				else
 					doActiveIntention();
@@ -48,7 +48,7 @@ public abstract class PlayableAI extends CreatureAI
 	{
 		if (_nextIntention.isBlank())
 		{
-			if (getActor().canKeepAttacking(_currentIntention.getFinalTarget()))
+			if (_actor.canKeepAttacking(_currentIntention.getFinalTarget()))
 				notifyEvent(AiEventType.THINK, null, null);
 			else
 				doActiveIntention();
@@ -77,7 +77,7 @@ public abstract class PlayableAI extends CreatureAI
 		if (target instanceof Playable)
 		{
 			final Player targetPlayer = target.getActingPlayer();
-			final Player actorPlayer = getActor().getActingPlayer();
+			final Player actorPlayer = _actor.getActingPlayer();
 			
 			if (!target.isInsideZone(ZoneId.PVP))
 			{
@@ -119,7 +119,7 @@ public abstract class PlayableAI extends CreatureAI
 	{
 		clientActionFailed();
 		
-		if (getActor().denyAiAction() || getActor().isSitting())
+		if (_actor.denyAiAction() || _actor.isSitting())
 		{
 			doActiveIntention();
 			return null;
@@ -140,7 +140,7 @@ public abstract class PlayableAI extends CreatureAI
 		}
 		
 		final boolean isShiftPressed = _currentIntention.isShiftPressed();
-		if (getActor().getMove().maybeMoveToLocation(target.getPosition(), 36, false, isShiftPressed))
+		if (_actor.getMove().maybeMoveToLocation(target.getPosition(), 36, false, isShiftPressed))
 		{
 			if (isShiftPressed)
 				doActiveIntention();
@@ -151,11 +151,5 @@ public abstract class PlayableAI extends CreatureAI
 		doActiveIntention();
 		
 		return item;
-	}
-	
-	@Override
-	public Playable getActor()
-	{
-		return (Playable) _actor;
 	}
 }

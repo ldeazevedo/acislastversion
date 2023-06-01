@@ -28,10 +28,10 @@ public class Q274_SkirmishWithTheWerewolves extends Quest
 		
 		setItemsIds(MARAKU_WEREWOLF_HEAD, MARAKU_WOLFMEN_TOTEM);
 		
-		addStartNpc(30569);
+		addQuestStart(30569);
 		addTalkId(30569);
 		
-		addKillId(20363, 20364);
+		addMyDying(20363, 20364);
 	}
 	
 	@Override
@@ -96,20 +96,18 @@ public class Q274_SkirmishWithTheWerewolves extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItemsAlways(player, MARAKU_WEREWOLF_HEAD, 1, 40))
 			st.setCond(2);
 		
 		if (Rnd.get(100) < 6)
 			giveItems(player, MARAKU_WOLFMEN_TOTEM, 1);
-		
-		return null;
 	}
 }

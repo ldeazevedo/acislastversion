@@ -68,12 +68,12 @@ public class Q025_HidingBehindTheTruth extends Quest
 		// Note: FOREST_OF_DEADMAN_MAP and SUSPICIOUS_TOTEM_DOLL_2 are items from previous quests, should not be added.
 		setItemsIds(CONTRACT, LIDIA_DRESS, GEMSTONE_KEY, SUSPICIOUS_TOTEM_DOLL_3);
 		
-		addStartNpc(BENEDICT);
+		addQuestStart(BENEDICT);
 		addTalkId(AGRIPEL, BENEDICT, MYSTERIOUS_WIZARD, TOMBSTONE, MAID_OF_LIDIA, BROKEN_BOOKSHELF_1, BROKEN_BOOKSHELF_2, BROKEN_BOOKSHELF_3, COFFIN);
 		addFirstTalkId(MAID_OF_LIDIA);
 		
-		addKillId(TRIOL_PAWN);
-		addDecayId(TRIOL_PAWN, COFFIN);
+		addDecayed(TRIOL_PAWN, COFFIN);
+		addMyDying(TRIOL_PAWN);
 	}
 	
 	@Override
@@ -286,19 +286,6 @@ public class Q025_HidingBehindTheTruth extends Quest
 	}
 	
 	@Override
-	public String onDecay(Npc npc)
-	{
-		if (_coffin == npc)
-		{
-			_coffin = null;
-		}
-		else
-			_triolPawns.values().remove(npc);
-		
-		return null;
-	}
-	
-	@Override
 	public String onFirstTalk(Npc npc, Player player)
 	{
 		final QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -485,23 +472,32 @@ public class Q025_HidingBehindTheTruth extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onDecayed(Npc npc)
+	{
+		if (_coffin == npc)
+		{
+			_coffin = null;
+		}
+		else
+			_triolPawns.values().remove(npc);
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 7);
 		if (st == null)
-			return null;
+			return;
 		
 		if (player.getObjectId() != npc.getScriptValue())
-			return null;
+			return;
 		
 		if (dropItemsAlways(player, SUSPICIOUS_TOTEM_DOLL_3, 1, 1))
 		{
 			st.setCond(8);
 			npc.broadcastNpcSay(NpcStringId.ID_2551);
 		}
-		
-		return null;
 	}
 }

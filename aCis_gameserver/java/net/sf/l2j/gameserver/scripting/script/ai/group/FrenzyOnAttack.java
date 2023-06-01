@@ -32,11 +32,11 @@ public class FrenzyOnAttack extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addAttackId(20270, 20495, 20588, 20778, 21116);
+		addAttacked(20270, 20495, 20588, 20778, 21116);
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		// Chance to cast is 10%, when orc's HP is below 30%. Also the orc must not already be under the buff.
 		if (Rnd.get(100) < 10 && npc.getStatus().getHpRatio() < 0.3 && npc.getFirstEffect(ULTIMATE_BUFF) == null)
@@ -44,7 +44,6 @@ public class FrenzyOnAttack extends AttackableAIScript
 			npc.broadcastNpcSay(Rnd.get(ORCS_WORDS));
 			npc.getAI().tryToCast(npc, ULTIMATE_BUFF);
 		}
-		
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 }

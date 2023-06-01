@@ -20,10 +20,10 @@ public class Q313_CollectSpores extends Quest
 		
 		setItemsIds(SPORE_SAC);
 		
-		addStartNpc(30150); // Herbiel
+		addQuestStart(30150); // Herbiel
 		addTalkId(30150);
 		
-		addKillId(20509); // Spore Fungus
+		addMyDying(20509); // Spore Fungus
 	}
 	
 	@Override
@@ -76,17 +76,15 @@ public class Q313_CollectSpores extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, SPORE_SAC, 1, 10, 400000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

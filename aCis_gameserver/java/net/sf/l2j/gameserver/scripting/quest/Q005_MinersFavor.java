@@ -34,7 +34,7 @@ public class Q005_MinersFavor extends Quest
 		
 		setItemsIds(BOLTERS_LIST, MINING_BOOTS, MINERS_PICK, BOOMBOOM_POWDER, REDSTONE_BEER, BOLTERS_SMELLY_SOCKS);
 		
-		addStartNpc(BOLTER);
+		addQuestStart(BOLTER);
 		addTalkId(BOLTER, SHARI, GARITA, REED, BRUNON);
 	}
 	

@@ -38,10 +38,10 @@ public class Q345_MethodToRaiseTheDead extends Quest
 		
 		setItemsIds(VICTIM_ARM_BONE, VICTIM_THIGH_BONE, VICTIM_SKULL, VICTIM_RIB_BONE, VICTIM_SPINE, POWDER_TO_SUMMON_DEAD_SOULS, USELESS_BONE_PIECES);
 		
-		addStartNpc(DOROTHY);
+		addQuestStart(DOROTHY);
 		addTalkId(DOROTHY, XENOVIA, MEDIUM_JAR, ORPHEUS);
 		
-		addKillId(20789, 20791);
+		addMyDying(20789, 20791);
 	}
 	
 	@Override
@@ -202,13 +202,13 @@ public class Q345_MethodToRaiseTheDead extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (Rnd.get(4) == 0)
 		{
@@ -217,11 +217,9 @@ public class Q345_MethodToRaiseTheDead extends Quest
 			{
 				playSound(player, SOUND_ITEMGET);
 				giveItems(player, randomPart, 1);
-				return null;
+				return;
 			}
 		}
 		dropItemsAlways(player, USELESS_BONE_PIECES, 1, 0);
-		
-		return null;
 	}
 }

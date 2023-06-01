@@ -42,10 +42,10 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 		
 		setItemsIds(GOLDEN_HAIR, SORCERY_INGREDIENT, ORB_OF_BINDING);
 		
-		addStartNpc(VIRGIL);
+		addQuestStart(VIRGIL);
 		addTalkId(VIRGIL, KASSANDRA, OGMAR, MYSTERIOUS_KNIGHT, ANGEL_CORPSE, KALIS, MATILD, CORNERSTONE, FALLEN_UNICORN, PURE_UNICORN);
 		
-		addKillId(RESTRAINER_OF_GLORY);
+		addMyDying(RESTRAINER_OF_GLORY);
 	}
 	
 	@Override
@@ -334,13 +334,13 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 9);
 		if (st == null || !player.isSubClassActive())
-			return null;
+			return;
 		
 		// Check orbs internally, because player can use them before he gets them all.
 		final int orbs = st.getInteger("orb");
@@ -350,7 +350,5 @@ public class Q242_PossessorOfAPreciousSoul extends Quest
 			playSound(player, SOUND_ITEMGET);
 			giveItems(player, ORB_OF_BINDING, 1);
 		}
-		
-		return null;
 	}
 }

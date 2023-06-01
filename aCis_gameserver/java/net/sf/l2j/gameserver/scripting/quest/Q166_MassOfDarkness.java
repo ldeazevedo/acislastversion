@@ -29,7 +29,7 @@ public class Q166_MassOfDarkness extends Quest
 		
 		setItemsIds(UNDRIAS_LETTER, CEREMONIAL_DAGGER, DREVIANT_WINE, GARMIEL_SCRIPTURE);
 		
-		addStartNpc(UNDRIAS);
+		addQuestStart(UNDRIAS);
 		addTalkId(UNDRIAS, IRIA, DORANKUS, TRUDY);
 	}
 	

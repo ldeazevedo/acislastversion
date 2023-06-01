@@ -449,6 +449,11 @@ public class TradeList extends CopyOnWriteArrayList<TradeItem>
 			_owner.sendPacket(SystemMessageId.SLOTS_FULL);
 			partnerTradeList.getOwner().sendPacket(SystemMessageId.SLOTS_FULL);
 		}
+		// Check count integrity.
+		else if (!_owner.getInventory().validateTradeListCount(partnerTradeList) || !partnerTradeList.getOwner().getInventory().validateTradeListCount(this))
+		{
+			isSuccessful = false;
+		}
 		// Check if both TradeLists were empty.
 		else if (isEmpty() && partnerTradeList.isEmpty())
 		{

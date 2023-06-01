@@ -16,7 +16,6 @@ import net.sf.l2j.gameserver.handler.targethandlers.TargetCorpseAlly;
 import net.sf.l2j.gameserver.handler.targethandlers.TargetCorpseMob;
 import net.sf.l2j.gameserver.handler.targethandlers.TargetCorpsePet;
 import net.sf.l2j.gameserver.handler.targethandlers.TargetCorpsePlayer;
-import net.sf.l2j.gameserver.handler.targethandlers.TargetEnemySummon;
 import net.sf.l2j.gameserver.handler.targethandlers.TargetFrontArea;
 import net.sf.l2j.gameserver.handler.targethandlers.TargetFrontAura;
 import net.sf.l2j.gameserver.handler.targethandlers.TargetGround;
@@ -49,7 +48,6 @@ public class TargetHandler
 		registerHandler(new TargetCorpseMob());
 		registerHandler(new TargetCorpsePet());
 		registerHandler(new TargetCorpsePlayer());
-		registerHandler(new TargetEnemySummon());
 		registerHandler(new TargetFrontArea());
 		registerHandler(new TargetFrontAura());
 		registerHandler(new TargetGround());

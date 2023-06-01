@@ -37,7 +37,7 @@ public class Q653_WildMaiden extends Quest
 	{
 		super(653, "Wild Maiden");
 		
-		addStartNpc(SUKI);
+		addQuestStart(SUKI);
 		addTalkId(SUKI, GALIBREDO);
 		
 		addSpawn(SUKI, 66578, 72351, -3731, 0, false, 0, false);

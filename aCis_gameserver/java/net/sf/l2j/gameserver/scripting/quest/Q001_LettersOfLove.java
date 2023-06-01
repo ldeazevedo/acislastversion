@@ -30,7 +30,7 @@ public class Q001_LettersOfLove extends Quest
 		
 		setItemsIds(DARIN_LETTER, ROXXY_KERCHIEF, DARIN_RECEIPT, BAULRO_POTION);
 		
-		addStartNpc(DARIN);
+		addQuestStart(DARIN);
 		addTalkId(DARIN, ROXXY, BAULRO);
 	}
 	

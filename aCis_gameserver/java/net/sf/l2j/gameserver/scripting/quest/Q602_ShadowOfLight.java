@@ -53,10 +53,10 @@ public class Q602_ShadowOfLight extends Quest
 		
 		setItemsIds(EYE_OF_DARKNESS);
 		
-		addStartNpc(31683); // Eye of Argos
+		addQuestStart(31683); // Eye of Argos
 		addTalkId(31683);
 		
-		addKillId(21299, 21304);
+		addMyDying(21299, 21304);
 	}
 	
 	@Override
@@ -130,17 +130,15 @@ public class Q602_ShadowOfLight extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), EYE_OF_DARKNESS, 1, 100, (npc.getNpcId() == 21299) ? 450000 : 500000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

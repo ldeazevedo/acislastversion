@@ -4,6 +4,7 @@ import net.sf.l2j.gameserver.enums.skills.SkillType;
 import net.sf.l2j.gameserver.handler.ISkillHandler;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
+import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
 public class GiveSp implements ISkillHandler
@@ -14,7 +15,7 @@ public class GiveSp implements ISkillHandler
 	};
 	
 	@Override
-	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
+	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets, ItemInstance itemInstance)
 	{
 		final int spToAdd = (int) skill.getPower();
 		

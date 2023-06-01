@@ -50,10 +50,10 @@ public class Q102_SeaOfSporesFever extends Quest
 		
 		setItemsIds(ALBERIUS_LETTER, EVERGREEN_AMULET, DRYAD_TEARS, COBENDELL_MEDICINE_1, COBENDELL_MEDICINE_2, COBENDELL_MEDICINE_3, COBENDELL_MEDICINE_4, COBENDELL_MEDICINE_5, ALBERIUS_LIST);
 		
-		addStartNpc(ALBERIUS);
+		addQuestStart(ALBERIUS);
 		addTalkId(ALBERIUS, COBENDELL, BERROS, RAYEN, GARTRANDELL, VELTRESS);
 		
-		addKillId(20013, 20019);
+		addMyDying(20013, 20019);
 	}
 	
 	@Override
@@ -216,18 +216,16 @@ public class Q102_SeaOfSporesFever extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 2);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, DRYAD_TEARS, 1, 10, 300000))
 			st.setCond(3);
-		
-		return null;
 	}
 	
 	private static void checkItem(Player player, QuestState st, int itemId)

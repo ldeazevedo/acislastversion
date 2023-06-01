@@ -16,29 +16,24 @@ import net.sf.l2j.commons.pool.ThreadPool;
 
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
-import net.sf.l2j.gameserver.data.xml.MapRegionData;
-import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.enums.SiegeStatus;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.clanhall.SiegableHall;
-import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.pledge.Clan;
-import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.network.SystemMessageId;
-import net.sf.l2j.gameserver.network.serverpackets.NpcSay;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
-import net.sf.l2j.gameserver.scripting.Quest;
+import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 
-public abstract class ClanHallSiege extends Quest implements Siegable
+public abstract class ClanHallSiege extends AttackableAIScript implements Siegable
 {
 	protected static final CLogger LOGGER = new CLogger(ClanHallSiege.class.getName());
 	
-	private static final String SQL_LOAD_ATTACKERS = "SELECT attacker_id FROM clanhall_siege_attackers WHERE clanhall_id = ?";
-	private static final String SQL_SAVE_ATTACKERS = "INSERT INTO clanhall_siege_attackers VALUES (?,?)";
-	private static final String SQL_LOAD_GUARDS = "SELECT * FROM clanhall_siege_guards WHERE clanHallId = ?";
+	private static final String SELECT_ATTACKERS = "SELECT attacker_id FROM clanhall_siege_attackers WHERE clanhall_id = ?";
+	private static final String INSERT_ATTACKERS = "INSERT INTO clanhall_siege_attackers VALUES (?,?)";
+	private static final String DELETE_ATTACKERS = "DELETE FROM clanhall_siege_attackers WHERE clanhall_id = ?";
 	
 	public static final int FORTRESS_OF_RESISTANCE = 21;
 	public static final int DEVASTATED_CASTLE = 34;
@@ -47,131 +42,33 @@ public abstract class ClanHallSiege extends Quest implements Siegable
 	public static final int BEAST_FARM = 63;
 	public static final int FORTRESS_OF_DEAD = 64;
 	
-	private final List<Clan> _attackers = new CopyOnWriteArrayList<>();
-	private List<Spawn> _guards;
+	protected final List<Clan> _attackers = new CopyOnWriteArrayList<>();
 	
 	public SiegableHall _hall;
 	public ScheduledFuture<?> _siegeTask;
-	public boolean _missionAccomplished = false;
+	
+	protected boolean _missionAccomplished;
+	protected boolean _wasPreviouslyOwned;
 	
 	protected ClanHallSiege(String descr, final int hallId)
 	{
-		super(-1, descr);
+		super(descr);
 		
 		_hall = ClanHallManager.getInstance().getSiegableHall(hallId);
 		_hall.setSiege(this);
 		
-		_siegeTask = ThreadPool.schedule(this::prepareOwner, _hall.getNextSiegeTime() - System.currentTimeMillis() - 3600000);
+		_siegeTask = ThreadPool.schedule(this::prepareSiege, _hall.getNextSiegeTime() - System.currentTimeMillis() - 3600000);
 		
 		loadAttackers();
 		
 		LOGGER.info("{} siege scheduled for {}.", _hall.getName(), getSiegeDate().getTime());
 	}
 	
-	public void loadAttackers()
-	{
-		try (Connection con = ConnectionPool.getConnection();
-			PreparedStatement ps = con.prepareStatement(SQL_LOAD_ATTACKERS))
-		{
-			ps.setInt(1, _hall.getId());
-			try (ResultSet rset = ps.executeQuery())
-			{
-				while (rset.next())
-				{
-					final int id = rset.getInt("attacker_id");
-					final Clan clan = ClanTable.getInstance().getClan(id);
-					if (clan != null)
-						_attackers.add(clan);
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			LOGGER.warn("{}: Could not load siege attackers!", getName(), e);
-		}
-	}
+	public abstract Clan getWinner();
 	
-	public final void saveAttackers()
-	{
-		try (Connection con = ConnectionPool.getConnection();
-			PreparedStatement ps = con.prepareStatement("DELETE FROM clanhall_siege_attackers WHERE clanhall_id = ?"))
-		{
-			ps.setInt(1, _hall.getId());
-			ps.execute();
-			
-			if (!_attackers.isEmpty())
-			{
-				try (PreparedStatement insert = con.prepareStatement(SQL_SAVE_ATTACKERS))
-				{
-					for (Clan clan : _attackers)
-					{
-						insert.setInt(1, _hall.getId());
-						insert.setInt(2, clan.getClanId());
-						insert.addBatch();
-					}
-					insert.executeBatch();
-				}
-			}
-			LOGGER.info("{}: Successfully saved attackers to database.", getName());
-		}
-		catch (Exception e)
-		{
-			LOGGER.warn("{}: Couldnt save attacker list!", getName(), e);
-		}
-	}
+	public abstract void spawnNpcs();
 	
-	public final void loadGuards()
-	{
-		if (_guards == null)
-		{
-			_guards = new ArrayList<>();
-			
-			try (Connection con = ConnectionPool.getConnection();
-				PreparedStatement ps = con.prepareStatement(SQL_LOAD_GUARDS))
-			{
-				ps.setInt(1, _hall.getId());
-				try (ResultSet rset = ps.executeQuery())
-				{
-					while (rset.next())
-					{
-						final Spawn spawn = new Spawn(rset.getInt("npcId"));
-						spawn.setLoc(rset.getInt("x"), rset.getInt("y"), rset.getInt("z"), rset.getInt("heading"));
-						spawn.setRespawnDelay(rset.getInt("respawnDelay"));
-						
-						_guards.add(spawn);
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				LOGGER.warn("{}: Couldn't load siege guards!", getName(), e);
-			}
-		}
-	}
-	
-	private final void spawnSiegeGuards()
-	{
-		for (Spawn spawn : _guards)
-		{
-			spawn.setRespawnState(true);
-			spawn.doSpawn(false);
-		}
-	}
-	
-	private final void unSpawnSiegeGuards()
-	{
-		if (_guards != null)
-		{
-			for (Spawn spawn : _guards)
-			{
-				spawn.setRespawnState(false);
-				
-				final Npc last = spawn.getNpc();
-				if (last != null)
-					last.deleteMe();
-			}
-		}
-	}
+	public abstract void unspawnNpcs();
 	
 	@Override
 	public Npc getFlag(Clan clan)
@@ -211,41 +108,16 @@ public abstract class ClanHallSiege extends Quest implements Siegable
 		return clan != null && _attackers.contains(clan);
 	}
 	
-	public List<Player> getAttackersInZone()
-	{
-		final List<Player> attackers = new ArrayList<>();
-		for (Player player : _hall.getSiegeZone().getKnownTypeInside(Player.class))
-		{
-			final Clan clan = player.getClan();
-			if (clan != null && _attackers.contains(clan))
-				attackers.add(player);
-		}
-		return attackers;
-	}
-	
 	@Override
 	public List<Clan> getDefenderClans()
 	{
 		return Collections.emptyList();
 	}
 	
-	public void prepareOwner()
+	@Override
+	public Calendar getSiegeDate()
 	{
-		if (_hall.getOwnerId() > 0)
-		{
-			final Clan clan = ClanTable.getInstance().getClan(_hall.getOwnerId());
-			if (clan != null)
-				_attackers.add(clan);
-		}
-		
-		_hall.free();
-		_hall.banishForeigners();
-		
-		World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.REGISTRATION_TERM_FOR_S1_ENDED).addString(getName()));
-		
-		_hall.updateSiegeStatus(SiegeStatus.REGISTRATION_OVER);
-		
-		_siegeTask = ThreadPool.schedule(this::startSiege, 3600000);
+		return _hall.getSiegeDate();
 	}
 	
 	@Override
@@ -254,22 +126,19 @@ public abstract class ClanHallSiege extends Quest implements Siegable
 		// Fortress of Resistance doesn't have attacker list.
 		if (_attackers.isEmpty() && _hall.getId() != 21)
 		{
-			onSiegeEnds();
-			
 			_hall.updateNextSiege();
 			
-			_siegeTask = ThreadPool.schedule(this::prepareOwner, _hall.getSiegeDate().getTimeInMillis());
+			_siegeTask = ThreadPool.schedule(this::prepareSiege, _hall.getSiegeDate().getTimeInMillis());
 			
 			_hall.updateSiegeStatus(SiegeStatus.REGISTRATION_OVER);
 			
-			World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.SIEGE_OF_S1_HAS_BEEN_CANCELED_DUE_TO_LACK_OF_INTEREST).addString(_hall.getName()));
+			World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.SIEGE_OF_S1_HAS_BEEN_CANCELED_DUE_TO_LACK_OF_INTEREST).addFortId(_hall.getId()));
 			return;
 		}
 		
 		_hall.spawnDoor();
 		
-		loadGuards();
-		spawnSiegeGuards();
+		spawnNpcs();
 		
 		// Banish everyone out of the ClanHallZone (which explains the -1 as value).
 		_hall.getZone().banishForeigners(-1);
@@ -286,14 +155,16 @@ public abstract class ClanHallSiege extends Quest implements Siegable
 		}
 		
 		_hall.updateSiegeStatus(SiegeStatus.IN_PROGRESS);
-		onSiegeStarts();
-		_siegeTask = ThreadPool.schedule(new SiegeEnds(), _hall.getSiegeLength());
+		
+		_siegeTask = ThreadPool.schedule(this::endSiege, _hall.getSiegeLength());
 	}
 	
 	@Override
 	public void endSiege()
 	{
-		World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.SIEGE_OF_S1_HAS_ENDED).addString(_hall.getName()));
+		unspawnNpcs();
+		
+		World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.SIEGE_OF_S1_HAS_ENDED).addFortId(_hall.getId()));
 		
 		final Clan winner = getWinner();
 		
@@ -303,10 +174,10 @@ public abstract class ClanHallSiege extends Quest implements Siegable
 			
 			winner.setClanHallId(_hall.getId());
 			
-			World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.CLAN_S1_VICTORIOUS_OVER_S2_S_SIEGE).addString(winner.getName()).addString(_hall.getName()));
+			World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.CLAN_S1_VICTORIOUS_OVER_S2_S_SIEGE).addString(winner.getName()).addFortId(_hall.getId()));
 		}
 		else
-			World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.SIEGE_S1_DRAW).addString(_hall.getName()));
+			World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.SIEGE_S1_DRAW).addFortId(_hall.getId()));
 		
 		_missionAccomplished = false;
 		
@@ -334,53 +205,10 @@ public abstract class ClanHallSiege extends Quest implements Siegable
 		
 		_attackers.clear();
 		
-		onSiegeEnds();
-		
-		_siegeTask = ThreadPool.schedule(this::prepareOwner, _hall.getNextSiegeTime() - System.currentTimeMillis() - 3600000);
+		_siegeTask = ThreadPool.schedule(this::prepareSiege, _hall.getNextSiegeTime() - System.currentTimeMillis() - 3600000);
 		LOGGER.info("Siege of {} scheduled for {}.", _hall.getName(), _hall.getSiegeDate().getTime());
 		
 		_hall.updateSiegeStatus(SiegeStatus.REGISTRATION_OPENED);
-		unSpawnSiegeGuards();
-	}
-	
-	public void updateSiege()
-	{
-		cancelSiegeTask();
-		
-		_siegeTask = ThreadPool.schedule(this::prepareOwner, _hall.getNextSiegeTime() - 3600000);
-		
-		LOGGER.info("{} siege scheduled for {}.", _hall.getName(), _hall.getSiegeDate().getTime());
-	}
-	
-	public void cancelSiegeTask()
-	{
-		if (_siegeTask != null)
-		{
-			_siegeTask.cancel(false);
-		}
-	}
-	
-	@Override
-	public Calendar getSiegeDate()
-	{
-		return _hall.getSiegeDate();
-	}
-	
-	public static final void broadcastNpcSay(final Npc npc, final SayType type, final String messageId)
-	{
-		final NpcSay npcSay = new NpcSay(npc, type, messageId);
-		final int region = MapRegionData.getInstance().getMapRegion(npc.getX(), npc.getY());
-		
-		for (Player player : World.getInstance().getPlayers())
-		{
-			if (MapRegionData.getInstance().getMapRegion(player.getX(), player.getY()) == region)
-				player.sendPacket(npcSay);
-		}
-	}
-	
-	public Location getInnerSpawnLoc(Player player)
-	{
-		return null;
 	}
 	
 	public boolean canPlantFlag()
@@ -393,22 +221,108 @@ public abstract class ClanHallSiege extends Quest implements Siegable
 		return true;
 	}
 	
-	public void onSiegeStarts()
+	public List<Player> getAttackersInZone()
 	{
-	}
-	
-	public void onSiegeEnds()
-	{
-	}
-	
-	public abstract Clan getWinner();
-	
-	public class SiegeEnds implements Runnable
-	{
-		@Override
-		public void run()
+		final List<Player> attackers = new ArrayList<>();
+		for (Player player : _hall.getSiegeZone().getKnownTypeInside(Player.class))
 		{
-			endSiege();
+			final Clan clan = player.getClan();
+			if (clan != null && _attackers.contains(clan))
+				attackers.add(player);
+		}
+		return attackers;
+	}
+	
+	public void instantSiege()
+	{
+		prepareSiege(0);
+	}
+	
+	protected void prepareSiege()
+	{
+		prepareSiege(3600000);
+	}
+	
+	private void prepareSiege(long delay)
+	{
+		if (_hall.getOwnerId() > 0)
+		{
+			final Clan clan = ClanTable.getInstance().getClan(_hall.getOwnerId());
+			if (clan != null)
+				_attackers.add(clan);
+			
+			_wasPreviouslyOwned = true;
+		}
+		else
+			_wasPreviouslyOwned = false;
+		
+		_hall.free();
+		_hall.banishForeigners();
+		_hall.updateSiegeStatus(SiegeStatus.REGISTRATION_OVER);
+		
+		_siegeTask = ThreadPool.schedule(this::startSiege, delay);
+		
+		World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.REGISTRATION_TERM_FOR_S1_ENDED).addFortId(_hall.getId()));
+	}
+	
+	public void cancelSiegeTask()
+	{
+		if (_siegeTask != null)
+		{
+			_siegeTask.cancel(false);
+		}
+	}
+	
+	public void loadAttackers()
+	{
+		try (Connection con = ConnectionPool.getConnection();
+			PreparedStatement ps = con.prepareStatement(SELECT_ATTACKERS))
+		{
+			ps.setInt(1, _hall.getId());
+			
+			try (ResultSet rset = ps.executeQuery())
+			{
+				while (rset.next())
+				{
+					final Clan clan = ClanTable.getInstance().getClan(rset.getInt("attacker_id"));
+					if (clan != null)
+						_attackers.add(clan);
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			LOGGER.warn("Couldn't load {} siege attackers.", e, getName());
+		}
+	}
+	
+	public final void saveAttackers()
+	{
+		try (Connection con = ConnectionPool.getConnection())
+		{
+			try (PreparedStatement ps = con.prepareStatement(DELETE_ATTACKERS))
+			{
+				ps.setInt(1, _hall.getId());
+				ps.execute();
+			}
+			
+			if (!_attackers.isEmpty())
+			{
+				try (PreparedStatement insert = con.prepareStatement(INSERT_ATTACKERS))
+				{
+					for (Clan clan : _attackers)
+					{
+						insert.setInt(1, _hall.getId());
+						insert.setInt(2, clan.getClanId());
+						insert.addBatch();
+					}
+					insert.executeBatch();
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			LOGGER.warn("Couldn't save {} siege attackers.", e, getName());
 		}
 	}
 }

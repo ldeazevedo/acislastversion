@@ -28,10 +28,10 @@ public class Q659_IdRatherBeCollectingFairyBreath extends Quest
 		
 		setItemsIds(FAIRY_BREATH);
 		
-		addStartNpc(GALATEA);
+		addQuestStart(GALATEA);
 		addTalkId(GALATEA);
 		
-		addKillId(GIGGLING_WIND, BABBLING_WIND, SOBBING_WIND);
+		addMyDying(GIGGLING_WIND, BABBLING_WIND, SOBBING_WIND);
 	}
 	
 	@Override
@@ -89,16 +89,14 @@ public class Q659_IdRatherBeCollectingFairyBreath extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(player, FAIRY_BREATH, 1, 0, 900000);
-		
-		return null;
 	}
 }

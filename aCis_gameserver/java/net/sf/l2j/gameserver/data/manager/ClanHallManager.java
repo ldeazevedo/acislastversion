@@ -253,7 +253,7 @@ public class ClanHallManager implements IXmlReader
 		return false;
 	}
 	
-	public final void onServerShutDown()
+	public final void save()
 	{
 		for (SiegableHall hall : getSiegableHalls())
 		{

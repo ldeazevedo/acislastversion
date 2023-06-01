@@ -255,6 +255,10 @@ public final class Config
 	// NPCs / Monsters
 	// --------------------------------------------------
 	
+	/** Spawn */
+	public static double SPAWN_MULTIPLIER;
+	public static String[] SPAWN_EVENTS;
+	
 	/** Buffer */
 	public static int BUFFER_MAX_SCHEMES;
 	public static int BUFFER_STATIC_BUFF_COST;
@@ -286,9 +290,6 @@ public final class Config
 	public static boolean RAID_DISABLE_CURSE;
 	
 	/** Grand Boss */
-	public static int SPAWN_INTERVAL_AQ;
-	public static int RANDOM_SPAWN_TIME_AQ;
-	
 	public static int SPAWN_INTERVAL_ANTHARAS;
 	public static int RANDOM_SPAWN_TIME_ANTHARAS;
 	public static int WAIT_TIME_ANTHARAS;
@@ -296,15 +297,9 @@ public final class Config
 	public static int SPAWN_INTERVAL_BAIUM;
 	public static int RANDOM_SPAWN_TIME_BAIUM;
 	
-	public static int SPAWN_INTERVAL_CORE;
-	public static int RANDOM_SPAWN_TIME_CORE;
-	
 	public static int SPAWN_INTERVAL_FRINTEZZA;
 	public static int RANDOM_SPAWN_TIME_FRINTEZZA;
 	public static int WAIT_TIME_FRINTEZZA;
-	
-	public static int SPAWN_INTERVAL_ORFEN;
-	public static int RANDOM_SPAWN_TIME_ORFEN;
 	
 	public static int SPAWN_INTERVAL_SAILREN;
 	public static int RANDOM_SPAWN_TIME_SAILREN;
@@ -313,9 +308,6 @@ public final class Config
 	public static int SPAWN_INTERVAL_VALAKAS;
 	public static int RANDOM_SPAWN_TIME_VALAKAS;
 	public static int WAIT_TIME_VALAKAS;
-	
-	public static int SPAWN_INTERVAL_ZAKEN;
-	public static int RANDOM_SPAWN_TIME_ZAKEN;
 	
 	/** AI */
 	public static boolean GUARD_ATTACK_AGGRO_MOB;
@@ -498,10 +490,11 @@ public final class Config
 	public static double RATE_SP;
 	public static double RATE_PARTY_XP;
 	public static double RATE_PARTY_SP;
-	public static double RATE_DROP_ADENA;
+	public static double RATE_DROP_CURRENCY;
 	public static double RATE_DROP_ITEMS;
 	public static double RATE_DROP_ITEMS_BY_RAID;
 	public static double RATE_DROP_SPOIL;
+	public static double RATE_DROP_HERBS;
 	public static int RATE_DROP_MANOR;
 	
 	public static double RATE_QUEST_DROP;
@@ -528,11 +521,6 @@ public final class Config
 	public static double PET_XP_RATE;
 	public static int PET_FOOD_RATE;
 	public static double SINEATER_XP_RATE;
-	
-	public static double RATE_DROP_COMMON_HERBS;
-	public static double RATE_DROP_HP_HERBS;
-	public static double RATE_DROP_MP_HERBS;
-	public static double RATE_DROP_SPECIAL_HERBS;
 	
 	/** Allow types */
 	public static boolean ALLOW_FREIGHT;
@@ -580,7 +568,6 @@ public final class Config
 	public static int GLOBAL_CHAT_TIME;
 	public static int TRADE_CHAT_TIME;
 	public static int SOCIAL_TIME;
-	public static int MOVE_TIME;
 	
 	/** ThreadPool */
 	public static int SCHEDULED_THREAD_POOL_COUNT;
@@ -885,6 +872,14 @@ public final class Config
 	{
 		final ExProperties npcs = initProperties(NPCS_FILE);
 		
+		SPAWN_MULTIPLIER = npcs.getProperty("SpawnMultiplier", 1.);
+		SPAWN_EVENTS = npcs.getProperty("SpawnEvents", new String[]
+		{
+			"extra_mob",
+			"18age",
+			"start_weapon",
+		});
+		
 		BUFFER_MAX_SCHEMES = npcs.getProperty("BufferMaxSchemesPerChar", 4);
 		BUFFER_STATIC_BUFF_COST = npcs.getProperty("BufferStaticCostPerBuff", -1);
 		
@@ -911,9 +906,6 @@ public final class Config
 		
 		RAID_DISABLE_CURSE = npcs.getProperty("DisableRaidCurse", false);
 		
-		SPAWN_INTERVAL_AQ = npcs.getProperty("AntQueenSpawnInterval", 36);
-		RANDOM_SPAWN_TIME_AQ = npcs.getProperty("AntQueenRandomSpawn", 17);
-		
 		SPAWN_INTERVAL_ANTHARAS = npcs.getProperty("AntharasSpawnInterval", 264);
 		RANDOM_SPAWN_TIME_ANTHARAS = npcs.getProperty("AntharasRandomSpawn", 72);
 		WAIT_TIME_ANTHARAS = npcs.getProperty("AntharasWaitTime", 30) * 60000;
@@ -921,15 +913,9 @@ public final class Config
 		SPAWN_INTERVAL_BAIUM = npcs.getProperty("BaiumSpawnInterval", 168);
 		RANDOM_SPAWN_TIME_BAIUM = npcs.getProperty("BaiumRandomSpawn", 48);
 		
-		SPAWN_INTERVAL_CORE = npcs.getProperty("CoreSpawnInterval", 60);
-		RANDOM_SPAWN_TIME_CORE = npcs.getProperty("CoreRandomSpawn", 23);
-		
 		SPAWN_INTERVAL_FRINTEZZA = npcs.getProperty("FrintezzaSpawnInterval", 48);
 		RANDOM_SPAWN_TIME_FRINTEZZA = npcs.getProperty("FrintezzaRandomSpawn", 8);
 		WAIT_TIME_FRINTEZZA = npcs.getProperty("FrintezzaWaitTime", 1) * 60000;
-		
-		SPAWN_INTERVAL_ORFEN = npcs.getProperty("OrfenSpawnInterval", 48);
-		RANDOM_SPAWN_TIME_ORFEN = npcs.getProperty("OrfenRandomSpawn", 20);
 		
 		SPAWN_INTERVAL_SAILREN = npcs.getProperty("SailrenSpawnInterval", 36);
 		RANDOM_SPAWN_TIME_SAILREN = npcs.getProperty("SailrenRandomSpawn", 24);
@@ -938,9 +924,6 @@ public final class Config
 		SPAWN_INTERVAL_VALAKAS = npcs.getProperty("ValakasSpawnInterval", 264);
 		RANDOM_SPAWN_TIME_VALAKAS = npcs.getProperty("ValakasRandomSpawn", 72);
 		WAIT_TIME_VALAKAS = npcs.getProperty("ValakasWaitTime", 30) * 60000;
-		
-		SPAWN_INTERVAL_ZAKEN = npcs.getProperty("ZakenSpawnInterval", 60);
-		RANDOM_SPAWN_TIME_ZAKEN = npcs.getProperty("ZakenRandomSpawn", 20);
 		
 		GUARD_ATTACK_AGGRO_MOB = npcs.getProperty("GuardAttackAggroMob", false);
 		RANDOM_WALK_RATE = npcs.getProperty("RandomWalkRate", 30);
@@ -964,7 +947,7 @@ public final class Config
 		MP_REGEN_MULTIPLIER = players.getProperty("MpRegenMultiplier", 1.);
 		CP_REGEN_MULTIPLIER = players.getProperty("CpRegenMultiplier", 1.);
 		PLAYER_SPAWN_PROTECTION = players.getProperty("PlayerSpawnProtection", 0);
-		PLAYER_FAKEDEATH_UP_PROTECTION = players.getProperty("PlayerFakeDeathUpProtection", 0);
+		PLAYER_FAKEDEATH_UP_PROTECTION = players.getProperty("PlayerFakeDeathUpProtection", 5);
 		RESPAWN_RESTORE_HP = players.getProperty("RespawnRestoreHP", 0.7);
 		MAX_PVTSTORE_SLOTS_DWARF = players.getProperty("MaxPvtStoreSlotsDwarf", 5);
 		MAX_PVTSTORE_SLOTS_OTHER = players.getProperty("MaxPvtStoreSlotsOther", 4);
@@ -1151,10 +1134,11 @@ public final class Config
 		RATE_SP = server.getProperty("RateSp", 1.);
 		RATE_PARTY_XP = server.getProperty("RatePartyXp", 1.);
 		RATE_PARTY_SP = server.getProperty("RatePartySp", 1.);
-		RATE_DROP_ADENA = server.getProperty("RateDropAdena", 1.);
+		RATE_DROP_CURRENCY = server.getProperty("RateDropCurrency", 1.);
 		RATE_DROP_ITEMS = server.getProperty("RateDropItems", 1.);
 		RATE_DROP_ITEMS_BY_RAID = server.getProperty("RateRaidDropItems", 1.);
 		RATE_DROP_SPOIL = server.getProperty("RateDropSpoil", 1.);
+		RATE_DROP_HERBS = server.getProperty("RateDropHerbs", 1.);
 		RATE_DROP_MANOR = server.getProperty("RateDropManor", 1);
 		RATE_QUEST_DROP = server.getProperty("RateQuestDrop", 1.);
 		RATE_QUEST_REWARD = server.getProperty("RateQuestReward", 1.);
@@ -1163,10 +1147,6 @@ public final class Config
 		RATE_QUEST_REWARD_ADENA = server.getProperty("RateQuestRewardAdena", 1.);
 		RATE_KARMA_EXP_LOST = server.getProperty("RateKarmaExpLost", 1.);
 		RATE_SIEGE_GUARDS_PRICE = server.getProperty("RateSiegeGuardsPrice", 1.);
-		RATE_DROP_COMMON_HERBS = server.getProperty("RateCommonHerbs", 1.);
-		RATE_DROP_HP_HERBS = server.getProperty("RateHpHerbs", 1.);
-		RATE_DROP_MP_HERBS = server.getProperty("RateMpHerbs", 1.);
-		RATE_DROP_SPECIAL_HERBS = server.getProperty("RateSpecialHerbs", 1.);
 		PLAYER_DROP_LIMIT = server.getProperty("PlayerDropLimit", 3);
 		PLAYER_RATE_DROP = server.getProperty("PlayerRateDrop", 5);
 		PLAYER_RATE_DROP_ITEM = server.getProperty("PlayerRateDropItem", 70);
@@ -1222,7 +1202,6 @@ public final class Config
 		GLOBAL_CHAT_TIME = server.getProperty("GlobalChatTime", 0);
 		TRADE_CHAT_TIME = server.getProperty("TradeChatTime", 0);
 		SOCIAL_TIME = server.getProperty("SocialTime", 2000);
-		MOVE_TIME = server.getProperty("MoveTime", 100);
 		
 		SCHEDULED_THREAD_POOL_COUNT = server.getProperty("ScheduledThreadPoolCount", -1);
 		THREADS_PER_SCHEDULED_THREAD_POOL = server.getProperty("ThreadsPerScheduledThreadPool", 4);

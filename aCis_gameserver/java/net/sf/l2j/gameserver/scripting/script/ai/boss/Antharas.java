@@ -11,7 +11,7 @@ import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Playable;
@@ -121,8 +121,8 @@ public class Antharas extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(ANTHARAS_IDS, ScriptEventType.ON_ATTACK, ScriptEventType.ON_SPAWN);
-		addKillId(29066, 29067, 29068, 29069, 29070, 29071, 29072, 29073, 29074, 29075, 29076);
+		addEventIds(ANTHARAS_IDS, EventHandler.ATTACKED, EventHandler.CREATED);
+		addMyDying(29066, 29067, 29068, 29069, 29070, 29071, 29072, 29073, 29074, 29075, 29076);
 	}
 	
 	@Override
@@ -194,7 +194,7 @@ public class Antharas extends AttackableAIScript
 				
 				final int npcId = isBehemoth ? 29069 : Rnd.get(29070, 29076);
 				final Npc dragon = addSpawn(npcId, npc.getX() + Rnd.get(-200, 200), npc.getY() + Rnd.get(-200, 200), npc.getZ(), 0, false, 0, true);
-				((Monster) dragon).setMinion(true);
+				((Monster) dragon).setRaidRelated();
 				
 				_minions.add(dragon);
 				
@@ -259,32 +259,33 @@ public class Antharas extends AttackableAIScript
 	}
 	
 	@Override
-	public String onSpawn(Npc npc)
-	{
-		npc.disableCoreAi(true);
-		return super.onSpawn(npc);
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		if (npc.isInvul())
-			return null;
+			return;
 		
 		if (attacker instanceof Playable)
 		{
 			// Curses
 			if (attacker.testCursesOnAttack(npc))
-				return null;
+				return;
 			
 			// Refresh timer on every hit.
 			_timeTracker = System.currentTimeMillis();
 		}
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onCreated(Npc npc)
+	{
+		npc.disableCoreAi(true);
+		
+		super.onCreated(npc);
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		if (npc.getNpcId() == _antharasId)
 		{
@@ -312,8 +313,7 @@ public class Antharas extends AttackableAIScript
 			cancelQuestTimers("self_destruct", npc);
 			_minions.remove(npc);
 		}
-		
-		return super.onKill(npc, killer);
+		super.onMyDying(npc, killer);
 	}
 	
 	private void callSkillAI(Npc npc)
@@ -348,7 +348,7 @@ public class Antharas extends AttackableAIScript
 		final double hpRatio = npc.getStatus().getHpRatio();
 		
 		// Find enemies surrounding Antharas.
-		final int[] playersAround = getPlayersCountInPositions(1100, npc, false);
+		final int[] playersAround = getPlayersCountInPositions(1100, npc);
 		
 		if (hpRatio < 0.25)
 		{

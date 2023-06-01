@@ -46,10 +46,10 @@ public class Q646_SignsOfRevolt extends Quest
 		
 		setItemsIds(CURSED_DOLL);
 		
-		addStartNpc(TORRANT);
+		addQuestStart(TORRANT);
 		addTalkId(TORRANT);
 		
-		addKillId(22029, 22030, 22031, 22032, 22033, 22034, 22035, 22036, 22037, 22038, 22039, 22040, 22041, 22042, 22043, 22044, 22045, 22047, 22049);
+		addMyDying(22029, 22030, 22031, 22032, 22033, 22034, 22035, 22036, 22037, 22038, 22039, 22040, 22041, 22042, 22043, 22044, 22045, 22047, 22049);
 	}
 	
 	@Override
@@ -108,17 +108,15 @@ public class Q646_SignsOfRevolt extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), CURSED_DOLL, 1, 180, 750000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

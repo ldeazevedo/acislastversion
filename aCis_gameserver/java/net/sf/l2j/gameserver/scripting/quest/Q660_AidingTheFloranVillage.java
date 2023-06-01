@@ -42,10 +42,10 @@ public class Q660_AidingTheFloranVillage extends Quest
 		
 		setItemsIds(WATCHING_EYES, LIZARDMEN_SCALE, GOLEM_SHARD);
 		
-		addStartNpc(MARIA, ALEX);
+		addQuestStart(MARIA, ALEX);
 		addTalkId(MARIA, ALEX);
 		
-		addKillId(CURSED_SEER, PLAIN_WATCHMAN, ROCK_GOLEM, LIZARDMEN_SHAMAN, LIZARDMEN_SUPPLIER, LIZARDMEN_COMMANDER, LIZARDMEN_AGENT);
+		addMyDying(CURSED_SEER, PLAIN_WATCHMAN, ROCK_GOLEM, LIZARDMEN_SHAMAN, LIZARDMEN_SUPPLIER, LIZARDMEN_COMMANDER, LIZARDMEN_AGENT);
 	}
 	
 	@Override
@@ -206,13 +206,13 @@ public class Q660_AidingTheFloranVillage extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 2);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -232,8 +232,6 @@ public class Q660_AidingTheFloranVillage extends Quest
 				dropItems(st.getPlayer(), LIZARDMEN_SCALE, 1, 0, 670000);
 				break;
 		}
-		
-		return null;
 	}
 	
 	/**

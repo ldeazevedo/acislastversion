@@ -23,10 +23,10 @@ public class Q352_HelpRoodRaiseANewPet extends Quest
 		
 		setItemsIds(LIENRIK_EGG_1, LIENRIK_EGG_2);
 		
-		addStartNpc(31067); // Rood
+		addQuestStart(31067); // Rood
 		addTalkId(31067);
 		
-		addKillId(20786, 20787, 21644, 21645);
+		addMyDying(20786, 20787, 21644, 21645);
 	}
 	
 	@Override
@@ -108,13 +108,13 @@ public class Q352_HelpRoodRaiseANewPet extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		final int random = Rnd.get(100);
@@ -124,7 +124,5 @@ public class Q352_HelpRoodRaiseANewPet extends Quest
 			dropItemsAlways(player, LIENRIK_EGG_1, 1, 0);
 		else if (random < (chance + 4))
 			dropItemsAlways(player, LIENRIK_EGG_2, 1, 0);
-		
-		return null;
 	}
 }

@@ -11,9 +11,9 @@ import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
 
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.enums.QuestStatus;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -892,14 +892,14 @@ public class Q335_SongOfTheHunter extends Quest
 		
 		setItemsIds(CYBELLIN_DAGGER, LICENSE_1, LICENSE_2, LAUREL_LEAF_PIN, TEST_INSTRUCTIONS_1, TEST_INSTRUCTIONS_2, CYBELLIN_REQUEST, BASILISK_SCALE, KARUT_WEED, HAKA_HEAD, JAKA_HEAD, MARKA_HEAD, ALEPH_SKIN, INDIGO_RUNESTONE, SPORESEA_SEED, ORC_TOTEM, TRISALIM_SILK, AMBROSIUS_FRUIT, BALEFIRE_CRYSTAL, IMPERIAL_ARROWHEAD, ATHU_HEAD, LANKA_HEAD, TRISKA_HEAD, MOTURA_HEAD, KALATH_HEAD, BLOOD_CRYSTAL_01, BLOOD_CRYSTAL_02, BLOOD_CRYSTAL_03, BLOOD_CRYSTAL_04, BLOOD_CRYSTAL_05, BLOOD_CRYSTAL_06, BLOOD_CRYSTAL_07, BLOOD_CRYSTAL_08, BLOOD_CRYSTAL_09, BLOOD_CRYSTAL_10, BROKEN_BLOOD, REQUEST_1ST_1C, REQUEST_1ST_2C, REQUEST_1ST_3C, REQUEST_1ST_4C, REQUEST_1ST_5C, REQUEST_1ST_6C, REQUEST_1ST_7C, REQUEST_1ST_8C, REQUEST_1ST_9C, REQUEST_1ST_10C, REQUEST_1ST_11C, REQUEST_1ST_12C, REQUEST_1ST_1B, REQUEST_1ST_2B, REQUEST_1ST_3B, REQUEST_1ST_4B, REQUEST_1ST_5B, REQUEST_1ST_6B, REQUEST_1ST_1A, REQUEST_1ST_2A, REQUEST_1ST_3A, REQUEST_2ND_1C, REQUEST_2ND_2C, REQUEST_2ND_3C, REQUEST_2ND_4C, REQUEST_2ND_5C, REQUEST_2ND_6C, REQUEST_2ND_7C, REQUEST_2ND_8C, REQUEST_2ND_9C, REQUEST_2ND_10C, REQUEST_2ND_11C, REQUEST_2ND_12C, REQUEST_2ND_1B, REQUEST_2ND_2B, REQUEST_2ND_3B, REQUEST_2ND_4B, REQUEST_2ND_5B, REQUEST_2ND_6B, REQUEST_2ND_1A, REQUEST_2ND_2A, REQUEST_2ND_3A, CHARM_OF_KADESH, TIMAK_JADE_NECKLACE, ENCHANTED_GOLEM_SHARD, GIANT_MONSTER_EYE_MEAT, DIRE_WYRM_EGG, GRD_BASILISK_TALON, REVENANT_CHAINS, WINDSUS_TUSK, GRANDIS_SKULL, TAIK_OBSIDIAN_AMULET, KARUL_BUGBEAR_HEAD, TAMLIN_IVORY_CHARM, FANG_OF_NARAK, ENCHANTED_GARGOYLE_HORN, COILED_SERPENT_TOTEM, TOTEM_OF_KADESH, KAIKI_HEAD, KRONBE_VENOM_SAC, EVA_CHARM, TITAN_TABLET, BOOK_OF_SHUNAIMAN, ROTTING_TREE_SPORES, TRISALIM_VENOM_SAC, TAIK_ORC_TOTEM, HARIT_BARBED_NECKLACE, COIN_OF_OLD_EMPIRE, SKIN_OF_FARCRAN, TEMPEST_SHARD, TSUNAMI_SHARD, SATYR_MANE, HAMADRYAD_SHARD, VANOR_SILENOS_MANE, TALK_BUGBEAR_TOTEM, OKUN_HEAD, KAKRAN_HEAD, NARCISSUS_SOULSTONE, DEPRIVE_EYE, UNICORN_HORN, KERUNO_GOLD_MANE, SKULL_OF_EXECUTED, BUST_OF_TRAVIS, SWORD_OF_CADMUS);
 		
-		addStartNpc(GREY);
+		addQuestStart(GREY);
 		addTalkId(GREY, TOR, CYBELLIN);
 		
-		addEventIds(GREY_TEST_1_DROPLIST.keySet(), ScriptEventType.ON_KILL);
-		addEventIds(GREY_TEST_2_DROPLIST.keySet(), ScriptEventType.ON_KILL);
-		addEventIds(TOR_REQUEST_DROPLIST.stream().map(TorRequestDroplist::getMonster).collect(Collectors.toList()), ScriptEventType.ON_KILL);
-		addEventIds(TOR_REQUEST_SPAWN.stream().map(TorRequestSpawn::getMonster).collect(Collectors.toList()), ScriptEventType.ON_KILL);
-		addEventIds(CYBELLIN_REQUEST_DROPLIST, ScriptEventType.ON_KILL);
+		addEventIds(GREY_TEST_1_DROPLIST.keySet(), EventHandler.MY_DYING);
+		addEventIds(GREY_TEST_2_DROPLIST.keySet(), EventHandler.MY_DYING);
+		addEventIds(TOR_REQUEST_DROPLIST.stream().map(TorRequestDroplist::getMonster).collect(Collectors.toList()), EventHandler.MY_DYING);
+		addEventIds(TOR_REQUEST_SPAWN.stream().map(TorRequestSpawn::getMonster).collect(Collectors.toList()), EventHandler.MY_DYING);
+		addEventIds(CYBELLIN_REQUEST_DROPLIST, EventHandler.MY_DYING);
 	}
 	
 	@Override
@@ -1347,13 +1347,13 @@ public class Q335_SongOfTheHunter extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		final int cond = st.getCond();
@@ -1456,8 +1456,6 @@ public class Q335_SongOfTheHunter extends Quest
 				}
 			}
 		}
-		
-		return null;
 	}
 	
 	/**

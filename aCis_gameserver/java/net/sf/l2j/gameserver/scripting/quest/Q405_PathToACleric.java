@@ -42,10 +42,10 @@ public class Q405_PathToACleric extends Quest
 		
 		setItemsIds(LETTER_OF_ORDER_1, BOOK_OF_SIMPLON, BOOK_OF_PRAGA, BOOK_OF_VIVYAN, NECKLACE_OF_MOTHER, PENDANT_OF_MOTHER, LETTER_OF_ORDER_2, LIONEL_BOOK, CERTIFICATE_OF_GALLINT, LIONEL_COVENANT);
 		
-		addStartNpc(ZIGAUNT);
+		addQuestStart(ZIGAUNT);
 		addTalkId(ZIGAUNT, SIMPLON, PRAGA, VIVYAN, LIONEL, GALLINT);
 		
-		addKillId(20029, 20026);
+		addMyDying(20029, 20026);
 	}
 	
 	@Override
@@ -225,20 +225,18 @@ public class Q405_PathToACleric extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (player.getInventory().hasItems(NECKLACE_OF_MOTHER) && !player.getInventory().hasItems(PENDANT_OF_MOTHER))
 		{
 			playSound(player, SOUND_MIDDLE);
 			giveItems(player, PENDANT_OF_MOTHER, 1);
 		}
-		
-		return null;
 	}
 }

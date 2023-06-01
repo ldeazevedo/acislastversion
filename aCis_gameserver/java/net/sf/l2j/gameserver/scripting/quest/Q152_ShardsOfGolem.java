@@ -33,10 +33,10 @@ public class Q152_ShardsOfGolem extends Quest
 		
 		setItemsIds(HARRIS_RECEIPT_1, HARRIS_RECEIPT_2, GOLEM_SHARD, TOOL_BOX);
 		
-		addStartNpc(HARRIS);
+		addQuestStart(HARRIS);
 		addTalkId(HARRIS, ALTRAN);
 		
-		addKillId(STONE_GOLEM);
+		addMyDying(STONE_GOLEM);
 	}
 	
 	@Override
@@ -126,17 +126,15 @@ public class Q152_ShardsOfGolem extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 2);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, GOLEM_SHARD, 1, 5, 300000))
 			st.setCond(3);
-		
-		return null;
 	}
 }

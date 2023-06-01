@@ -23,16 +23,17 @@ import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
  * Each {@link Creature} holds 3 {@link Intention}s : past, current and future.<br>
  * <br>
  * AI behavior is then affected by potential {@link AiEventType}s, or by own AI type.
+ * @param <T> : The {@link Creature} used as actor.
  */
-abstract class AbstractAI
+abstract class AbstractAI<T extends Creature>
 {
-	protected final Creature _actor;
+	protected final T _actor;
 	
 	protected Intention _previousIntention = new Intention();
 	protected Intention _currentIntention = new Intention();
 	protected Intention _nextIntention = new Intention();
 	
-	protected AbstractAI(Creature actor)
+	protected AbstractAI(T actor)
 	{
 		_actor = actor;
 	}
@@ -95,11 +96,6 @@ abstract class AbstractAI
 	public String toString()
 	{
 		return "Actor: " + _actor;
-	}
-	
-	public Creature getActor()
-	{
-		return _actor;
 	}
 	
 	public final synchronized Intention getPreviousIntention()
@@ -171,7 +167,7 @@ abstract class AbstractAI
 		prepareIntention();
 		
 		// Feed related values.
-		_currentIntention.updateAsCast(getActor(), target, skill, isCtrlPressed, isShiftPressed, itemObjectId);
+		_currentIntention.updateAsCast(_actor, target, skill, isCtrlPressed, isShiftPressed, itemObjectId);
 		
 		thinkCast();
 	}
@@ -564,7 +560,7 @@ abstract class AbstractAI
 	 */
 	public final void notifyEvent(AiEventType evt, Object firstParameter, Object secondParameter)
 	{
-		if ((!_actor.isVisible() && !_actor.isTeleporting()) || !_actor.hasAI())
+		if ((!_actor.isVisible() && !_actor.isTeleporting()))
 			return;
 		
 		switch (evt)
@@ -780,7 +776,7 @@ abstract class AbstractAI
 		if (World.getInstance().getObject(target.getObjectId()) == null)
 			return true;
 		
-		return !getActor().knows(target);
+		return !_actor.knows(target);
 	}
 	
 	/**
@@ -799,6 +795,6 @@ abstract class AbstractAI
 		if (skill != null && skill.getSkillType() == SkillType.SUMMON_FRIEND)
 			return false;
 		
-		return !getActor().knows(target);
+		return !_actor.knows(target);
 	}
 }

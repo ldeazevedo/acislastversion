@@ -22,10 +22,10 @@ public class Q614_SlayTheEnemyCommander extends Quest
 		
 		setItemsIds(HEAD_OF_TAYR);
 		
-		addStartNpc(31377); // Ashas Varka Durai
+		addQuestStart(31377); // Ashas Varka Durai
 		addTalkId(31377);
 		
-		addKillId(25302); // Tayr
+		addMyDying(25302); // Tayr
 	}
 	
 	@Override
@@ -94,7 +94,7 @@ public class Q614_SlayTheEnemyCommander extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
@@ -108,7 +108,5 @@ public class Q614_SlayTheEnemyCommander extends Quest
 				giveItems(pm, HEAD_OF_TAYR, 1);
 			}
 		}
-		
-		return null;
 	}
 }

@@ -76,14 +76,13 @@ public class Q348_AnArrogantSearch extends Quest
 		
 		setItemsIds(TITAN_POWERSTONE, HANELLIN_FIRST_LETTER, HANELLIN_SECOND_LETTER, HANELLIN_THIRD_LETTER, FIRST_KEY_OF_ARK, SECOND_KEY_OF_ARK, THIRD_KEY_OF_ARK, BOOK_OF_SAINT, BLOOD_OF_SAINT, BOUGH_OF_SAINT, WHITE_FABRIC);
 		
-		addStartNpc(HANELLIN);
+		addQuestStart(HANELLIN);
 		addTalkId(HANELLIN, CLAUDIA_ATHEBALDT, MARTIEN, HARNE, HOLY_ARK_OF_SECRECY_1, HOLY_ARK_OF_SECRECY_2, HOLY_ARK_OF_SECRECY_3, ARK_GUARDIAN_CORPSE, GUSTAV_ATHEBALDT, HARDIN, IASON_HEINE);
 		
-		addSpawnId(ARK_GUARDIAN_ELBEROTH, ARK_GUARDIAN_SHADOW_FANG, ANGEL_KILLER);
-		addAttackId(ARK_GUARDIAN_ELBEROTH, ARK_GUARDIAN_SHADOW_FANG, ANGEL_KILLER, PLATINUM_TRIBE_SHAMAN, PLATINUM_TRIBE_OVERLORD);
-		
-		addKillId(LESSER_GIANT_MAGE, LESSER_GIANT_ELDER, ARK_GUARDIAN_ELBEROTH, ARK_GUARDIAN_SHADOW_FANG, PLATINUM_TRIBE_SHAMAN, PLATINUM_TRIBE_OVERLORD, GUARDIAN_ANGEL, SEAL_ANGEL);
-		addDecayId(ARK_GUARDIAN_ELBEROTH, ARK_GUARDIAN_SHADOW_FANG, ANGEL_KILLER);
+		addAttacked(ARK_GUARDIAN_ELBEROTH, ARK_GUARDIAN_SHADOW_FANG, ANGEL_KILLER, PLATINUM_TRIBE_SHAMAN, PLATINUM_TRIBE_OVERLORD);
+		addCreated(ARK_GUARDIAN_ELBEROTH, ARK_GUARDIAN_SHADOW_FANG, ANGEL_KILLER);
+		addDecayed(ARK_GUARDIAN_ELBEROTH, ARK_GUARDIAN_SHADOW_FANG, ANGEL_KILLER);
+		addMyDying(LESSER_GIANT_MAGE, LESSER_GIANT_ELDER, ARK_GUARDIAN_ELBEROTH, ARK_GUARDIAN_SHADOW_FANG, PLATINUM_TRIBE_SHAMAN, PLATINUM_TRIBE_OVERLORD, GUARDIAN_ANGEL, SEAL_ANGEL);
 	}
 	
 	@Override
@@ -540,34 +539,13 @@ public class Q348_AnArrogantSearch extends Quest
 	}
 	
 	@Override
-	public String onSpawn(Npc npc)
-	{
-		switch (npc.getNpcId())
-		{
-			case ARK_GUARDIAN_ELBEROTH:
-				npc.broadcastNpcSay(NpcStringId.ID_34837);
-				break;
-			
-			case ARK_GUARDIAN_SHADOW_FANG:
-				npc.broadcastNpcSay(NpcStringId.ID_34838);
-				break;
-			
-			case ANGEL_KILLER:
-				npc.broadcastNpcSay(NpcStringId.ID_34831);
-				break;
-		}
-		
-		return null;
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		final Player player = attacker.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -634,18 +612,52 @@ public class Q348_AnArrogantSearch extends Quest
 				}
 				break;
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onCreated(Npc npc)
+	{
+		switch (npc.getNpcId())
+		{
+			case ARK_GUARDIAN_ELBEROTH:
+				npc.broadcastNpcSay(NpcStringId.ID_34837);
+				break;
+			
+			case ARK_GUARDIAN_SHADOW_FANG:
+				npc.broadcastNpcSay(NpcStringId.ID_34838);
+				break;
+			
+			case ANGEL_KILLER:
+				npc.broadcastNpcSay(NpcStringId.ID_34831);
+				break;
+		}
+	}
+	
+	@Override
+	public void onDecayed(Npc npc)
+	{
+		if (npc == _elberoth)
+		{
+			_elberoth = null;
+		}
+		else if (npc == _shadowFang)
+		{
+			_shadowFang = null;
+		}
+		else if (npc == _angelKiller)
+		{
+			_angelKiller = null;
+		}
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int cond = st.getCond();
 		
@@ -712,26 +724,5 @@ public class Q348_AnArrogantSearch extends Quest
 				}
 				break;
 		}
-		
-		return null;
-	}
-	
-	@Override
-	public String onDecay(Npc npc)
-	{
-		if (npc == _elberoth)
-		{
-			_elberoth = null;
-		}
-		else if (npc == _shadowFang)
-		{
-			_shadowFang = null;
-		}
-		else if (npc == _angelKiller)
-		{
-			_angelKiller = null;
-		}
-		
-		return null;
 	}
 }

@@ -86,11 +86,11 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 		
 		setItemsIds(VARKA_BADGE_SOLDIER, VARKA_BADGE_OFFICER, VARKA_BADGE_CAPTAIN);
 		
-		addStartNpc(31371); // Wahkan
+		addQuestStart(31371); // Wahkan
 		addTalkId(31371);
 		
 		for (int mobs : CHANCES.keySet())
-			addKillId(mobs);
+			addMyDying(mobs);
 	}
 	
 	@Override
@@ -281,13 +281,13 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		player = st.getPlayer();
 		final int npcId = npc.getNpcId();
@@ -297,12 +297,12 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 		if (st2 != null && Rnd.nextBoolean() && CHANCES_MANE.containsKey(npcId))
 		{
 			dropItems(player, VARKA_MANE, 1, 0, CHANCES_MANE.get(npcId));
-			return null;
+			return;
 		}
 		
 		final int cond = st.getCond();
 		if (cond == 6)
-			return null;
+			return;
 		
 		switch (npcId)
 		{
@@ -353,7 +353,5 @@ public class Q605_AllianceWithKetraOrcs extends Quest
 					dropItems(player, VARKA_BADGE_CAPTAIN, 1, 200, CHANCES.get(npcId));
 				break;
 		}
-		
-		return null;
 	}
 }

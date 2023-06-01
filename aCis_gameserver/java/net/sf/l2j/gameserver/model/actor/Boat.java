@@ -14,7 +14,6 @@ import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.actors.OperateType;
 import net.sf.l2j.gameserver.model.actor.ai.type.BoatAI;
-import net.sf.l2j.gameserver.model.actor.ai.type.CreatureAI;
 import net.sf.l2j.gameserver.model.actor.move.BoatMove;
 import net.sf.l2j.gameserver.model.actor.status.BoatStatus;
 import net.sf.l2j.gameserver.model.actor.template.CreatureTemplate;
@@ -40,8 +39,18 @@ public class Boat extends Creature
 	public Boat(int objectId, CreatureTemplate template)
 	{
 		super(objectId, template);
-		
-		setAI(new BoatAI(this));
+	}
+	
+	@Override
+	public BoatAI getAI()
+	{
+		return (BoatAI) _ai;
+	}
+	
+	@Override
+	public void setAI()
+	{
+		_ai = new BoatAI(this);
 	}
 	
 	@Override
@@ -142,18 +151,6 @@ public class Boat extends Creature
 	public Weapon getSecondaryWeaponItem()
 	{
 		return null;
-	}
-	
-	@Override
-	public void setAI(CreatureAI newAI)
-	{
-		if (_ai == null)
-			_ai = newAI;
-	}
-	
-	@Override
-	public void detachAI()
-	{
 	}
 	
 	@Override

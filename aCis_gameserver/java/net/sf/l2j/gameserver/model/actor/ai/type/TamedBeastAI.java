@@ -13,7 +13,7 @@ import net.sf.l2j.gameserver.model.actor.instance.TamedBeast;
 import net.sf.l2j.gameserver.network.serverpackets.SocialAction;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
-public class TamedBeastAI extends AttackableAI
+public class TamedBeastAI extends AttackableAI<TamedBeast>
 {
 	private static final int MAX_DISTANCE_FROM_HOME = 13000;
 	private static final int TASK_INTERVAL = 5000;
@@ -52,7 +52,7 @@ public class TamedBeastAI extends AttackableAI
 		// Check if the owner is no longer around. If so, despawn.
 		if (owner == null || !owner.isOnline())
 		{
-			getActor().deleteMe();
+			_actor.deleteMe();
 			return;
 		}
 		
@@ -60,21 +60,21 @@ public class TamedBeastAI extends AttackableAI
 		if (++_step > 12)
 		{
 			// Verify first if the tamed beast is still in the good range. If not, delete it.
-			if (!getActor().isIn2DRadius(52335, -83086, MAX_DISTANCE_FROM_HOME))
+			if (!_actor.isIn2DRadius(52335, -83086, MAX_DISTANCE_FROM_HOME))
 			{
-				getActor().deleteMe();
+				_actor.deleteMe();
 				return;
 			}
 			
 			// Destroy the food from owner's inventory ; if none is found, delete the pet.
-			if (!owner.destroyItemByItemId("BeastMob", getActor().getFoodId(), 1, getActor(), true))
+			if (!owner.destroyItemByItemId("BeastMob", _actor.getFoodId(), 1, _actor, true))
 			{
-				getActor().deleteMe();
+				_actor.deleteMe();
 				return;
 			}
 			
-			getActor().broadcastPacket(new SocialAction(getActor(), 2));
-			getActor().broadcastNpcSay(Rnd.get(FOOD_CHAT));
+			_actor.broadcastPacket(new SocialAction(_actor, 2));
+			_actor.broadcastNpcSay(Rnd.get(FOOD_CHAT));
 			
 			_step = 0;
 		}
@@ -87,7 +87,7 @@ public class TamedBeastAI extends AttackableAI
 		int i = 0;
 		L2Skill buffToGive = null;
 		
-		final List<L2Skill> skills = getActor().getTemplate().getSkills(NpcSkillType.BUFF);
+		final List<L2Skill> skills = _actor.getTemplate().getSkills(NpcSkillType.BUFF);
 		final int rand = Rnd.get(skills.size());
 		
 		// Retrieve the random buff, and check how much tamed beast buffs the player has.
@@ -115,7 +115,7 @@ public class TamedBeastAI extends AttackableAI
 		// Check if the owner is no longer around. If so, despawn.
 		if (getOwner() == null || !getOwner().isOnline())
 		{
-			getActor().deleteMe();
+			_actor.deleteMe();
 			return;
 		}
 		
@@ -131,7 +131,7 @@ public class TamedBeastAI extends AttackableAI
 			// Happen only when owner's HPs < 50%
 			if (getOwner().getStatus().getHpRatio() < 0.5)
 			{
-				for (final L2Skill skill : getActor().getTemplate().getSkills(NpcSkillType.HEAL))
+				for (final L2Skill skill : _actor.getTemplate().getSkills(NpcSkillType.HEAL))
 				{
 					switch (skill.getSkillType())
 					{
@@ -149,7 +149,7 @@ public class TamedBeastAI extends AttackableAI
 		// Debuff, 33% luck.
 		else if (proba == 1)
 		{
-			for (final L2Skill skill : getActor().getTemplate().getSkills(NpcSkillType.DEBUFF))
+			for (final L2Skill skill : _actor.getTemplate().getSkills(NpcSkillType.DEBUFF))
 			{
 				// if the skill is a debuff, check if the attacker has it already
 				if (attacker.getFirstEffect(skill) == null)
@@ -165,7 +165,7 @@ public class TamedBeastAI extends AttackableAI
 			// Happen only when owner's MPs < 50%
 			if (getOwner().getStatus().getMpRatio() < 0.5)
 			{
-				for (final L2Skill skill : getActor().getTemplate().getSkills(NpcSkillType.HEAL))
+				for (final L2Skill skill : _actor.getTemplate().getSkills(NpcSkillType.HEAL))
 				{
 					switch (skill.getSkillType())
 					{
@@ -197,20 +197,10 @@ public class TamedBeastAI extends AttackableAI
 			_aiTask = null;
 		}
 		super.stopAITask();
-		
-		// Cancel the AI
-		_actor.detachAI();
-	}
-	
-	@Override
-	public TamedBeast getActor()
-	{
-		return (TamedBeast) _actor;
 	}
 	
 	private Player getOwner()
 	{
-		return getActor().getOwner();
+		return _actor.getOwner();
 	}
-	
 }

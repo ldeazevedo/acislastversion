@@ -89,11 +89,11 @@ public class Q038_DragonFangs extends Quest
 		
 		setItemsIds(FEATHER_ORNAMENT, TOOTH_OF_TOTEM, TOOTH_OF_DRAGON, LETTER_OF_IRIS, LETTER_OF_ROHMER);
 		
-		addStartNpc(LUIS);
+		addQuestStart(LUIS);
 		addTalkId(LUIS, IRIS, ROHMER);
 		
 		for (int mob : DROPLIST.keySet())
-			addKillId(mob);
+			addMyDying(mob);
 	}
 	
 	@Override
@@ -225,19 +225,17 @@ public class Q038_DragonFangs extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int[] droplist = DROPLIST.get(npc.getNpcId());
 		
 		if (st.getCond() == droplist[0] && dropItems(player, droplist[1], 1, droplist[2], droplist[3]))
 			st.setCond(droplist[0] + 1);
-		
-		return null;
 	}
 }

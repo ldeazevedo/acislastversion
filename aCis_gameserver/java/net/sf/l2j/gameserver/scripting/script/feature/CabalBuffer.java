@@ -5,7 +5,7 @@ import net.sf.l2j.commons.util.ArraysUtil;
 
 import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
 import net.sf.l2j.gameserver.enums.CabalType;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -138,12 +138,38 @@ public class CabalBuffer extends Quest
 	{
 		super(-1, "feature");
 		
-		addEventIds(PREACHER_OF_DOOM_IDS, ScriptEventType.ON_CREATURE_SEE, ScriptEventType.ON_DECAY, ScriptEventType.ON_SPAWN);
-		addEventIds(ORATOR_OF_REVELATIONS_IDS, ScriptEventType.ON_CREATURE_SEE, ScriptEventType.ON_DECAY, ScriptEventType.ON_SPAWN);
+		addEventIds(PREACHER_OF_DOOM_IDS, EventHandler.CREATED, EventHandler.DECAYED, EventHandler.SEE_CREATURE);
+		addEventIds(ORATOR_OF_REVELATIONS_IDS, EventHandler.CREATED, EventHandler.DECAYED, EventHandler.SEE_CREATURE);
 	}
 	
 	@Override
-	public String onCreatureSee(Npc npc, Creature creature)
+	public String onTimer(String name, Npc npc, Player player)
+	{
+		if (name.equalsIgnoreCase("5097"))
+		{
+			npc.broadcastNpcSay(Rnd.get((isPreacher(npc)) ? PREACHER_OF_DOOM_RANDOM_CHAT : ORATOR_OF_REVELATIONS_RANDOM_CHAT));
+		}
+		return super.onTimer(name, npc, player);
+	}
+	
+	@Override
+	public void onCreated(Npc npc)
+	{
+		startQuestTimerAtFixedRate("5097", npc, null, 60000, 60000);
+		
+		super.onCreated(npc);
+	}
+	
+	@Override
+	public void onDecayed(Npc npc)
+	{
+		cancelQuestTimers("5097", npc);
+		
+		super.onDecayed(npc);
+	}
+	
+	@Override
+	public void onSeeCreature(Npc npc, Creature creature)
 	{
 		if (creature instanceof Player)
 		{
@@ -151,12 +177,18 @@ public class CabalBuffer extends Quest
 			
 			// Don't bother about invisible GMs.
 			if (player.isGM() && !player.isVisible())
-				return super.onCreatureSee(npc, creature);
+			{
+				super.onSeeCreature(npc, creature);
+				return;
+			}
 			
 			// Don't bother about Players who didn't participated.
 			final CabalType playerCabal = SevenSignsManager.getInstance().getPlayerCabal(player.getObjectId());
 			if (playerCabal == CabalType.NORMAL)
-				return super.onCreatureSee(npc, creature);
+			{
+				super.onSeeCreature(npc, creature);
+				return;
+			}
 			
 			final int i0 = Rnd.get(100);
 			final int i1 = Rnd.get(10000);
@@ -206,31 +238,7 @@ public class CabalBuffer extends Quest
 				}
 			}
 		}
-		return super.onCreatureSee(npc, creature);
-	}
-	
-	@Override
-	public String onDecay(Npc npc)
-	{
-		cancelQuestTimers("5097", npc);
-		return super.onDecay(npc);
-	}
-	
-	@Override
-	public String onTimer(String name, Npc npc, Player player)
-	{
-		if (name.equalsIgnoreCase("5097"))
-		{
-			npc.broadcastNpcSay(Rnd.get((isPreacher(npc)) ? PREACHER_OF_DOOM_RANDOM_CHAT : ORATOR_OF_REVELATIONS_RANDOM_CHAT));
-		}
-		return super.onTimer(name, npc, player);
-	}
-	
-	@Override
-	public String onSpawn(Npc npc)
-	{
-		startQuestTimerAtFixedRate("5097", npc, null, 60000, 60000);
-		return super.onSpawn(npc);
+		super.onSeeCreature(npc, creature);
 	}
 	
 	/**

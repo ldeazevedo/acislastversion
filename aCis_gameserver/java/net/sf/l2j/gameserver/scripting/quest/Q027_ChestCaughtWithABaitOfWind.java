@@ -25,7 +25,7 @@ public class Q027_ChestCaughtWithABaitOfWind extends Quest
 		
 		setItemsIds(STRANGE_BLUEPRINT);
 		
-		addStartNpc(LANOSCO);
+		addQuestStart(LANOSCO);
 		addTalkId(LANOSCO, SHALING);
 	}
 	

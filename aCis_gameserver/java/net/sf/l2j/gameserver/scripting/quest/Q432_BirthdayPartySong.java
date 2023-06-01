@@ -23,10 +23,10 @@ public class Q432_BirthdayPartySong extends Quest
 		
 		setItemsIds(RED_CRYSTAL);
 		
-		addStartNpc(OCTAVIA);
+		addQuestStart(OCTAVIA);
 		addTalkId(OCTAVIA);
 		
-		addKillId(21103);
+		addMyDying(21103);
 	}
 	
 	@Override
@@ -81,17 +81,15 @@ public class Q432_BirthdayPartySong extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), RED_CRYSTAL, 1, 50, 500000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

@@ -31,10 +31,10 @@ public class Q296_TarantulasSpiderSilk extends Quest
 		
 		setItemsIds(TARANTULA_SPIDER_SILK, TARANTULA_SPINNERETTE);
 		
-		addStartNpc(MION);
+		addQuestStart(MION);
 		addTalkId(MION, DEFENDER_NATHAN);
 		
-		addKillId(20394, 20403, 20508); // Crimson Tarantula, Hunter Tarantula, Plunder arantula
+		addMyDying(20394, 20403, 20508); // Crimson Tarantula, Hunter Tarantula, Plunder arantula
 	}
 	
 	@Override
@@ -116,20 +116,18 @@ public class Q296_TarantulasSpiderSilk extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int chance = Rnd.get(100);
 		if (chance > 95)
 			dropItemsAlways(player, TARANTULA_SPINNERETTE, 1, 0);
 		else if (chance > 45)
 			dropItemsAlways(player, TARANTULA_SPIDER_SILK, 1, 0);
-		
-		return null;
 	}
 }

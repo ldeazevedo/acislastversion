@@ -28,10 +28,10 @@ public class Q347_GoGetTheCalculator extends Quest
 		
 		setItemsIds(GEMSTONE_BEAST_CRYSTAL, CALCULATOR_QUEST);
 		
-		addStartNpc(BRUNON);
+		addQuestStart(BRUNON);
 		addTalkId(BRUNON, SILVERA, SPIRON, BALANKI);
 		
-		addKillId(20540);
+		addMyDying(20540);
 	}
 	
 	@Override
@@ -153,16 +153,14 @@ public class Q347_GoGetTheCalculator extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 5);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(player, GEMSTONE_BEAST_CRYSTAL, 1, 10, 500000);
-		
-		return null;
 	}
 }

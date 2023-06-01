@@ -29,7 +29,7 @@ public class Q008_AnAdventureBegins extends Quest
 		
 		setItemsIds(ROSELYN_NOTE);
 		
-		addStartNpc(JASMINE);
+		addQuestStart(JASMINE);
 		addTalkId(JASMINE, ROSELYN, HARNE);
 	}
 	

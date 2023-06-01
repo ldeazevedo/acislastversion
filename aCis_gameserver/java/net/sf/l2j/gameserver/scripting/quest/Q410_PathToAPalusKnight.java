@@ -38,10 +38,10 @@ public class Q410_PathToAPalusKnight extends Quest
 		
 		setItemsIds(PALUS_TALISMAN, LYCANTHROPE_SKULL, VIRGIL_LETTER, MORTE_TALISMAN, PREDATOR_CARAPACE, ARACHNID_TRACKER_SILK, COFFIN_OF_ETERNAL_REST);
 		
-		addStartNpc(VIRGIL);
+		addQuestStart(VIRGIL);
 		addTalkId(VIRGIL, KALINTA);
 		
-		addKillId(POISON_SPIDER, ARACHNID_TRACKER, LYCANTHROPE);
+		addMyDying(POISON_SPIDER, ARACHNID_TRACKER, LYCANTHROPE);
 	}
 	
 	@Override
@@ -156,13 +156,13 @@ public class Q410_PathToAPalusKnight extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -181,7 +181,5 @@ public class Q410_PathToAPalusKnight extends Quest
 					st.setCond(5);
 				break;
 		}
-		
-		return null;
 	}
 }

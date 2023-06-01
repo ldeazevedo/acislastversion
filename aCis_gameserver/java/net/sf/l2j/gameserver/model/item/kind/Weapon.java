@@ -3,7 +3,7 @@ package net.sf.l2j.gameserver.model.item.kind;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.random.Rnd;
 
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
 import net.sf.l2j.gameserver.handler.ISkillHandler;
@@ -249,7 +249,7 @@ public final class Weapon extends Item
 		// Get the skill handler corresponding to the skill type - Launch the magic skill and calculate its effects.
 		final ISkillHandler handler = SkillHandler.getInstance().getHandler(skillOnMagic.getSkillType());
 		if (handler != null)
-			handler.useSkill(caster, skillOnMagic, targets);
+			handler.useSkill(caster, skillOnMagic, targets, null);
 		else
 			skillOnMagic.useSkill(caster, targets);
 		
@@ -258,8 +258,8 @@ public final class Weapon extends Item
 		{
 			for (Npc npc : caster.getKnownTypeInRadius(Npc.class, 1000))
 			{
-				for (Quest quest : npc.getTemplate().getEventQuests(ScriptEventType.ON_SKILL_SEE))
-					quest.notifySkillSee(npc, (Player) caster, skillOnMagic, targets, false);
+				for (Quest quest : npc.getTemplate().getEventQuests(EventHandler.SEE_SPELL))
+					quest.onSeeSpell(npc, (Player) caster, skillOnMagic, targets, false);
 			}
 		}
 	}

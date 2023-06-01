@@ -4,12 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.StringTokenizer;
 
 import net.sf.l2j.Config;
-import net.sf.l2j.gameserver.data.xml.TeleportData;
 import net.sf.l2j.gameserver.enums.TeleportType;
 import net.sf.l2j.gameserver.enums.actors.NpcTalkCond;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.ai.type.ClanHallManagerNpcAI;
-import net.sf.l2j.gameserver.model.actor.ai.type.CreatureAI;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.clanhall.ClanHall;
 import net.sf.l2j.gameserver.model.clanhall.ClanHallFunction;
@@ -54,19 +52,15 @@ public class ClanHallManagerNpc extends Merchant
 	}
 	
 	@Override
-	public CreatureAI getAI()
+	public ClanHallManagerNpcAI getAI()
 	{
-		CreatureAI ai = _ai;
-		if (ai == null)
-		{
-			synchronized (this)
-			{
-				ai = _ai;
-				if (ai == null)
-					_ai = ai = new ClanHallManagerNpcAI(this);
-			}
-		}
-		return ai;
+		return (ClanHallManagerNpcAI) _ai;
+	}
+	
+	@Override
+	public void setAI()
+	{
+		_ai = new ClanHallManagerNpcAI(this);
 	}
 	
 	@Override
@@ -154,7 +148,7 @@ public class ClanHallManagerNpc extends Merchant
 					return;
 				}
 				
-				TeleportData.getInstance().showTeleportList(player, this, (chf.getLvl() == 2) ? TeleportType.CHF_LEVEL_2 : TeleportType.CHF_LEVEL_1);
+				showTeleportWindow(player, (chf.getLvl() == 2) ? TeleportType.CHF_LEVEL_2 : TeleportType.CHF_LEVEL_1);
 			}
 			else if (val.equalsIgnoreCase("item_creation"))
 			{
@@ -1446,12 +1440,13 @@ public class ClanHallManagerNpc extends Merchant
 			}
 			
 			if (player.getClan().getLevel() == 0)
-				player.sendPacket(SystemMessageId.ONLY_LEVEL_1_CLAN_OR_HIGHER_CAN_USE_WAREHOUSE);
-			else
 			{
-				player.setActiveWarehouse(player.getClan().getWarehouse());
-				player.sendPacket(new WarehouseWithdrawList(player, WarehouseWithdrawList.CLAN));
+				player.sendPacket(SystemMessageId.ONLY_LEVEL_1_CLAN_OR_HIGHER_CAN_USE_WAREHOUSE);
+				return;
 			}
+			
+			player.setActiveWarehouse(player.getClan().getWarehouse());
+			player.sendPacket(new WarehouseWithdrawList(player, WarehouseWithdrawList.CLAN));
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 		}
 		else if (actualCommand.equalsIgnoreCase("DepositC"))

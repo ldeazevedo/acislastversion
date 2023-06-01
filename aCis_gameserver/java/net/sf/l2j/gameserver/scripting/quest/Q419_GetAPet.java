@@ -120,11 +120,11 @@ public class Q419_GetAPet extends Quest
 		
 		setItemsIds(ANIMAL_LOVER_LIST, ANIMAL_SLAYER_LIST_1, ANIMAL_SLAYER_LIST_2, ANIMAL_SLAYER_LIST_3, ANIMAL_SLAYER_LIST_4, ANIMAL_SLAYER_LIST_5, BLOODY_FANG, BLOODY_CLAW, BLOODY_NAIL, BLOODY_KASHA_FANG, BLOODY_TARANTULA_NAIL);
 		
-		addStartNpc(MARTIN);
+		addQuestStart(MARTIN);
 		addTalkId(MARTIN, BELLA, ELLIE, METTY);
 		
 		for (int npcId : DROPLIST.keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 	}
 	
 	@Override
@@ -254,20 +254,18 @@ public class Q419_GetAPet extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int[] drop = DROPLIST.get(npc.getNpcId());
 		
 		if (player.getInventory().hasItems(drop[0] - 5))
 			dropItems(player, drop[0], 1, 50, drop[1]);
-		
-		return null;
 	}
 	
 	private static String checkQuestions(Player player, QuestState st)

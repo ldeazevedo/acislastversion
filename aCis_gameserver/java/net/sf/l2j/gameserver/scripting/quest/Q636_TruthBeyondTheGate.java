@@ -24,10 +24,10 @@ public class Q636_TruthBeyondTheGate extends Quest
 	{
 		super(636, "The Truth Beyond the Gate");
 		
-		addStartNpc(ELIYAH);
+		addQuestStart(ELIYAH);
 		addTalkId(ELIYAH, FLAURON);
 		
-		addEnterZoneId(100000);
+		addZoneEnter(100000);
 	}
 	
 	@Override
@@ -90,14 +90,14 @@ public class Q636_TruthBeyondTheGate extends Quest
 	}
 	
 	@Override
-	public final String onEnterZone(Creature character, ZoneType zone)
+	public final void onZoneEnter(Creature creature, ZoneType zone)
 	{
 		// QuestState already null on enter because quest is finished
-		if (character instanceof Player)
+		if (creature instanceof Player)
 		{
-			if (character.getActingPlayer().destroyItemByItemId("Mark", VISITOR_MARK, 1, character, false))
-				character.getActingPlayer().addItem("Mark", FADED_VISITOR_MARK, 1, character, true);
+			if (creature.getActingPlayer().destroyItemByItemId("Mark", VISITOR_MARK, 1, creature, false))
+				creature.getActingPlayer().addItem("Mark", FADED_VISITOR_MARK, 1, creature, true);
 		}
-		return null;
+		super.onZoneEnter(creature, zone);
 	}
 }

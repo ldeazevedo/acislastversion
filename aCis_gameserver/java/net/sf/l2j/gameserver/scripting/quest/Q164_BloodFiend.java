@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.enums.QuestStatus;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -24,10 +24,10 @@ public class Q164_BloodFiend extends Quest
 		
 		setItemsIds(KIRUNAK_SKULL);
 		
-		addStartNpc(30149);
+		addQuestStart(30149);
 		addTalkId(30149);
 		
-		addEventIds(27021, ScriptEventType.ON_ATTACK, ScriptEventType.ON_KILL);
+		addEventIds(27021, EventHandler.ATTACKED, EventHandler.MY_DYING);
 	}
 	
 	@Override
@@ -46,17 +46,6 @@ public class Q164_BloodFiend extends Quest
 		}
 		
 		return htmltext;
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
-	{
-		if (npc.isScriptValue(1))
-			return null;
-		
-		npc.broadcastNpcSay(NpcStringId.ID_16404);
-		npc.setScriptValue(1);
-		return null;
 	}
 	
 	@Override
@@ -100,19 +89,27 @@ public class Q164_BloodFiend extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
+	{
+		if (npc.isScriptValue(1))
+			return;
+		
+		npc.broadcastNpcSay(NpcStringId.ID_16404);
+		npc.setScriptValue(1);
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		st.setCond(2);
 		playSound(player, SOUND_MIDDLE);
 		giveItems(player, KIRUNAK_SKULL, 1);
 		npc.broadcastNpcSay(NpcStringId.ID_16405);
-		
-		return null;
 	}
 }

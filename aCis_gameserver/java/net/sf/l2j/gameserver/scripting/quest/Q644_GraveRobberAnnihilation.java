@@ -54,10 +54,10 @@ public class Q644_GraveRobberAnnihilation extends Quest
 		
 		setItemsIds(ORC_GRAVE_GOODS);
 		
-		addStartNpc(KARUDA);
+		addQuestStart(KARUDA);
 		addTalkId(KARUDA);
 		
-		addKillId(22003, 22004, 22005, 22006, 22008);
+		addMyDying(22003, 22004, 22005, 22006, 22008);
 	}
 	
 	@Override
@@ -116,17 +116,15 @@ public class Q644_GraveRobberAnnihilation extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), ORC_GRAVE_GOODS, 1, 120, 500000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

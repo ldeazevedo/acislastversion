@@ -23,10 +23,10 @@ public class Q159_ProtectTheWaterSource extends Quest
 		
 		setItemsIds(PLAGUE_DUST, HYACINTH_CHARM_1, HYACINTH_CHARM_2);
 		
-		addStartNpc(30154); // Asterios
+		addQuestStart(30154); // Asterios
 		addTalkId(30154);
 		
-		addKillId(27017); // Plague Zombie
+		addMyDying(27017); // Plague Zombie
 	}
 	
 	@Override
@@ -102,19 +102,17 @@ public class Q159_ProtectTheWaterSource extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		if (st.getCond() == 1 && dropItems(player, PLAGUE_DUST, 1, 1, 400000))
 			st.setCond(2);
 		else if (st.getCond() == 3 && dropItems(player, PLAGUE_DUST, 1, 5, 400000))
 			st.setCond(4);
-		
-		return null;
 	}
 }

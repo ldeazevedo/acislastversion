@@ -34,10 +34,10 @@ public class Q032_AnObviousLie extends Quest
 		
 		setItemsIds(MAP, MEDICINAL_HERB);
 		
-		addStartNpc(MAXIMILIAN);
+		addQuestStart(MAXIMILIAN);
 		addTalkId(MAXIMILIAN, GENTLER, MIKI_THE_CAT);
 		
-		addKillId(20135); // Alligator
+		addMyDying(20135); // Alligator
 	}
 	
 	@Override
@@ -202,17 +202,15 @@ public class Q032_AnObviousLie extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 3);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItemsAlways(player, MEDICINAL_HERB, 1, 20))
 			st.setCond(4);
-		
-		return null;
 	}
 }

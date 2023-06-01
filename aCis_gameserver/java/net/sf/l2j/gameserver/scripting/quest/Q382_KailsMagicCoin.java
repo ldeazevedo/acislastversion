@@ -31,10 +31,10 @@ public class Q382_KailsMagicCoin extends Quest
 		
 		setItemsIds(SILVER_BASILISK, GOLD_GOLEM, BLOOD_DRAGON);
 		
-		addStartNpc(30687); // Vergara
+		addQuestStart(30687); // Vergara
 		addTalkId(30687);
 		
-		addKillId(FALLEN_ORC, FALLEN_ORC_ARCHER, FALLEN_ORC_SHAMAN, FALLEN_ORC_CAPTAIN);
+		addMyDying(FALLEN_ORC, FALLEN_ORC_ARCHER, FALLEN_ORC_SHAMAN, FALLEN_ORC_CAPTAIN);
 	}
 	
 	@Override
@@ -78,13 +78,13 @@ public class Q382_KailsMagicCoin extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -104,7 +104,5 @@ public class Q382_KailsMagicCoin extends Quest
 				dropItems(player, 5961 + Rnd.get(3), 1, 0, 100000);
 				break;
 		}
-		
-		return null;
 	}
 }

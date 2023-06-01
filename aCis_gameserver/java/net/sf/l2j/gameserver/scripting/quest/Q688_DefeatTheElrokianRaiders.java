@@ -26,10 +26,10 @@ public class Q688_DefeatTheElrokianRaiders extends Quest
 		
 		setItemsIds(DINOSAUR_FANG_NECKLACE);
 		
-		addStartNpc(DINN);
+		addQuestStart(DINN);
 		addTalkId(DINN);
 		
-		addKillId(ELROKI);
+		addMyDying(ELROKI);
 	}
 	
 	@Override
@@ -102,16 +102,14 @@ public class Q688_DefeatTheElrokianRaiders extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), DINOSAUR_FANG_NECKLACE, 1, 0, 500000);
-		
-		return null;
 	}
 }

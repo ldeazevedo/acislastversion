@@ -21,10 +21,10 @@ public class Q272_WrathOfAncestors extends Quest
 		
 		setItemsIds(GRAVE_ROBBERS_HEAD);
 		
-		addStartNpc(30572); // Livina
+		addQuestStart(30572); // Livina
 		addTalkId(30572);
 		
-		addKillId(20319, 20320); // Goblin Grave Robber, Goblin Tomb Raider Leader
+		addMyDying(20319, 20320); // Goblin Grave Robber, Goblin Tomb Raider Leader
 	}
 	
 	@Override
@@ -82,17 +82,15 @@ public class Q272_WrathOfAncestors extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItemsAlways(player, GRAVE_ROBBERS_HEAD, 1, 50))
 			st.setCond(2);
-		
-		return null;
 	}
 }

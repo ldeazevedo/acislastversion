@@ -22,10 +22,10 @@ public class Q607_ProveYourCourage extends Quest
 		
 		setItemsIds(HEAD_OF_SHADITH);
 		
-		addStartNpc(31370); // Kadun Zu Ketra
+		addQuestStart(31370); // Kadun Zu Ketra
 		addTalkId(31370);
 		
-		addKillId(25309); // Shadith
+		addMyDying(25309); // Shadith
 	}
 	
 	@Override
@@ -91,7 +91,7 @@ public class Q607_ProveYourCourage extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
@@ -105,7 +105,5 @@ public class Q607_ProveYourCourage extends Quest
 				giveItems(pm, HEAD_OF_SHADITH, 1);
 			}
 		}
-		
-		return null;
 	}
 }

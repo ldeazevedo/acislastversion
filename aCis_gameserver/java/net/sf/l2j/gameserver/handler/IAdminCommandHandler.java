@@ -12,11 +12,13 @@ public interface IAdminCommandHandler
 {
 	final CLogger LOGGER = new CLogger(IAdminCommandHandler.class.getName());
 	
+	public static final int PAGE_LIMIT_1 = 1;
 	public static final int PAGE_LIMIT_7 = 7;
 	public static final int PAGE_LIMIT_8 = 8;
 	public static final int PAGE_LIMIT_10 = 10;
+	public static final int PAGE_LIMIT_12 = 12;
+	public static final int PAGE_LIMIT_14 = 14;
 	public static final int PAGE_LIMIT_15 = 15;
-	public static final int PAGE_LIMIT_18 = 18;
 	public static final int PAGE_LIMIT_20 = 20;
 	
 	public void useAdminCommand(String command, Player player);

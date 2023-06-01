@@ -39,6 +39,7 @@ public class L2SkillSummon extends L2Skill
 	private final int _itemConsumeSteps;
 	
 	private static final int SUMMON_SOULLESS = 1278;
+	private static final int LIFE_CUBIC_FOR_BEGINNERS = 4338;
 	
 	public L2SkillSummon(StatSet set)
 	{
@@ -111,7 +112,9 @@ public class L2SkillSummon extends L2Skill
 		if (_isCubic)
 		{
 			int skillLevel = getLevel();
-			if (skillLevel > 100)
+			if (getId() == LIFE_CUBIC_FOR_BEGINNERS)
+				skillLevel = 8;
+			else if (skillLevel > 100)
 				skillLevel = Math.round(((getLevel() - 100) / 7) + 8);
 			
 			// Mass cubic skill.

@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.enums.QuestStatus;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -24,10 +24,10 @@ public class Q170_DangerousSeduction extends Quest
 		
 		setItemsIds(NIGHTMARE_CRYSTAL);
 		
-		addStartNpc(30305); // Vellior
+		addQuestStart(30305); // Vellior
 		addTalkId(30305);
 		
-		addEventIds(27022, ScriptEventType.ON_ATTACK, ScriptEventType.ON_KILL); // Merkenis
+		addEventIds(27022, EventHandler.ATTACKED, EventHandler.MY_DYING); // Merkenis
 	}
 	
 	@Override
@@ -46,17 +46,6 @@ public class Q170_DangerousSeduction extends Quest
 		}
 		
 		return htmltext;
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
-	{
-		if (npc.isScriptValue(1))
-			return null;
-		
-		npc.broadcastNpcSay(NpcStringId.ID_17004);
-		npc.setScriptValue(1);
-		return null;
 	}
 	
 	@Override
@@ -100,19 +89,27 @@ public class Q170_DangerousSeduction extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
+	{
+		if (npc.isScriptValue(1))
+			return;
+		
+		npc.broadcastNpcSay(NpcStringId.ID_17004);
+		npc.setScriptValue(1);
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		st.setCond(2);
 		playSound(player, SOUND_MIDDLE);
 		giveItems(player, NIGHTMARE_CRYSTAL, 1);
 		npc.broadcastNpcSay(NpcStringId.ID_17005);
-		
-		return null;
 	}
 }

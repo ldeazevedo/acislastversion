@@ -202,4 +202,41 @@ public final class StringUtil
 		
 		return trim(s, maxWidth);
 	}
+	
+	/**
+	 * Trim the {@link String} set as parameter to the amount of characters set as second parameter. Add "..." in the end of the {@link String}.
+	 * @param s : The {@link String} to trim.
+	 * @param maxWidth : The maximum length.
+	 * @return The trimmed {@link String} followed by "...".
+	 */
+	public static String trimAndDress(String s, int maxWidth)
+	{
+		if (s.length() > maxWidth)
+		{
+			s = s.substring(0, maxWidth - 3);
+			s += "...";
+		}
+		return s;
+	}
+	
+	/**
+	 * @param timestamp : The {@link String} to format.
+	 * @return a timestamp in seconds, based on a {@link String} set as parameter.
+	 */
+	public static final int getTimeStamp(String timestamp)
+	{
+		if (timestamp == null)
+			return 0;
+		
+		if (timestamp.endsWith("h"))
+			return Integer.parseInt(timestamp.split("h")[0]) * 3600;
+		
+		if (timestamp.endsWith("m"))
+			return Integer.parseInt(timestamp.split("m")[0]) * 60;
+		
+		if (timestamp.endsWith("s"))
+			return Integer.parseInt(timestamp.split("s")[0]);
+		
+		return 0;
+	}
 }

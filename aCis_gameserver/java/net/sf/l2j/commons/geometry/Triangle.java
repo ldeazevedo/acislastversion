@@ -1,13 +1,13 @@
 package net.sf.l2j.commons.geometry;
 
+import java.awt.Color;
+
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.location.Point2D;
+import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 
-/**
- * @author Hasha
- */
 public class Triangle extends AShape
 {
 	// A point
@@ -23,7 +23,7 @@ public class Triangle extends AShape
 	protected final int _CAy;
 	
 	// size
-	protected final int _size;
+	protected final long _size;
 	
 	/**
 	 * Triangle constructor.
@@ -42,11 +42,13 @@ public class Triangle extends AShape
 		_CAx = C.getX() - A.getX();
 		_CAy = C.getY() - A.getY();
 		
-		_size = Math.abs(_BAx * _CAy - _CAx * _BAy) / 2;
+		_size = Math.abs((long) (_BAx * _CAy - _CAx * _BAy)) / 2;
+		
+		_center = new Point2D((A.getX() + B.getX() + C.getX()) / 3, (A.getY() + B.getY() + C.getY()) / 3);
 	}
 	
 	@Override
-	public final int getSize()
+	public final long getSize()
 	{
 		return _size;
 	}
@@ -111,5 +113,18 @@ public class Triangle extends AShape
 		
 		// return
 		return new Location(x, y, 0);
+	}
+	
+	@Override
+	public void visualize(String info, ExServerPrimitive debug, int z)
+	{
+		final int x2 = _Ax + _BAx;
+		final int y2 = _Ay + _BAy;
+		final int x3 = _Ax + _CAx;
+		final int y3 = _Ay + _CAy;
+		
+		debug.addLine(info, Color.YELLOW, true, _Ax, _Ay, z, x2, y2, z);
+		debug.addLine(info, Color.YELLOW, true, _Ax, _Ay, z, x3, y3, z);
+		debug.addLine(info, Color.YELLOW, true, x2, y2, z, x3, y3, z);
 	}
 }

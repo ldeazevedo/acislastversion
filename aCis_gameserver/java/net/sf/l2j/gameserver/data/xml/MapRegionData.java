@@ -93,57 +93,6 @@ public class MapRegionData implements IXmlReader
 	/**
 	 * @param x : The X value (part of 2D point) to check.
 	 * @param y : The Y value (part of 2D point) to check.
-	 * @return the castleId associated to the townId, based on X/Y points.
-	 */
-	public final int getAreaCastle(int x, int y)
-	{
-		switch (getMapRegion(x, y))
-		{
-			case 0: // Talking Island Village
-			case 5: // Town of Gludio
-			case 6: // Gludin Village
-				return 1;
-			
-			case 7: // Town of Dion
-				return 2;
-			
-			case 8: // Town of Giran
-			case 12: // Giran Harbor
-				return 3;
-			
-			case 1: // Elven Village
-			case 2: // Dark Elven Village
-			case 9: // Town of Oren
-			case 17: // Floran Village
-				return 4;
-			
-			case 10: // Town of Aden
-			case 11: // Hunters Village
-				return 5;
-			
-			case 13: // Heine
-				return 6;
-			
-			case 15: // Town of Goddard
-				return 7;
-			
-			case 14: // Rune Township
-			case 18: // Primeval Isle Wharf
-				return 8;
-			
-			case 3: // Orc Village
-			case 4: // Dwarven Village
-			case 16: // Town of Schuttgart
-				return 9;
-			
-			default: // Town of Aden
-				return 5;
-		}
-	}
-	
-	/**
-	 * @param x : The X value (part of 2D point) to check.
-	 * @param y : The Y value (part of 2D point) to check.
 	 * @return a String consisting of town name, based on X/Y points.
 	 */
 	public String getClosestTownName(int x, int y)

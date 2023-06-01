@@ -40,8 +40,6 @@ public class BoatManager
 	public Boat getNewBoat(int boatId, int x, int y, int z, int heading)
 	{
 		final StatSet set = new StatSet();
-		set.set("id", boatId);
-		set.set("level", 0);
 		
 		set.set("str", 0);
 		set.set("con", 0);
@@ -51,27 +49,18 @@ public class BoatManager
 		set.set("men", 0);
 		
 		set.set("hp", 50000);
-		set.set("mp", 0);
 		
 		set.set("hpRegen", 3.e-3f);
 		set.set("mpRegen", 3.e-3f);
 		
 		set.set("radius", 0);
 		set.set("height", 0);
-		set.set("type", "");
-		
-		set.set("exp", 0);
-		set.set("sp", 0);
 		
 		set.set("pAtk", 0);
 		set.set("mAtk", 0);
 		set.set("pDef", 100);
 		set.set("mDef", 100);
 		
-		set.set("rHand", 0);
-		set.set("lHand", 0);
-		
-		set.set("walkSpd", 0);
 		set.set("runSpd", 0);
 		
 		final Boat boat = new Boat(IdFactory.getInstance().getNextId(), new CreatureTemplate(set));

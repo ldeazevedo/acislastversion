@@ -23,10 +23,10 @@ public class Q297_GatekeepersFavor extends Quest
 		
 		setItemsIds(STARSTONE);
 		
-		addStartNpc(30540); // Wirphy
+		addQuestStart(30540); // Wirphy
 		addTalkId(30540);
 		
-		addKillId(20521); // Whinstone Golem
+		addMyDying(20521); // Whinstone Golem
 	}
 	
 	@Override
@@ -79,17 +79,15 @@ public class Q297_GatekeepersFavor extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, STARSTONE, 1, 20, 500000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

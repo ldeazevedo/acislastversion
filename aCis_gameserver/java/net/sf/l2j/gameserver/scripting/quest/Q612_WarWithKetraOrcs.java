@@ -23,7 +23,7 @@ public class Q612_WarWithKetraOrcs extends Quest
 		
 		setItemsIds(MOLAR_OF_KETRA_ORC);
 		
-		addStartNpc(31377); // Ashas Varka Durai
+		addQuestStart(31377); // Ashas Varka Durai
 		addTalkId(31377);
 	}
 	

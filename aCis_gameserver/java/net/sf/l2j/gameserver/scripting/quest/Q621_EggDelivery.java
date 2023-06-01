@@ -41,7 +41,7 @@ public class Q621_EggDelivery extends Quest
 		
 		setItemsIds(BOILED_EGGS, FEE_OF_BOILED_EGG);
 		
-		addStartNpc(JEREMY);
+		addQuestStart(JEREMY);
 		addTalkId(JEREMY, PULIN, NAFF, CROCUS, KUBER, BEOLIN, VALENTINE);
 	}
 	

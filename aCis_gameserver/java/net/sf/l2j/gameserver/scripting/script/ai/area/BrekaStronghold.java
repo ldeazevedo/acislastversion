@@ -27,24 +27,7 @@ public class BrekaStronghold extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addAttackId(20269);
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
-	{
-		// Chance to summon is 3%, when attacker's HP is below 20%. Also attacker must be player.
-		if (Rnd.get(100) < 3 && attacker.getStatus().getHpRatio() < 0.2 && attacker instanceof Player)
-		{
-			// Spawn Betrayer Orc Hero and make him cast skill immediately.
-			final Npc hero = addSpawn(21260, npc, true, 15000, false);
-			hero.getAI().tryToCast(attacker, SKILL);
-			hero.forceAttack(attacker, 1000);
-			
-			startQuestTimer("3002", hero, null, 8000);
-		}
-		
-		return super.onAttack(npc, attacker, damage, skill);
+		addAttacked(20269);
 	}
 	
 	@Override
@@ -56,5 +39,21 @@ public class BrekaStronghold extends AttackableAIScript
 		}
 		
 		return super.onTimer(name, npc, player);
+	}
+	
+	@Override
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
+	{
+		// Chance to summon is 3%, when attacker's HP is below 20%. Also attacker must be player.
+		if (attacker instanceof Player && Rnd.get(100) < 3 && attacker.getStatus().getHpRatio() < 0.2)
+		{
+			// Spawn Betrayer Orc Hero and make him cast skill immediately.
+			final Npc hero = addSpawn(21260, npc, true, 15000, false);
+			hero.getAI().tryToCast(attacker, SKILL);
+			hero.forceAttack(attacker, 1000);
+			
+			startQuestTimer("3002", hero, null, 8000);
+		}
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 }

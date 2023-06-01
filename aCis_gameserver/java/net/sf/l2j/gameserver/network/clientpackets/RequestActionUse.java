@@ -8,7 +8,6 @@ import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
-import net.sf.l2j.gameserver.model.actor.ai.type.SummonAI;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
@@ -138,7 +137,7 @@ public final class RequestActionUse extends L2GameClientPacket
 					return;
 				
 				// You can't order anymore your pet to stop if distance is superior to 2000.
-				if (((SummonAI) summon.getAI()).getFollowStatus() && !player.isIn3DRadius(summon, 2000))
+				if (summon.getAI().getFollowStatus() && !player.isIn3DRadius(summon, 2000))
 					return;
 				
 				if (summon.isOutOfControl())
@@ -147,7 +146,7 @@ public final class RequestActionUse extends L2GameClientPacket
 					return;
 				}
 				
-				((SummonAI) summon.getAI()).switchFollowStatus();
+				summon.getAI().switchFollowStatus();
 				break;
 			
 			case 16:

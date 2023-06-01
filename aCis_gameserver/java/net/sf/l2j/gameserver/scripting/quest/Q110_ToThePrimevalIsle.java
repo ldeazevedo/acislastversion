@@ -23,7 +23,7 @@ public class Q110_ToThePrimevalIsle extends Quest
 		
 		setItemsIds(ANCIENT_BOOK);
 		
-		addStartNpc(ANTON);
+		addQuestStart(ANTON);
 		addTalkId(ANTON, MARQUEZ);
 	}
 	

@@ -48,11 +48,11 @@ public class Q639_GuardiansOfTheHolyGrail extends Quest
 		
 		setItemsIds(SCRIPTURE, WATER_BOTTLE, HOLY_WATER_BOTTLE);
 		
-		addStartNpc(DOMINIC);
+		addQuestStart(DOMINIC);
 		addTalkId(DOMINIC, GREMORY, HOLY_GRAIL);
 		
 		for (int id : CHANCES.keySet())
-			addKillId(id);
+			addMyDying(id);
 	}
 	
 	@Override
@@ -172,16 +172,14 @@ public class Q639_GuardiansOfTheHolyGrail extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), SCRIPTURE, 1, 0, CHANCES.get(npc.getNpcId()));
-		
-		return null;
 	}
 }

@@ -1,12 +1,12 @@
 package net.sf.l2j.commons.geometry;
 
+import java.awt.Color;
+
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.gameserver.model.location.Location;
+import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 
-/**
- * @author Hasha
- */
 public class Cuboid extends Rectangle
 {
 	// min and max Z coorinates
@@ -64,5 +64,35 @@ public class Cuboid extends Rectangle
 	{
 		// calculate coordinates and return
 		return new Location(_x + Rnd.get(_w), _y + Rnd.get(_h), Rnd.get(_minZ, _maxZ));
+	}
+	
+	@Override
+	public void visualize(String info, ExServerPrimitive debug, int z)
+	{
+		final int x2 = _x + _w;
+		final int y2 = _y + _h;
+		final int z1 = _minZ - 32;
+		final int z2 = _maxZ - 32;
+		
+		debug.addLine(info + " MinZ", Color.GREEN, true, _x, _y, z1, _x, y2, z1);
+		debug.addLine(info, Color.YELLOW, true, _x, _y, z, _x, y2, z);
+		debug.addLine(info + " MaxZ", Color.RED, true, _x, _y, z2, _x, y2, z2);
+		
+		debug.addLine(info + " MinZ", Color.GREEN, true, _x, y2, z1, x2, y2, z1);
+		debug.addLine(info, Color.YELLOW, true, _x, y2, z, x2, y2, z);
+		debug.addLine(info + " MaxZ", Color.RED, true, _x, y2, z2, x2, y2, z2);
+		
+		debug.addLine(info + " MinZ", Color.GREEN, true, x2, y2, z1, x2, _y, z1);
+		debug.addLine(info, Color.YELLOW, true, x2, y2, z, x2, _y, z);
+		debug.addLine(info + " MaxZ", Color.RED, true, x2, y2, z2, x2, _y, z2);
+		
+		debug.addLine(info + " MinZ", Color.GREEN, true, x2, _y, z1, _x, _y, z1);
+		debug.addLine(info, Color.YELLOW, true, x2, _y, z, _x, _y, z);
+		debug.addLine(info + " MaxZ", Color.RED, true, x2, _y, z2, _x, _y, z2);
+		
+		debug.addLine(info, Color.YELLOW, true, _x, _y, z1, _x, _y, z2);
+		debug.addLine(info, Color.YELLOW, true, x2, _y, z1, x2, _y, z2);
+		debug.addLine(info, Color.YELLOW, true, x2, y2, z1, x2, y2, z2);
+		debug.addLine(info, Color.YELLOW, true, _x, y2, z1, _x, y2, z2);
 	}
 }

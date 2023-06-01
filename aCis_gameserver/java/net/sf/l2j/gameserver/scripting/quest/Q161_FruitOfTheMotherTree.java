@@ -25,7 +25,7 @@ public class Q161_FruitOfTheMotherTree extends Quest
 		
 		setItemsIds(ANDELLIA_LETTER, MOTHERTREE_FRUIT);
 		
-		addStartNpc(ANDELLIA);
+		addQuestStart(ANDELLIA);
 		addTalkId(ANDELLIA, THALIA);
 	}
 	

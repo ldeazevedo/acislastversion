@@ -99,7 +99,7 @@ public class AdminReload implements IAdminCommandHandler
 				else if (type.startsWith("npcwalker"))
 				{
 					WalkerRouteData.getInstance().reload();
-					player.sendMessage("Walker routes have been reloaded.");
+					player.sendMessage("Walking routes have been reloaded.");
 				}
 				else if (type.equals("script"))
 				{

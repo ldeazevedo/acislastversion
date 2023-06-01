@@ -25,10 +25,10 @@ public class Q356_DigUpTheSeaOfSpores extends Quest
 		
 		setItemsIds(HERB_SPORE, CARN_SPORE);
 		
-		addStartNpc(30717); // Gauen
+		addQuestStart(30717); // Gauen
 		addTalkId(30717);
 		
-		addKillId(ROTTING_TREE, SPORE_ZOMBIE);
+		addMyDying(ROTTING_TREE, SPORE_ZOMBIE);
 	}
 	
 	@Override
@@ -111,13 +111,13 @@ public class Q356_DigUpTheSeaOfSpores extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int cond = st.getCond();
 		if (cond < 3)
@@ -135,7 +135,5 @@ public class Q356_DigUpTheSeaOfSpores extends Quest
 					break;
 			}
 		}
-		
-		return null;
 	}
 }

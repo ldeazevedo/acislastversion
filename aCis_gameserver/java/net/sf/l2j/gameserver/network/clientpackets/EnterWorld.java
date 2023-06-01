@@ -221,7 +221,7 @@ public class EnterWorld extends L2GameClientPacket
 			player.sendPacket(SystemMessage.getSystemMessage((GameTimeTaskManager.getInstance().isNight()) ? SystemMessageId.NIGHT_S1_EFFECT_APPLIES : SystemMessageId.DAY_S1_EFFECT_DISAPPEARS).addSkillName(L2Skill.SKILL_SHADOW_SENSE));
 		
 		// Notify quest for enterworld event, if quest allows it.
-		player.getQuestList().getQuests(Quest::isTriggeredOnEnterWorld).forEach(q -> q.notifyEnterWorld(player));
+		player.getQuestList().getQuests(Quest::isTriggeredOnEnterWorld).forEach(q -> q.onEnterWorld(player));
 		
 		player.sendPacket(new QuestList(player));
 		player.sendSkillList();

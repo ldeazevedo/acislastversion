@@ -14,6 +14,7 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
 import net.sf.l2j.gameserver.model.actor.instance.SiegeSummon;
+import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
@@ -42,7 +43,7 @@ public class Disablers implements ISkillHandler
 	};
 	
 	@Override
-	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
+	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets, ItemInstance itemInstance)
 	{
 		final SkillType type = skill.getSkillType();
 		
@@ -67,12 +68,11 @@ public class Disablers implements ISkillHandler
 				case BETRAY:
 					if (Formulas.calcSkillSuccess(activeChar, target, skill, sDef, bsps))
 						skill.getEffects(activeChar, target, sDef, bsps);
-					else
+					else if (activeChar instanceof Player)
 						activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill));
 					break;
 				
 				case FAKE_DEATH:
-					// stun/fakedeath is not mdef dependant, it depends on lvl difference, target CON and power of stun
 					skill.getEffects(activeChar, target, sDef, bsps);
 					break;
 				
@@ -83,11 +83,8 @@ public class Disablers implements ISkillHandler
 					
 					if (Formulas.calcSkillSuccess(activeChar, target, skill, sDef, bsps))
 						skill.getEffects(activeChar, target, sDef, bsps);
-					else
-					{
-						if (activeChar instanceof Player)
-							activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill.getId()));
-					}
+					else if (activeChar instanceof Player)
+						activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill.getId()));
 					break;
 				
 				case SLEEP:
@@ -97,11 +94,8 @@ public class Disablers implements ISkillHandler
 					
 					if (Formulas.calcSkillSuccess(activeChar, target, skill, sDef, bsps))
 						skill.getEffects(activeChar, target, sDef, bsps);
-					else
-					{
-						if (activeChar instanceof Player)
-							activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill.getId()));
-					}
+					else if (activeChar instanceof Player)
+						activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill.getId()));
 					break;
 				
 				case MUTE:
@@ -121,11 +115,8 @@ public class Disablers implements ISkillHandler
 						}
 						skill.getEffects(activeChar, target, sDef, bsps);
 					}
-					else
-					{
-						if (activeChar instanceof Player)
-							activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill.getId()));
-					}
+					else if (activeChar instanceof Player)
+						activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill.getId()));
 					break;
 				
 				case CONFUSION:
@@ -144,13 +135,10 @@ public class Disablers implements ISkillHandler
 							}
 							skill.getEffects(activeChar, target, sDef, bsps);
 						}
-						else
-						{
-							if (activeChar instanceof Player)
-								activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill));
-						}
+						else if (activeChar instanceof Player)
+							activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill));
 					}
-					else
+					else if (activeChar instanceof Player)
 						activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.INVALID_TARGET));
 					break;
 				
@@ -188,11 +176,8 @@ public class Disablers implements ISkillHandler
 						
 						skill.getEffects(activeChar, target, sDef, bsps);
 					}
-					else
-					{
-						if (activeChar instanceof Player)
-							activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill));
-					}
+					else if (activeChar instanceof Player)
+						activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill));
 					break;
 				
 				case AGGREMOVE:
@@ -209,31 +194,28 @@ public class Disablers implements ISkillHandler
 							else
 								((Attackable) target).getAggroList().stopHate(activeChar);
 						}
-						else
-						{
-							if (activeChar instanceof Player)
-								activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill));
-						}
+						else if (activeChar instanceof Player)
+							activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill));
 					}
 					break;
 				
 				case ERASE:
-					// doesn't affect siege summons
-					if (Formulas.calcSkillSuccess(activeChar, target, skill, sDef, bsps) && !(target instanceof SiegeSummon))
+					if (Formulas.calcSkillSuccess(activeChar, target, skill, sDef, bsps))
 					{
-						final Player summonOwner = ((Summon) target).getOwner();
-						final Summon summonPet = summonOwner.getSummon();
-						if (summonPet != null)
+						// Doesn't affect anything, except Summons which aren't Siege Summons.
+						if (target instanceof Summon && !(target instanceof SiegeSummon))
 						{
-							summonPet.unSummon(summonOwner);
-							summonOwner.sendPacket(SystemMessageId.YOUR_SERVITOR_HAS_VANISHED);
+							final Player summonOwner = target.getActingPlayer();
+							if (summonOwner != null)
+							{
+								((Summon) target).unSummon(summonOwner);
+								
+								summonOwner.sendPacket(SystemMessageId.YOUR_SERVITOR_HAS_VANISHED);
+							}
 						}
 					}
-					else
-					{
-						if (activeChar instanceof Player)
-							activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill));
-					}
+					else if (activeChar instanceof Player)
+						activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(skill));
 					break;
 				
 				case CANCEL_DEBUFF:

@@ -63,6 +63,12 @@ public class TargetArea implements ITargetHandler
 	{
 		if (skill.isOffensive())
 		{
+			if (target instanceof Playable && !caster.canCastOffensiveSkillOnPlayable((Playable) target, skill, isCtrlPressed))
+			{
+				caster.sendPacket(SystemMessageId.INVALID_TARGET);
+				return false;
+			}
+			
 			if (!target.isAttackableBy(caster) || (!isCtrlPressed && !target.isAttackableWithoutForceBy(caster.getActingPlayer())))
 			{
 				caster.sendPacket(SystemMessageId.INVALID_TARGET);

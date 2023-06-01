@@ -34,10 +34,10 @@ public class Q293_TheHiddenVeins extends Quest
 		
 		setItemsIds(CHRYSOLITE_ORE, TORN_MAP_FRAGMENT, HIDDEN_VEIN_MAP);
 		
-		addStartNpc(FILAUR);
+		addQuestStart(FILAUR);
 		addTalkId(FILAUR, CHINCHIRIN);
 		
-		addKillId(UTUKU_ORC, UTUKU_ARCHER, UTUKU_GRUNT);
+		addMyDying(UTUKU_ORC, UTUKU_ARCHER, UTUKU_GRUNT);
 	}
 	
 	@Override
@@ -127,13 +127,13 @@ public class Q293_TheHiddenVeins extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int chance = Rnd.get(100);
 		
@@ -141,7 +141,5 @@ public class Q293_TheHiddenVeins extends Quest
 			dropItemsAlways(player, CHRYSOLITE_ORE, 1, 0);
 		else if (chance < 5)
 			dropItemsAlways(player, TORN_MAP_FRAGMENT, 1, 0);
-		
-		return null;
 	}
 }

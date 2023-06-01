@@ -69,14 +69,11 @@ public class Q234_FatesWhisper extends Quest
 		
 		setItemsIds(PIPETTE_KNIFE, RED_PIPETTE_KNIFE);
 		
-		addStartNpc(31002);
+		addQuestStart(31002);
 		addTalkId(31002, 30182, 30847, 30178, 30833, 31028, 31029, 31030, 31027);
 		
-		// The 4 bosses which spawn chests
-		addKillId(25035, 25054, 25126, 25220);
-		
-		// Baium
-		addAttackId(29020);
+		addAttacked(29020);
+		addMyDying(25035, 25054, 25126, 25220);
 	}
 	
 	@Override
@@ -334,13 +331,13 @@ public class Q234_FatesWhisper extends Quest
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		final Player player = attacker.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 7);
 		if (st == null)
-			return null;
+			return;
 		
 		if (player.getActiveWeaponItem() != null && player.getActiveWeaponItem().getItemId() == PIPETTE_KNIFE && !player.getInventory().hasItems(RED_PIPETTE_KNIFE))
 		{
@@ -349,15 +346,11 @@ public class Q234_FatesWhisper extends Quest
 			giveItems(player, RED_PIPETTE_KNIFE, 1);
 			npc.broadcastNpcSay(NpcStringId.ID_23434);
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		addSpawn(CHEST_SPAWN.get(npc.getNpcId()), npc, true, 120000, false);
-		
-		return null;
 	}
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.sf.l2j.commons.random.Rnd;
 
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
@@ -29,7 +29,7 @@ public class FriendlyMonster extends Attackable
 		
 		player.getQuestList().setLastQuestNpcObjectId(getObjectId());
 		
-		final List<Quest> scripts = getTemplate().getEventQuests(ScriptEventType.ON_FIRST_TALK);
+		final List<Quest> scripts = getTemplate().getEventQuests(EventHandler.FIRST_TALK);
 		if (scripts.size() == 1)
 			scripts.get(0).notifyFirstTalk(this, player);
 		else

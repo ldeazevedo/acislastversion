@@ -78,11 +78,11 @@ public class Q617_GatherTheFlames extends Quest
 		
 		setItemsIds(TORCH);
 		
-		addStartNpc(VULCAN, HILDA);
+		addQuestStart(VULCAN, HILDA);
 		addTalkId(VULCAN, HILDA, ROONEY);
 		
 		for (int mobs : CHANCES.keySet())
-			addKillId(mobs);
+			addMyDying(mobs);
 	}
 	
 	@Override
@@ -164,16 +164,14 @@ public class Q617_GatherTheFlames extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), TORCH, 1, 0, CHANCES.get(npc.getNpcId()));
-		
-		return null;
 	}
 }

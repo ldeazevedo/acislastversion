@@ -89,6 +89,10 @@ public final class RequestAnswerJoinPledge extends L2GameClientPacket
 				
 				player.setClanJoinExpiryTime(0);
 				player.broadcastUserInfo();
+				
+				// Refresh surrounding Clan War tags.
+				for (Player attacker : player.getKnownType(Player.class, m -> clan.getWarList().contains(m.getClanId())))
+					attacker.broadcastUserInfo();
 			}
 		}
 		player.getRequest().onRequestResponse();

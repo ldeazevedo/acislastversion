@@ -23,10 +23,10 @@ public class Q649_ALooterAndARailroadMan extends Quest
 		
 		setItemsIds(THIEF_GUILD_MARK);
 		
-		addStartNpc(OBI);
+		addQuestStart(OBI);
 		addTalkId(OBI);
 		
-		addKillId(22017, 22018, 22019, 22021, 22022, 22023, 22024, 22026);
+		addMyDying(22017, 22018, 22019, 22021, 22022, 22023, 22024, 22026);
 	}
 	
 	@Override
@@ -85,17 +85,15 @@ public class Q649_ALooterAndARailroadMan extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, THIEF_GUILD_MARK, 1, 200, 800000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

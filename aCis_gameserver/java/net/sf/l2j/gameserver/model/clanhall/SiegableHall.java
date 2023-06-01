@@ -188,7 +188,7 @@ public final class SiegableHall extends ClanHall
 		if (clan == null || clan.getLevel() < Config.CH_MINIMUM_CLAN_LEVEL)
 			player.sendPacket(SystemMessageId.ONLY_CLAN_LEVEL_4_ABOVE_MAY_SIEGE);
 		else if (isWaitingBattle())
-			player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DEADLINE_FOR_SIEGE_S1_PASSED).addString(getName()));
+			player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DEADLINE_FOR_SIEGE_S1_PASSED).addFortId(getId()));
 		else if (isInSiege())
 			player.sendPacket(SystemMessageId.NOT_SIEGE_REGISTRATION_TIME2);
 		else if (getOwnerId() == clan.getClanId())

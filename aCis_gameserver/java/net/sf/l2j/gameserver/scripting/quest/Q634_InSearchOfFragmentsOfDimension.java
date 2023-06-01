@@ -21,13 +21,13 @@ public class Q634_InSearchOfFragmentsOfDimension extends Quest
 		// Dimensional Gate Keepers.
 		for (int i = 31494; i < 31508; i++)
 		{
-			addStartNpc(i);
+			addQuestStart(i);
 			addTalkId(i);
 		}
 		
 		// All mobs.
 		for (int i = 21208; i < 21256; i++)
-			addKillId(i);
+			addMyDying(i);
 	}
 	
 	@Override
@@ -76,16 +76,14 @@ public class Q634_InSearchOfFragmentsOfDimension extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), DIMENSION_FRAGMENT, (int) (npc.getStatus().getLevel() * 0.15 + 1.6), -1, 900000);
-		
-		return null;
 	}
 }

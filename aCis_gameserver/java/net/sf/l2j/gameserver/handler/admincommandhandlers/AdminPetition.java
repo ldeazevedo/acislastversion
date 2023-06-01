@@ -20,8 +20,8 @@ import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 public class AdminPetition implements IAdminCommandHandler
 {
 	private static final String UNFOLLOW_BUTTON = "<td><button value=\"Unfollow\" action=\"bypass -h admin_petition unfollow\" width=65 height=19 back=\"L2UI_ch3.smallbutton2_over\" fore=\"L2UI_ch3.smallbutton2\"></td>";
-	private static final String BUTTONS = "<center><img src=\"L2UI.SquareGray\" width=277 height=1><br><table width=130><tr><td><button value=\"Join\" action=\"bypass -h admin_petition join %id%\" width=65 height=19 back=\"L2UI_ch3.smallbutton2_over\" fore=\"L2UI_ch3.smallbutton2\"></td><td><button value=\"Reject\" action=\"bypass -h admin_petition reject %id%\" width=65 height=19 back=\"L2UI_ch3.smallbutton2_over\" fore=\"L2UI_ch3.smallbutton2\"></td></tr></table></center>";
-	private static final String FEEDBACK = "<center><img src=\"L2UI.SquareGray\" width=277 height=1><br><table width=280><tr><td>Rate: %rate%</td></tr><tr><td>Feedback: %feedback%</td></tr></table></center>";
+	private static final String BUTTONS = "<center><img src=\"L2UI.SquareGray\" width=280 height=1><br><table width=130><tr><td><button value=\"Join\" action=\"bypass -h admin_petition join %id%\" width=65 height=19 back=\"L2UI_ch3.smallbutton2_over\" fore=\"L2UI_ch3.smallbutton2\"></td><td><button value=\"Reject\" action=\"bypass -h admin_petition reject %id%\" width=65 height=19 back=\"L2UI_ch3.smallbutton2_over\" fore=\"L2UI_ch3.smallbutton2\"></td></tr></table></center>";
+	private static final String FEEDBACK = "<center><img src=\"L2UI.SquareGray\" width=280 height=1><br><table width=280><tr><td>Rate: %rate%</td></tr><tr><td>Feedback: %feedback%</td></tr></table></center>";
 	
 	private static final String[] ADMIN_COMMANDS =
 	{
@@ -172,13 +172,13 @@ public class AdminPetition implements IAdminCommandHandler
 	{
 		final Petition activePetition = PetitionManager.getInstance().getPetitionInProcess(player);
 		
+		// Load static htm.
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/admin/petitions.htm");
 		html.replace("%unfollow%", (activePetition != null) ? UNFOLLOW_BUTTON : "");
 		
+		// Generate data.
 		final Pagination<Petition> list = new Pagination<>(PetitionManager.getInstance().getPetitions().values().stream(), page, PAGE_LIMIT_7);
-		final StringBuilder sb = new StringBuilder(3000);
-		
 		for (Petition petition : list)
 		{
 			final String isReaded = (!petition.isUnread()) ? "party_styleicon1_2" : "QuestWndInfoIcon_5";
@@ -197,21 +197,21 @@ public class AdminPetition implements IAdminCommandHandler
 				petitionerStatus = "4";
 			}
 			
-			sb.append(((list.indexOf(petition) % 2) == 0 ? "<table width=280 height=40 bgcolor=000000>" : "<table width=280 height=40>"));
+			list.append(((list.indexOf(petition) % 2) == 0 ? "<table width=280 height=40 bgcolor=000000>" : "<table width=280 height=40>"));
 			
-			StringUtil.append(sb, "<tr><td width=20 align=center><img src=\"L2UI_CH3.msnicon", petitionerStatus, "\" width=12 height=16><img src=\"L2UI_CH3.", isReaded, "\" width=11 height=16></td>");
+			list.append("<tr><td width=20 align=center><img src=\"L2UI_CH3.msnicon", petitionerStatus, "\" width=12 height=16><img src=\"L2UI_CH3.", isReaded, "\" width=11 height=16></td>");
 			
 			if (activePetition != null && activePetition.getId() == petition.getId())
-				StringUtil.append(sb, "<td width=260>#", petition.getId(), " by ", playerName, "<br1><font color=B09878>Type:</font> ", petition.getType(), " <font color=B09878>State:</font> ", petition.getState(), "</td>");
+				list.append("<td width=260>#", petition.getId(), " by ", playerName, "<br1><font color=B09878>Type:</font> ", petition.getType(), " <font color=B09878>State:</font> ", petition.getState(), "</td>");
 			else
-				StringUtil.append(sb, "<td width=260><a action=\"bypass -h admin_petition view ", petition.getId(), "\">#", petition.getId(), " by ", playerName, "</a><br1><font color=B09878>Type:</font> ", petition.getType(), " <font color=B09878>State:</font> ", petition.getState(), "</td>");
+				list.append("<td width=260><a action=\"bypass -h admin_petition view ", petition.getId(), "\">#", petition.getId(), " by ", playerName, "</a><br1><font color=B09878>Type:</font> ", petition.getType(), " <font color=B09878>State:</font> ", petition.getState(), "</td>");
 			
-			sb.append("</tr></table><img src=\"L2UI.SquareGray\" width=277 height=1>");
+			list.append("</tr></table><img src=\"L2UI.SquareGray\" width=280 height=1>");
 		}
-		list.generateSpace(sb, "<img height=41>");
-		list.generatePages(sb, "bypass admin_petition %page%");
+		list.generateSpace(41);
+		list.generatePages("bypass admin_petition %page%");
 		
-		html.replace("%content%", sb.toString());
+		html.replace("%content%", list.getContent());
 		player.sendPacket(html);
 	}
 	

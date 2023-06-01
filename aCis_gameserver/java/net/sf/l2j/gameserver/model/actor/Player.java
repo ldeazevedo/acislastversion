@@ -50,6 +50,7 @@ import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.data.xml.PlayerData;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
+import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.enums.AiEventType;
 import net.sf.l2j.gameserver.enums.CabalType;
 import net.sf.l2j.gameserver.enums.GaugeColor;
@@ -89,7 +90,6 @@ import net.sf.l2j.gameserver.model.AccessLevel;
 import net.sf.l2j.gameserver.model.PetDataEntry;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
-import net.sf.l2j.gameserver.model.actor.ai.type.CreatureAI;
 import net.sf.l2j.gameserver.model.actor.ai.type.PlayerAI;
 import net.sf.l2j.gameserver.model.actor.attack.PlayerAttack;
 import net.sf.l2j.gameserver.model.actor.cast.PlayerCast;
@@ -138,6 +138,7 @@ import net.sf.l2j.gameserver.model.itemcontainer.PcWarehouse;
 import net.sf.l2j.gameserver.model.itemcontainer.PetInventory;
 import net.sf.l2j.gameserver.model.itemcontainer.listeners.ItemPassiveSkillsListener;
 import net.sf.l2j.gameserver.model.location.Location;
+import net.sf.l2j.gameserver.model.location.ObserverLocation;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.model.memo.PlayerMemo;
 import net.sf.l2j.gameserver.model.multisell.PreparedListContainer;
@@ -172,8 +173,8 @@ import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 import net.sf.l2j.gameserver.network.serverpackets.LeaveWorld;
 import net.sf.l2j.gameserver.network.serverpackets.MagicSkillUse;
 import net.sf.l2j.gameserver.network.serverpackets.MyTargetSelected;
-import net.sf.l2j.gameserver.network.serverpackets.ObservationMode;
-import net.sf.l2j.gameserver.network.serverpackets.ObservationReturn;
+import net.sf.l2j.gameserver.network.serverpackets.ObserverEnd;
+import net.sf.l2j.gameserver.network.serverpackets.ObserverStart;
 import net.sf.l2j.gameserver.network.serverpackets.PartySmallWindowUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.PetInventoryUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.PledgeShowMemberListDelete;
@@ -209,6 +210,7 @@ import net.sf.l2j.gameserver.network.serverpackets.TradePressOwnOk;
 import net.sf.l2j.gameserver.network.serverpackets.TradeStart;
 import net.sf.l2j.gameserver.network.serverpackets.UserInfo;
 import net.sf.l2j.gameserver.network.serverpackets.ValidateLocation;
+import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.Formulas;
@@ -341,9 +343,10 @@ public final class Player extends Playable
 	private final List<Integer> _recomChars = new ArrayList<>();
 	
 	private final PcInventory _inventory = new PcInventory(this);
+	private final List<PcFreight> _depositedFreight = new ArrayList<>();
+	
 	private PcWarehouse _warehouse;
 	private PcFreight _freight;
-	private final List<PcFreight> _depositedFreight = new ArrayList<>();
 	
 	private OperateType _operateType = OperateType.NONE;
 	
@@ -638,29 +641,25 @@ public final class Player extends Playable
 		super.setTemplate(PlayerData.getInstance().getTemplate(newclass));
 	}
 	
-	/**
-	 * Return the AI of the Player (create it if necessary).
-	 */
-	@Override
-	public CreatureAI getAI()
-	{
-		CreatureAI ai = _ai;
-		if (ai == null)
-		{
-			synchronized (this)
-			{
-				ai = _ai;
-				if (ai == null)
-					_ai = ai = new PlayerAI(this);
-			}
-		}
-		return ai;
-	}
-	
 	@Override
 	public boolean denyAiAction()
 	{
 		return super.denyAiAction() || isInStoreMode() || _operateType == OperateType.OBSERVE;
+	}
+	
+	/**
+	 * Return the AI of the Player (create it if necessary).
+	 */
+	@Override
+	public PlayerAI getAI()
+	{
+		return (PlayerAI) _ai;
+	}
+	
+	@Override
+	public void setAI()
+	{
+		_ai = new PlayerAI(this);
 	}
 	
 	@Override
@@ -744,6 +743,11 @@ public final class Player extends Playable
 	public void setCrafting(boolean state)
 	{
 		_isCrafting = state;
+	}
+	
+	public void setStanding(boolean value)
+	{
+		_isStanding = value;
 	}
 	
 	/**
@@ -1822,14 +1826,14 @@ public final class Player extends Playable
 			{
 				if (count > 1)
 				{
-					if (process.equalsIgnoreCase("Sweep") || process.equalsIgnoreCase("Quest"))
+					if (process.equalsIgnoreCase("Sweep") || process.equalsIgnoreCase("Harvest") || process.equalsIgnoreCase("Quest"))
 						sendPacket(SystemMessage.getSystemMessage(SystemMessageId.EARNED_S2_S1_S).addItemName(itemId).addItemNumber(count));
 					else
 						sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOU_PICKED_UP_S2_S1).addItemName(itemId).addItemNumber(count));
 				}
 				else
 				{
-					if (process.equalsIgnoreCase("Sweep") || process.equalsIgnoreCase("Quest"))
+					if (process.equalsIgnoreCase("Sweep") || process.equalsIgnoreCase("Harvest") || process.equalsIgnoreCase("Quest"))
 						sendPacket(SystemMessage.getSystemMessage(SystemMessageId.EARNED_ITEM_S1).addItemName(itemId));
 					else
 						sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOU_PICKED_UP_S1).addItemName(itemId));
@@ -4376,6 +4380,12 @@ public final class Player extends Playable
 					
 					player.restoreFriendList();
 					
+					player.setOnlineStatus(true, false);
+					player.setRunning(true);
+					player.setStanding(true);
+					
+					World.getInstance().addPlayer(player);
+					
 					// Retrieve the name and ID of the other characters assigned to this account.
 					try (PreparedStatement ps2 = con.prepareStatement("SELECT obj_Id, char_name FROM characters WHERE account_name=? AND obj_Id<>?"))
 					{
@@ -5041,9 +5051,16 @@ public final class Player extends Playable
 			return true;
 		
 		final Player targetPlayer = target.getActingPlayer();
-		// No checks for players in Arena
-		if (isInsideZone(ZoneId.PVP) && targetPlayer.isInsideZone(ZoneId.PVP))
-			return true;
+		
+		// No checks if both players are in Arena ; CTRL check if caster is on PEACE zone.
+		if (targetPlayer.isInsideZone(ZoneId.PVP))
+		{
+			if (isInsideZone(ZoneId.PVP))
+				return true;
+			
+			if (isInsideZone(ZoneId.PEACE))
+				return isCtrlPressed;
+		}
 		
 		// No checks for players in Olympiad
 		if (isInOlympiadMode() && targetPlayer.isInOlympiadMode() && getOlympiadGameId() == targetPlayer.getOlympiadGameId())
@@ -5426,8 +5443,12 @@ public final class Player extends Playable
 		_cubicList.stopCubics(true);
 	}
 	
-	public void enterObserverMode(int x, int y, int z)
+	public void enterObserverMode(ObserverLocation loc)
 	{
+		// Adena check.
+		if (loc.getCost() > 0 && !reduceAdena("Broadcast", loc.getCost(), this, true))
+			return;
+		
 		dropAllSummons();
 		
 		if (getParty() != null)
@@ -5444,8 +5465,8 @@ public final class Player extends Playable
 		// Abort attack, cast and move.
 		abortAll(true);
 		
-		teleportTo(x, y, z, 0);
-		sendPacket(new ObservationMode(x, y, z));
+		teleportTo(loc, 0);
+		sendPacket(new ObserverStart(loc));
 	}
 	
 	public void enterOlympiadObserverMode(int id)
@@ -5484,7 +5505,7 @@ public final class Player extends Playable
 		setInvul(false);
 		setIsParalyzed(false);
 		
-		sendPacket(new ObservationReturn(_savedLocation));
+		sendPacket(new ObserverEnd(_savedLocation));
 		teleportTo(_savedLocation, 0);
 		
 		// Clear the location.
@@ -5738,6 +5759,7 @@ public final class Player extends Playable
 		_isNoble = isNoble;
 		
 		sendSkillList();
+		sendPacket(new UserInfo(this));
 		
 		if (storeInDb)
 		{
@@ -6209,13 +6231,27 @@ public final class Player extends Playable
 			return;
 		}
 		
-		if ((isPet && _summon != null && _summon.isDead()) || (!isPet && isDead()))
+		if (isPet)
 		{
-			_reviveRequested = 1;
-			_revivePower = (isPhoenixBlessed()) ? 100 : Formulas.calculateSkillResurrectRestorePercent(skill.getPower(), reviver);
-			_revivePet = isPet;
-			
-			sendPacket(new ConfirmDlg(SystemMessageId.RESSURECTION_REQUEST_BY_S1).addCharName(reviver));
+			if (_summon != null && _summon.isDead())
+			{
+				_reviveRequested = 1;
+				_revivePower = (_summon.isPhoenixBlessed()) ? 100. : Formulas.calcRevivePower(reviver, skill.getPower());
+				_revivePet = isPet;
+				
+				sendPacket(new ConfirmDlg(SystemMessageId.RESSURECTION_REQUEST_BY_S1).addCharName(reviver));
+			}
+		}
+		else
+		{
+			if (isDead())
+			{
+				_reviveRequested = 1;
+				_revivePower = (isPhoenixBlessed()) ? 100. : Formulas.calcRevivePower(reviver, skill.getPower());
+				_revivePet = isPet;
+				
+				sendPacket(new ConfirmDlg(SystemMessageId.RESSURECTION_REQUEST_BY_S1).addCharName(reviver));
+			}
 		}
 	}
 	
@@ -6500,6 +6536,10 @@ public final class Player extends Playable
 			PvpFlagTaskManager.getInstance().remove(this, false);
 			GameTimeTaskManager.getInstance().remove(this);
 			ShadowItemTaskManager.getInstance().remove(this);
+			
+			// Stop all QuestTimer affected to this Player.
+			for (Quest quest : ScriptData.getInstance().getQuests())
+				quest.cancelQuestTimers(this);
 			
 			// Cancel the cast of eventual fusion skill users on this target.
 			for (final Creature creature : getKnownType(Creature.class))
@@ -7300,8 +7340,6 @@ public final class Player extends Playable
 	{
 		if (DimensionalRiftManager.getInstance().checkIfInRiftZone(getX(), getY(), getZ(), true))
 		{
-			sendMessage("You have been sent to the waiting room.");
-			
 			if (isInParty() && getParty().isInDimensionalRift())
 				getParty().getDimensionalRift().usedTeleport(this);
 			
@@ -7319,8 +7357,7 @@ public final class Player extends Playable
 		{
 			// Send the state of the Creature to the Player.
 			final Creature obj = (Creature) object;
-			if (obj.hasAI())
-				obj.getAI().describeStateToPlayer(this);
+			obj.getAI().describeStateToPlayer(this);
 		}
 	}
 	

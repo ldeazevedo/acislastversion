@@ -96,10 +96,10 @@ public class Q508_AClansReputation extends Quest
 		
 		setItemsIds(THEMIS_SCALE, NUCLEUS_OF_HEKATON_PRIME, TIPHON_SHARD, GLAKI_NUCLEUS, RAHHA_FANG, NUCLEUS_OF_FLAMESTONE_GIANT);
 		
-		addStartNpc(SIR_ERIC_RODEMAI);
+		addQuestStart(SIR_ERIC_RODEMAI);
 		addTalkId(SIR_ERIC_RODEMAI);
 		
-		addKillId(FLAMESTONE_GIANT, PALIBATI_QUEEN_THEMIS, HEKATON_PRIME, GARGOYLE_LORD_TIPHON, LAST_LESSER_GIANT_GLAKI, RAHHA);
+		addMyDying(FLAMESTONE_GIANT, PALIBATI_QUEEN_THEMIS, HEKATON_PRIME, GARGOYLE_LORD_TIPHON, LAST_LESSER_GIANT_GLAKI, RAHHA);
 	}
 	
 	@Override
@@ -172,20 +172,18 @@ public class Q508_AClansReputation extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		// Retrieve the qS of the clan leader.
 		final QuestState st = getClanLeaderQuestState(player, npc);
 		if (st == null || !st.isStarted())
-			return null;
+			return;
 		
 		// Reward only if quest is setup on good index.
 		final int raid = st.getInteger("raid");
 		if (REWARDS[raid - 1][0] == npc.getNpcId())
 			dropItemsAlways(st.getPlayer(), REWARDS[raid - 1][1], 1, 1);
-		
-		return null;
 	}
 }

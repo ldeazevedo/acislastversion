@@ -5,6 +5,7 @@ import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.handler.ITargetHandler;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
+import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.Folk;
 import net.sf.l2j.gameserver.model.actor.instance.Guard;
 import net.sf.l2j.gameserver.model.actor.instance.Monster;
@@ -83,6 +84,11 @@ public class TargetOne implements ITargetHandler
 					caster.sendPacket(SystemMessageId.INVALID_TARGET);
 					return false;
 				}
+			}
+			else if (target instanceof Door && !target.isAttackableBy(caster))
+			{
+				caster.sendPacket(SystemMessageId.INVALID_TARGET);
+				return false;
 			}
 		}
 		else

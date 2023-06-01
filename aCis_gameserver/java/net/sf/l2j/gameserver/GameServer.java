@@ -27,41 +27,39 @@ import net.sf.l2j.gameserver.data.manager.CastleManorManager;
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
 import net.sf.l2j.gameserver.data.manager.CoupleManager;
 import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
-import net.sf.l2j.gameserver.data.manager.DayNightManager;
 import net.sf.l2j.gameserver.data.manager.DerbyTrackManager;
 import net.sf.l2j.gameserver.data.manager.DimensionalRiftManager;
 import net.sf.l2j.gameserver.data.manager.FestivalOfDarknessManager;
 import net.sf.l2j.gameserver.data.manager.FishingChampionshipManager;
-import net.sf.l2j.gameserver.data.manager.FourSepulchersManager;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.data.manager.HeroManager;
 import net.sf.l2j.gameserver.data.manager.LotteryManager;
 import net.sf.l2j.gameserver.data.manager.PartyMatchRoomManager;
 import net.sf.l2j.gameserver.data.manager.PetitionManager;
-import net.sf.l2j.gameserver.data.manager.RaidBossManager;
 import net.sf.l2j.gameserver.data.manager.RaidPointManager;
 import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
+import net.sf.l2j.gameserver.data.manager.SpawnManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
-import net.sf.l2j.gameserver.data.sql.AutoSpawnTable;
 import net.sf.l2j.gameserver.data.sql.BookmarkTable;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.data.sql.ServerMemoTable;
-import net.sf.l2j.gameserver.data.sql.SpawnTable;
 import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.data.xml.AnnouncementData;
 import net.sf.l2j.gameserver.data.xml.ArmorSetData;
 import net.sf.l2j.gameserver.data.xml.AugmentationData;
 import net.sf.l2j.gameserver.data.xml.DoorData;
 import net.sf.l2j.gameserver.data.xml.FishData;
+import net.sf.l2j.gameserver.data.xml.HealSpsData;
 import net.sf.l2j.gameserver.data.xml.HennaData;
-import net.sf.l2j.gameserver.data.xml.HerbDropData;
 import net.sf.l2j.gameserver.data.xml.InstantTeleportData;
 import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ManorAreaData;
 import net.sf.l2j.gameserver.data.xml.MapRegionData;
 import net.sf.l2j.gameserver.data.xml.MultisellData;
 import net.sf.l2j.gameserver.data.xml.NewbieBuffData;
 import net.sf.l2j.gameserver.data.xml.NpcData;
+import net.sf.l2j.gameserver.data.xml.ObserverGroupData;
 import net.sf.l2j.gameserver.data.xml.PlayerData;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
 import net.sf.l2j.gameserver.data.xml.RecipeData;
@@ -181,6 +179,7 @@ public class GameServer
 		PlayerLevelData.getInstance();
 		PartyMatchRoomManager.getInstance();
 		RaidPointManager.getInstance();
+		HealSpsData.getInstance();
 		
 		StringUtil.printSection("Community server");
 		CommunityBoard.getInstance();
@@ -208,39 +207,34 @@ public class GameServer
 		ShadowItemTaskManager.getInstance();
 		WaterTaskManager.getInstance();
 		
-		StringUtil.printSection("Auto Spawns");
-		AutoSpawnTable.getInstance();
-		
 		StringUtil.printSection("Seven Signs");
-		SevenSignsManager.getInstance().spawnSevenSignsNPC();
+		SevenSignsManager.getInstance();
 		FestivalOfDarknessManager.getInstance();
 		
 		StringUtil.printSection("Manor Manager");
+		ManorAreaData.getInstance();
 		CastleManorManager.getInstance();
 		
 		StringUtil.printSection("NPCs");
 		BufferManager.getInstance();
-		HerbDropData.getInstance();
 		NpcData.getInstance();
 		WalkerRouteData.getInstance();
 		DoorData.getInstance().spawn();
 		StaticObjectData.getInstance();
-		SpawnTable.getInstance();
-		RaidBossManager.getInstance();
+		SpawnManager.getInstance();
 		GrandBossManager.getInstance();
-		DayNightManager.getInstance().notifyChangeMode();
 		DimensionalRiftManager.getInstance();
 		NewbieBuffData.getInstance();
 		InstantTeleportData.getInstance();
 		TeleportData.getInstance();
+		ObserverGroupData.getInstance();
+		
+		CastleManager.getInstance().loadArtifacts();
 		
 		StringUtil.printSection("Olympiads & Heroes");
 		OlympiadGameManager.getInstance();
 		Olympiad.getInstance();
 		HeroManager.getInstance();
-		
-		StringUtil.printSection("Four Sepulchers");
-		FourSepulchersManager.getInstance();
 		
 		StringUtil.printSection("Quests & Scripts");
 		ScriptData.getInstance();
@@ -264,6 +258,9 @@ public class GameServer
 		
 		if (Config.ALLOW_FISH_CHAMPIONSHIP)
 			FishingChampionshipManager.getInstance();
+		
+		StringUtil.printSection("Spawns");
+		SpawnManager.getInstance().spawn();
 		
 		StringUtil.printSection("Handlers");
 		LOGGER.info("Loaded {} admin command handlers.", AdminCommandHandler.getInstance().size());

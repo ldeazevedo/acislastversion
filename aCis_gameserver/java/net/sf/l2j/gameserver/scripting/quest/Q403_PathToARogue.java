@@ -50,11 +50,11 @@ public class Q403_PathToARogue extends Quest
 		
 		setItemsIds(BEZIQUE_LETTER, NETI_BOW, NETI_DAGGER, SPARTOI_BONES, HORSESHOE_OF_LIGHT, MOST_WANTED_LIST, STOLEN_JEWELRY, STOLEN_TOMES, STOLEN_RING, STOLEN_NECKLACE);
 		
-		addStartNpc(BEZIQUE);
+		addQuestStart(BEZIQUE);
 		addTalkId(BEZIQUE, NETI);
 		
-		addAttackId(TRACKER_SKELETON, TRACKER_SKELETON_LEADER, SCOUT_SKELETON, SNIPER_SKELETON, RUIN_SPARTOI, RAGING_SPARTOI, CATSEYE_BANDIT);
-		addKillId(TRACKER_SKELETON, TRACKER_SKELETON_LEADER, SCOUT_SKELETON, SNIPER_SKELETON, RUIN_SPARTOI, RAGING_SPARTOI, CATSEYE_BANDIT);
+		addAttacked(TRACKER_SKELETON, TRACKER_SKELETON_LEADER, SCOUT_SKELETON, SNIPER_SKELETON, RUIN_SPARTOI, RAGING_SPARTOI, CATSEYE_BANDIT);
+		addMyDying(TRACKER_SKELETON, TRACKER_SKELETON_LEADER, SCOUT_SKELETON, SNIPER_SKELETON, RUIN_SPARTOI, RAGING_SPARTOI, CATSEYE_BANDIT);
 	}
 	
 	@Override
@@ -169,24 +169,24 @@ public class Q403_PathToARogue extends Quest
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		// Attack condition already failed, skip other checks.
 		final int condition = npc.getScriptValue();
 		if (condition < 0)
-			return null;
+			return;
 		
 		// Attacker must be player with started quest.
 		final Player player = attacker.getActingPlayer();
 		if (player == null || checkPlayerState(player, npc, QuestStatus.STARTED) == null)
-			return null;
+			return;
 		
 		// Player must use Neti's Bow or Neti's Dagger, otherwise mark invalid attack condition.
 		final int equippedItemId = player.getInventory().getItemIdFrom(Paperdoll.RHAND);
 		if (equippedItemId != NETI_BOW && equippedItemId != NETI_DAGGER)
 		{
 			npc.setScriptValue(-1);
-			return null;
+			return;
 		}
 		
 		if (condition == 0)
@@ -203,18 +203,16 @@ public class Q403_PathToARogue extends Quest
 			if (condition != player.getObjectId())
 				npc.setScriptValue(-1);
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null || npc.getScriptValue() < 0)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -258,7 +256,5 @@ public class Q403_PathToARogue extends Quest
 				}
 				break;
 		}
-		
-		return null;
 	}
 }

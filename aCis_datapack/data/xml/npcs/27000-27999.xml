@@ -28,7 +28,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -62,11 +61,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27003" name="Spirit Of Mirrors" title="Quest Monster">
 		<set name="level" val="9"/>
@@ -96,7 +123,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="4"/>
@@ -130,7 +156,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -164,11 +189,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27006" name="Bhato Bloodspear" title="">
 		<set name="level" val="11"/>
@@ -198,11 +251,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27007" name="Tanuki Skullcrusher" title="">
 		<set name="level" val="11"/>
@@ -232,11 +313,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27008" name="Kraacul Blackskull" title="">
 		<set name="level" val="11"/>
@@ -266,11 +375,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27009" name="Taarq Blackskull" title="">
 		<set name="level" val="11"/>
@@ -300,11 +437,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27016" name="Nerkas" title="Quest Monster">
 		<set name="level" val="22"/>
@@ -334,7 +499,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="80"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -370,7 +534,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="15"/>
 		<set name="runSpd" val="15"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -382,6 +545,35 @@
 			<skill id="4413" level="18"/>
 			<skill id="4416" level="1"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27018" name="Orc Warrior" title="">
 		<set name="level" val="10"/>
@@ -411,7 +603,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -445,11 +636,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27020" name="Varool Foulclaw" title="Quest Monster">
 		<set name="level" val="20"/>
@@ -479,7 +698,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -513,7 +731,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="80"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="kirunak_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -523,6 +740,35 @@
 		<minions>
 			<minion id="20492" min="6" max="8"/>
 		</minions>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27022" name="Merkenis" title="Quest Monster">
 		<set name="level" val="22"/>
@@ -552,7 +798,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -562,6 +807,35 @@
 		<minions>
 			<minion id="20367" min="1" max="3"/>
 		</minions>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27024" name="Undead Priest" title="Quest Monster">
 		<set name="level" val="17"/>
@@ -591,7 +865,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="15"/>
 		<set name="runSpd" val="15"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -632,7 +905,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="64"/>
 		<set name="runSpd" val="96"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="7"/>
@@ -666,7 +938,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="90"/>
 		<set name="runSpd" val="90"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="2"/>
@@ -700,7 +971,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="ol_mahum_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -734,11 +1004,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="52"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27033" name="Lizardman Scout" title="Quest Monster">
 		<set name="level" val="12"/>
@@ -768,11 +1066,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27034" name="Lizardman" title="Quest Monster">
 		<set name="level" val="11"/>
@@ -802,11 +1128,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27035" name="Tamil" title="Quest Monster">
 		<set name="level" val="19"/>
@@ -836,7 +1190,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="55"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="11"/>
@@ -870,7 +1223,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -878,6 +1230,35 @@
 		<minions>
 			<minion id="27037" min="2" max="3"/>
 		</minions>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27037" name="Calpico's Goons" title="Quest Monster">
 		<set name="level" val="10"/>
@@ -907,11 +1288,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27038" name="Cat's Eye Bandit" title="Quest Monster">
 		<set name="level" val="15"/>
@@ -941,7 +1350,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -975,7 +1383,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -983,6 +1390,35 @@
 		<minions>
 			<minion id="27042" min="3" max="5"/>
 		</minions>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27042" name="Orc Escort" title="Quest Monster">
 		<set name="level" val="12"/>
@@ -1012,11 +1448,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27043" name="Varangka's Tracker" title="Quest Monster">
 		<set name="level" val="11"/>
@@ -1046,11 +1510,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="80"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="4"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27044" name="Kasha Bear Totem Spirit" title="Quest Monster">
 		<set name="level" val="17"/>
@@ -1080,7 +1572,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -1116,7 +1607,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="wererat_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1150,7 +1640,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1184,7 +1673,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1218,7 +1706,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1252,7 +1739,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1286,7 +1772,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1320,7 +1805,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1354,7 +1838,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1388,7 +1871,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1422,7 +1904,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1456,7 +1937,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1490,7 +1970,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="90"/>
 		<set name="runSpd" val="90"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -1526,7 +2005,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="4"/>
@@ -1560,11 +2038,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27060" name="Kracha" title="Kaboo Chief">
 		<set name="level" val="11"/>
@@ -1594,11 +2100,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27061" name="Batoh" title="Kaboo Chief">
 		<set name="level" val="11"/>
@@ -1628,11 +2162,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27062" name="Tanukia" title="Kaboo Chief">
 		<set name="level" val="8"/>
@@ -1662,7 +2224,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1699,7 +2260,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="24"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="4"/>
@@ -1733,11 +2293,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27065" name="Roko" title="Kaboo Chief">
 		<set name="level" val="8"/>
@@ -1767,7 +2355,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1804,7 +2391,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="24"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="4"/>
@@ -1838,11 +2424,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27068" name="Murtika" title="Kaboo Chief">
 		<set name="level" val="8"/>
@@ -1872,7 +2486,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -1909,7 +2522,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="24"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="4"/>
@@ -1943,11 +2555,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27077" name="Unicorn Of Eva" title="Quest Monster">
 		<set name="level" val="30"/>
@@ -1977,7 +2617,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="46"/>
 		<set name="runSpd" val="150"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="7"/>
@@ -2011,7 +2650,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="12"/>
@@ -2045,7 +2683,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="55"/>
 		<set name="runSpd" val="55"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4275" level="2"/>
@@ -2081,7 +2718,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -2115,7 +2751,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -2149,7 +2784,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -2183,7 +2817,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="55"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="11"/>
@@ -2217,7 +2850,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4275" level="2"/>
@@ -2253,7 +2885,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
@@ -2287,7 +2918,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -2321,7 +2951,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="70"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
@@ -2355,7 +2984,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="90"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="lizardman_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4275" level="2"/>
@@ -2391,7 +3019,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="56"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="lizardman_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -2425,7 +3052,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="lizardman_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -2459,7 +3085,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="5"/>
@@ -2493,7 +3118,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="5"/>
@@ -2527,7 +3151,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="5"/>
@@ -2561,7 +3184,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="2"/>
@@ -2595,7 +3217,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="15"/>
 		<set name="runSpd" val="15"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -2636,7 +3257,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="160"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4275" level="2"/>
@@ -2672,7 +3292,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="80"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -2708,7 +3327,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="7"/>
@@ -2742,7 +3360,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="27"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="7"/>
@@ -2776,7 +3393,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="9"/>
@@ -2810,7 +3426,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="48"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="7"/>
@@ -2844,7 +3459,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="27"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="7"/>
@@ -2878,7 +3492,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -2914,7 +3527,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="70"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
@@ -2951,7 +3563,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
@@ -2985,7 +3596,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
@@ -3022,11 +3632,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="54"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27112" name="Gorr" title="Quest Monster">
 		<set name="level" val="36"/>
@@ -3056,11 +3694,13 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
 		</skills>
+		<minions>
+			<minion id="27111" min="6" max="6"/>
+		</minions>
 	</npc>
 	<npc id="27113" name="Baraham" title="Quest Monster">
 		<set name="level" val="36"/>
@@ -3090,13 +3730,12 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
 		</skills>
 		<minions>
-			<minion id="27111" min="3" max="6"/>
+			<minion id="27111" min="6" max="6"/>
 		</minions>
 	</npc>
 	<npc id="27114" name="Succubus Queen" title="Quest Monster">
@@ -3127,7 +3766,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="demonic_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -3166,7 +3804,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="demonic_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -3202,11 +3839,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="64"/>
 		<set name="runSpd" val="96"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="elemental3_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="7"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27117" name="Nahir" title="Quest Monster">
 		<set name="level" val="35"/>
@@ -3236,13 +3901,41 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="80"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
 			<skill id="4333" level="5"/>
 			<skill id="4416" level="9"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27118" name="Black Willow" title="Quest Monster">
 		<set name="level" val="30"/>
@@ -3272,7 +3965,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="55"/>
 		<set name="runSpd" val="55"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4047" level="3"/>
@@ -3309,7 +4001,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="skeleton_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4037" level="2"/>
@@ -3317,6 +4008,35 @@
 			<skill id="4278" level="1"/>
 			<skill id="4416" level="1"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27120" name="Luell Of Zephyr Winds" title="Quest Monster">
 		<set name="level" val="37"/>
@@ -3346,7 +4066,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="60"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="elemental2_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4037" level="2"/>
@@ -3381,7 +4100,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="elemental1_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="13"/>
@@ -3415,11 +4133,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="37"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="lizardman_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27123" name="Leto Lizardman Leader" title="Quest Monster">
 		<set name="level" val="38"/>
@@ -3449,7 +4195,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="lizardman_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -3486,7 +4231,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="37"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="lizardman_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -3520,7 +4264,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="37"/>
 		<set name="runSpd" val="150"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="lizardman_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -3554,7 +4297,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="lizardman_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4002" level="3"/>
@@ -3589,7 +4331,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="53"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="lizardman_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -3623,7 +4364,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="5"/>
@@ -3657,7 +4397,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -3691,7 +4430,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -3725,7 +4463,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="werewolf_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -3759,7 +4496,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="elemental1_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -3793,7 +4529,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="90"/>
 		<set name="runSpd" val="90"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="2"/>
@@ -3827,7 +4562,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="55"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="orc_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="11"/>
@@ -3861,7 +4595,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="25"/>
 		<set name="runSpd" val="170"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="12"/>
@@ -3895,7 +4628,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -3931,7 +4663,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="80"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -3967,7 +4698,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="27"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -4003,7 +4733,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="12"/>
 		<set name="runSpd" val="12"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4277" level="5"/>
@@ -4039,7 +4768,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="3"/>
@@ -4074,7 +4802,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="3"/>
@@ -4109,7 +4836,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="3"/>
@@ -4144,7 +4870,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="4"/>
@@ -4178,7 +4903,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="55"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="11"/>
@@ -4212,7 +4936,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="55"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="11"/>
@@ -4246,7 +4969,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="55"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="11"/>
@@ -4280,7 +5002,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="55"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="11"/>
@@ -4314,7 +5035,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="55"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="11"/>
@@ -4348,11 +5068,39 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="20"/>
 		<set name="runSpd" val="50"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="13"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27150" name="Black Legion Stormtrooper" title="Quest Monster">
 		<set name="level" val="43"/>
@@ -4382,7 +5130,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4275" level="2"/>
@@ -4418,7 +5165,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -4452,12 +5198,40 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="130"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4279" level="1"/>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27153" name="Alexandro Sanches" title="Dark Lord">
 		<set name="level" val="3"/>
@@ -4487,7 +5261,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="80"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4276" level="1"/>
@@ -4525,7 +5298,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -4561,7 +5333,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4278" level="1"/>
@@ -4597,7 +5368,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4151" level="4"/>
@@ -4633,7 +5403,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="53"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -4667,7 +5436,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -4701,7 +5469,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -4735,7 +5502,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="45"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="11"/>
@@ -4769,7 +5535,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="36"/>
 		<set name="runSpd" val="170"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -4803,7 +5568,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
@@ -4837,7 +5601,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="27"/>
 		<set name="runSpd" val="160"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -4871,7 +5634,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="55"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="11"/>
@@ -4905,7 +5667,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="165"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="abyss_jewel_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -4940,7 +5701,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="165"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="abyss_jewel_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -4975,7 +5735,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="165"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="abyss_jewel_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -5010,7 +5769,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="abyss_jewel_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="9"/>
@@ -5044,7 +5802,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="80"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="abyss_jewel_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="9"/>
@@ -5078,7 +5835,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="70"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="abyss_jewel_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
@@ -5112,7 +5868,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="90"/>
 		<set name="runSpd" val="90"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4275" level="2"/>
@@ -5150,7 +5905,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -5184,7 +5938,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="19"/>
@@ -5218,7 +5971,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="19"/>
@@ -5252,7 +6004,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="19"/>
@@ -5286,7 +6037,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="19"/>
@@ -5320,7 +6070,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="19"/>
@@ -5354,7 +6103,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="70"/>
 		<set name="runSpd" val="70"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="10"/>
@@ -5388,7 +6136,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="140"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="grave_guard_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4273" level="3"/>
@@ -5425,7 +6172,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="10"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="grave_keeper_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4275" level="2"/>
@@ -5461,7 +6207,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="100"/>
 		<set name="runSpd" val="170"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="grave_keeper_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4275" level="2"/>
@@ -5497,7 +6242,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="200"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -5534,7 +6278,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="160"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -5572,7 +6315,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="200"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4034" level="6"/>
@@ -5615,7 +6357,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="1"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="q421_tree_clan" clanRange="100" canMove="false" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -5654,7 +6395,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="1"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="q421_tree_clan" clanRange="100" canMove="false" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -5692,7 +6432,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="1"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="q421_tree_clan" clanRange="100" canMove="false" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -5730,7 +6469,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="1"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="q421_tree_clan" clanRange="100" canMove="false" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -5768,7 +6506,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="q421_tree_clan" clanRange="100" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4275" level="2"/>
@@ -5806,7 +6543,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="150"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="orc_clan" clanRange="200" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="2"/>
@@ -5841,7 +6577,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="159"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4073" level="2"/>
@@ -5876,7 +6611,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="134"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -5915,12 +6649,40 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="3"/>
 			<skill id="4416" level="6"/>
 		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
 	</npc>
 	<npc id="27194" name="Julie the Ripper" title="Quest Monster">
 		<set name="level" val="40"/>
@@ -5950,7 +6712,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="22"/>
 		<set name="runSpd" val="174"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -5991,7 +6752,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="150"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4279" level="1"/>
@@ -6026,7 +6786,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="70"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="croc_clan" clanRange="200" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -6063,7 +6822,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="70"/>
 		<set name="runSpd" val="110"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="croc_clan" clanRange="200" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4071" level="5"/>
@@ -6100,7 +6858,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="werewolf_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -6134,7 +6891,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="elemental1_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -6168,7 +6924,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="guard_of_secrets_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6203,7 +6958,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="guard_of_secrets_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6238,7 +6992,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="guard_of_secrets_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6273,7 +7026,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="100"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4073" level="6"/>
@@ -6309,7 +7061,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4073" level="6"/>
@@ -6345,7 +7096,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6380,7 +7130,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6415,7 +7164,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6450,7 +7198,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6485,7 +7232,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6520,7 +7266,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6555,7 +7300,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6590,7 +7334,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6625,7 +7368,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6660,7 +7402,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6695,7 +7436,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6730,7 +7470,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6765,7 +7504,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6800,7 +7538,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6835,7 +7572,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6870,7 +7606,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6905,7 +7640,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6940,7 +7674,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -6975,7 +7708,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7010,7 +7742,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7045,7 +7776,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7080,7 +7810,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7115,7 +7844,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7150,7 +7878,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7185,7 +7912,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7220,7 +7946,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7255,7 +7980,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7290,7 +8014,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7325,7 +8048,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7360,7 +8082,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7395,7 +8116,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -7430,7 +8150,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="37"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="10"/>
@@ -7469,7 +8188,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="37"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="10"/>
@@ -7508,7 +8226,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="37"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="10"/>
@@ -7547,7 +8264,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="170"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="9"/>
@@ -7587,7 +8303,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="70"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -7623,7 +8338,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="70"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -7659,7 +8373,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="70"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -7695,7 +8408,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="3"/>
@@ -7733,7 +8445,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="8"/>
@@ -7772,7 +8483,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="3"/>
@@ -7807,7 +8517,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="3"/>
@@ -7842,7 +8551,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="3"/>
@@ -7877,7 +8585,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -7913,7 +8620,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -7949,7 +8655,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="40"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -7985,7 +8690,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="70"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8021,7 +8725,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="10"/>
@@ -8058,7 +8761,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="10"/>
@@ -8095,7 +8797,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="3"/>
@@ -8130,7 +8831,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="3"/>
@@ -8168,7 +8868,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="3"/>
@@ -8206,7 +8905,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="13"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="8"/>
@@ -8245,7 +8943,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4412" level="18"/>
@@ -8284,7 +8981,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8320,7 +9016,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8356,7 +9051,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8392,7 +9086,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8428,7 +9121,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8464,7 +9156,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="70"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8500,7 +9191,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8536,7 +9226,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="37"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8572,7 +9261,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="37"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8608,7 +9296,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8644,7 +9331,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="78"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8680,7 +9366,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="38"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8716,7 +9401,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="70"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -8752,7 +9436,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="8"/>
@@ -8791,7 +9474,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="8"/>
@@ -8830,7 +9512,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4412" level="18"/>
@@ -8869,7 +9550,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="56"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="1" level="37"/>
@@ -8910,7 +9590,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -8945,7 +9624,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="1"/>
@@ -8980,7 +9658,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="36"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="190" level="37"/>
@@ -9021,7 +9698,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="36"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="280" level="37"/>
@@ -9062,7 +9738,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="24"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="7"/>
@@ -9106,7 +9781,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="24"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="7"/>
@@ -9150,7 +9824,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="19" level="37"/>
@@ -9190,7 +9863,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="19" level="37"/>
@@ -9230,7 +9902,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="19" level="37"/>
@@ -9270,7 +9941,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="8"/>
@@ -9311,7 +9981,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="8"/>
@@ -9352,7 +10021,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="8"/>
@@ -9393,7 +10061,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -9429,7 +10096,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -9465,7 +10131,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -9501,7 +10166,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -9537,7 +10201,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -9573,7 +10236,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -9609,7 +10271,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -9645,7 +10306,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="64"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -9681,7 +10341,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="15"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -9717,7 +10376,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="35"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -9753,7 +10411,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="48"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4408" level="17"/>
@@ -9789,7 +10446,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="7"/>
@@ -9827,7 +10483,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="7"/>
@@ -9865,7 +10520,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4032" level="7"/>
@@ -9903,7 +10557,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="36"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="3"/>
@@ -9938,7 +10591,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="180"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4414" level="3"/>
@@ -9973,7 +10625,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4412" level="14"/>
@@ -10009,7 +10660,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="30"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4410" level="13"/>
@@ -10045,7 +10695,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -10079,7 +10728,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="43"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="6"/>
@@ -10113,7 +10761,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="72"/>
 		<set name="runSpd" val="130"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="12"/>

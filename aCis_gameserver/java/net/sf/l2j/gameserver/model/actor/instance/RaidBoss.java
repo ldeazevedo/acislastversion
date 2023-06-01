@@ -7,14 +7,15 @@ import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.HeroManager;
-import net.sf.l2j.gameserver.data.manager.RaidBossManager;
 import net.sf.l2j.gameserver.data.manager.RaidPointManager;
+import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
+import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
 import net.sf.l2j.gameserver.model.group.Party;
-import net.sf.l2j.gameserver.model.spawn.Spawn;
+import net.sf.l2j.gameserver.model.spawn.ASpawn;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
@@ -36,7 +37,7 @@ public class RaidBoss extends Monster
 	{
 		super(objectId, template);
 		
-		setRaid(true);
+		setRaidRelated();
 	}
 	
 	@Override
@@ -61,13 +62,13 @@ public class RaidBoss extends Monster
 					if (getNpcId() != 29095 && Rnd.nextBoolean())
 					{
 						// Spawn must exist.
-						final Spawn spawn = getSpawn();
+						final ASpawn spawn = getSpawn();
 						if (spawn == null)
 							return;
 						
 						// If the boss is above drift range (or 200 minimum), teleport him on his spawn.
-						if (!isIn3DRadius(spawn.getLoc(), Math.max(Config.MAX_DRIFT_RANGE, 200)))
-							teleportTo(spawn.getLoc(), 0);
+						if (!isIn3DRadius(getSpawnLocation(), Math.max(Config.MAX_DRIFT_RANGE, 200)))
+							teleportTo(getSpawnLocation(), 0);
 					}
 				}
 				// Randomized attack if the boss is already attacking.
@@ -76,17 +77,17 @@ public class RaidBoss extends Monster
 			}
 			
 			// For each minion (if any), randomize the attack.
-			if (hasMinions())
+			if (getMinions() != null)
 			{
-				for (Monster minion : getMinionList().getSpawnedMinions())
+				for (Npc npc : getMinions())
 				{
 					// Don't bother with dead minions.
-					if (minion.isDead() || !minion.isInCombat())
+					if (npc.isDead() || !npc.isInCombat())
 						return;
 					
 					// Randomized attack if the boss is already attacking.
 					if (Rnd.get(3) == 0)
-						minion.getAggroList().randomizeAttack();
+						((Attackable) npc).getAggroList().randomizeAttack();
 				}
 			}
 		}, 1000, 60000);
@@ -131,7 +132,8 @@ public class RaidBoss extends Monster
 			}
 		}
 		
-		RaidBossManager.getInstance().onDeath(this);
+		// TODO implement NpcSpawnManager or ASpawn notification
+		// RaidBossManager.getInstance().onDeath(this);
 		return true;
 	}
 	

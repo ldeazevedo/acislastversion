@@ -25,11 +25,11 @@ public class Medusa extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addAttackId(20158);
+		addAttacked(20158);
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		final Attackable medusa = (Attackable) npc;
 		
@@ -39,7 +39,6 @@ public class Medusa extends AttackableAIScript
 			medusa.broadcastNpcSay(NpcStringId.ID_1000452);
 			medusa.getAI().tryToCast(attacker, POISON);
 		}
-		
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 }

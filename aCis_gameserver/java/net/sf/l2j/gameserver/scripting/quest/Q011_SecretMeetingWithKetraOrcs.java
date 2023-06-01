@@ -24,7 +24,7 @@ public class Q011_SecretMeetingWithKetraOrcs extends Quest
 		
 		setItemsIds(MUNITIONS_BOX);
 		
-		addStartNpc(CADMON);
+		addQuestStart(CADMON);
 		addTalkId(CADMON, LEON, WAHKAN);
 	}
 	

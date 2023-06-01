@@ -36,10 +36,10 @@ public class Q235_MimirsElixir extends Quest
 		
 		setItemsIds(PURE_SILVER, TRUE_GOLD, SAGE_STONE, BLOOD_FIRE, MAGISTER_MIXING_STONE, MIMIR_ELIXIR);
 		
-		addStartNpc(LADD);
+		addQuestStart(LADD);
 		addTalkId(LADD, JOAN, MIXING_URN);
 		
-		addKillId(20965, 21090);
+		addMyDying(20965, 21090);
 	}
 	
 	@Override
@@ -195,13 +195,13 @@ public class Q235_MimirsElixir extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -215,7 +215,5 @@ public class Q235_MimirsElixir extends Quest
 					st.setCond(7);
 				break;
 		}
-		
-		return null;
 	}
 }

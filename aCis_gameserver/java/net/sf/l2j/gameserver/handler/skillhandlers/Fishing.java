@@ -24,7 +24,7 @@ public class Fishing implements ISkillHandler
 	};
 	
 	@Override
-	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
+	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets, ItemInstance itemInstance)
 	{
 		if (!(activeChar instanceof Player))
 			return;

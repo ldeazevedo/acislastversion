@@ -38,8 +38,6 @@ public class CommunityBoard
 	
 	private final Set<Forum> _forums = ConcurrentHashMap.newKeySet();
 	
-	private int _lastForumId = 1;
-	
 	protected CommunityBoard()
 	{
 		if (!Config.ENABLE_COMMUNITY_BOARD)
@@ -159,14 +157,11 @@ public class CommunityBoard
 			return;
 		
 		_forums.add(forum);
-		
-		if (forum.getId() > _lastForumId)
-			_lastForumId = forum.getId();
 	}
 	
-	public synchronized int getANewForumId()
+	public int getANewForumId()
 	{
-		return ++_lastForumId;
+		return _forums.stream().mapToInt(Forum::getId).max().orElse(0) + 1;
 	}
 	
 	public Forum getForum(ForumType type, int ownerId)

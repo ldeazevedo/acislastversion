@@ -24,7 +24,7 @@ public class Q018_MeetingWithTheGoldenRam extends Quest
 		
 		setItemsIds(SUPPLY_BOX);
 		
-		addStartNpc(DONAL);
+		addQuestStart(DONAL);
 		addTalkId(DONAL, DAISY, ABERCROMBIE);
 	}
 	

@@ -43,10 +43,10 @@ public class Q104_SpiritOfMirrors extends Quest
 		
 		setItemsIds(GALLINS_OAK_WAND, WAND_SPIRITBOUND_1, WAND_SPIRITBOUND_2, WAND_SPIRITBOUND_3);
 		
-		addStartNpc(GALLINT);
+		addQuestStart(GALLINT);
 		addTalkId(GALLINT, ARNOLD, JOHNSTONE, KENYOS);
 		
-		addKillId(27003, 27004, 27005);
+		addMyDying(27003, 27004, 27005);
 	}
 	
 	@Override
@@ -147,13 +147,13 @@ public class Q104_SpiritOfMirrors extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		if (player.getInventory().getItemIdFrom(Paperdoll.RHAND) == GALLINS_OAK_WAND)
 		{
@@ -208,7 +208,5 @@ public class Q104_SpiritOfMirrors extends Quest
 					break;
 			}
 		}
-		
-		return null;
 	}
 }

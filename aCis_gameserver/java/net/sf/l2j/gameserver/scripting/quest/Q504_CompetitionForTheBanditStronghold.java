@@ -43,11 +43,11 @@ public class Q504_CompetitionForTheBanditStronghold extends Quest
 	{
 		super(504, "Competition for the Bandit Stronghold");
 		
-		addStartNpc(MESSENGER);
+		addQuestStart(MESSENGER);
 		addTalkId(MESSENGER);
 		
 		for (int mob : MONSTERS.keySet())
-			addKillId(mob);
+			addMyDying(mob);
 	}
 	
 	@Override
@@ -118,15 +118,14 @@ public class Q504_CompetitionForTheBanditStronghold extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(player, TARLK_AMULET, 1, 30, MONSTERS.get(npc.getNpcId()));
-		return null;
 	}
 }

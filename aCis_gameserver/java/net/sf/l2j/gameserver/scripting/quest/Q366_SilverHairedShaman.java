@@ -34,10 +34,10 @@ public class Q366_SilverHairedShaman extends Quest
 		
 		setItemsIds(HAIR);
 		
-		addStartNpc(DIETER);
+		addQuestStart(DIETER);
 		addTalkId(DIETER);
 		
-		addKillId(20986, 20987, 20988);
+		addMyDying(20986, 20987, 20988);
 	}
 	
 	@Override
@@ -94,16 +94,14 @@ public class Q366_SilverHairedShaman extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), HAIR, 1, 0, CHANCES.get(npc.getNpcId()));
-		
-		return null;
 	}
 }

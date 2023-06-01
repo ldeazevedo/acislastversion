@@ -1,5 +1,7 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
+import java.util.Collection;
+
 import net.sf.l2j.gameserver.model.Macro;
 import net.sf.l2j.gameserver.model.Macro.MacroCmd;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -55,8 +57,11 @@ public final class RequestMakeMacro extends L2GameClientPacket
 			return;
 		}
 		
+		// Retrieve the Player's macros.
+		final Collection<Macro> macros = player.getMacroList().values();
+		
 		// You may create up to 24 macros.
-		if (player.getMacroList().getMacros().length > 24)
+		if (macros.size() > 24)
 		{
 			player.sendPacket(SystemMessageId.YOU_MAY_CREATE_UP_TO_24_MACROS);
 			return;
@@ -66,6 +71,13 @@ public final class RequestMakeMacro extends L2GameClientPacket
 		if (_macro.name.isEmpty())
 		{
 			player.sendPacket(SystemMessageId.ENTER_THE_MACRO_NAME);
+			return;
+		}
+		
+		// That name is already assigned to another macro.
+		if (macros.stream().anyMatch(m -> m.name.equalsIgnoreCase(_macro.name) && m.id != _macro.id))
+		{
+			player.sendPacket(SystemMessageId.MACRO_NAME_ALREADY_USED);
 			return;
 		}
 		

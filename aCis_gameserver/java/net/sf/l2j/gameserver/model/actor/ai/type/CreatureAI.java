@@ -10,9 +10,9 @@ import net.sf.l2j.gameserver.network.serverpackets.Die;
 import net.sf.l2j.gameserver.network.serverpackets.MoveToLocation;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
-public class CreatureAI extends AbstractAI
+public class CreatureAI<T extends Creature> extends AbstractAI<T>
 {
-	public CreatureAI(Creature actor)
+	public CreatureAI(T actor)
 	{
 		super(actor);
 	}
@@ -69,7 +69,7 @@ public class CreatureAI extends AbstractAI
 	@Override
 	protected void onEvtArrivedBlocked()
 	{
-		getActor().broadcastPacket(new MoveToLocation(getActor(), getActor().getPosition()));
+		_actor.broadcastPacket(new MoveToLocation(_actor, _actor.getPosition()));
 	}
 	
 	@Override
@@ -77,7 +77,7 @@ public class CreatureAI extends AbstractAI
 	{
 		stopAITask();
 		
-		getActor().broadcastPacket(new Die(getActor()));
+		_actor.broadcastPacket(new Die(_actor));
 		
 		stopAttackStance();
 		
@@ -98,7 +98,7 @@ public class CreatureAI extends AbstractAI
 	@Override
 	protected void thinkAttack()
 	{
-		if (getActor().denyAiAction() || getActor().isSitting())
+		if (_actor.denyAiAction() || _actor.isSitting())
 		{
 			doActiveIntention();
 			return;
@@ -111,30 +111,30 @@ public class CreatureAI extends AbstractAI
 			return;
 		}
 		
-		if (getActor().getMove().maybeStartOffensiveFollow(target, getActor().getStatus().getPhysicalAttackRange()))
+		if (_actor.getMove().maybeStartOffensiveFollow(target, _actor.getStatus().getPhysicalAttackRange()))
 			return;
 		
-		getActor().getMove().stop();
+		_actor.getMove().stop();
 		
-		if ((getActor().getAttackType() == WeaponType.BOW && getActor().getAttack().isBowCoolingDown()) || getActor().getAttack().isAttackingNow())
+		if ((_actor.getAttackType() == WeaponType.BOW && _actor.getAttack().isBowCoolingDown()) || _actor.getAttack().isAttackingNow())
 		{
 			setNextIntention(_currentIntention);
 			return;
 		}
 		
-		if (!getActor().getAttack().canDoAttack(target))
+		if (!_actor.getAttack().canDoAttack(target))
 		{
 			doActiveIntention();
 			return;
 		}
 		
-		getActor().getAttack().doAttack(target);
+		_actor.getAttack().doAttack(target);
 	}
 	
 	@Override
 	protected void thinkCast()
 	{
-		if (getActor().denyAiAction() || getActor().getAllSkillsDisabled() || getActor().getCast().isCastingNow())
+		if (_actor.denyAiAction() || _actor.getAllSkillsDisabled() || _actor.getCast().isCastingNow())
 		{
 			doActiveIntention();
 			return;
@@ -149,7 +149,7 @@ public class CreatureAI extends AbstractAI
 			return;
 		}
 		
-		if (!getActor().getCast().canAttemptCast(target, skill))
+		if (!_actor.getCast().canAttemptCast(target, skill))
 			return;
 		
 		final boolean isShiftPressed = _currentIntention.isShiftPressed();
@@ -161,16 +161,16 @@ public class CreatureAI extends AbstractAI
 			return;
 		}
 		
-		if (!getActor().getCast().canDoCast(target, skill, _currentIntention.isCtrlPressed(), _currentIntention.getItemObjectId()))
+		if (!_actor.getCast().canDoCast(target, skill, _currentIntention.isCtrlPressed(), _currentIntention.getItemObjectId()))
 		{
 			doActiveIntention();
 			return;
 		}
 		
 		if (skill.getHitTime() > 50)
-			getActor().getMove().stop();
+			_actor.getMove().stop();
 		
-		getActor().getCast().doCast(skill, target, null);
+		_actor.getCast().doCast(skill, target, null);
 	}
 	
 	@Override
@@ -183,14 +183,14 @@ public class CreatureAI extends AbstractAI
 	{
 		clientActionFailed();
 		
-		if (getActor().denyAiAction() || getActor().isMovementDisabled())
+		if (_actor.denyAiAction() || _actor.isMovementDisabled())
 		{
 			doActiveIntention();
 			return;
 		}
 		
 		final Creature target = _currentIntention.getFinalTarget();
-		if (getActor() == target)
+		if (_actor == target)
 		{
 			doActiveIntention();
 			return;
@@ -203,13 +203,13 @@ public class CreatureAI extends AbstractAI
 			return;
 		}
 		
-		getActor().getMove().maybeStartFriendlyFollow(target, 70);
+		_actor.getMove().maybeStartFriendlyFollow(target, 70);
 	}
 	
 	@Override
 	protected void thinkIdle()
 	{
-		getActor().getMove().stop();
+		_actor.getMove().stop();
 	}
 	
 	@Override
@@ -220,14 +220,14 @@ public class CreatureAI extends AbstractAI
 	@Override
 	protected void thinkMoveTo()
 	{
-		if (getActor().denyAiAction() || getActor().isMovementDisabled())
+		if (_actor.denyAiAction() || _actor.isMovementDisabled())
 		{
 			doActiveIntention();
 			clientActionFailed();
 			return;
 		}
 		
-		getActor().getMove().maybeMoveToLocation(_currentIntention.getLoc(), 0, true, false);
+		_actor.getMove().maybeMoveToLocation(_currentIntention.getLoc(), 0, true, false);
 	}
 	
 	@Override

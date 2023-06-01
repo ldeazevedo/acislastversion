@@ -52,10 +52,10 @@ public class Q645_GhostsOfBatur extends Quest
 	{
 		super(645, "Ghosts Of Batur");
 		
-		addStartNpc(KARUDA);
+		addQuestStart(KARUDA);
 		addTalkId(KARUDA);
 		
-		addKillId(22007, 22009, 22010, 22011, 22012, 22013, 22014, 22015, 22016);
+		addMyDying(22007, 22009, 22010, 22011, 22012, 22013, 22014, 22015, 22016);
 	}
 	
 	@Override
@@ -114,17 +114,15 @@ public class Q645_GhostsOfBatur extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), CURSED_GRAVE_GOODS, 1, 180, 750000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

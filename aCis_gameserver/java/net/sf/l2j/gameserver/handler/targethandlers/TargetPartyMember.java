@@ -4,6 +4,7 @@ import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.handler.ITargetHandler;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
+import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
@@ -35,19 +36,37 @@ public class TargetPartyMember implements ITargetHandler
 	@Override
 	public boolean meetCastConditions(Playable caster, Creature target, L2Skill skill, boolean isCtrlPressed)
 	{
+		// Always work on ourself.
 		if (caster == target)
 			return true;
 		
-		final Summon summon = caster.getSummon();
-		if (summon != null && target == summon)
-			return true;
-		
-		if (!(target instanceof Playable) || target.isDead())
+		// For Summon Friend
+		if (skill.getId() == 1403)
 		{
-			caster.sendPacket(SystemMessageId.INVALID_TARGET);
-			return false;
+			// Doesn't work on non Player targets, or on dead targets.
+			if (!(target instanceof Player) || target.isDead())
+			{
+				caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_CANNOT_BE_USED).addSkillName(skill));
+				return false;
+			}
+		}
+		// For regular skills
+		else
+		{
+			// Always work on self Summon.
+			final Summon summon = caster.getSummon();
+			if (summon != null && target == summon)
+				return true;
+			
+			// Doesn't work on non Playable targets, or on dead targets.
+			if (!(target instanceof Playable) || target.isDead())
+			{
+				caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_CANNOT_BE_USED).addSkillName(skill));
+				return false;
+			}
 		}
 		
+		// Target isn't a Party member, ignore it.
 		if (!caster.isInParty() || !caster.getParty().containsPlayer(target.getActingPlayer()))
 		{
 			caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_CANNOT_BE_USED).addSkillName(skill));

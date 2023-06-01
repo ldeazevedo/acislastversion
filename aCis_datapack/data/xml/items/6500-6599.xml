@@ -786,7 +786,6 @@
 		<set name="soulshots" val="1" />
 		<set name="spiritshots" val="1" />
 		<set name="enchant4_skill" val="3570-1" />
-		<set name="item_skill" val="3552-1" />
 		<for>
 			<set stat="pAtk" val="342" />
 			<set stat="mAtk" val="132" />

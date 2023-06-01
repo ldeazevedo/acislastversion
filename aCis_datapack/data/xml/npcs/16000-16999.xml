@@ -28,7 +28,6 @@
 		<set name="corpseTime" val="15"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="pet_clan;nonpet_clan" clanRange="400" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="122" level="11"/>
@@ -70,7 +69,6 @@
 		<set name="corpseTime" val="15"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="pet_clan;nonpet_clan" clanRange="400" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="1013" level="2"/>
@@ -112,7 +110,6 @@
 		<set name="corpseTime" val="15"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="pet_clan;nonpet_clan" clanRange="400" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="122" level="12"/>
@@ -154,7 +151,6 @@
 		<set name="corpseTime" val="15"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="pet_clan;nonpet_clan" clanRange="400" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="1013" level="2"/>
@@ -196,7 +192,6 @@
 		<set name="corpseTime" val="15"/>
 		<set name="walkSpd" val="23"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="pet_clan;nonpet_clan" clanRange="400" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="122" level="10"/>
@@ -238,7 +233,6 @@
 		<set name="corpseTime" val="15"/>
 		<set name="walkSpd" val="23"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="pet_clan;nonpet_clan" clanRange="400" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="1013" level="2"/>
@@ -280,7 +274,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="30"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="pet_clan;nonpet_clan" clanRange="400" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
@@ -314,7 +307,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="30"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="pet_clan;nonpet_clan" clanRange="400" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
@@ -348,7 +340,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="28"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="pet_clan;nonpet_clan" clanRange="400" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
@@ -382,7 +373,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="28"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="pet_clan;nonpet_clan" clanRange="400" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
@@ -416,7 +406,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="13"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="pet_clan;nonpet_clan" clanRange="400" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>
@@ -450,7 +439,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="13"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="pet_clan;nonpet_clan" clanRange="400" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="3"/>

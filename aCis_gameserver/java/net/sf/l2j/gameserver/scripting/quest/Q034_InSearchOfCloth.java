@@ -35,10 +35,10 @@ public class Q034_InSearchOfCloth extends Quest
 		
 		setItemsIds(SPINNERET, SPIDERSILK);
 		
-		addStartNpc(RADIA);
+		addQuestStart(RADIA);
 		addTalkId(RADIA, RALFORD, VARAN);
 		
-		addKillId(TRISALIM_SPIDER, TRISALIM_TARANTULA);
+		addMyDying(TRISALIM_SPIDER, TRISALIM_TARANTULA);
 	}
 	
 	@Override
@@ -167,17 +167,15 @@ public class Q034_InSearchOfCloth extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 4);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, SPINNERET, 1, 10, 500000))
 			st.setCond(5);
-		
-		return null;
 	}
 }

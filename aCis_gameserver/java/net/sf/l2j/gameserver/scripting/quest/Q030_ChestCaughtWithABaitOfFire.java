@@ -25,7 +25,7 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest
 		
 		setItemsIds(MUSICAL_SCORE);
 		
-		addStartNpc(LINNAEUS);
+		addQuestStart(LINNAEUS);
 		addTalkId(LINNAEUS, RUKAL);
 	}
 	

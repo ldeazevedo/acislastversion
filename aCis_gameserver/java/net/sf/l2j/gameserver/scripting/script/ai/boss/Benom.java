@@ -8,8 +8,8 @@ import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.enums.SayType;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -18,6 +18,7 @@ import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.entity.Siege;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
+import net.sf.l2j.gameserver.network.NpcStringId;
 import net.sf.l2j.gameserver.network.serverpackets.NpcSay;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
@@ -73,7 +74,7 @@ public class Benom extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(BENOM, ScriptEventType.ON_AGGRO, ScriptEventType.ON_SPELL_FINISHED, ScriptEventType.ON_ATTACK, ScriptEventType.ON_KILL);
+		addEventIds(BENOM, EventHandler.ATTACKED, EventHandler.MY_DYING, EventHandler.SEE_CREATURE, EventHandler.USE_SKILL_FINISHED);
 	}
 	
 	@Override
@@ -127,18 +128,6 @@ public class Benom extends AttackableAIScript
 	}
 	
 	@Override
-	public String onAggro(Npc npc, Player player, boolean isPet)
-	{
-		if (isPet)
-			return super.onAggro(npc, player, isPet);
-		
-		if (_targets.size() < 10 && Rnd.get(3) < 1)
-			_targets.add(player);
-		
-		return super.onAggro(npc, player, isPet);
-	}
-	
-	@Override
 	public void onSiegeEvent(Siege siege)
 	{
 		// Don't go further if the castle isn't owned.
@@ -174,7 +163,47 @@ public class Benom extends AttackableAIScript
 	}
 	
 	@Override
-	public String onSpellFinished(Npc npc, Player player, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
+	{
+		if (attacker instanceof Playable)
+		{
+			if (Rnd.get(100) < 25)
+				npc.getAI().tryToCast(attacker, 4995, 1);
+			else if (npc.getStatus().getHpRatio() < 0.33 && Rnd.get(500) < 1)
+				npc.getAI().tryToCast(attacker, 4996, 1);
+			else if (!npc.isIn3DRadius(attacker, 300) && Rnd.get(100) < 1)
+				npc.getAI().tryToCast(attacker, 4993, 1);
+			else if (Rnd.get(100) < 1)
+				npc.getAI().tryToCast(attacker, 4994, 1);
+		}
+		super.onAttacked(npc, attacker, damage, skill);
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
+	{
+		npc.broadcastNpcSay(NpcStringId.ID_1010626);
+		cancelQuestTimers("raid_check");
+		
+		addSpawn(TELEPORT_CUBE, 12589, -49044, -3008, 0, false, 120000, false);
+		
+		super.onMyDying(npc, killer);
+	}
+	
+	@Override
+	public void onSeeCreature(Npc npc, Creature creature)
+	{
+		if (creature instanceof Player)
+		{
+			final Player player = creature.getActingPlayer();
+			if (_targets.size() < 10 && Rnd.get(3) < 1)
+				_targets.add(player);
+		}
+		super.onSeeCreature(npc, creature);
+	}
+	
+	@Override
+	public void onUseSkillFinished(Npc npc, Player player, L2Skill skill)
 	{
 		switch (skill.getId())
 		{
@@ -201,36 +230,7 @@ public class Benom extends AttackableAIScript
 				}
 				break;
 		}
-		
-		return null;
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
-	{
-		if (attacker instanceof Playable)
-		{
-			if (Rnd.get(100) < 25)
-				npc.getAI().tryToCast(attacker, 4995, 1);
-			else if (npc.getStatus().getHpRatio() < 0.33 && Rnd.get(500) < 1)
-				npc.getAI().tryToCast(attacker, 4996, 1);
-			else if (!npc.isIn3DRadius(attacker, 300) && Rnd.get(100) < 1)
-				npc.getAI().tryToCast(attacker, 4993, 1);
-			else if (Rnd.get(100) < 1)
-				npc.getAI().tryToCast(attacker, 4994, 1);
-		}
-		return super.onAttack(npc, attacker, damage, skill);
-	}
-	
-	@Override
-	public String onKill(Npc npc, Creature killer)
-	{
-		npc.broadcastNpcSay("It's not over yet... It won't be... over... like this... Never...");
-		cancelQuestTimers("raid_check");
-		
-		addSpawn(TELEPORT_CUBE, 12589, -49044, -3008, 0, false, 120000, false);
-		
-		return null;
+		super.onUseSkillFinished(npc, player, skill);
 	}
 	
 	/**

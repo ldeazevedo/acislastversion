@@ -213,6 +213,8 @@ public class LoginController
 			return;
 		}
 		
+		account.setClientIp(addr);
+		
 		client.setAccount(account);
 		client.setState(LoginClientState.AUTHED_LOGIN);
 		client.setSessionKey(new SessionKey(Rnd.nextInt(), Rnd.nextInt(), Rnd.nextInt(), Rnd.nextInt()));

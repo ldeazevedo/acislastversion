@@ -20,10 +20,10 @@ public class Q317_CatchTheWind extends Quest
 		
 		setItemsIds(WIND_SHARD);
 		
-		addStartNpc(30361); // Rizraell
+		addQuestStart(30361); // Rizraell
 		addTalkId(30361);
 		
-		addKillId(20036, 20044);
+		addMyDying(20036, 20044);
 	}
 	
 	@Override
@@ -80,16 +80,14 @@ public class Q317_CatchTheWind extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(player, WIND_SHARD, 1, 0, 500000);
-		
-		return null;
 	}
 }

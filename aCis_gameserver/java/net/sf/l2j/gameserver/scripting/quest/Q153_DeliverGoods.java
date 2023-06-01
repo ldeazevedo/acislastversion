@@ -35,7 +35,7 @@ public class Q153_DeliverGoods extends Quest
 		
 		setItemsIds(DELIVERY_LIST, HEAVY_WOOD_BOX, CLOTH_BUNDLE, CLAY_POT, JACKSON_RECEIPT, SILVIA_RECEIPT, RANT_RECEIPT);
 		
-		addStartNpc(ARNOLD);
+		addQuestStart(ARNOLD);
 		addTalkId(JACKSON, SILVIA, ARNOLD, RANT);
 	}
 	

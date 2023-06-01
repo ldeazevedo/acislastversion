@@ -23,10 +23,10 @@ public class Q169_OffspringOfNightmares extends Quest
 		
 		setItemsIds(CRACKED_SKULL, PERFECT_SKULL);
 		
-		addStartNpc(30145); // Vlasty
+		addQuestStart(30145); // Vlasty
 		addTalkId(30145);
 		
-		addKillId(20105, 20025);
+		addMyDying(20105, 20025);
 	}
 	
 	@Override
@@ -98,19 +98,17 @@ public class Q169_OffspringOfNightmares extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		if (st.getCond() == 1 && dropItems(player, PERFECT_SKULL, 1, 1, 200000))
 			st.setCond(2);
 		else
 			dropItems(player, CRACKED_SKULL, 1, 0, 500000);
-		
-		return null;
 	}
 }

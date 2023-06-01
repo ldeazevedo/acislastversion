@@ -31,10 +31,10 @@ public class Q111_ElrokianHuntersProof extends Quest
 		
 		setItemsIds(FRAGMENT, EXPEDITION_LETTER, CLAW, BONE, SKIN, PRACTICE_TRAP);
 		
-		addStartNpc(MARQUEZ);
+		addQuestStart(MARQUEZ);
 		addTalkId(MARQUEZ, MUSHIKA, ASAMAH, KIRIKASHIN);
 		
-		addKillId(22196, 22197, 22198, 22218, 22200, 22201, 22202, 22219, 22208, 22209, 22210, 22221, 22203, 22204, 22205, 22220);
+		addMyDying(22196, 22197, 22198, 22218, 22200, 22201, 22202, 22219, 22208, 22209, 22210, 22221, 22203, 22204, 22205, 22220);
 	}
 	
 	@Override
@@ -187,13 +187,13 @@ public class Q111_ElrokianHuntersProof extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		player = st.getPlayer();
 		
@@ -234,7 +234,5 @@ public class Q111_ElrokianHuntersProof extends Quest
 						st.setCond(11);
 				break;
 		}
-		
-		return null;
 	}
 }

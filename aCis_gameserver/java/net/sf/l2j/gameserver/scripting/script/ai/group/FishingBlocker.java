@@ -2,8 +2,8 @@ package net.sf.l2j.gameserver.scripting.script.ai.group;
 
 import net.sf.l2j.commons.random.Rnd;
 
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.enums.IntentionType;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -37,43 +37,7 @@ public class FishingBlocker extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(FISHING_BLOCKERS, ScriptEventType.ON_ATTACK, ScriptEventType.ON_KILL, ScriptEventType.ON_SPAWN);
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
-	{
-		if (Rnd.get(100) < 33)
-			npc.broadcastNpcSay(retrieveNpcStringId(npc, 3), attacker.getName());
-		
-		return super.onAttack(npc, attacker, damage, skill);
-	}
-	
-	@Override
-	public String onKill(Npc npc, Creature killer)
-	{
-		npc.broadcastNpcSay(retrieveNpcStringId(npc, 6), killer.getName());
-		
-		cancelQuestTimers("3000", npc);
-		
-		return super.onKill(npc, killer);
-	}
-	
-	@Override
-	public String onSpawn(Npc npc)
-	{
-		// Workaround, since it's impossible to find "summoner" in a regular way. L2OFF passes the Player using GetCreatureFromIndex, on CREATED.
-		final Player player = Rnd.get(npc.getKnownTypeInRadius(Player.class, 200, p -> p.getAttackType() == WeaponType.FISHINGROD));
-		if (player == null)
-			npc.deleteMe();
-		else
-		{
-			npc.forceAttack(player, 2000);
-			npc.broadcastNpcSay(retrieveNpcStringId(npc, 0), player.getName());
-			
-			startQuestTimerAtFixedRate("3000", npc, null, 50000, 50000);
-		}
-		return super.onSpawn(npc);
+		addEventIds(FISHING_BLOCKERS, EventHandler.ATTACKED, EventHandler.CREATED, EventHandler.MY_DYING);
 	}
 	
 	@Override
@@ -90,6 +54,42 @@ public class FishingBlocker extends AttackableAIScript
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
+	{
+		if (Rnd.get(100) < 33)
+			npc.broadcastNpcSay(retrieveNpcStringId(npc, 3), attacker.getName());
+		
+		super.onAttacked(npc, attacker, damage, skill);
+	}
+	
+	@Override
+	public void onCreated(Npc npc)
+	{
+		// Workaround, since it's impossible to find "summoner" in a regular way. L2OFF passes the Player using GetCreatureFromIndex, on CREATED.
+		final Player player = Rnd.get(npc.getKnownTypeInRadius(Player.class, 200, p -> p.getAttackType() == WeaponType.FISHINGROD));
+		if (player == null)
+			npc.deleteMe();
+		else
+		{
+			npc.forceAttack(player, 2000);
+			npc.broadcastNpcSay(retrieveNpcStringId(npc, 0), player.getName());
+			
+			startQuestTimerAtFixedRate("3000", npc, null, 50000, 50000);
+		}
+		super.onCreated(npc);
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
+	{
+		npc.broadcastNpcSay(retrieveNpcStringId(npc, 6), killer.getName());
+		
+		cancelQuestTimers("3000", npc);
+		
+		super.onMyDying(npc, killer);
 	}
 	
 	private static final NpcStringId retrieveNpcStringId(Npc npc, int index)

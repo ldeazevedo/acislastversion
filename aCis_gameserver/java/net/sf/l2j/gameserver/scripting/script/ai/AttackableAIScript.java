@@ -1,22 +1,21 @@
 package net.sf.l2j.gameserver.scripting.script.ai;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.xml.NpcData;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.enums.IntentionType;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.model.MinionData;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.L2Skill;
@@ -49,25 +48,44 @@ public class AttackableAIScript extends Quest
 	}
 	
 	/**
-	 * Registers this AI script to the {@link Attackable}'s {@link NpcTemplate} for various {@link ScriptEventType} events.<br>
-	 * All inherited AI scripts must override this method and register only to related {@link NpcTemplate}s + {@link ScriptEventType}s.<br>
-	 * Every overridden {@link ScriptEventType} replaces default {@link AttackableAIScript} with the new AI script.
+	 * Registers this AI script to the {@link Attackable}'s {@link NpcTemplate} for various {@link EventHandler} events.<br>
+	 * All inherited AI scripts must override this method and register only to related {@link NpcTemplate}s + {@link EventHandler}s.<br>
+	 * Every overridden {@link EventHandler} replaces default {@link AttackableAIScript} with the new AI script.
 	 */
 	protected void registerNpcs()
 	{
-		// register all mobs here...
+		final Set<Integer> masters = new HashSet<>();
+		final Set<Integer> minions = new HashSet<>();
+		
 		for (final NpcTemplate template : NpcData.getInstance().getAllNpcs())
 		{
 			try
 			{
-				if (Attackable.class.isAssignableFrom(Class.forName(ACTOR_INSTANCE_PACKAGE + template.getType())))
+				if (!Attackable.class.isAssignableFrom(Class.forName(ACTOR_INSTANCE_PACKAGE + template.getType())))
+					continue;
+				
+				template.addQuestEvent(EventHandler.ATTACKED, this);
+				template.addQuestEvent(EventHandler.CREATED, this);
+				template.addQuestEvent(EventHandler.MY_DYING, this);
+				template.addQuestEvent(EventHandler.NO_DESIRE, this);
+				template.addQuestEvent(EventHandler.OUT_OF_TERRITORY, this);
+				template.addQuestEvent(EventHandler.SEE_CREATURE, this);
+				template.addQuestEvent(EventHandler.SEE_SPELL, this);
+				
+				// Feed CLAN EventHandlers.
+				if (template.getClans() != null)
 				{
-					template.addQuestEvent(ScriptEventType.ON_ATTACK, this);
-					template.addQuestEvent(ScriptEventType.ON_KILL, this);
-					template.addQuestEvent(ScriptEventType.ON_SPAWN, this);
-					template.addQuestEvent(ScriptEventType.ON_SKILL_SEE, this);
-					template.addQuestEvent(ScriptEventType.ON_FACTION_CALL, this);
-					template.addQuestEvent(ScriptEventType.ON_AGGRO, this);
+					template.addQuestEvent(EventHandler.CLAN_ATTACKED, this);
+					template.addQuestEvent(EventHandler.CLAN_DIED, this);
+				}
+				
+				// Feed PARTY EventHandlers.
+				if (!template.getMinionData().isEmpty())
+				{
+					masters.add(template.getNpcId());
+					
+					for (MinionData md : template.getMinionData())
+						minions.add(md.getId());
 				}
 			}
 			catch (final ClassNotFoundException e)
@@ -75,16 +93,147 @@ public class AttackableAIScript extends Quest
 				LOGGER.error("An unknown template type {} has been found on {}.", e, template.getType(), toString());
 			}
 		}
+		
+		addEventIds(masters, EventHandler.PARTY_ATTACKED, EventHandler.PARTY_DIED);
+		addEventIds(minions, EventHandler.PARTY_ATTACKED, EventHandler.PARTY_DIED);
 	}
 	
 	@Override
-	public String onSkillSee(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
+	public String onTimer(String name, Npc npc, Player player)
+	{
+		if (name.equalsIgnoreCase("1004"))
+		{
+			final Npc master = npc.getMaster();
+			if (master == null || master.isDead())
+			{
+				final IntentionType type = npc.getAI().getCurrentIntention().getType();
+				if (type != IntentionType.ATTACK && type != IntentionType.CAST)
+					npc.deleteMe();
+			}
+		}
+		else if (name.equalsIgnoreCase("1005"))
+		{
+			if (npc.isInMyTerritory())
+				return null;
+			
+			final Npc master = npc.getMaster();
+			if (master == null || master.isDead())
+				return null;
+			
+			final IntentionType type = npc.getAI().getCurrentIntention().getType();
+			if (type == IntentionType.ATTACK)
+				return null;
+			
+			((Attackable) npc).getAggroList().clear();
+			npc.teleportToMaster();
+		}
+		return null;
+	}
+	
+	@Override
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
+	{
+		((Attackable) npc).getAggroList().addDamageHate(attacker, damage, damage * 100 / (npc.getStatus().getLevel() + 7));
+	}
+	
+	@Override
+	public void onClanAttacked(Attackable caller, Attackable called, Creature attacker, int damage)
+	{
+		final Npc master = called.getMaster();
+		if (master == null || master.isDead())
+			called.getAggroList().addDamageHate(attacker, 0, damage * 30 / (called.getStatus().getLevel() + 7));
+	}
+	
+	@Override
+	public void onCreated(Npc npc)
+	{
+		if (!npc.getTemplate().getMinionData().isEmpty())
+		{
+			npc.getMinions().clear();
+			
+			for (MinionData md : npc.getTemplate().getMinionData())
+			{
+				for (int i = 0; i < md.getAmount(); i++)
+					createOnePrivate(npc, md.getId(), 0, false);
+			}
+		}
+		else if (npc.hasMaster())
+		{
+			startQuestTimerAtFixedRate("1004", npc, null, 20000, 20000);
+			startQuestTimerAtFixedRate("1005", npc, null, 120000, 120000);
+		}
+	}
+	
+	@Override
+	public void onSeeCreature(Npc npc, Creature creature)
+	{
+		final Attackable attackable = ((Attackable) npc);
+		
+		// Check if the obj is autoattackable and if not already hating it, add it.
+		if (attackable.canAutoAttack(creature) && attackable.getAggroList().getHate(creature) == 0)
+			attackable.getAggroList().addDamageHate(creature, 0, 1);
+	}
+	
+	@Override
+	public void onNoDesire(Npc npc)
+	{
+		final Attackable attackable = (Attackable) npc;
+		
+		// Check buffs.
+		if (attackable.getAI().canSelfBuff())
+			return;
+		
+		if (!npc.hasMaster())
+		{
+			// Return to home if too far.
+			if (attackable.returnHome())
+				return;
+			
+			// Try to random walk.
+			if (Config.RANDOM_WALK_RATE <= 0 || attackable.isNoRndWalk() || Rnd.get(Config.RANDOM_WALK_RATE) != 0)
+				return;
+		}
+		
+		// Random walk otherwise.
+		npc.moveFromSpawnPointUsingRandomOffset(Config.MAX_DRIFT_RANGE);
+	}
+	
+	@Override
+	public void onOutOfTerritory(Npc npc)
+	{
+		final Attackable attackable = (Attackable) npc;
+		attackable.getAI().decreaseAttackTimeout();
+	}
+	
+	@Override
+	public void onPartyAttacked(Npc caller, Npc called, Creature attacker, int damage)
+	{
+		if (!(called instanceof Attackable))
+			return;
+		
+		final Attackable attackable = (Attackable) called;
+		attackable.getAggroList().addDamageHate(attacker, 0, damage * 100 / (called.getStatus().getLevel() + 7));
+	}
+	
+	@Override
+	public void onPartyDied(Npc caller, Npc called)
+	{
+		if (called.isMaster() && !called.isDead())
+			caller.scheduleRespawn((called.isRaidBoss()) ? Config.RAID_MINION_RESPAWN_TIMER : (called.getSpawn().getRespawnDelay() * 1000 / 2));
+	}
+	
+	@Override
+	public void onSeeSpell(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
 	{
 		if (caster == null)
-			return null;
+			return;
 		
 		if (!(npc instanceof Attackable))
-			return null;
+			return;
+		
+		final Npc master = npc.getMaster();
+		if (master != null && !master.isDead())
+			return;
 		
 		final Attackable attackable = (Attackable) npc;
 		int skillAggroPoints = skill.getAggroPoints();
@@ -93,7 +242,7 @@ public class AttackableAIScript extends Quest
 		if (targets.length == 1 && ((caster.getSummon() != null && ArraysUtil.contains(targets, caster.getSummon())) || (!skill.isOffensive() && !skill.isDebuff() && ArraysUtil.contains(targets, npc))))
 			skillAggroPoints = 0;
 		
-		if (skillAggroPoints > 0 && attackable.hasAI() && attackable.getAI().getCurrentIntention().getType() == IntentionType.ATTACK)
+		if (skillAggroPoints > 0 && attackable.getAI().getCurrentIntention().getType() == IntentionType.ATTACK)
 		{
 			final WorldObject npcTarget = attackable.getTarget();
 			for (Creature target : targets)
@@ -101,124 +250,44 @@ public class AttackableAIScript extends Quest
 				if (npcTarget == target || npc == target)
 				{
 					final Creature originalCaster = isPet ? caster.getSummon() : caster;
-					attackable.getAggroList().addDamageHate(originalCaster, 0, (skillAggroPoints * 150) / (attackable.getStatus().getLevel() + 7));
+					attackable.getAggroList().addDamageHate(originalCaster, 0, skillAggroPoints * 150 / (attackable.getStatus().getLevel() + 7));
 				}
 			}
 		}
-		return null;
-	}
-	
-	@Override
-	public String onFactionCall(Attackable caller, Attackable called, Creature target)
-	{
-		called.getAggroList().addDamageHate(target, 0, 1);
-		return null;
-	}
-	
-	@Override
-	public String onAggro(Npc npc, Player player, boolean isPet)
-	{
-		((Attackable) npc).getAggroList().addDamageHate(isPet ? player.getSummon() : player, 0, 1);
-		return null;
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
-	{
-		((Attackable) npc).getAggroList().addDamageHate(attacker, damage, damage / (npc.getStatus().getLevel() + 7) * ((npc.isRaidRelated()) ? 20000 : 100));
-		return null;
-	}
-	
-	@Override
-	public String onKill(Npc npc, Creature killer)
-	{
-		if (npc instanceof Monster)
-		{
-			final Monster monster = (Monster) npc;
-			final Monster master = monster.getMaster();
-			
-			if (master != null)
-				master.getMinionList().onMinionDie(monster, (master.isRaidBoss()) ? Config.RAID_MINION_RESPAWN_TIMER : (master.getSpawn().getRespawnDelay() * 1000 / 2));
-			
-			if (monster.hasMinions())
-				monster.getMinionList().onMasterDie();
-		}
-		return null;
 	}
 	
 	/**
-	 * This method selects a random player.<br>
-	 * Player can't be dead and isn't an hidden GM aswell.
-	 * @param npc to check.
-	 * @return the random player.
+	 * @param npc : The {@link Npc} to check.
+	 * @return A random {@link Player} out of the {@link Npc} knownlist set as parameter. The {@link Player} can't be dead and can't be hidden aswell.
 	 */
 	public static Player getRandomPlayer(Npc npc)
 	{
-		final List<Player> result = new ArrayList<>();
-		
-		for (final Player player : npc.getKnownType(Player.class))
-		{
-			if (player.isDead())
-				continue;
-			
-			if (player.isGM() && !player.getAppearance().isVisible())
-				continue;
-			
-			result.add(player);
-		}
-		
-		return (result.isEmpty()) ? null : Rnd.get(result);
+		return Rnd.get(npc.getKnownType(Player.class, p -> !p.isAlikeDead() && p.getAppearance().isVisible()));
 	}
 	
 	/**
-	 * Return the number of players in a defined radius.<br>
-	 * Dead players aren't counted, invisible ones is the boolean parameter.
-	 * @param range : the radius.
-	 * @param npc : the object to make the test on.
-	 * @param invisible : true counts invisible characters.
-	 * @return the number of targets found.
+	 * @param range : The radius.
+	 * @param npc : The {@link Npc} to check.
+	 * @return The number of {@link Player}s in a defined radius. {@link Player}s can't be dead and can't be hidden aswell.
 	 */
-	public static int getPlayersCountInRadius(int range, Creature npc, boolean invisible)
+	public static int getPlayersCountInRadius(int range, Creature npc)
 	{
-		int count = 0;
-		for (final Player player : npc.getKnownTypeInRadius(Player.class, range))
-		{
-			if (player.isDead())
-				continue;
-			
-			if (!invisible && !player.getAppearance().isVisible())
-				continue;
-			
-			count++;
-		}
-		return count;
+		return npc.getKnownTypeInRadius(Player.class, range, p -> !p.isAlikeDead() && p.getAppearance().isVisible()).size();
 	}
 	
 	/**
-	 * Under that barbarian name, return the number of players in front, back and sides of the npc.<br>
-	 * Dead players aren't counted, invisible ones is the boolean parameter.
-	 * @param range : the radius.
-	 * @param npc : the object to make the test on.
-	 * @param invisible : true counts invisible characters.
-	 * @return an array composed of front, back and side targets number.
+	 * @param range : The radius.
+	 * @param npc : The {@link Npc} to check.
+	 * @return An int array composed of front, back and side targets number. {@link Player}s can't be dead and can't be hidden aswell.
 	 */
-	public static int[] getPlayersCountInPositions(int range, Creature npc, boolean invisible)
+	public static int[] getPlayersCountInPositions(int range, Creature npc)
 	{
 		int frontCount = 0;
 		int backCount = 0;
 		int sideCount = 0;
 		
-		for (final Player player : npc.getKnownType(Player.class))
+		for (final Player player : npc.getKnownTypeInRadius(Player.class, range, p -> !p.isAlikeDead() && p.getAppearance().isVisible()))
 		{
-			if (player.isDead())
-				continue;
-			
-			if (!invisible && !player.getAppearance().isVisible())
-				continue;
-			
-			if (!MathUtil.checkIfInRange(range, npc, player, true))
-				continue;
-			
 			if (player.isInFrontOf(npc))
 				frontCount++;
 			else if (player.isBehind(npc))

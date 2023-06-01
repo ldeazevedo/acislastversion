@@ -34,10 +34,10 @@ public class Q380_BringOutTheFlavorOfIngredients extends Quest
 		
 		setItemsIds(RITRON_FRUIT, MOON_FACE_FLOWER, LEECH_FLUIDS);
 		
-		addStartNpc(30069); // Rollant
+		addQuestStart(30069); // Rollant
 		addTalkId(30069);
 		
-		addKillId(DIRE_WOLF, KADIF_WEREWOLF, GIANT_MIST_LEECH);
+		addMyDying(DIRE_WOLF, KADIF_WEREWOLF, GIANT_MIST_LEECH);
 	}
 	
 	@Override
@@ -134,13 +134,13 @@ public class Q380_BringOutTheFlavorOfIngredients extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -162,7 +162,5 @@ public class Q380_BringOutTheFlavorOfIngredients extends Quest
 						st.setCond(2);
 				break;
 		}
-		
-		return null;
 	}
 }

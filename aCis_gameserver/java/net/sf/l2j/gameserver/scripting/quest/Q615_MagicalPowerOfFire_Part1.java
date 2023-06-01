@@ -30,12 +30,11 @@ public class Q615_MagicalPowerOfFire_Part1 extends Quest
 		
 		setItemsIds(STOLEN_RED_TOTEM);
 		
-		addStartNpc(NARAN);
+		addQuestStart(NARAN);
 		addTalkId(NARAN, UDAN, ASEFA_BOX);
 		
-		// IDs aggro ranges to avoid, else quest is automatically failed.
-		addAggroRangeEnterId(21350, 21351, 21353, 21354, 21355, 21357, 21358, 21360, 21361, 21362, 21369, 21370, 21364, 21365, 21366, 21368, 21371, 21372, 21373, 21374, 21375);
-		addKillId(ASEFA_EYE);
+		addMyDying(ASEFA_EYE);
+		addSeeCreature(21350, 21351, 21353, 21354, 21355, 21357, 21358, 21360, 21361, 21362, 21369, 21370, 21364, 21365, 21366, 21368, 21371, 21372, 21373, 21374, 21375);
 	}
 	
 	@Override
@@ -141,40 +140,41 @@ public class Q615_MagicalPowerOfFire_Part1 extends Quest
 	}
 	
 	@Override
-	public String onAggro(Npc npc, Player player, boolean isPet)
-	{
-		QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
-		if (st == null)
-			return null;
-		
-		if (st.getInteger("spawned") == 0 && st.getCond() == 2)
-		{
-			// Put "spawned" flag to 1 to avoid to spawn another.
-			st.set("spawned", 1);
-			
-			// Spawn Asefa's Eye.
-			Npc asefaEye = addSpawn(ASEFA_EYE, player, true, 10000, true);
-			if (asefaEye != null)
-			{
-				asefaEye.broadcastNpcSay(NpcStringId.ID_61503);
-				playSound(player, SOUND_GIVEUP);
-			}
-		}
-		
-		return null;
-	}
-	
-	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		npc.broadcastNpcSay(NpcStringId.ID_61504);
-		
-		return null;
+	}
+	
+	@Override
+	public void onSeeCreature(Npc npc, Creature creature)
+	{
+		if (creature instanceof Player)
+		{
+			final Player player = creature.getActingPlayer();
+			
+			final QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
+			if (st == null)
+				return;
+			
+			if (st.getInteger("spawned") == 0 && st.getCond() == 2)
+			{
+				// Put "spawned" flag to 1 to avoid to spawn another.
+				st.set("spawned", 1);
+				
+				// Spawn Asefa's Eye.
+				final Npc asefaEye = addSpawn(ASEFA_EYE, player, true, 10000, true);
+				if (asefaEye != null)
+				{
+					asefaEye.broadcastNpcSay(NpcStringId.ID_61503);
+					playSound(player, SOUND_GIVEUP);
+				}
+			}
+		}
 	}
 }

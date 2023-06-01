@@ -84,10 +84,10 @@ public class Q039_RedEyedInvaders extends Quest
 		
 		setItemsIds(BLACK_BONE_NECKLACE, RED_BONE_NECKLACE, INCENSE_POUCH, GEM_OF_MAILLE);
 		
-		addStartNpc(BABENCO);
+		addQuestStart(BABENCO);
 		addTalkId(BABENCO, BATHIS);
 		
-		addKillId(MAILLE_LIZARDMAN, MAILLE_LIZARDMAN_SCOUT, MAILLE_LIZARDMAN_GUARD, ARANEID);
+		addMyDying(MAILLE_LIZARDMAN, MAILLE_LIZARDMAN_SCOUT, MAILLE_LIZARDMAN_GUARD, ARANEID);
 	}
 	
 	@Override
@@ -176,7 +176,7 @@ public class Q039_RedEyedInvaders extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		Player player = killer.getActingPlayer();
 		final int npcId = npc.getNpcId();
@@ -202,7 +202,5 @@ public class Q039_RedEyedInvaders extends Quest
 					st.setCond(5);
 			}
 		}
-		
-		return null;
 	}
 }

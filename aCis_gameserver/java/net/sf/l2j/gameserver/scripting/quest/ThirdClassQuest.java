@@ -155,7 +155,7 @@ public class ThirdClassQuest extends Quest
 		_classId = 0;
 		_prevClassId = null;
 		
-		addKillId(SHRINE_OF_LOYALTY);
+		addMyDying(SHRINE_OF_LOYALTY);
 	}
 	
 	/**
@@ -175,14 +175,15 @@ public class ThirdClassQuest extends Quest
 		// Register quest items, NPCs, monsters and actions.
 		setItemsNpcsMobsLocs();
 		setItemsIds(_itemMain, _itemReward, _itemAmulet1st, _itemAmulet2nd, _itemAmulet3rd, _itemAmulet4th, _itemHalishaMark, _itemAmulet5th, _itemAmulet6th);
-		addStartNpc(_npcMain);
+		addQuestStart(_npcMain);
 		addFirstTalkId(_npcDefender);
 		addTalkId(_npcMain, _npc1st, _npc2nd, _npcTablet1st, _npcTablet2nd, _npcTablet3rd, _npc3rd, _npcTablet4th, _npc4th, _npcTablet5th, _npcDefender, _npcTablet6th);
-		addDecayId(_mobCorrupted, _mobHalisha, _npcDefender, _mobAttacker);
-		addAttackId(_mobCorrupted, _mobAttacker);
-		addSkillSeeId(_mobCorrupted);
-		addKillId(_mobGuardian, _mobCorrupted, _mobHalisha, _mobAttacker);
-		addKillId(ARCHON_OF_HALISHA_FOUR_SEPULCHERS);
+		
+		addAttacked(_mobCorrupted, _mobAttacker);
+		addDecayed(_mobCorrupted, _mobHalisha, _npcDefender, _mobAttacker);
+		addMyDying(_mobGuardian, _mobCorrupted, _mobHalisha, _mobAttacker);
+		addMyDying(ARCHON_OF_HALISHA_FOUR_SEPULCHERS);
+		addSeeSpell(_mobCorrupted);
 	}
 	
 	/**
@@ -786,11 +787,11 @@ public class ThirdClassQuest extends Quest
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		final Player player = attacker.getActingPlayer();
 		if (player == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		
@@ -803,7 +804,7 @@ public class ThirdClassQuest extends Quest
 				// Force despawn the corrupted NPC.
 				npc.setScriptValue(0);
 				npc.deleteMe();
-				return null;
+				return;
 			}
 			
 			// Check player's class.
@@ -812,22 +813,22 @@ public class ThirdClassQuest extends Quest
 				// Force despawn the corrupted NPC.
 				npc.setScriptValue(0);
 				npc.deleteMe();
-				return null;
+				return;
 			}
 		}
 		else if (npcId == _mobAttacker)
 		{
 			// Check if player spawned the corrupted NPC.
 			if (player.getObjectId() != npc.getScriptValue())
-				return null;
+				return;
 			
 			// Check player's class.
 			if (player.getClassId() != _prevClassId)
-				return null;
+				return;
 			
 			QuestState st = checkPlayerCondition(player, npc, 17);
 			if (st == null)
-				return null;
+				return;
 			
 			// Get and increase attack count.
 			int attacks = st.getInteger("attacks");
@@ -847,48 +848,11 @@ public class ThirdClassQuest extends Quest
 				npc.setScriptValue(0);
 				npc.deleteMe();
 			}
-			return null;
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onSkillSee(Npc npc, Player player, L2Skill skill, Creature[] targets, boolean isPet)
-	{
-		// Check player is existing and target is the monster.
-		if (player == null || !ArraysUtil.contains(targets, npc))
-			return null;
-		
-		final int npcId = npc.getNpcId();
-		
-		// Corrupted NPC at 3rd Tablet of Vision.
-		if (npcId == _mobCorrupted)
-		{
-			// Check if player spawned the corrupted NPC.
-			if (player.getObjectId() != npc.getScriptValue())
-			{
-				// Force despawn the corrupted NPC.
-				npc.setScriptValue(0);
-				npc.deleteMe();
-				return null;
-			}
-			
-			// Check player's class.
-			if (player.getClassId() != _prevClassId)
-			{
-				// Force despawn the corrupted NPC.
-				npc.setScriptValue(0);
-				npc.deleteMe();
-				return null;
-			}
-		}
-		
-		return null;
-	}
-	
-	@Override
-	public String onDecay(Npc npc)
+	public void onDecayed(Npc npc)
 	{
 		final int npcId = npc.getNpcId();
 		
@@ -926,7 +890,7 @@ public class ThirdClassQuest extends Quest
 			if (p == null)
 			{
 				npc.broadcastNpcSay(_msgDefenderDespawnLost);
-				return null;
+				return;
 			}
 			
 			QuestState st = checkPlayerCondition(p, npc, 17);
@@ -938,16 +902,14 @@ public class ThirdClassQuest extends Quest
 					npc.broadcastNpcSay(_msgDefenderDespawnLost);
 			}
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		if (player == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		
@@ -956,12 +918,12 @@ public class ThirdClassQuest extends Quest
 		{
 			// Check player's class.
 			if (player.getClassId() != _prevClassId)
-				return null;
+				return;
 			
 			// Check player's quest status.
 			QuestState st = checkPlayerCondition(player, npc, 6);
 			if (st == null)
-				return null;
+				return;
 			
 			// Kill 10 Guardians to obtain Resonance Amulet - 2.
 			int kills = st.getInteger("kills") + 1;
@@ -974,7 +936,7 @@ public class ThirdClassQuest extends Quest
 				playSound(player, SOUND_MIDDLE);
 				giveItems(player, _itemAmulet2nd, 1);
 			}
-			return null;
+			return;
 		}
 		
 		// Corrupted NPC at 3rd Tablet of Vision.
@@ -982,23 +944,23 @@ public class ThirdClassQuest extends Quest
 		{
 			// Check if player spawned the corrupted NPC.
 			if (player.getObjectId() != npc.getScriptValue())
-				return null;
+				return;
 			
 			// Check player's class.
 			if (player.getClassId() != _prevClassId)
-				return null;
+				return;
 			
 			// Check player's quest status.
 			QuestState st = checkPlayerCondition(player, npc, 8);
 			if (st == null)
-				return null;
+				return;
 			
 			st.setCond(9);
 			playSound(player, SOUND_MIDDLE);
 			giveItems(player, _itemAmulet3rd, 1);
 			
 			npc.broadcastNpcSay(_msgCorruptedKill);
-			return null;
+			return;
 		}
 		
 		// Monsters in Shrine of Loyalty.
@@ -1029,7 +991,7 @@ public class ThirdClassQuest extends Quest
 				// Pick random party member' state and check it.
 				st = Rnd.get(valid);
 				if (st == null)
-					return null;
+					return;
 				
 				// Get party member's third class quest.
 				tcq = (ThirdClassQuest) st.getQuest();
@@ -1039,12 +1001,12 @@ public class ThirdClassQuest extends Quest
 				// Get player's third class quest.
 				tcq = _quests.get(player.getClassId());
 				if (tcq == null)
-					return null;
+					return;
 				
 				// Check player's quest status.
 				st = tcq.checkPlayerCondition(player, npc, 15);
 				if (st == null)
-					return null;
+					return;
 			}
 			
 			// There is valid QuestState existing.
@@ -1069,8 +1031,7 @@ public class ThirdClassQuest extends Quest
 				// Send spawn message.
 				archon.broadcastNpcSay(tcq._msgHalishaSpawn, p.getName());
 			}
-			
-			return null;
+			return;
 		}
 		
 		// The Archon of Halisha spawned in Shrine of Loyalty.
@@ -1080,17 +1041,17 @@ public class ThirdClassQuest extends Quest
 			if (player.getObjectId() != npc.getScriptValue())
 			{
 				npc.broadcastNpcSay(_msgHalishaKillOther);
-				return null;
+				return;
 			}
 			
 			// Check player's class.
 			if (player.getClassId() != _prevClassId)
-				return null;
+				return;
 			
 			// Check player's quest status.
 			QuestState st = checkPlayerCondition(player, npc, 15);
 			if (st == null)
-				return null;
+				return;
 			
 			st.setCond(16);
 			playSound(player, SOUND_MIDDLE);
@@ -1098,7 +1059,7 @@ public class ThirdClassQuest extends Quest
 			giveItems(player, _itemAmulet5th, 1);
 			
 			npc.broadcastNpcSay(_msgHalishaKill);
-			return null;
+			return;
 		}
 		
 		// Archon of Halisha inside Four Sepulchers.
@@ -1128,19 +1089,19 @@ public class ThirdClassQuest extends Quest
 			{
 				// Check player's class.
 				if (player.getClassId() != _prevClassId)
-					return null;
+					return;
 				
 				// Check player's quest status.
 				QuestState st = checkPlayerCondition(player, npc, 15);
 				if (st == null)
-					return null;
+					return;
 				
 				st.setCond(16);
 				playSound(player, SOUND_MIDDLE);
 				takeItems(player, _itemHalishaMark, -1);
 				giveItems(player, _itemAmulet5th, 1);
 			}
-			return null;
+			return;
 		}
 		
 		// The attacking monster of the combat near 6th Tablet of Vision.
@@ -1148,9 +1109,22 @@ public class ThirdClassQuest extends Quest
 		{
 			// Do nothing (notify onDecay not to say message via script value).
 			npc.setScriptValue(0);
-			return null;
+			return;
 		}
+	}
+	
+	@Override
+	public void onSeeSpell(Npc npc, Player player, L2Skill skill, Creature[] targets, boolean isPet)
+	{
+		// Check player is existing and target is the monster.
+		if (player == null || !ArraysUtil.contains(targets, npc))
+			return;
 		
-		return null;
+		// Corrupted NPC at 3rd Tablet of Vision. Force the despawn if checks aren't correct.
+		if (_mobCorrupted == npc.getNpcId() && (player.getObjectId() != npc.getScriptValue() || player.getClassId() != _prevClassId))
+		{
+			npc.setScriptValue(0);
+			npc.deleteMe();
+		}
 	}
 }

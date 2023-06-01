@@ -122,8 +122,7 @@ public enum Stats
 	REFLECT_DAMAGE_PERCENT("reflectDam", false),
 	REFLECT_SKILL_MAGIC("reflectSkillMagic", false),
 	REFLECT_SKILL_PHYSIC("reflectSkillPhysic", false),
-	VENGEANCE_SKILL_MAGIC_DAMAGE("vengeanceMdam", false),
-	VENGEANCE_SKILL_PHYSICAL_DAMAGE("vengeancePdam", false),
+	COUNTER_SKILL_PHYSICAL("counterSkill", false),
 	ABSORB_DAMAGE_PERCENT("absorbDam", false),
 	TRANSFER_DAMAGE_PERCENT("transDam", false),
 	

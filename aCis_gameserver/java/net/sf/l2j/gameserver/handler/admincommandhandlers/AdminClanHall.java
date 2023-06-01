@@ -12,6 +12,7 @@ import net.sf.l2j.gameserver.handler.IAdminCommandHandler;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.clanhall.Auction;
 import net.sf.l2j.gameserver.model.clanhall.ClanHall;
+import net.sf.l2j.gameserver.model.clanhall.SiegableHall;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -45,6 +46,8 @@ public class AdminClanHall implements IAdminCommandHandler
 			st.nextToken();
 			
 			String param = null;
+			String param2 = null;
+			
 			ClanHall ch = null;
 			
 			final int paramCount = st.countTokens();
@@ -53,6 +56,12 @@ public class AdminClanHall implements IAdminCommandHandler
 			else if (paramCount == 2)
 			{
 				param = st.nextToken();
+				ch = ClanHallManager.getInstance().getClanHall(Integer.parseInt(st.nextToken()));
+			}
+			else if (paramCount == 3)
+			{
+				param = st.nextToken();
+				param2 = st.nextToken();
 				ch = ClanHallManager.getInstance().getClanHall(Integer.parseInt(st.nextToken()));
 			}
 			
@@ -110,12 +119,40 @@ public class AdminClanHall implements IAdminCommandHandler
 					else
 						auction.endAuction();
 					break;
+				
+				case "siege":
+					if (param2 == null || StringUtil.isDigit(param2))
+						player.sendMessage("Usage: //ch siege start|end chId.");
+					else if (!(ch instanceof SiegableHall))
+						player.sendMessage("This ClanHall isn't siegable.");
+					else
+					{
+						final SiegableHall sh = ((SiegableHall) ch);
+						
+						switch (param2)
+						{
+							case "start":
+								if (sh.isInSiege())
+									player.sendMessage("This ClanHall is already besieged.");
+								else
+									sh.getSiege().instantSiege();
+								break;
+							
+							case "end":
+								if (!sh.isInSiege())
+									player.sendMessage("This ClanHall isn't currently besieged.");
+								else
+									sh.getSiege().endSiege();
+								break;
+						}
+					}
+					break;
 			}
 			showClanHallSelectPage(player, ch);
 		}
 		catch (Exception e)
 		{
-			player.sendMessage("Usage: //ch [set|remove|open|close|teleportto|end chId].");
+			player.sendMessage("Usage: //ch [set|remove|open|close|teleportto|end|siege chId].");
 		}
 	}
 	

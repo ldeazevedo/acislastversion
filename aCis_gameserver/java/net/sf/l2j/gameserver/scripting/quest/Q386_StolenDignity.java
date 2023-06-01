@@ -84,11 +84,11 @@ public class Q386_StolenDignity extends Quest
 	{
 		super(386, "Stolen Dignity");
 		
-		addStartNpc(ROMP);
+		addQuestStart(ROMP);
 		addTalkId(ROMP);
 		
 		for (int npcId : CHANCES.keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 	}
 	
 	@Override
@@ -228,17 +228,15 @@ public class Q386_StolenDignity extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), STOLEN_INFERNIUM_ORE, 1, 0, CHANCES.get(npc.getNpcId()));
-		
-		return null;
 	}
 	
 	private static final String fillBoard(QuestState st, String htmltext)

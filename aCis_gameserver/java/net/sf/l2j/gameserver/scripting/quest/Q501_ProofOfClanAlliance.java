@@ -105,12 +105,12 @@ public class Q501_ProofOfClanAlliance extends Quest
 		// This means, clan leader gets them removed, when he cancels or fail the quest, while regular clan members may trade and/or delete them manually.
 		setItemsIds(SYMBOL_OF_LOYALTY, HERB_OF_HARIT, HERB_OF_VANOR, HERB_OF_OEL_MAHUM, BLOOD_OF_EVA, VOUCHER_OF_FAITH, ANTIDOTE_RECIPE_LIST);
 		
-		addStartNpc(SIR_KRISTOF_RODEMAI, KALIS, STATUE_OF_OFFERING, ATHREA);
+		addQuestStart(SIR_KRISTOF_RODEMAI, KALIS, STATUE_OF_OFFERING, ATHREA);
 		addTalkId(SIR_KRISTOF_RODEMAI, KALIS, STATUE_OF_OFFERING, ATHREA);
 		
-		addKillId(VANOR_SILENOS_SHAMAN, HARIT_LIZARDMAN_SHAMAN, OEL_MAHUM_WITCH_DOCTOR);
-		addKillId(BOXES_OF_ATHREA);
-		addDecayId(BOXES_OF_ATHREA);
+		addDecayed(BOXES_OF_ATHREA);
+		addMyDying(BOXES_OF_ATHREA);
+		addMyDying(VANOR_SILENOS_SHAMAN, HARIT_LIZARDMAN_SHAMAN, OEL_MAHUM_WITCH_DOCTOR);
 	}
 	
 	@Override
@@ -443,19 +443,17 @@ public class Q501_ProofOfClanAlliance extends Quest
 	}
 	
 	@Override
-	public String onDecay(Npc npc)
+	public void onDecayed(Npc npc)
 	{
 		_boxesOfAthrea.remove(npc);
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		if (player == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		if (HERB_DROPLIST.containsKey(npcId))
@@ -466,7 +464,7 @@ public class Q501_ProofOfClanAlliance extends Quest
 			// Get random party member who's clan leader has quest started and has the herb request.
 			Result result = getRandomPartyMemberClanLeaderQuestState(player, npc, herbFlag, "true");
 			if (result == null)
-				return null;
+				return;
 			
 			// Try to drop herb.
 			if (dropItems(result.player, herbId, 1, 1, 100000))
@@ -477,7 +475,7 @@ public class Q501_ProofOfClanAlliance extends Quest
 			// Get random party member who's clan leader has quest started and has the herb request.
 			Result result = getRandomPartyMemberClanLeaderQuestState(player, npc, "3835", "true");
 			if (result == null)
-				return null;
+				return;
 			
 			// Get clan leader's quest state.
 			final QuestState lst = result.lst;
@@ -490,8 +488,6 @@ public class Q501_ProofOfClanAlliance extends Quest
 				npc.broadcastNpcSay(NpcStringId.ID_50110);
 			}
 		}
-		
-		return null;
 	}
 	
 	/**

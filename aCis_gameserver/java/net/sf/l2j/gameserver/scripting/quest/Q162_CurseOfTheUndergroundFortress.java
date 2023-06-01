@@ -47,10 +47,10 @@ public class Q162_CurseOfTheUndergroundFortress extends Quest
 		
 		setItemsIds(BONE_FRAGMENT, ELF_SKULL);
 		
-		addStartNpc(30147); // Unoren
+		addQuestStart(30147); // Unoren
 		addTalkId(30147);
 		
-		addKillId(SHADE_HORROR, DARK_TERROR, MIST_TERROR, DUNGEON_SKELETON_ARCHER, DUNGEON_SKELETON, DREAD_SOLDIER);
+		addMyDying(SHADE_HORROR, DARK_TERROR, MIST_TERROR, DUNGEON_SKELETON_ARCHER, DUNGEON_SKELETON, DREAD_SOLDIER);
 	}
 	
 	@Override
@@ -115,13 +115,13 @@ public class Q162_CurseOfTheUndergroundFortress extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		
@@ -141,7 +141,5 @@ public class Q162_CurseOfTheUndergroundFortress extends Quest
 					st.setCond(2);
 				break;
 		}
-		
-		return null;
 	}
 }

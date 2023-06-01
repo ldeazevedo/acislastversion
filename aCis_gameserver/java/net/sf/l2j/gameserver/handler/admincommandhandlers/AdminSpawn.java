@@ -8,11 +8,8 @@ import java.util.regex.Pattern;
 
 import net.sf.l2j.commons.lang.StringUtil;
 
-import net.sf.l2j.gameserver.data.manager.DayNightManager;
 import net.sf.l2j.gameserver.data.manager.FenceManager;
-import net.sf.l2j.gameserver.data.manager.RaidBossManager;
-import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
-import net.sf.l2j.gameserver.data.sql.SpawnTable;
+import net.sf.l2j.gameserver.data.manager.SpawnManager;
 import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.handler.IAdminCommandHandler;
@@ -22,6 +19,7 @@ import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Fence;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
+import net.sf.l2j.gameserver.model.spawn.ASpawn;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -41,12 +39,9 @@ public class AdminSpawn implements IAdminCommandHandler
 		"admin_npc_index",
 		"admin_spawn_once",
 		"admin_show_npcs",
-		"admin_spawnnight",
-		"admin_spawnday",
 		"admin_spawnfence",
 		"admin_deletefence",
-		"admin_listfence",
-		"admin_delete"
+		"admin_listfence"
 	};
 	
 	@Override
@@ -85,30 +80,25 @@ public class AdminSpawn implements IAdminCommandHandler
 			// Generate data.
 			final StringBuilder sb = new StringBuilder();
 			
-			int index = 0, x, y, z;
+			int index = 0;
 			String name = "";
 			
-			for (Spawn spawn : SpawnTable.getInstance().getSpawns())
+			for (Npc npc : World.getInstance().getNpcs(npcId))
 			{
-				if (npcId == spawn.getNpcId())
+				index++;
+				name = npc.getTemplate().getName();
+				
+				StringUtil.append(sb, "<a action=\"bypass -h admin_teleport ", npc.getX(), " ", npc.getY(), " ", npc.getZ(), "\">", index);
+				
+				final ASpawn spawn = npc.getSpawn();
+				if (spawn == null)
 				{
-					index++;
-					name = spawn.getTemplate().getName();
-					
-					final Npc npc = spawn.getNpc();
-					if (npc != null)
-					{
-						x = npc.getX();
-						y = npc.getY();
-						z = npc.getZ();
-					}
-					else
-					{
-						x = spawn.getLocX();
-						y = spawn.getLocY();
-						z = spawn.getLocZ();
-					}
-					StringUtil.append(sb, "<tr><td><a action=\"bypass -h admin_teleport ", x, " ", y, " ", z, "\">", index, " - (", x, " ", y, " ", z, ")", "</a></td></tr>");
+					StringUtil.append(sb, " - (", npc.getPosition(), ")", "</a><br>");
+				}
+				else
+				{
+					StringUtil.append(sb, " - ", spawn, "</a><br1>");
+					StringUtil.append(sb, spawn.getDescription(), "<br>");
 				}
 			}
 			
@@ -176,32 +166,19 @@ public class AdminSpawn implements IAdminCommandHandler
 		else if (command.startsWith("admin_unspawnall"))
 		{
 			World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.NPC_SERVER_NOT_OPERATING));
-			RaidBossManager.getInstance().cleanUp(false);
-			DayNightManager.getInstance().cleanUp();
+			SpawnManager.getInstance().despawn();
 			World.getInstance().deleteVisibleNpcSpawns();
 			AdminData.getInstance().broadcastMessageToGMs("NPCs' unspawn is now complete.");
-		}
-		else if (command.startsWith("admin_spawnday"))
-		{
-			DayNightManager.getInstance().spawnCreatures(false);
-			AdminData.getInstance().broadcastMessageToGMs("Spawning day creatures spawns.");
-		}
-		else if (command.startsWith("admin_spawnnight"))
-		{
-			DayNightManager.getInstance().spawnCreatures(true);
-			AdminData.getInstance().broadcastMessageToGMs("Spawning night creatures spawns.");
 		}
 		else if (command.startsWith("admin_respawnall") || command.startsWith("admin_spawn_reload"))
 		{
 			// make sure all spawns are deleted
-			RaidBossManager.getInstance().cleanUp(false);
-			DayNightManager.getInstance().cleanUp();
+			SpawnManager.getInstance().despawn();
 			World.getInstance().deleteVisibleNpcSpawns();
+			
 			// now respawn all
 			NpcData.getInstance().reload();
-			SpawnTable.getInstance().reload();
-			RaidBossManager.getInstance().reload();
-			SevenSignsManager.getInstance().spawnSevenSignsNPC();
+			SpawnManager.getInstance().reload();
 			AdminData.getInstance().broadcastMessageToGMs("NPCs' respawn is now complete.");
 		}
 		else if (command.startsWith("admin_spawnfence"))
@@ -269,31 +246,6 @@ public class AdminSpawn implements IAdminCommandHandler
 				sendFile(player, "spawns.htm");
 			}
 		}
-		else if (command.startsWith("admin_delete"))
-		{
-			final WorldObject targetWorldObject = player.getTarget();
-			if (!(targetWorldObject instanceof Npc))
-			{
-				player.sendPacket(SystemMessageId.INVALID_TARGET);
-				return;
-			}
-			
-			final Npc targetNpc = (Npc) targetWorldObject;
-			
-			final Spawn spawn = targetNpc.getSpawn();
-			if (spawn != null)
-			{
-				spawn.setRespawnState(false);
-				
-				if (RaidBossManager.getInstance().getBossSpawn(spawn.getNpcId()) != null)
-					RaidBossManager.getInstance().deleteSpawn(spawn);
-				else
-					SpawnTable.getInstance().deleteSpawn(spawn, true);
-			}
-			targetNpc.deleteMe();
-			
-			player.sendMessage("Deleted " + targetNpc.getName() + " from " + targetNpc.getObjectId() + ".");
-		}
 	}
 	
 	@Override
@@ -323,30 +275,8 @@ public class AdminSpawn implements IAdminCommandHandler
 			final Spawn spawn = new Spawn(template);
 			spawn.setLoc(targetWorldObject.getX(), targetWorldObject.getY(), targetWorldObject.getZ(), player.getHeading());
 			spawn.setRespawnDelay(respawnTime);
-			
-			if (template.isType("RaidBoss"))
-			{
-				if (RaidBossManager.getInstance().getBossSpawn(spawn.getNpcId()) != null)
-				{
-					player.sendMessage("You cannot spawn another instance of " + template.getName() + ".");
-					return;
-				}
-				
-				spawn.setRespawnMinDelay(43200);
-				spawn.setRespawnMaxDelay(129600);
-				RaidBossManager.getInstance().addNewSpawn(spawn, 0, 0, 0, permanent);
-			}
-			else
-			{
-				SpawnTable.getInstance().addSpawn(spawn, permanent);
-				spawn.doSpawn(false);
-				
-				if (permanent)
-					spawn.setRespawnState(true);
-			}
-			
-			if (!permanent)
-				spawn.setRespawnState(false);
+			spawn.setRespawnState(permanent);
+			spawn.doSpawn(false);
 			
 			player.sendMessage("Spawned " + template.getName() + ".");
 			

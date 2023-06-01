@@ -707,14 +707,14 @@ public class Q336_CoinsOfMagic extends Quest
 		
 		setItemsIds(COIN_DIAGRAM, KALDIS_GOLD_DRAGON, COIN_COLLECTOR_MEMBERSHIP_1, COIN_COLLECTOR_MEMBERSHIP_2, COIN_COLLECTOR_MEMBERSHIP_3);
 		
-		addStartNpc(SORINT);
+		addQuestStart(SORINT);
 		addTalkId(PANO, COLLOB, RALFORD, HAGGER, STAN, SORINT, LORAIN, DUNING, PAGE, BERNARD, FERRIS);
 		
 		for (Integer npcId : DROPLIST_FIRST.keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 		
 		for (Integer npcId : DROPLIST_SECOND.keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 	}
 	
 	@Override
@@ -1293,17 +1293,17 @@ public class Q336_CoinsOfMagic extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		if (player == null)
-			return null;
+			return;
 		
 		if (DROPLIST_FIRST.containsKey(npc.getNpcId()))
 		{
 			final QuestState st = getRandomPartyMember(player, npc, 2);
 			if (st == null)
-				return null;
+				return;
 			
 			final IntIntHolder drop = DROPLIST_FIRST.get(npc.getNpcId());
 			if (dropItems(st.getPlayer(), drop.getId(), 1, 1, drop.getValue()))
@@ -1313,13 +1313,11 @@ public class Q336_CoinsOfMagic extends Quest
 		{
 			final QuestState st = getRandomPartyMember(player, npc, "state", "3");
 			if (st == null)
-				return null;
+				return;
 			
 			final IntIntHolder drop = DROPLIST_SECOND.get(npc.getNpcId());
 			dropItems(st.getPlayer(), drop.getId(), 1, 0, drop.getValue());
 		}
-		
-		return null;
 	}
 	
 	/**

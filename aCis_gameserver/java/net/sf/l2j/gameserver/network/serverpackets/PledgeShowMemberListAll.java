@@ -39,7 +39,7 @@ public class PledgeShowMemberListAll extends L2GameServerPacket
 		writeD(_clan.getClanHallId());
 		writeD(_clan.getRank());
 		writeD(_clan.getReputationScore());
-		writeD(0);
+		writeD(_clan.getDissolvingExpiryTime() > 0 ? 3 : 0);
 		writeD(0);
 		writeD(_clan.getAllyId());
 		writeS(_clan.getAllyName());

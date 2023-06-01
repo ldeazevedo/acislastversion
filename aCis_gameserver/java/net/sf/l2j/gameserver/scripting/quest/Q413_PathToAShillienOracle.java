@@ -35,10 +35,10 @@ public class Q413_PathToAShillienOracle extends Quest
 		
 		setItemsIds(SIDRA_LETTER, BLANK_SHEET, BLOODY_RUNE, GARMIEL_BOOK, PRAYER_OF_ADONIUS, PENITENT_MARK, ASHEN_BONES, ANDARIEL_BOOK);
 		
-		addStartNpc(SIDRA);
+		addQuestStart(SIDRA);
 		addTalkId(SIDRA, ADONIUS, TALBOT);
 		
-		addKillId(20776, 20457, 20458, 20514, 20515);
+		addMyDying(20776, 20457, 20458, 20514, 20515);
 	}
 	
 	@Override
@@ -166,13 +166,13 @@ public class Q413_PathToAShillienOracle extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		if (npc.getNpcId() == 20776)
 		{
@@ -185,7 +185,5 @@ public class Q413_PathToAShillienOracle extends Quest
 		}
 		else if (st.getCond() == 5 && dropItemsAlways(player, ASHEN_BONES, 1, 10))
 			st.setCond(6);
-		
-		return null;
 	}
 }

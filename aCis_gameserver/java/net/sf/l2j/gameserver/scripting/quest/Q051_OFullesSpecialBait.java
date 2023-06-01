@@ -23,10 +23,10 @@ public class Q051_OFullesSpecialBait extends Quest
 		
 		setItemsIds(LOST_BAIT);
 		
-		addStartNpc(31572); // O'Fulle
+		addQuestStart(31572); // O'Fulle
 		addTalkId(31572);
 		
-		addKillId(20552); // Fettered Soul
+		addMyDying(20552); // Fettered Soul
 	}
 	
 	@Override
@@ -82,17 +82,15 @@ public class Q051_OFullesSpecialBait extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItemsAlways(player, LOST_BAIT, 1, 100))
 			st.setCond(2);
-		
-		return null;
 	}
 }

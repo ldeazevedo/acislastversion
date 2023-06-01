@@ -199,7 +199,7 @@ public abstract class ItemContainer
 			item = olditem;
 			
 			// Updates database
-			if (item.getItemId() == 57 && count < 10000 * Config.RATE_DROP_ADENA)
+			if (item.getItemId() == 57 && count < 10000 * Config.RATE_DROP_CURRENCY)
 			{
 				// Small adena changes won't be saved to database all the time
 				if (Rnd.get(10) < 2)
@@ -246,7 +246,7 @@ public abstract class ItemContainer
 			item.setLastChange(ItemState.MODIFIED);
 			
 			// Updates database
-			if (itemId == 57 && count < 10000 * Config.RATE_DROP_ADENA)
+			if (itemId == 57 && count < 10000 * Config.RATE_DROP_CURRENCY)
 			{
 				// Small adena changes won't be saved to database all the time
 				if (Rnd.get(10) < 2)

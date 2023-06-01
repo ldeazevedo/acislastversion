@@ -1,5 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.ai;
 
+import java.util.Objects;
+
 import net.sf.l2j.gameserver.enums.IntentionType;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Boat;
@@ -29,6 +31,28 @@ public class Intention
 	public Intention()
 	{
 		_type = IntentionType.IDLE;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(_boat, _finalTarget, _isCtrlPressed, _isShiftPressed, _itemObjectId, _loc, _skill, _target, _type);
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		
+		if (obj == null)
+			return false;
+		
+		if (getClass() != obj.getClass())
+			return false;
+		
+		final Intention other = (Intention) obj;
+		return Objects.equals(_boat, other._boat) && Objects.equals(_finalTarget, other._finalTarget) && _isCtrlPressed == other._isCtrlPressed && _isShiftPressed == other._isShiftPressed && _itemObjectId == other._itemObjectId && Objects.equals(_loc, other._loc) && Objects.equals(_skill, other._skill) && Objects.equals(_target, other._target) && _type == other._type;
 	}
 	
 	@Override

@@ -14,8 +14,11 @@ import net.sf.l2j.gameserver.scripting.Quest;
  */
 public class GatekeeperSpirit extends Quest
 {
+	// NPCs
 	private static final int ENTER_GK = 31111;
 	private static final int EXIT_GK = 31112;
+	
+	// Raid Bosses
 	private static final int LILITH = 25283;
 	private static final int ANAKIM = 25286;
 	
@@ -26,7 +29,7 @@ public class GatekeeperSpirit extends Quest
 		addFirstTalkId(ENTER_GK);
 		addTalkId(ENTER_GK);
 		
-		addKillId(LILITH, ANAKIM);
+		addMyDying(LILITH, ANAKIM);
 	}
 	
 	@Override
@@ -64,7 +67,7 @@ public class GatekeeperSpirit extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		switch (npc.getNpcId())
 		{
@@ -76,6 +79,5 @@ public class GatekeeperSpirit extends Quest
 				startQuestTimer("anakim_exit", null, null, 10000);
 				break;
 		}
-		return null;
 	}
 }

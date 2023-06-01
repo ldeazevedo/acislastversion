@@ -3,7 +3,6 @@ package net.sf.l2j.gameserver.scripting.script.teleport;
 import net.sf.l2j.commons.util.ArraysUtil;
 
 import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
-import net.sf.l2j.gameserver.data.xml.TeleportData;
 import net.sf.l2j.gameserver.enums.CabalType;
 import net.sf.l2j.gameserver.enums.TeleportType;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -67,7 +66,7 @@ public class HuntingGroundsTeleporter extends Quest
 		if (playerCabal == CabalType.NORMAL)
 			return ArraysUtil.contains(DAWN_NPCS, npc.getNpcId()) ? "dawn_tele-no.htm" : "dusk_tele-no.htm";
 		
-		TeleportData.getInstance().showTeleportList(player, npc, TeleportType.STANDARD);
+		npc.showTeleportWindow(player, TeleportType.STANDARD);
 		return null;
 	}
 }

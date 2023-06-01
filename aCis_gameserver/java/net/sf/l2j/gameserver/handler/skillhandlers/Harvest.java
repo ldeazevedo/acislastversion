@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.handler.skillhandlers;
 
-import java.util.List;
-
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.gameserver.enums.skills.SkillType;
@@ -9,11 +7,11 @@ import net.sf.l2j.gameserver.handler.ISkillHandler;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.container.monster.SeedState;
 import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.network.SystemMessageId;
-import net.sf.l2j.gameserver.network.serverpackets.InventoryUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
@@ -25,29 +23,41 @@ public class Harvest implements ISkillHandler
 	};
 	
 	@Override
-	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
+	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets, ItemInstance itemInstance)
 	{
 		if (!(activeChar instanceof Player))
 			return;
 		
+		final Player player = (Player) activeChar;
+		
 		final WorldObject object = targets[0];
 		if (!(object instanceof Monster))
+		{
+			player.sendPacket(SystemMessageId.THE_HARVEST_FAILED_BECAUSE_THE_SEED_WAS_NOT_SOWN);
 			return;
+		}
 		
-		final Player player = (Player) activeChar;
 		final Monster target = (Monster) object;
 		
-		if (!target.getSeedState().isActualSeeder(player))
+		final SeedState seedState = target.getSeedState();
+		if (!seedState.isSeeded())
+		{
+			player.sendPacket(SystemMessageId.THE_HARVEST_FAILED_BECAUSE_THE_SEED_WAS_NOT_SOWN);
+			return;
+		}
+		
+		if (seedState.isHarvested())
+		{
+			return;
+		}
+		
+		if (!seedState.isAllowedToHarvest(player))
 		{
 			player.sendPacket(SystemMessageId.YOU_ARE_NOT_AUTHORIZED_TO_HARVEST);
 			return;
 		}
 		
-		if (!target.getSeedState().isSeeded())
-		{
-			player.sendPacket(SystemMessageId.THE_HARVEST_FAILED_BECAUSE_THE_SEED_WAS_NOT_SOWN);
-			return;
-		}
+		seedState.setHarvested();
 		
 		if (!calcSuccess(player, target))
 		{
@@ -55,64 +65,34 @@ public class Harvest implements ISkillHandler
 			return;
 		}
 		
-		final List<IntIntHolder> items = target.getSeedState();
-		if (items.isEmpty())
-			return;
+		// Add item to the inventory.
+		final IntIntHolder crop = seedState.getHarvestedCrop();
+		player.addItem("Harvest", crop.getId(), crop.getValue(), target, true);
 		
-		boolean send = false;
-		int total = 0;
-		int cropId = 0;
-		
-		InventoryUpdate iu = new InventoryUpdate();
-		for (IntIntHolder ritem : items)
+		// Notify party members.
+		if (player.isInParty())
 		{
-			cropId = ritem.getId(); // always got 1 type of crop as reward
-			
-			if (player.isInParty())
-				player.getParty().distributeItem(player, ritem, true, target);
+			SystemMessage sm;
+			if (crop.getValue() > 1)
+				sm = SystemMessage.getSystemMessage(SystemMessageId.S1_HARVESTED_S3_S2S).addCharName(player).addItemName(crop.getId()).addNumber(crop.getValue());
 			else
-			{
-				ItemInstance item = player.getInventory().addItem("Manor", ritem.getId(), ritem.getValue(), player, target);
-				iu.addItem(item);
-				
-				send = true;
-				total += ritem.getValue();
-			}
-		}
-		
-		if (send)
-		{
-			player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOU_PICKED_UP_S2_S1).addItemName(cropId).addNumber(total));
+				sm = SystemMessage.getSystemMessage(SystemMessageId.S1_HARVESTED_S2S).addCharName(player).addItemName(crop.getId());
 			
-			if (player.isInParty())
-				player.getParty().broadcastToPartyMembers(player, SystemMessage.getSystemMessage(SystemMessageId.S1_HARVESTED_S3_S2S).addCharName(player).addItemName(cropId).addNumber(total));
-			
-			player.sendPacket(iu);
+			player.getParty().broadcastToPartyMembers(player, sm);
 		}
-		
-		// Reset variables.
-		target.getSeedState().clear();
 	}
 	
-	private static boolean calcSuccess(Creature activeChar, Creature target)
+	private static boolean calcSuccess(Player player, Creature target)
 	{
-		int basicSuccess = 100;
-		final int levelPlayer = activeChar.getStatus().getLevel();
-		final int levelTarget = target.getStatus().getLevel();
+		int rate = 100;
 		
-		int diff = (levelPlayer - levelTarget);
-		if (diff < 0)
-			diff = -diff;
-		
-		// apply penalty, target <=> player levels, 5% penalty for each level
+		// Apply a 5% penalty for each level difference, above 5, between player and target levels.
+		final int diff = Math.abs(player.getStatus().getLevel() - target.getStatus().getLevel());
 		if (diff > 5)
-			basicSuccess -= (diff - 5) * 5;
+			rate -= (diff - 5) * 5;
 		
-		// success rate cant be less than 1%
-		if (basicSuccess < 1)
-			basicSuccess = 1;
-		
-		return Rnd.get(99) < basicSuccess;
+		// Success rate can't be lesser than 1%.
+		return Rnd.get(100) < Math.max(1, rate);
 	}
 	
 	@Override

@@ -2,24 +2,28 @@ package net.sf.l2j.gameserver.model.location;
 
 import net.sf.l2j.commons.data.StatSet;
 
+import net.sf.l2j.gameserver.network.NpcStringId;
+
 /**
- * A datatype extending {@link Location}, used as a unique node of a pre-programmed route for Walker NPCs.<br>
+ * A datatype extending {@link Location}, used as a unique node of a pre-programmed route for walking NPCs.<br>
  * <br>
- * Added to the x/y/z informations, you can also find delay (the time the Walker NPC will stand on the point without moving), the String to broadcast (null if none) and the running behavior.
+ * Added to the x/y/z informations, you can also find delay (the time the walking NPC will stand on the point without moving), the String to broadcast (null if none) and the running behavior.
  */
 public class WalkerLocation extends Location
 {
 	private final boolean _mustRun;
 	private final int _delay;
-	private final String _chat;
+	private final NpcStringId _fstring;
+	private final int _socialId;
 	
-	public WalkerLocation(StatSet set, boolean run)
+	public WalkerLocation(StatSet set, boolean mustRun)
 	{
-		super(set.getInteger("X"), set.getInteger("Y"), set.getInteger("Z"));
+		super(set);
 		
-		_mustRun = run;
+		_mustRun = mustRun;
 		_delay = set.getInteger("delay", 0) * 1000;
-		_chat = set.getString("chat", null);
+		_fstring = set.getNpcStringId("fstring", null);
+		_socialId = set.getInteger("socialId", 0);
 	}
 	
 	public boolean mustRun()
@@ -32,8 +36,13 @@ public class WalkerLocation extends Location
 		return _delay;
 	}
 	
-	public String getChat()
+	public NpcStringId getNpcStringId()
 	{
-		return _chat;
+		return _fstring;
+	}
+	
+	public int getSocialId()
+	{
+		return _socialId;
 	}
 }

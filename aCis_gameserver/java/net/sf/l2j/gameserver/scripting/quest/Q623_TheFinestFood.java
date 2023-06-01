@@ -32,10 +32,10 @@ public class Q623_TheFinestFood extends Quest
 		
 		setItemsIds(LEAF_OF_FLAVA, BUFFALO_MEAT, ANTELOPE_HORN);
 		
-		addStartNpc(JEREMY);
+		addQuestStart(JEREMY);
 		addTalkId(JEREMY);
 		
-		addKillId(FLAVA, BUFFALO, ANTELOPE);
+		addMyDying(FLAVA, BUFFALO, ANTELOPE);
 	}
 	
 	@Override
@@ -124,13 +124,13 @@ public class Q623_TheFinestFood extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		player = st.getPlayer();
 		switch (npc.getNpcId())
@@ -150,7 +150,5 @@ public class Q623_TheFinestFood extends Quest
 					st.setCond(2);
 				break;
 		}
-		
-		return null;
 	}
 }

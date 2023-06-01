@@ -15,14 +15,12 @@ import net.sf.l2j.commons.pool.ThreadPool;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.SkillTable;
-import net.sf.l2j.gameserver.data.sql.AutoSpawnTable;
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
 import net.sf.l2j.gameserver.enums.CabalType;
 import net.sf.l2j.gameserver.enums.PeriodType;
 import net.sf.l2j.gameserver.enums.SealType;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.spawn.AutoSpawn;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
 import net.sf.l2j.gameserver.network.serverpackets.SSQInfo;
@@ -40,7 +38,6 @@ public class SevenSignsManager
 	private static final String UPDATE_STATUS = "UPDATE seven_signs_status SET current_cycle=?, active_period=?, previous_winner=?, " + "dawn_stone_score=?, dawn_festival_score=?, dusk_stone_score=?, dusk_festival_score=?, " + "avarice_owner=?, gnosis_owner=?, strife_owner=?, avarice_dawn_score=?, gnosis_dawn_score=?, " + "strife_dawn_score=?, avarice_dusk_score=?, gnosis_dusk_score=?, strife_dusk_score=?, " + "festival_cycle=?, accumulated_bonus0=?, accumulated_bonus1=?, accumulated_bonus2=?," + "accumulated_bonus3=?, accumulated_bonus4=?, date=? WHERE id=0";
 	
 	// Seven Signs constants
-	public static final String SEVEN_SIGNS_DATA_FILE = "config/signs.properties";
 	public static final String SEVEN_SIGNS_HTML_PATH = "data/html/seven_signs/";
 	
 	public static final int PERIOD_START_HOUR = 18;
@@ -55,17 +52,6 @@ public class SevenSignsManager
 	public static final int CERTIFICATE_OF_APPROVAL_ID = 6388;
 	public static final int RECORD_SEVEN_SIGNS_COST = 500;
 	public static final int ADENA_JOIN_DAWN_COST = 50000;
-	
-	// NPCs related constants
-	public static final int ORATOR_NPC_ID = 31094;
-	public static final int PREACHER_NPC_ID = 31093;
-	public static final int MAMMON_MERCHANT_ID = 31113;
-	public static final int MAMMON_BLACKSMITH_ID = 31126;
-	public static final int MAMMON_MARKETEER_ID = 31092;
-	public static final int LILITH_NPC_ID = 25283;
-	public static final int ANAKIM_NPC_ID = 25286;
-	public static final int CREST_OF_DAWN_ID = 31170;
-	public static final int CREST_OF_DUSK_ID = 31171;
 	
 	// Seal Stone related constants
 	public static final int SEAL_STONE_BLUE_ID = 6360;
@@ -91,17 +77,6 @@ public class SevenSignsManager
 	private final Map<SealType, CabalType> _sealOwners = new HashMap<>();
 	private final Map<SealType, Integer> _duskScores = new HashMap<>();
 	private final Map<SealType, Integer> _dawnScores = new HashMap<>();
-	
-	// AutoSpawn instances
-	private static AutoSpawn _merchantSpawn;
-	private static AutoSpawn _blacksmithSpawn;
-	private static AutoSpawn _lilithSpawn;
-	private static AutoSpawn _anakimSpawn;
-	private static Map<Integer, AutoSpawn> _crestofdawnspawns;
-	private static Map<Integer, AutoSpawn> _crestofduskspawns;
-	private static Map<Integer, AutoSpawn> _oratorSpawns;
-	private static Map<Integer, AutoSpawn> _preacherSpawns;
-	private static Map<Integer, AutoSpawn> _marketeerSpawns;
 	
 	protected SevenSignsManager()
 	{
@@ -173,152 +148,6 @@ public class SevenSignsManager
 			return true;
 		
 		return false;
-	}
-	
-	/**
-	 * Registers all random spawns and auto-chats for Seven Signs NPCs, along with spawns for the Preachers of Doom and Orators of Revelations at the beginning of the Seal Validation period.
-	 */
-	public void spawnSevenSignsNPC()
-	{
-		_merchantSpawn = AutoSpawnTable.getInstance().getAutoSpawnInstance(MAMMON_MERCHANT_ID, false);
-		_blacksmithSpawn = AutoSpawnTable.getInstance().getAutoSpawnInstance(MAMMON_BLACKSMITH_ID, false);
-		_marketeerSpawns = AutoSpawnTable.getInstance().getAutoSpawnInstances(MAMMON_MARKETEER_ID);
-		_lilithSpawn = AutoSpawnTable.getInstance().getAutoSpawnInstance(LILITH_NPC_ID, false);
-		_anakimSpawn = AutoSpawnTable.getInstance().getAutoSpawnInstance(ANAKIM_NPC_ID, false);
-		_crestofdawnspawns = AutoSpawnTable.getInstance().getAutoSpawnInstances(CREST_OF_DAWN_ID);
-		_crestofduskspawns = AutoSpawnTable.getInstance().getAutoSpawnInstances(CREST_OF_DUSK_ID);
-		_oratorSpawns = AutoSpawnTable.getInstance().getAutoSpawnInstances(ORATOR_NPC_ID);
-		_preacherSpawns = AutoSpawnTable.getInstance().getAutoSpawnInstances(PREACHER_NPC_ID);
-		
-		if (isSealValidationPeriod() || isCompResultsPeriod())
-		{
-			for (AutoSpawn spawnInst : _marketeerSpawns.values())
-				AutoSpawnTable.getInstance().setSpawnActive(spawnInst, true);
-			
-			final CabalType winningCabal = getWinningCabal();
-			
-			final CabalType gnosisSealOwner = getSealOwner(SealType.GNOSIS);
-			if (gnosisSealOwner == winningCabal && gnosisSealOwner != CabalType.NORMAL)
-			{
-				if (!Config.ANNOUNCE_MAMMON_SPAWN)
-					_blacksmithSpawn.setBroadcast(false);
-				
-				if (!AutoSpawnTable.getInstance().getAutoSpawnInstance(_blacksmithSpawn.getObjectId(), true).isSpawnActive())
-					AutoSpawnTable.getInstance().setSpawnActive(_blacksmithSpawn, true);
-				
-				for (AutoSpawn spawnInst : _oratorSpawns.values())
-					if (!AutoSpawnTable.getInstance().getAutoSpawnInstance(spawnInst.getObjectId(), true).isSpawnActive())
-						AutoSpawnTable.getInstance().setSpawnActive(spawnInst, true);
-					
-				for (AutoSpawn spawnInst : _preacherSpawns.values())
-					if (!AutoSpawnTable.getInstance().getAutoSpawnInstance(spawnInst.getObjectId(), true).isSpawnActive())
-						AutoSpawnTable.getInstance().setSpawnActive(spawnInst, true);
-			}
-			else
-			{
-				AutoSpawnTable.getInstance().setSpawnActive(_blacksmithSpawn, false);
-				
-				for (AutoSpawn spawnInst : _oratorSpawns.values())
-					AutoSpawnTable.getInstance().setSpawnActive(spawnInst, false);
-				
-				for (AutoSpawn spawnInst : _preacherSpawns.values())
-					AutoSpawnTable.getInstance().setSpawnActive(spawnInst, false);
-			}
-			
-			final CabalType avariceSealOwner = getSealOwner(SealType.AVARICE);
-			if (avariceSealOwner == winningCabal && avariceSealOwner != CabalType.NORMAL)
-			{
-				if (!Config.ANNOUNCE_MAMMON_SPAWN)
-					_merchantSpawn.setBroadcast(false);
-				
-				if (!AutoSpawnTable.getInstance().getAutoSpawnInstance(_merchantSpawn.getObjectId(), true).isSpawnActive())
-					AutoSpawnTable.getInstance().setSpawnActive(_merchantSpawn, true);
-				
-				switch (winningCabal)
-				{
-					case DAWN:
-						// Spawn Lilith, unspawn Anakim.
-						if (!AutoSpawnTable.getInstance().getAutoSpawnInstance(_lilithSpawn.getObjectId(), true).isSpawnActive())
-							AutoSpawnTable.getInstance().setSpawnActive(_lilithSpawn, true);
-						
-						AutoSpawnTable.getInstance().setSpawnActive(_anakimSpawn, false);
-						
-						// Spawn Dawn crests.
-						for (AutoSpawn dawnCrest : _crestofdawnspawns.values())
-						{
-							if (!AutoSpawnTable.getInstance().getAutoSpawnInstance(dawnCrest.getObjectId(), true).isSpawnActive())
-								AutoSpawnTable.getInstance().setSpawnActive(dawnCrest, true);
-						}
-						
-						// Unspawn Dusk crests.
-						for (AutoSpawn duskCrest : _crestofduskspawns.values())
-							AutoSpawnTable.getInstance().setSpawnActive(duskCrest, false);
-						break;
-					
-					case DUSK:
-						// Spawn Anakim, unspawn Lilith.
-						if (!AutoSpawnTable.getInstance().getAutoSpawnInstance(_anakimSpawn.getObjectId(), true).isSpawnActive())
-							AutoSpawnTable.getInstance().setSpawnActive(_anakimSpawn, true);
-						
-						AutoSpawnTable.getInstance().setSpawnActive(_lilithSpawn, false);
-						
-						// Spawn Dusk crests.
-						for (AutoSpawn duskCrest : _crestofduskspawns.values())
-						{
-							if (!AutoSpawnTable.getInstance().getAutoSpawnInstance(duskCrest.getObjectId(), true).isSpawnActive())
-								AutoSpawnTable.getInstance().setSpawnActive(duskCrest, true);
-						}
-						
-						// Unspawn Dawn crests.
-						for (AutoSpawn dawnCrest : _crestofdawnspawns.values())
-							AutoSpawnTable.getInstance().setSpawnActive(dawnCrest, false);
-						break;
-				}
-			}
-			else
-			{
-				// Unspawn merchant of mammon, Lilith, Anakim.
-				AutoSpawnTable.getInstance().setSpawnActive(_merchantSpawn, false);
-				AutoSpawnTable.getInstance().setSpawnActive(_lilithSpawn, false);
-				AutoSpawnTable.getInstance().setSpawnActive(_anakimSpawn, false);
-				
-				// Unspawn Dawn crests.
-				for (AutoSpawn dawnCrest : _crestofdawnspawns.values())
-					AutoSpawnTable.getInstance().setSpawnActive(dawnCrest, false);
-				
-				// Unspawn Dusk crests.
-				for (AutoSpawn duskCrest : _crestofduskspawns.values())
-					AutoSpawnTable.getInstance().setSpawnActive(duskCrest, false);
-			}
-		}
-		else
-		{
-			// Unspawn merchant of mammon, Lilith, Anakim.
-			AutoSpawnTable.getInstance().setSpawnActive(_merchantSpawn, false);
-			AutoSpawnTable.getInstance().setSpawnActive(_blacksmithSpawn, false);
-			AutoSpawnTable.getInstance().setSpawnActive(_lilithSpawn, false);
-			AutoSpawnTable.getInstance().setSpawnActive(_anakimSpawn, false);
-			
-			// Unspawn Dawn crests.
-			for (AutoSpawn dawnCrest : _crestofdawnspawns.values())
-				AutoSpawnTable.getInstance().setSpawnActive(dawnCrest, false);
-			
-			// Unspawn Dusk crests.
-			for (AutoSpawn duskCrest : _crestofduskspawns.values())
-				AutoSpawnTable.getInstance().setSpawnActive(duskCrest, false);
-			
-			// Unspawn Orators.
-			for (AutoSpawn spawnInst : _oratorSpawns.values())
-				AutoSpawnTable.getInstance().setSpawnActive(spawnInst, false);
-			
-			// Unspawn Preachers.
-			for (AutoSpawn spawnInst : _preacherSpawns.values())
-				AutoSpawnTable.getInstance().setSpawnActive(spawnInst, false);
-			
-			// Unspawn marketeer of mammon.
-			for (AutoSpawn spawnInst : _marketeerSpawns.values())
-				AutoSpawnTable.getInstance().setSpawnActive(spawnInst, false);
-		}
 	}
 	
 	public static int calcScore(int blueCount, int greenCount, int redCount)
@@ -1126,7 +955,7 @@ public class SevenSignsManager
 			
 			// Spawns NPCs and change sky color.
 			World.toAllOnlinePlayers(SSQInfo.sendSky());
-			spawnSevenSignsNPC();
+			SpawnManager.getInstance().notifySevenSignsChange();
 			
 			LOGGER.info("The {} period of Seven Signs has begun.", _activePeriod.getName());
 			

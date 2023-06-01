@@ -46,10 +46,10 @@ public class Q603_DaimonTheWhiteEyed_Part1 extends Quest
 		
 		setItemsIds(EVIL_SPIRIT_BEADS, BROKEN_CRYSTAL);
 		
-		addStartNpc(EYE_OF_ARGOS);
+		addQuestStart(EYE_OF_ARGOS);
 		addTalkId(EYE_OF_ARGOS, MYSTERIOUS_TABLET_1, MYSTERIOUS_TABLET_2, MYSTERIOUS_TABLET_3, MYSTERIOUS_TABLET_4, MYSTERIOUS_TABLET_5);
 		
-		addKillId(BUFFALO_SLAVE, GRENDEL_SLAVE, CANYON_BANDERSNATCH_SLAVE);
+		addMyDying(BUFFALO_SLAVE, GRENDEL_SLAVE, CANYON_BANDERSNATCH_SLAVE);
 	}
 	
 	@Override
@@ -199,17 +199,15 @@ public class Q603_DaimonTheWhiteEyed_Part1 extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 7);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), EVIL_SPIRIT_BEADS, 1, 200, CHANCES.get(npc.getNpcId())))
 			st.setCond(8);
-		
-		return null;
 	}
 }

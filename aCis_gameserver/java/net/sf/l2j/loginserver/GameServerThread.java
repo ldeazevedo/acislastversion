@@ -434,4 +434,9 @@ public class GameServerThread extends Thread
 	{
 		return (_gsi == null) ? -1 : _gsi.getId();
 	}
+	
+	public String getConnectionIp()
+	{
+		return _connectionIp;
+	}
 }

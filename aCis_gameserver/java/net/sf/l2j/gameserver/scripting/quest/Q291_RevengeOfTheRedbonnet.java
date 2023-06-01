@@ -29,10 +29,10 @@ public class Q291_RevengeOfTheRedbonnet extends Quest
 		
 		setItemsIds(BLACK_WOLF_PELT);
 		
-		addStartNpc(30553); // Maryse Redbonnet
+		addQuestStart(30553); // Maryse Redbonnet
 		addTalkId(30553);
 		
-		addKillId(20317);
+		addMyDying(20317);
 	}
 	
 	@Override
@@ -99,17 +99,15 @@ public class Q291_RevengeOfTheRedbonnet extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItemsAlways(player, BLACK_WOLF_PELT, 1, 40))
 			st.setCond(2);
-		
-		return null;
 	}
 }

@@ -24,7 +24,7 @@ public class Q383_SearchingForTreasure extends Quest
 	{
 		super(383, "Searching for Treasure");
 		
-		addStartNpc(ESPEN);
+		addQuestStart(ESPEN);
 		addTalkId(ESPEN, PIRATE_CHEST);
 	}
 	

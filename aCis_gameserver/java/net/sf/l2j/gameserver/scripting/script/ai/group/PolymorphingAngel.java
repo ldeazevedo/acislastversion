@@ -3,7 +3,7 @@ package net.sf.l2j.gameserver.scripting.script.ai.group;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
@@ -32,15 +32,15 @@ public class PolymorphingAngel extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(ANGELSPAWNS.keySet(), ScriptEventType.ON_KILL);
+		addEventIds(ANGELSPAWNS.keySet(), EventHandler.MY_DYING);
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Npc angel = addSpawn(ANGELSPAWNS.get(npc.getNpcId()), npc, false, 0, false);
 		angel.forceAttack(killer, 200);
 		
-		return super.onKill(npc, killer);
+		super.onMyDying(npc, killer);
 	}
 }

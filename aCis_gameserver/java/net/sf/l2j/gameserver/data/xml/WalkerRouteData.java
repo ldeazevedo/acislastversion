@@ -14,7 +14,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 
 /**
- * This class loads and stores routes for Walker NPCs, under a List of {@link WalkerLocation} ; the key being the npcId.
+ * This class loads and stores routes for walking NPCs, under a List of {@link WalkerLocation} ; the key being the npcId.
  */
 public class WalkerRouteData implements IXmlReader
 {
@@ -29,7 +29,7 @@ public class WalkerRouteData implements IXmlReader
 	public void load()
 	{
 		parseFile("./data/xml/walkerRoutes.xml");
-		LOGGER.info("Loaded {} Walker routes.", _routes.size());
+		LOGGER.info("Loaded {} walking routes.", _routes.size());
 	}
 	
 	@Override

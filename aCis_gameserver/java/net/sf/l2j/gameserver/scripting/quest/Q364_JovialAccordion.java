@@ -33,7 +33,7 @@ public class Q364_JovialAccordion extends Quest
 		
 		setItemsIds(KEY_1, KEY_2, STOLEN_BEER, STOLEN_CLOTHES);
 		
-		addStartNpc(BARBADO);
+		addQuestStart(BARBADO);
 		addTalkId(BARBADO, SWAN, SABRIN, XABER, CLOTH_CHEST, BEER_CHEST);
 	}
 	

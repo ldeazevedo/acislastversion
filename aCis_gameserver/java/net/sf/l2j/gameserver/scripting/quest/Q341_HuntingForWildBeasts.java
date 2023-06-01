@@ -32,10 +32,10 @@ public class Q341_HuntingForWildBeasts extends Quest
 		
 		setItemsIds(BEAR_SKIN);
 		
-		addStartNpc(30078); // Pano
+		addQuestStart(30078); // Pano
 		addTalkId(30078);
 		
-		addKillId(20021, 20203, 20310, 20335);
+		addMyDying(20021, 20203, 20310, 20335);
 	}
 	
 	@Override
@@ -88,16 +88,14 @@ public class Q341_HuntingForWildBeasts extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(player, BEAR_SKIN, 1, 20, CHANCES.get(npc.getNpcId()));
-		
-		return null;
 	}
 }

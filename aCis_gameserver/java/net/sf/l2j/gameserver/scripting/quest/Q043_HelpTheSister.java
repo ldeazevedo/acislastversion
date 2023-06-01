@@ -31,10 +31,10 @@ public class Q043_HelpTheSister extends Quest
 		
 		setItemsIds(MAP_PIECE, MAP);
 		
-		addStartNpc(COOPER);
+		addQuestStart(COOPER);
 		addTalkId(COOPER, GALLADUCCI);
 		
-		addKillId(SPECTER, SORROW_MAIDEN);
+		addMyDying(SPECTER, SORROW_MAIDEN);
 	}
 	
 	@Override
@@ -129,17 +129,15 @@ public class Q043_HelpTheSister extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 2);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItemsAlways(player, MAP_PIECE, 1, 30))
 			st.setCond(3);
-		
-		return null;
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import net.sf.l2j.commons.random.Rnd;
 
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
@@ -140,11 +140,11 @@ public class PolymorphingOnAttack extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(MOBSPAWNS.keySet(), ScriptEventType.ON_ATTACK);
+		addEventIds(MOBSPAWNS.keySet(), EventHandler.ATTACKED);
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		if (npc.isVisible() && !npc.isDead())
 		{
@@ -163,6 +163,6 @@ public class PolymorphingOnAttack extends AttackableAIScript
 				}
 			}
 		}
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 }

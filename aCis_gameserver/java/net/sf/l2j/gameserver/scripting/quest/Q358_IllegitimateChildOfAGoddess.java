@@ -35,10 +35,10 @@ public class Q358_IllegitimateChildOfAGoddess extends Quest
 		
 		setItemsIds(SCALE);
 		
-		addStartNpc(30862); // Oltlin
+		addQuestStart(30862); // Oltlin
 		addTalkId(30862);
 		
-		addKillId(20672, 20673); // Trives, Falibati
+		addMyDying(20672, 20673); // Trives, Falibati
 	}
 	
 	@Override
@@ -91,17 +91,15 @@ public class Q358_IllegitimateChildOfAGoddess extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, SCALE, 1, 108, (npc.getNpcId() == 20672) ? 680000 : 660000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

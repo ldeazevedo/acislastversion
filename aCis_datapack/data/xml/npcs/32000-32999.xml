@@ -28,7 +28,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="100"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -63,7 +62,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="100"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -98,7 +96,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="100"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -133,7 +130,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -168,7 +164,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -203,7 +198,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -238,7 +232,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -273,7 +266,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -308,7 +300,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -343,7 +334,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -378,7 +368,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -413,7 +402,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -448,7 +436,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="6"/>
 		<set name="runSpd" val="32"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -483,7 +470,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -518,7 +504,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -553,7 +538,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="CORPSE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -588,7 +572,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -623,7 +606,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -658,7 +640,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -693,7 +674,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -728,7 +708,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -763,7 +742,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -798,7 +776,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -833,7 +810,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -868,7 +844,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -903,7 +878,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -938,7 +912,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -973,7 +946,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1008,7 +980,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1043,7 +1014,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1078,7 +1048,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="ice_clan" clanRange="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1113,7 +1082,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="ice_clan" clanRange="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1148,7 +1116,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1183,7 +1150,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1218,7 +1184,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1253,7 +1218,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1288,7 +1252,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1323,7 +1286,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1358,7 +1320,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1393,7 +1354,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1428,7 +1388,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1463,7 +1422,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1498,7 +1456,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="1"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1533,7 +1490,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="1"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1568,7 +1524,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="10"/>
 		<set name="runSpd" val="1"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1603,7 +1558,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="10"/>
 		<set name="runSpd" val="1"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1638,7 +1592,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="27"/>
 		<set name="runSpd" val="1"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1673,7 +1626,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1708,7 +1660,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="48"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1743,7 +1694,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1778,7 +1728,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1813,7 +1762,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1848,7 +1796,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1883,7 +1830,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1918,7 +1864,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1953,7 +1898,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="80"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -1988,7 +1932,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2023,7 +1966,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="30"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2058,7 +2000,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="trioll_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2093,7 +2034,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="trioll_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2128,7 +2068,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="trioll_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2163,7 +2102,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="trioll_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2198,7 +2136,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="trioll_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2233,7 +2170,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="trioll_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2268,7 +2204,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="trioll_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2303,7 +2238,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="trioll_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2338,7 +2272,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="trioll_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2373,7 +2306,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="trioll_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2408,7 +2340,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="andreas_clan" clanRange="300" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2443,7 +2374,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2456,7 +2386,7 @@
 		<set name="height" val="12.3"/>
 		<set name="rHand" val="0"/>
 		<set name="lHand" val="0"/>
-		<set name="type" val="Walker"/>
+		<set name="type" val="Folk"/>
 		<set name="exp" val="0"/>
 		<set name="sp" val="0"/>
 		<set name="hp" val="2444.46819"/>
@@ -2478,7 +2408,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="26"/>
 		<set name="runSpd" val="45"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2513,7 +2442,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="24"/>
 		<set name="runSpd" val="50"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2526,7 +2454,7 @@
 		<set name="height" val="17.3"/>
 		<set name="rHand" val="0"/>
 		<set name="lHand" val="0"/>
-		<set name="type" val="Walker"/>
+		<set name="type" val="Folk"/>
 		<set name="exp" val="0"/>
 		<set name="sp" val="0"/>
 		<set name="hp" val="2444.46819"/>
@@ -2548,7 +2476,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="6"/>
 		<set name="runSpd" val="32"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2583,7 +2510,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="9"/>
 		<set name="runSpd" val="34"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2618,7 +2544,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2653,7 +2578,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="26"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2688,7 +2612,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2723,7 +2646,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2758,7 +2680,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2793,7 +2714,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2828,7 +2748,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2863,7 +2782,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2898,7 +2816,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2933,7 +2850,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -2968,7 +2884,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3003,7 +2918,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3038,7 +2952,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3073,7 +2986,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3108,7 +3020,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="30"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3143,7 +3054,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="48"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3178,7 +3088,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3213,7 +3122,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3248,7 +3156,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3283,7 +3190,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3318,7 +3224,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3353,7 +3258,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3388,7 +3292,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="MAGE" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3424,7 +3327,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="48"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3459,7 +3361,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="48"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3494,7 +3395,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="48"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3529,7 +3429,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="48"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3564,7 +3463,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="48"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3599,7 +3497,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3634,7 +3531,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3669,7 +3565,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3704,7 +3599,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="19"/>
@@ -3738,7 +3632,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="19"/>
@@ -3772,7 +3665,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="1"/>
 		<set name="runSpd" val="20"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="false" seedable="false"/>
 		<skills>
 			<skill id="4416" level="2"/>
@@ -3806,7 +3698,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3841,7 +3732,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3876,7 +3766,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3911,7 +3800,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3946,7 +3834,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -3981,7 +3868,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -4016,7 +3902,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="60"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -4051,7 +3936,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -4086,7 +3970,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="10"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -4121,7 +4004,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="10"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -4156,7 +4038,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="10"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -4191,7 +4072,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="10"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -4226,7 +4106,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="120"/>
 		<set name="runSpd" val="290"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="10"/>
@@ -4260,7 +4139,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="19"/>
@@ -4294,7 +4172,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="100"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="19"/>
@@ -4328,7 +4205,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="14"/>
@@ -4362,7 +4238,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="14"/>
@@ -4396,7 +4271,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="140"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4416" level="14"/>
@@ -4430,7 +4304,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="160"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -4465,7 +4338,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="120"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
@@ -4500,7 +4372,6 @@
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="50"/>
 		<set name="runSpd" val="1"/>
-		<set name="dropHerbGroup" val="0"/>
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>

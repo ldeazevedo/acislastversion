@@ -25,7 +25,7 @@ public class Q029_ChestCaughtWithABaitOfEarth extends Quest
 		
 		setItemsIds(SMALL_GLASS_BOX);
 		
-		addStartNpc(WILLIE);
+		addQuestStart(WILLIE);
 		addTalkId(WILLIE, ANABEL);
 	}
 	

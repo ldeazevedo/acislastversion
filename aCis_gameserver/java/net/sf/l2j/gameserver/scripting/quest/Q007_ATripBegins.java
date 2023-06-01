@@ -29,7 +29,7 @@ public class Q007_ATripBegins extends Quest
 		
 		setItemsIds(ARIEL_RECO);
 		
-		addStartNpc(MIRABEL);
+		addQuestStart(MIRABEL);
 		addTalkId(MIRABEL, ARIEL, ASTERIOS);
 	}
 	

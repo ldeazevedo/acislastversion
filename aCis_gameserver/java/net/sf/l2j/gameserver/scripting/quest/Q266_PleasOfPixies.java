@@ -29,10 +29,10 @@ public class Q266_PleasOfPixies extends Quest
 		
 		setItemsIds(PREDATOR_FANG);
 		
-		addStartNpc(31852); // Murika
+		addQuestStart(31852); // Murika
 		addTalkId(31852);
 		
-		addKillId(20525, 20530, 20534, 20537);
+		addMyDying(20525, 20530, 20534, 20537);
 	}
 	
 	@Override
@@ -103,13 +103,13 @@ public class Q266_PleasOfPixies extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -133,7 +133,5 @@ public class Q266_PleasOfPixies extends Quest
 					st.setCond(2);
 				break;
 		}
-		
-		return null;
 	}
 }

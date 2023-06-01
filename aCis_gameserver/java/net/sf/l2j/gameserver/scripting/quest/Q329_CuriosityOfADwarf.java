@@ -21,10 +21,10 @@ public class Q329_CuriosityOfADwarf extends Quest
 	{
 		super(329, "Curiosity of a Dwarf");
 		
-		addStartNpc(30437); // Rolento
+		addQuestStart(30437); // Rolento
 		addTalkId(30437);
 		
-		addKillId(20083, 20085); // Granite golem, Puncher
+		addMyDying(20083, 20085); // Granite golem, Puncher
 	}
 	
 	@Override
@@ -84,20 +84,18 @@ public class Q329_CuriosityOfADwarf extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int chance = Rnd.get(100);
 		if (chance < 2)
 			dropItemsAlways(player, GOLEM_HEARTSTONE, 1, 0);
 		else if (chance < ((npc.getNpcId() == 20083) ? 44 : 50))
 			dropItemsAlways(player, BROKEN_HEARTSTONE, 1, 0);
-		
-		return null;
 	}
 }

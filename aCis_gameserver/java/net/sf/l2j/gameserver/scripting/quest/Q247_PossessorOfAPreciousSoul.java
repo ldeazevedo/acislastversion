@@ -23,7 +23,7 @@ public class Q247_PossessorOfAPreciousSoul extends Quest
 	{
 		super(247, "Possessor of a Precious Soul - 4");
 		
-		addStartNpc(CARADINE);
+		addQuestStart(CARADINE);
 		addTalkId(CARADINE, LADY_OF_THE_LAKE);
 	}
 	

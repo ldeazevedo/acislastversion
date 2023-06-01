@@ -208,7 +208,7 @@ public final class UseItem extends L2GameClientPacket
 				if (state == null || !state.isStarted())
 					continue;
 				
-				quest.notifyItemUse(item, player, player.getTarget());
+				quest.onItemUse(item, player, player.getTarget());
 			}
 		}
 	}

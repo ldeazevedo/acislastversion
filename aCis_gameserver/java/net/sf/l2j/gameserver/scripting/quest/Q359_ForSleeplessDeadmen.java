@@ -52,10 +52,10 @@ public class Q359_ForSleeplessDeadmen extends Quest
 		
 		setItemsIds(REMAINS);
 		
-		addStartNpc(30857); // Orven
+		addQuestStart(30857); // Orven
 		addTalkId(30857);
 		
-		addKillId(DOOM_SERVANT, DOOM_GUARD, DOOM_ARCHER);
+		addMyDying(DOOM_SERVANT, DOOM_GUARD, DOOM_ARCHER);
 	}
 	
 	@Override
@@ -116,17 +116,15 @@ public class Q359_ForSleeplessDeadmen extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, REMAINS, 1, 60, CHANCES.get(npc.getNpcId())))
 			st.setCond(2);
-		
-		return null;
 	}
 }

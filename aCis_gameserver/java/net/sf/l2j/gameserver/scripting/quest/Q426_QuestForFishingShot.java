@@ -312,21 +312,21 @@ public class Q426_QuestForFishingShot extends Quest
 		
 		setItemsIds(SWEET_FLUID);
 		
-		addStartNpc(31562, 31563, 31564, 31565, 31566, 31567, 31568, 31569, 31570, 31571, 31572, 31573, 31574, 31575, 31576, 31577, 31578, 31579, 31696, 31697, 31989, 32007);
+		addQuestStart(31562, 31563, 31564, 31565, 31566, 31567, 31568, 31569, 31570, 31571, 31572, 31573, 31574, 31575, 31576, 31577, 31578, 31579, 31696, 31697, 31989, 32007);
 		addTalkId(31562, 31563, 31564, 31565, 31566, 31567, 31568, 31569, 31570, 31571, 31572, 31573, 31574, 31575, 31576, 31577, 31578, 31579, 31696, 31697, 31989, 32007);
 		
 		for (int mob : MOBS1.keySet())
-			addKillId(mob);
+			addMyDying(mob);
 		for (int mob : MOBS2.keySet())
-			addKillId(mob);
+			addMyDying(mob);
 		for (int mob : MOBS3.keySet())
-			addKillId(mob);
+			addMyDying(mob);
 		for (int mob : MOBS4.keySet())
-			addKillId(mob);
+			addMyDying(mob);
 		for (int mob : MOBS5.keySet())
-			addKillId(mob);
+			addMyDying(mob);
 		for (int mob : MOBSspecial.keySet())
-			addKillId(mob);
+			addMyDying(mob);
 	}
 	
 	@Override
@@ -375,13 +375,13 @@ public class Q426_QuestForFishingShot extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		int drop = 0;
@@ -423,7 +423,5 @@ public class Q426_QuestForFishingShot extends Quest
 			playSound(st.getPlayer(), SOUND_ITEMGET);
 			rewardItems(st.getPlayer(), SWEET_FLUID, drop);
 		}
-		
-		return null;
 	}
 }

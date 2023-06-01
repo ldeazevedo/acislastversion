@@ -28,6 +28,7 @@ import net.sf.l2j.gameserver.network.serverpackets.AcquireSkillList;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.MagicSkillUse;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
+import net.sf.l2j.gameserver.network.serverpackets.PledgeShowInfoUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.PledgeShowMemberListAll;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.network.serverpackets.UserInfo;
@@ -201,6 +202,7 @@ public class VillageMaster extends Folk
 			if (Config.CLAN_DISSOLVE_DAYS > 0)
 			{
 				clan.setDissolvingExpiryTime(System.currentTimeMillis() + Config.CLAN_DISSOLVE_DAYS * 86400000L);
+				clan.broadcastToMembers(new PledgeShowInfoUpdate(clan));
 				clan.updateClanInDB();
 				
 				ClanTable.getInstance().scheduleRemoveClan(clan);
@@ -293,6 +295,7 @@ public class VillageMaster extends Folk
 			}
 			
 			clan.setDissolvingExpiryTime(0);
+			clan.broadcastToMembers(new PledgeShowInfoUpdate(clan));
 			clan.updateClanInDB();
 		}
 		else if (actualCommand.equalsIgnoreCase("increase_clan_level"))
@@ -521,9 +524,9 @@ public class VillageMaster extends Folk
 						}
 					}
 					
+					player.stopAllEffects();
 					player.setActiveClass(paramOne);
-					
-					player.sendPacket(SystemMessageId.SUBCLASS_TRANSFER_COMPLETED); // Transfer completed.
+					player.sendPacket(SystemMessageId.SUBCLASS_TRANSFER_COMPLETED);
 					return;
 				
 				case 6: // Change/Cancel Subclass - Choice

@@ -106,11 +106,11 @@ public class Q662_AGameOfCards extends Quest
 		
 		setItemsIds(RED_GEM);
 		
-		addStartNpc(KLUMP);
+		addQuestStart(KLUMP);
 		addTalkId(KLUMP);
 		
 		for (int monster : CHANCES.keySet())
-			addKillId(monster);
+			addMyDying(monster);
 	}
 	
 	@Override
@@ -479,17 +479,15 @@ public class Q662_AGameOfCards extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), RED_GEM, 1, 0, CHANCES.get(npc.getNpcId()));
-		
-		return null;
 	}
 	
 	private static void giveReward(Player player, int item, int count)

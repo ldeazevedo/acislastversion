@@ -47,9 +47,10 @@ public class Q021_HiddenTruth extends Quest
 		
 		setItemsIds(CROSS_OF_EINHASAD);
 		
-		addStartNpc(MYSTERIOUS_WIZARD);
+		addQuestStart(MYSTERIOUS_WIZARD);
 		addTalkId(MYSTERIOUS_WIZARD, TOMBSTONE, VON_HELLMAN_DUKE, VON_HELLMAN_PAGE, BROKEN_BOOKSHELF, AGRIPEL, DOMINIC, BENEDICT, INNOCENTIN);
-		addDecayId(VON_HELLMAN_DUKE, VON_HELLMAN_PAGE);
+		
+		addDecayed(VON_HELLMAN_DUKE, VON_HELLMAN_PAGE);
 	}
 	
 	@Override
@@ -323,7 +324,7 @@ public class Q021_HiddenTruth extends Quest
 	}
 	
 	@Override
-	public String onDecay(Npc npc)
+	public void onDecayed(Npc npc)
 	{
 		if (npc == _duke)
 		{
@@ -334,8 +335,6 @@ public class Q021_HiddenTruth extends Quest
 			cancelQuestTimers(_page);
 			_page = null;
 		}
-		
-		return null;
 	}
 	
 	private boolean spawnThePage(Player player)

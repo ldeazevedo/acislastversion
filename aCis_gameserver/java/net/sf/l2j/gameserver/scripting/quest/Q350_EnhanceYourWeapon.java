@@ -26,11 +26,11 @@ public class Q350_EnhanceYourWeapon extends Quest
 	{
 		super(350, "Enhance Your Weapon");
 		
-		addStartNpc(30115, 30194, 30856);
+		addQuestStart(30115, 30194, 30856);
 		addTalkId(30115, 30194, 30856);
 		
 		for (int npcId : SoulCrystalData.getInstance().getLevelingInfos().keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 		
 		for (int crystalId : SoulCrystalData.getInstance().getSoulCrystals().keySet())
 			addItemUse(crystalId);
@@ -110,39 +110,37 @@ public class Q350_EnhanceYourWeapon extends Quest
 	}
 	
 	@Override
-	public String onItemUse(ItemInstance item, Player user, WorldObject target)
+	public void onItemUse(ItemInstance item, Player user, WorldObject target)
 	{
 		// Caster is dead.
 		if (user.isDead())
-			return null;
+			return;
 		
 		// No target, or target isn't an Monster.
 		if (!(target instanceof Monster))
-			return null;
+			return;
 		
 		final Monster monster = ((Monster) target);
 		
 		// Mob is dead or not registered in _npcInfos.
 		if (monster.isDead() || !SoulCrystalData.getInstance().getLevelingInfos().containsKey(monster.getNpcId()))
-			return null;
+			return;
 		
 		// Add user to mob's absorber list.
 		monster.addAbsorber(user, item);
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		if (player == null)
-			return null;
+			return;
 		
 		// Retrieve individual mob informations.
 		final LevelingInfo npcInfo = SoulCrystalData.getInstance().getLevelingInfos().get(npc.getNpcId());
 		if (npcInfo == null)
-			return null;
+			return;
 		
 		final int chance = Rnd.get(1000);
 		final Monster monster = (Monster) npc;
@@ -166,8 +164,6 @@ public class Q350_EnhanceYourWeapon extends Quest
 					tryToStageCrystal(player, monster, npcInfo, chance);
 				break;
 		}
-		
-		return null;
 	}
 	
 	/**

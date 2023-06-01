@@ -8,9 +8,19 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public final class Rnd
 {
+	public static double nextDouble(double n)
+	{
+		return ThreadLocalRandom.current().nextDouble(n);
+	}
+	
 	public static double nextDouble()
 	{
 		return ThreadLocalRandom.current().nextDouble();
+	}
+	
+	public static double get(double n)
+	{
+		return nextDouble(n);
 	}
 	
 	public static int nextInt(int n)

@@ -530,31 +530,23 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
 	
 	public Player loadCharFromDisk(int slot)
 	{
+		// Retrieve the objectId associated to the player slot.
 		final int objectId = getObjectIdForSlot(slot);
 		if (objectId < 0)
 			return null;
 		
-		Player player = World.getInstance().getPlayer(objectId);
-		if (player != null)
-		{
-			if (player.getClient() != null)
-				player.getClient().closeNow();
-			else
-				player.deleteMe();
-			
-			return null;
-		}
+		// Retrieve an existing Player ; if not, generate it.
+		final Player player = World.getInstance().getPlayer(objectId);
+		if (player == null)
+			return Player.restore(objectId);
 		
-		player = Player.restore(objectId);
-		if (player != null)
-		{
-			player.forceRunStance();
-			player.standUp();
-			
-			player.setOnlineStatus(true, false);
-			World.getInstance().addPlayer(player);
-		}
-		return player;
+		// We found an existing Player ; abort the connection if a GameClient is found, otherwise delete the object.
+		if (player.getClient() != null)
+			player.getClient().closeNow();
+		else
+			player.deleteMe();
+		
+		return null;
 	}
 	
 	/**

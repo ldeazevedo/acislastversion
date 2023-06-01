@@ -74,11 +74,11 @@ public class Q640_TheZeroHour extends Quest
 		
 		setItemsIds(FANG_OF_STAKATO);
 		
-		addStartNpc(KAHMAN);
+		addQuestStart(KAHMAN);
 		addTalkId(KAHMAN);
 		
 		// All "spiked" stakatos types, except babies and cannibalistic followers.
-		addKillId(22105, 22106, 22107, 22108, 22109, 22110, 22111, 22113, 22114, 22115, 22116, 22117, 22118, 22119, 22121);
+		addMyDying(22105, 22106, 22107, 22108, 22109, 22110, 22111, 22113, 22114, 22115, 22116, 22117, 22118, 22119, 22121);
 	}
 	
 	@Override
@@ -151,16 +151,14 @@ public class Q640_TheZeroHour extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItemsAlways(st.getPlayer(), FANG_OF_STAKATO, 1, 0);
-		
-		return null;
 	}
 }

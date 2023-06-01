@@ -86,29 +86,27 @@ public class AdminBookmark implements IAdminCommandHandler
 	 */
 	private static void showBookmarks(Player player, int page)
 	{
-		final Pagination<Bookmark> list = new Pagination<>(BookmarkTable.getInstance().getBookmarks(player.getObjectId()).stream(), page, PAGE_LIMIT_18);
-		
 		// Load static htm.
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/admin/bk.htm");
 		
-		final StringBuilder sb = new StringBuilder(2000);
-		sb.append("<table width=270><tr><td width=225></td><td width=45></td></tr>");
+		int row = 0;
 		
-		if (list.isEmpty())
-			sb.append("<tr><td>No bookmarks are currently registered.</td></tr></table>");
-		else
+		// Generate data.
+		final Pagination<Bookmark> list = new Pagination<>(BookmarkTable.getInstance().getBookmarks(player.getObjectId()).stream(), page, PAGE_LIMIT_15);
+		for (Bookmark bk : list)
 		{
-			for (Bookmark bk : list)
-				StringUtil.append(sb, "<tr><td><a action=\"bypass -h admin_teleport ", bk.getX(), " ", bk.getY(), " ", bk.getZ(), "\">", bk.getName(), " (", bk.getX(), " ", bk.getY(), " ", bk.getZ(), ")", "</a></td><td><a action=\"bypass -h admin_delbk ", bk.getName(), "\">Remove</a></td></tr>");
+			list.append(((row % 2) == 0 ? "<table width=280 bgcolor=000000><tr>" : "<table width=280><tr>"));
+			list.append("<td width=230><a action=\"bypass -h admin_teleport ", bk.getX(), " ", bk.getY(), " ", bk.getZ(), "\">", bk.getName(), " (", bk.getX(), " ", bk.getY(), " ", bk.getZ(), ")", "</a></td><td width=50><a action=\"bypass -h admin_delbk ", bk.getName(), "\">Remove</a></td>");
+			list.append("</tr></table><img src=\"L2UI.SquareGray\" width=280 height=1>");
 			
-			sb.append("</table>");
-			
-			list.generateSpace(sb);
-			list.generatePages(sb, "bypass admin_bk %page%");
+			row++;
 		}
 		
-		html.replace("%content%", sb.toString());
+		list.generateSpace(20);
+		list.generatePages("bypass admin_bk %page%");
+		
+		html.replace("%content%", list.getContent());
 		player.sendPacket(html);
 	}
 }

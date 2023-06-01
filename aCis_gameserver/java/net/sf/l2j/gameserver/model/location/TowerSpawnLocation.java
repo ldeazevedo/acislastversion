@@ -21,9 +21,7 @@ public class TowerSpawnLocation extends SpawnLocation
 	
 	public TowerSpawnLocation(int npcId, SpawnLocation location, String[] zoneList)
 	{
-		super(location);
-		
-		_npcId = npcId;
+		this(npcId, location);
 		
 		_zoneList = new ArrayList<>();
 		for (String zoneId : zoneList)

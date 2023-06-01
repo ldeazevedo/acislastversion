@@ -30,10 +30,10 @@ public class Q264_KeenClaws extends Quest
 		
 		setItemsIds(WOLF_CLAW);
 		
-		addStartNpc(30136); // Payne
+		addQuestStart(30136); // Payne
 		addTalkId(30136);
 		
-		addKillId(20003, 20456); // Goblin, Wolf
+		addMyDying(20003, 20456); // Goblin, Wolf
 	}
 	
 	@Override
@@ -109,13 +109,13 @@ public class Q264_KeenClaws extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (npc.getNpcId() == 20003)
 		{
@@ -124,7 +124,5 @@ public class Q264_KeenClaws extends Quest
 		}
 		else if (dropItemsAlways(player, WOLF_CLAW, (Rnd.get(5) < 4) ? 1 : 2, 50))
 			st.setCond(2);
-		
-		return null;
 	}
 }

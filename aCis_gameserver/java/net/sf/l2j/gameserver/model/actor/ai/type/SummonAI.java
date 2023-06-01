@@ -23,7 +23,7 @@ import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
 import net.sf.l2j.gameserver.taskmanager.ItemsOnGroundTaskManager;
 
-public class SummonAI extends PlayableAI
+public class SummonAI extends PlayableAI<Summon>
 {
 	private volatile boolean _followOwner = true;
 	
@@ -80,7 +80,7 @@ public class SummonAI extends PlayableAI
 	{
 		super.onEvtAttacked(attacker);
 		
-		getActor().getMove().avoidAttack(attacker);
+		_actor.getMove().avoidAttack(attacker);
 	}
 	
 	@Override
@@ -88,13 +88,13 @@ public class SummonAI extends PlayableAI
 	{
 		super.onEvtEvaded(attacker);
 		
-		getActor().getMove().avoidAttack(attacker);
+		_actor.getMove().avoidAttack(attacker);
 	}
 	
 	@Override
 	protected void thinkAttack()
 	{
-		if (getActor().denyAiAction())
+		if (_actor.denyAiAction())
 		{
 			doActiveIntention();
 			return;
@@ -108,7 +108,7 @@ public class SummonAI extends PlayableAI
 		}
 		
 		final boolean isShiftPressed = _currentIntention.isShiftPressed();
-		if (getActor().getMove().maybeStartOffensiveFollow(target, getActor().getStatus().getPhysicalAttackRange()))
+		if (_actor.getMove().maybeStartOffensiveFollow(target, _actor.getStatus().getPhysicalAttackRange()))
 		{
 			if (isShiftPressed)
 				doActiveIntention();
@@ -116,32 +116,32 @@ public class SummonAI extends PlayableAI
 			return;
 		}
 		
-		getActor().getMove().stop();
+		_actor.getMove().stop();
 		
-		if (!getActor().getAttack().canDoAttack(target))
+		if (!_actor.getAttack().canDoAttack(target))
 		{
 			doActiveIntention();
 			return;
 		}
 		
-		getActor().getAttack().doAttack(target);
+		_actor.getAttack().doAttack(target);
 	}
 	
 	@Override
 	protected void thinkFollow()
 	{
-		if (getActor().denyAiAction() || getActor().isMovementDisabled())
+		if (_actor.denyAiAction() || _actor.isMovementDisabled())
 			return;
 		
 		final Creature target = _currentIntention.getFinalTarget();
-		if (getActor() == target)
+		if (_actor == target)
 			return;
 		
 		final boolean isShiftPressed = _currentIntention.isShiftPressed();
 		if (isShiftPressed)
 			return;
 		
-		getActor().getMove().maybeStartFriendlyFollow(target, 70);
+		_actor.getMove().maybeStartFriendlyFollow(target, 70);
 	}
 	
 	@Override
@@ -155,7 +155,7 @@ public class SummonAI extends PlayableAI
 		}
 		
 		final boolean isShiftPressed = _currentIntention.isShiftPressed();
-		if (getActor().getMove().maybeMoveToLocation(target.getPosition(), getActor().getStatus().getPhysicalAttackRange(), true, isShiftPressed))
+		if (_actor.getMove().maybeMoveToLocation(target.getPosition(), _actor.getStatus().getPhysicalAttackRange(), true, isShiftPressed))
 		{
 			if (isShiftPressed)
 				doActiveIntention();
@@ -189,13 +189,13 @@ public class SummonAI extends PlayableAI
 			if (!item.isVisible())
 				return null;
 			
-			if (!getActor().getInventory().validateCapacity(item))
+			if (!_actor.getInventory().validateCapacity(item))
 			{
 				getOwner().sendPacket(SystemMessageId.YOUR_PET_CANNOT_CARRY_ANY_MORE_ITEMS);
 				return null;
 			}
 			
-			if (item.getOwnerId() != 0 && !getActor().getOwner().isLooterOrInLooterParty(item.getOwnerId()))
+			if (item.getOwnerId() != 0 && !_actor.getOwner().isLooterOrInLooterParty(item.getOwnerId()))
 			{
 				if (item.getItemId() == 57)
 					getOwner().sendPacket(SystemMessage.getSystemMessage(SystemMessageId.FAILED_TO_PICKUP_S1_ADENA).addNumber(item.getCount()));
@@ -210,9 +210,9 @@ public class SummonAI extends PlayableAI
 			if (item.hasDropProtection())
 				item.removeDropProtection();
 			
-			final Party party = getActor().getOwner().getParty();
+			final Party party = _actor.getOwner().getParty();
 			if (party != null && party.getLootRule() != LootRule.ITEM_LOOTER)
-				party.distributeItem(getActor().getOwner(), item);
+				party.distributeItem(_actor.getOwner(), item);
 			else
 				item.pickupMe(_actor);
 			
@@ -223,10 +223,10 @@ public class SummonAI extends PlayableAI
 		{
 			final IItemHandler handler = ItemHandler.getInstance().getHandler(item.getEtcItem());
 			if (handler != null)
-				handler.useItem(getActor(), item, false);
+				handler.useItem(_actor, item, false);
 			
-			item.destroyMe("Consume", getActor().getOwner(), null);
-			getActor().getStatus().broadcastStatusUpdate();
+			item.destroyMe("Consume", _actor.getOwner(), null);
+			_actor.getStatus().broadcastStatusUpdate();
 		}
 		else
 		{
@@ -235,9 +235,9 @@ public class SummonAI extends PlayableAI
 			if (item.getItemType() instanceof ArmorType || item.getItemType() instanceof WeaponType)
 			{
 				if (item.getEnchantLevel() > 0)
-					sm = SystemMessage.getSystemMessage(SystemMessageId.ATTENTION_S1_PET_PICKED_UP_S2_S3).addCharName(getActor().getOwner()).addNumber(item.getEnchantLevel()).addItemName(item.getItemId());
+					sm = SystemMessage.getSystemMessage(SystemMessageId.ATTENTION_S1_PET_PICKED_UP_S2_S3).addCharName(_actor.getOwner()).addNumber(item.getEnchantLevel()).addItemName(item.getItemId());
 				else
-					sm = SystemMessage.getSystemMessage(SystemMessageId.ATTENTION_S1_PET_PICKED_UP_S2).addCharName(getActor().getOwner()).addItemName(item.getItemId());
+					sm = SystemMessage.getSystemMessage(SystemMessageId.ATTENTION_S1_PET_PICKED_UP_S2).addCharName(_actor.getOwner()).addItemName(item.getItemId());
 				
 				getOwner().broadcastPacketInRadius(sm, 1400);
 			}
@@ -252,22 +252,16 @@ public class SummonAI extends PlayableAI
 				sm = SystemMessage.getSystemMessage(SystemMessageId.PET_PICKED_S1).addItemName(item.getItemId());
 			
 			getOwner().sendPacket(sm);
-			getActor().getInventory().addItem("Pickup", item, getOwner(), getActor());
-			getOwner().sendPacket(new PetItemList(getActor()));
+			_actor.getInventory().addItem("Pickup", item, getOwner(), _actor);
+			getOwner().sendPacket(new PetItemList(_actor));
 		}
 		
 		return item;
 	}
 	
-	@Override
-	public Summon getActor()
-	{
-		return (Summon) _actor;
-	}
-	
 	private Player getOwner()
 	{
-		return getActor().getOwner();
+		return _actor.getOwner();
 	}
 	
 	@Override
@@ -275,7 +269,7 @@ public class SummonAI extends PlayableAI
 	{
 		if (!AttackStanceTaskManager.getInstance().isInAttackStance(getOwner()))
 		{
-			getActor().broadcastPacket(new AutoAttackStart(getActor().getObjectId()));
+			_actor.broadcastPacket(new AutoAttackStart(_actor.getObjectId()));
 			getOwner().broadcastPacket(new AutoAttackStart(getOwner().getObjectId()));
 		}
 		
@@ -285,7 +279,7 @@ public class SummonAI extends PlayableAI
 	@Override
 	public void stopAttackStance()
 	{
-		getActor().broadcastPacket(new AutoAttackStop(getActor().getObjectId()));
+		_actor.broadcastPacket(new AutoAttackStop(_actor.getObjectId()));
 	}
 	
 	public void switchFollowStatus()

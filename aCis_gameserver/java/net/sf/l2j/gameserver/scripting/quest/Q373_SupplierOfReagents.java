@@ -255,10 +255,10 @@ public class Q373_SupplierOfReagents extends Quest
 		
 		setItemsIds(MIXING_STONE, MIXING_MANUAL);
 		
-		addStartNpc(WESLEY);
+		addQuestStart(WESLEY);
 		addTalkId(WESLEY, URN);
 		
-		addKillId(CRENDION, HALLATE_MAID, HALLATE_GUARDIAN, PLATINUM_TRIBE_SHAMAN, PLATINUM_GUARDIAN_SHAMAN, LAVA_WYRM, HAMES_ORC_SHAMAN);
+		addMyDying(CRENDION, HALLATE_MAID, HALLATE_GUARDIAN, PLATINUM_TRIBE_SHAMAN, PLATINUM_GUARDIAN_SHAMAN, LAVA_WYRM, HAMES_ORC_SHAMAN);
 	}
 	
 	@Override
@@ -382,13 +382,13 @@ public class Q373_SupplierOfReagents extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int[] drop = DROPLIST.get(npc.getNpcId());
 		
@@ -400,7 +400,5 @@ public class Q373_SupplierOfReagents extends Quest
 			if (random < drop[3])
 				dropItemsAlways(st.getPlayer(), (random < drop[2]) ? drop[0] : drop[1], 1, 0);
 		}
-		
-		return null;
 	}
 }

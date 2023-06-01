@@ -1,7 +1,8 @@
 package net.sf.l2j.gameserver.scripting.script.ai.individual;
 
 import net.sf.l2j.gameserver.data.SkillTable;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
+import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -23,11 +24,11 @@ public class ImperialGravekeeper extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(IMPERIAL_GRAVEKEEPER, ScriptEventType.ON_ATTACK);
+		addEventIds(IMPERIAL_GRAVEKEEPER, EventHandler.ATTACKED, EventHandler.OUT_OF_TERRITORY);
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		// Get HP ratio.
 		final int ratio = (int) (npc.getStatus().getHpRatio() * 100);
@@ -90,6 +91,12 @@ public class ImperialGravekeeper extends AttackableAIScript
 		// Cast self-heal whenever possible.
 		npc.getAI().tryToCast(npc, SELF_HEAL);
 		
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
+	}
+	
+	@Override
+	public void onOutOfTerritory(Npc npc)
+	{
+		((Attackable) npc).getAggroList().cleanAllHate();
 	}
 }

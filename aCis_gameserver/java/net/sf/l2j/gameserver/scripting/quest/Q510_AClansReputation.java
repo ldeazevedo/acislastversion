@@ -27,10 +27,10 @@ public class Q510_AClansReputation extends Quest
 		
 		setItemsIds(TYRANNOSAURUS_CLAW);
 		
-		addStartNpc(VALDIS);
+		addQuestStart(VALDIS);
 		addTalkId(VALDIS);
 		
-		addKillId(22215, 22216, 22217);
+		addMyDying(22215, 22216, 22217);
 	}
 	
 	@Override
@@ -92,17 +92,15 @@ public class Q510_AClansReputation extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		// Retrieve the qs of the clan leader.
 		final QuestState st = getClanLeaderQuestState(player, npc);
 		if (st == null || !st.isStarted())
-			return null;
+			return;
 		
 		dropItemsAlways(st.getPlayer(), TYRANNOSAURUS_CLAW, 1, 0);
-		
-		return null;
 	}
 }

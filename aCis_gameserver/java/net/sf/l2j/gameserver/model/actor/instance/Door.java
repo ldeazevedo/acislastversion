@@ -1,5 +1,8 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 
@@ -15,7 +18,6 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
-import net.sf.l2j.gameserver.model.actor.ai.type.CreatureAI;
 import net.sf.l2j.gameserver.model.actor.ai.type.DoorAI;
 import net.sf.l2j.gameserver.model.actor.status.DoorStatus;
 import net.sf.l2j.gameserver.model.actor.template.DoorTemplate;
@@ -29,6 +31,7 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
 import net.sf.l2j.gameserver.network.serverpackets.DoorInfo;
 import net.sf.l2j.gameserver.network.serverpackets.DoorStatusUpdate;
+import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
 public class Door extends Creature implements IGeoObject
@@ -37,6 +40,8 @@ public class Door extends Creature implements IGeoObject
 	private final ClanHall _clanHall;
 	
 	private boolean _open;
+	
+	private List<Quest> _quests;
 	
 	public Door(int objectId, DoorTemplate template)
 	{
@@ -60,19 +65,15 @@ public class Door extends Creature implements IGeoObject
 	}
 	
 	@Override
-	public CreatureAI getAI()
+	public DoorAI getAI()
 	{
-		CreatureAI ai = _ai;
-		if (ai == null)
-		{
-			synchronized (this)
-			{
-				ai = _ai;
-				if (ai == null)
-					_ai = ai = new DoorAI(this);
-			}
-		}
-		return ai;
+		return (DoorAI) _ai;
+	}
+	
+	@Override
+	public void setAI()
+	{
+		_ai = new DoorAI(this);
 	}
 	
 	@Override
@@ -278,6 +279,12 @@ public class Door extends Creature implements IGeoObject
 		return false;
 	}
 	
+	@Override
+	public boolean isLethalable()
+	{
+		return false;
+	}
+	
 	/**
 	 * @return The {@link Door} id.
 	 */
@@ -356,6 +363,13 @@ public class Door extends Creature implements IGeoObject
 		
 		getStatus().broadcastStatusUpdate();
 		
+		// notify scripts
+		if (_quests != null)
+		{
+			for (Quest quest : _quests)
+				quest.onDoorChange(this);
+		}
+		
 		// door controls another door
 		int triggerId = getTemplate().getTriggerId();
 		if (triggerId > 0)
@@ -388,5 +402,20 @@ public class Door extends Creature implements IGeoObject
 	public final ClanHall getClanHall()
 	{
 		return _clanHall;
+	}
+	
+	/**
+	 * Registers {@link Quest}.<br>
+	 * Generate {@link List} if not existing (lazy initialization).<br>
+	 * If already existing, we remove and add it back.
+	 * @param quest : The {@link Quest}.
+	 */
+	public void addQuestEvent(Quest quest)
+	{
+		if (_quests == null)
+			_quests = new ArrayList<>();
+		
+		_quests.remove(quest);
+		_quests.add(quest);
 	}
 }

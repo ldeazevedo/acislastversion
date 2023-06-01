@@ -28,11 +28,11 @@ public class Q618_IntoTheFlame extends Quest
 		
 		setItemsIds(VACUALITE_ORE, VACUALITE);
 		
-		addStartNpc(KLEIN);
+		addQuestStart(KLEIN);
 		addTalkId(KLEIN, HILDA);
 		
 		// Kookaburras, Bandersnatches, Grendels
-		addKillId(21274, 21275, 21276, 21277, 21282, 21283, 21284, 21285, 21290, 21291, 21292, 21293);
+		addMyDying(21274, 21275, 21276, 21277, 21282, 21283, 21284, 21285, 21290, 21291, 21292, 21293);
 	}
 	
 	@Override
@@ -112,17 +112,15 @@ public class Q618_IntoTheFlame extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 2);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(st.getPlayer(), VACUALITE_ORE, 1, 50, 500000))
 			st.setCond(3);
-		
-		return null;
 	}
 }

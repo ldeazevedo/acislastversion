@@ -23,10 +23,10 @@ public class Q052_WilliesSpecialBait extends Quest
 		
 		setItemsIds(TARLK_EYE);
 		
-		addStartNpc(31574); // Willie
+		addQuestStart(31574); // Willie
 		addTalkId(31574);
 		
-		addKillId(20573); // Tarlk Basilik
+		addMyDying(20573); // Tarlk Basilik
 	}
 	
 	@Override
@@ -82,17 +82,15 @@ public class Q052_WilliesSpecialBait extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, TARLK_EYE, 1, 100, 500000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

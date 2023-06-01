@@ -24,11 +24,11 @@ public final class FrozenLabyrinth extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addAttackId(PRONGHORN, FROST_BUFFALO);
+		addAttacked(PRONGHORN, FROST_BUFFALO);
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		// Offensive physical skill casted on npc.
 		if (skill != null && !skill.isMagic())
@@ -57,6 +57,6 @@ public final class FrozenLabyrinth extends AttackableAIScript
 			
 			npc.deleteMe();
 		}
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 }

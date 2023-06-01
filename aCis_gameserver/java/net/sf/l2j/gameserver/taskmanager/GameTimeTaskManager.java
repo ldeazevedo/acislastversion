@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.sf.l2j.commons.pool.ThreadPool;
 
 import net.sf.l2j.gameserver.data.SkillTable;
-import net.sf.l2j.gameserver.data.manager.DayNightManager;
+import net.sf.l2j.gameserver.data.manager.SpawnManager;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.SystemMessageId;
@@ -76,7 +76,7 @@ public final class GameTimeTaskManager implements Runnable
 			_isNight = !_isNight;
 			
 			// Inform day/night spawn manager.
-			DayNightManager.getInstance().notifyChangeMode();
+			SpawnManager.getInstance().notifyDayNightChange(_isNight);
 			
 			// Set Shadow Sense skill to apply/remove effect from players.
 			skill = SkillTable.getInstance().getInfo(L2Skill.SKILL_SHADOW_SENSE, 1);

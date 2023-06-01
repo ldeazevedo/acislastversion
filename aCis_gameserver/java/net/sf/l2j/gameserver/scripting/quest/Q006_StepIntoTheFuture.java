@@ -29,7 +29,7 @@ public class Q006_StepIntoTheFuture extends Quest
 		
 		setItemsIds(BAULRO_LETTER);
 		
-		addStartNpc(ROXXY);
+		addQuestStart(ROXXY);
 		addTalkId(ROXXY, BAULRO, SIR_COLLIN);
 	}
 	

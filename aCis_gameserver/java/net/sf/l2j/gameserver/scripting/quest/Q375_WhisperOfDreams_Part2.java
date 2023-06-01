@@ -39,10 +39,10 @@ public class Q375_WhisperOfDreams_Part2 extends Quest
 		
 		setItemsIds(KARIK_HORN, CAVE_HOWLER_SKULL);
 		
-		addStartNpc(MANAKIA);
+		addQuestStart(MANAKIA);
 		addTalkId(MANAKIA);
 		
-		addKillId(KARIK, CAVE_HOWLER);
+		addMyDying(KARIK, CAVE_HOWLER);
 	}
 	
 	@Override
@@ -101,14 +101,14 @@ public class Q375_WhisperOfDreams_Part2 extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		// Drop horn or skull to anyone.
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -120,7 +120,5 @@ public class Q375_WhisperOfDreams_Part2 extends Quest
 				dropItems(st.getPlayer(), CAVE_HOWLER_SKULL, 1, 100, 900000);
 				break;
 		}
-		
-		return null;
 	}
 }

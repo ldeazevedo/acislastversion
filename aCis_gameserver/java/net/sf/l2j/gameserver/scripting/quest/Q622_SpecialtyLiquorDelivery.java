@@ -41,7 +41,7 @@ public class Q622_SpecialtyLiquorDelivery extends Quest
 		
 		setItemsIds(SPECIAL_DRINK, FEE_OF_SPECIAL_DRINK);
 		
-		addStartNpc(JEREMY);
+		addQuestStart(JEREMY);
 		addTalkId(JEREMY, PULIN, NAFF, CROCUS, KUBER, BEOLIN, LIETTA);
 	}
 	

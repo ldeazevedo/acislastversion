@@ -29,7 +29,7 @@ public class Q010_IntoTheWorld extends Quest
 		
 		setItemsIds(VERY_EXPENSIVE_NECKLACE);
 		
-		addStartNpc(BALANKI);
+		addQuestStart(BALANKI);
 		addTalkId(BALANKI, REED, GERALD);
 	}
 	

@@ -42,10 +42,10 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 		
 		setItemsIds(BRUIN_LIZARDMAN_BLOOD, PICOT_ARANEID_LEG);
 		
-		addStartNpc(NEWYEAR);
+		addQuestStart(NEWYEAR);
 		addTalkId(NEWYEAR);
 		
-		addKillId(BRUIN_LIZARDMAN, PICOT_ARENEID);
+		addMyDying(BRUIN_LIZARDMAN, PICOT_ARENEID);
 	}
 	
 	@Override
@@ -262,18 +262,18 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		if (player.getSponsor() == 0)
 		{
 			st.exitQuest(true);
-			return null;
+			return;
 		}
 		
 		switch (npc.getNpcId())
@@ -288,7 +288,5 @@ public class Q123_TheLeaderAndTheFollower extends Quest
 					st.setCond(8);
 				break;
 		}
-		
-		return null;
 	}
 }

@@ -69,12 +69,12 @@ public class Q421_LittleWingsBigAdventure extends Quest
 		
 		setItemsIds(FAIRY_LEAF);
 		
-		addStartNpc(CRONOS);
+		addQuestStart(CRONOS);
 		addTalkId(CRONOS, MIMYU);
 		
-		addSpawnId(SOUL_OF_TREE_GUARDIAN);
-		addAttackId(FAIRY_TREE_OF_WIND, FAIRY_TREE_OF_STAR, FAIRY_TREE_OF_TWILIGHT, FAIRY_TREE_OF_ABYSS);
-		addKillId(FAIRY_TREE_OF_WIND, FAIRY_TREE_OF_STAR, FAIRY_TREE_OF_TWILIGHT, FAIRY_TREE_OF_ABYSS);
+		addAttacked(FAIRY_TREE_OF_WIND, FAIRY_TREE_OF_STAR, FAIRY_TREE_OF_TWILIGHT, FAIRY_TREE_OF_ABYSS);
+		addCreated(FAIRY_TREE_OF_WIND, FAIRY_TREE_OF_STAR, FAIRY_TREE_OF_TWILIGHT, FAIRY_TREE_OF_ABYSS, SOUL_OF_TREE_GUARDIAN);
+		addMyDying(FAIRY_TREE_OF_WIND, FAIRY_TREE_OF_STAR, FAIRY_TREE_OF_TWILIGHT, FAIRY_TREE_OF_ABYSS);
 	}
 	
 	@Override
@@ -237,21 +237,11 @@ public class Q421_LittleWingsBigAdventure extends Quest
 	}
 	
 	@Override
-	public String onSpawn(Npc npc)
-	{
-		// Regular tree minions are speaking upon spawn.
-		if (npc.getScriptValue() == 0)
-			npc.broadcastNpcSay(Rnd.get(GUARDIAN_MESSAGES));
-		
-		return null;
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		final Player player = attacker.getActingPlayer();
 		if (player == null)
-			return null;
+			return;
 		
 		final QuestState st = checkPlayerCondition(player, npc, 2);
 		if (st == null)
@@ -318,27 +308,39 @@ public class Q421_LittleWingsBigAdventure extends Quest
 			if (Rnd.get(100) < 30)
 				npc.getAI().tryToCast(attacker, 4243, 1);
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onCreated(Npc npc)
+	{
+		// Regular tree minions are speaking upon spawn.
+		if (npc.getNpcId() == SOUL_OF_TREE_GUARDIAN)
+			npc.broadcastNpcSay(Rnd.get(GUARDIAN_MESSAGES));
+		// Disable core AI for trees.
+		else
+		{
+			npc.disableCoreAi(true);
+			npc.setShowSummonAnimation(true);
+		}
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		// Spawn 20 ghosts, attacking the killer.
 		for (int i = 0; i < 20; i++)
 		{
 			// Spawn minion and mark as additional wave.
-			final Npc ghost = addSpawn(SOUL_OF_TREE_GUARDIAN, npc, true, 300000, false);
-			ghost.setScriptValue(1);
-			
-			// First ghost casts a curse on a killer.
-			if (i == 0)
-				ghost.getAI().tryToCast(killer, 4243, 1);
-			ghost.forceAttack(killer, 2000);
+			final Npc ghost = createOnePrivate(npc, SOUL_OF_TREE_GUARDIAN, 300000, true);
+			if (ghost != null)
+			{
+				// First ghost casts a curse on a killer.
+				if (i == 0)
+					ghost.getAI().tryToCast(killer, 4243, 1);
+				
+				ghost.forceAttack(killer, 2000);
+			}
 		}
-		
-		return null;
 	}
 	
 	private static int getDragonfluteCount(Player player)

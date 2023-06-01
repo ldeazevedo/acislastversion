@@ -42,10 +42,10 @@ public class Q414_PathToAnOrcRaider extends Quest
 		
 		setItemsIds(GREEN_BLOOD, GOBLIN_DWELLING_MAP, KURUKA_RATMAN_TOOTH, BETRAYER_REPORT_1, BETRAYER_REPORT_2, HEAD_OF_BETRAYER, TIMORA_ORC_HEAD);
 		
-		addStartNpc(KARUKIA);
+		addQuestStart(KARUKIA);
 		addTalkId(KARUKIA, KASMAN, TAZEER);
 		
-		addKillId(GOBLIN_TOMB_RAIDER_LEADER, KURUKA_RATMAN_LEADER, UMBAR_ORC, TIMORA_ORC);
+		addMyDying(GOBLIN_TOMB_RAIDER_LEADER, KURUKA_RATMAN_LEADER, UMBAR_ORC, TIMORA_ORC);
 	}
 	
 	@Override
@@ -167,13 +167,13 @@ public class Q414_PathToAnOrcRaider extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int cond = st.getCond();
 		
@@ -210,7 +210,5 @@ public class Q414_PathToAnOrcRaider extends Quest
 					st.setCond(7);
 				break;
 		}
-		
-		return null;
 	}
 }

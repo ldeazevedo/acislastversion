@@ -34,10 +34,10 @@ public class Q367_ElectrifyingRecharge extends Quest
 		
 		setItemsIds(INITIAL_TITAN_LAMP, TITAN_LAMP_1, TITAN_LAMP_2, TITAN_LAMP_3, FINAL_TITAN_LAMP, BROKEN_TITAN_LAMP);
 		
-		addStartNpc(LORAIN);
+		addQuestStart(LORAIN);
 		addTalkId(LORAIN);
 		
-		addAttackId(CATHEROK);
+		addAttacked(CATHEROK);
 	}
 	
 	@Override
@@ -135,13 +135,13 @@ public class Q367_ElectrifyingRecharge extends Quest
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		Player player = attacker.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMember(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		// For every occurred attack, the NPC tries to cast skillId 4072. The only restrictions are inherent skill restriction (mp cost, skill reuse, etc).
 		npc.getAI().tryToCast(player, 4072, 1);
@@ -188,6 +188,5 @@ public class Q367_ElectrifyingRecharge extends Quest
 				playSound(player, SOUND_ITEMGET);
 			}
 		}
-		return null;
 	}
 }

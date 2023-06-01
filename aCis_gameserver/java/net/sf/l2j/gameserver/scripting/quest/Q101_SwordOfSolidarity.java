@@ -39,10 +39,10 @@ public class Q101_SwordOfSolidarity extends Quest
 		
 		setItemsIds(BROKEN_SWORD_HANDLE, BROKEN_BLADE_BOTTOM, BROKEN_BLADE_TOP, ROIEN_LETTER, DIRECTIONS_TO_RUINS, ALTRAN_NOTE);
 		
-		addStartNpc(ROIEN);
+		addQuestStart(ROIEN);
 		addTalkId(ROIEN, ALTRAN);
 		
-		addKillId(20361, 20362);
+		addMyDying(20361, 20362);
 	}
 	
 	@Override
@@ -162,19 +162,17 @@ public class Q101_SwordOfSolidarity extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 2);
 		if (st == null)
-			return null;
+			return;
 		
 		if (!player.getInventory().hasItems(BROKEN_BLADE_TOP))
 			dropItems(player, BROKEN_BLADE_TOP, 1, 1, 200000);
 		else if (dropItems(player, BROKEN_BLADE_BOTTOM, 1, 1, 200000))
 			st.setCond(3);
-		
-		return null;
 	}
 }

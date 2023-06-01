@@ -23,7 +23,7 @@ public class Q113_StatusOfTheBeaconTower extends Quest
 		
 		setItemsIds(BOX);
 		
-		addStartNpc(MOIRA);
+		addQuestStart(MOIRA);
 		addTalkId(MOIRA, TORRANT);
 	}
 	

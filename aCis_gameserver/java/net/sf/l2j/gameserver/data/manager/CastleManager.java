@@ -22,6 +22,7 @@ import net.sf.l2j.gameserver.model.item.MercenaryTicket;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.model.location.TowerSpawnLocation;
 import net.sf.l2j.gameserver.model.pledge.Clan;
+import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.model.zone.type.SiegeZone;
 
 import org.w3c.dom.Document;
@@ -86,10 +87,12 @@ public final class CastleManager implements IXmlReader
 		// Feed Castle objects with static data.
 		load();
 		
-		// Load traps informations. Generate siege entities for every castle (if not handled, it's only processed during player login).
 		for (Castle castle : _castles.values())
 		{
+			// Load traps informations.
 			castle.loadTrapUpgrade();
+			
+			// Generate siege entities for every castle.
 			castle.setSiege(new Siege(castle));
 		}
 	}
@@ -111,7 +114,13 @@ public final class CastleManager implements IXmlReader
 			if (castle != null)
 			{
 				castle.setCircletId(parseInteger(attrs, "circletId"));
-				forEach(castleNode, "artifact", artifactNode -> castle.setArtifacts(parseString(artifactNode.getAttributes(), "val")));
+				forEach(castleNode, "artifacts", artifactsNode -> forEach(artifactsNode, "artifact", artifactNode ->
+				{
+					final int npcId = parseInteger(artifactNode.getAttributes(), "id");
+					final SpawnLocation pos = parseSpawnLocation(artifactNode.getAttributes());
+					
+					castle.getArtifacts().put(npcId, pos);
+				}));
 				forEach(castleNode, "controlTowers", controlTowersNode -> forEach(controlTowersNode, "tower", towerNode ->
 				{
 					final String[] location = parseString(towerNode.getAttributes(), "loc").split(",");
@@ -225,6 +234,26 @@ public final class CastleManager implements IXmlReader
 		catch (Exception e)
 		{
 			LOGGER.error("Failed to reset certificates.", e);
+		}
+	}
+	
+	public void loadArtifacts()
+	{
+		for (Castle castle : _castles.values())
+		{
+			for (Map.Entry<Integer, SpawnLocation> entry : castle.getArtifacts().entrySet())
+			{
+				try
+				{
+					final Spawn spawn = new Spawn(entry.getKey());
+					spawn.setLoc(entry.getValue());
+					spawn.doSpawn(false);
+				}
+				catch (Exception e)
+				{
+					LOGGER.error("Couldn't spawn artifact for {} castle.", castle.getName());
+				}
+			}
 		}
 	}
 	

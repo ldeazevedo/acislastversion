@@ -29,10 +29,10 @@ public class Q258_BringWolfPelts extends Quest
 		
 		setItemsIds(WOLF_PELT);
 		
-		addStartNpc(30001); // Lector
+		addQuestStart(30001); // Lector
 		addTalkId(30001);
 		
-		addKillId(20120, 20442); // Wolf, Elder Wolf
+		addMyDying(20120, 20442); // Wolf, Elder Wolf
 	}
 	
 	@Override
@@ -103,17 +103,15 @@ public class Q258_BringWolfPelts extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItemsAlways(player, WOLF_PELT, 1, 40))
 			st.setCond(2);
-		
-		return null;
 	}
 }

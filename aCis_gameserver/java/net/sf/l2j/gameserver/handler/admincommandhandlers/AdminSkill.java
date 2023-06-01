@@ -238,32 +238,40 @@ public class AdminSkill implements IAdminCommandHandler
 	
 	private static void showMainPage(Player player, Player targetPlayer, int page)
 	{
+		// Load static htm.
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/admin/char_skills.htm");
 		html.replace("%name%", targetPlayer.getName());
 		
-		final Pagination<L2Skill> list = new Pagination<>(targetPlayer.getSkills().values().stream(), page, PAGE_LIMIT_15);
-		final StringBuilder sb = new StringBuilder(3000);
+		int row = 0;
 		
-		sb.append("<table width=270><tr><td width=220>Name</td><td width=20>Lvl</td><td width=30>Id</td></tr>");
+		// Generate data.
+		final Pagination<L2Skill> list = new Pagination<>(targetPlayer.getSkills().values().stream(), page, PAGE_LIMIT_12);
 		
 		for (L2Skill skill : list)
-			StringUtil.append(sb, "<tr><td><a action=\"bypass -h admin_skill remove ", skill.getId(), "\">", skill.getName(), "</a></td><td>", skill.getLevel(), "</td><td>", skill.getId(), "</td></tr>");
+		{
+			list.append(((row % 2) == 0 ? "<table width=280 bgcolor=000000><tr>" : "<table width=280><tr>"));
+			list.append("<td width=35>", skill.getId(), "</td><td width=220><a action=\"bypass -h admin_skill remove ", skill.getId(), "\">", skill.getName(), "</a></td><td width=25>", skill.getLevel(), "</td>");
+			list.append("</tr></table><img src=\"L2UI.SquareGray\" width=280 height=1>");
+			
+			row++;
+		}
 		
-		sb.append("</table><br>");
+		list.generateSpace(20);
+		list.generatePages("bypass admin_skill %page%");
 		
-		list.generateSpace(sb);
-		list.generatePages(sb, "bypass admin_skill %page%");
-		
-		html.replace("%content%", sb.toString());
+		html.replace("%content%", list.getContent());
 		player.sendPacket(html);
 	}
 	
 	private static void showSkillList(Player player, Player targetPlayer, int page)
 	{
+		// Load static htm.
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/admin/char_skills_list.htm");
 		html.replace("%name%", targetPlayer.getName());
+		
+		int row = 0;
 		
 		final Map<Object, Optional<L2Skill>> data = SkillTable.getInstance().getSkills().stream().filter(s -> s.getLevel() < 99).collect(Collectors.groupingBy(L2Skill::getId, Collectors.maxBy(COMPARE_SKILLS_BY_LVL)));
 		final List<L2Skill> skills = new ArrayList<>(data.size());
@@ -273,20 +281,21 @@ public class AdminSkill implements IAdminCommandHandler
 				skills.add(skill.get());
 		}
 		
-		final Pagination<L2Skill> list = new Pagination<>(skills.stream(), page, PAGE_LIMIT_15, COMPARE_SKILLS_BY_ID);
-		final StringBuilder sb = new StringBuilder(3000);
-		
-		sb.append("<table width=270><tr><td width=220>Name</td><td width=20>Lvl</td><td width=30>Id</td></tr>");
-		
+		// Generate data.
+		final Pagination<L2Skill> list = new Pagination<>(skills.stream(), page, PAGE_LIMIT_12, COMPARE_SKILLS_BY_ID);
 		for (L2Skill skill : list)
-			StringUtil.append(sb, "<tr><td>", skill.getName(), "</td><td>", skill.getLevel(), "</td><td>", skill.getId(), "</td></tr>");
+		{
+			list.append(((row % 2) == 0 ? "<table width=280 bgcolor=000000><tr>" : "<table width=280><tr>"));
+			list.append("<td width=35>", skill.getId(), "</td><td width=220>", skill.getName(), "</td><td width=25>", skill.getLevel(), "</td>");
+			list.append("</tr></table><img src=\"L2UI.SquareGray\" width=280 height=1>");
+			
+			row++;
+		}
 		
-		sb.append("</table><br>");
+		list.generateSpace(20);
+		list.generatePages("bypass admin_skill list %page%");
 		
-		list.generateSpace(sb);
-		list.generatePages(sb, "bypass admin_skill list %page%");
-		
-		html.replace("%content%", sb.toString());
+		html.replace("%content%", list.getContent());
 		player.sendPacket(html);
 	}
 	
@@ -297,24 +306,22 @@ public class AdminSkill implements IAdminCommandHandler
 		html.replace("%name%", targetClan.getName());
 		
 		final Pagination<L2Skill> list = new Pagination<>(Arrays.stream(SkillTable.getClanSkills()), page, PAGE_LIMIT_15, COMPARE_SKILLS_BY_ID);
-		final StringBuilder sb = new StringBuilder(3000);
-		
-		sb.append("<table width=270><tr><td width=220>Name</td><td width=20>Lvl</td><td width=30>Id</td></tr>");
+		list.append("<table width=270><tr><td width=220>Name</td><td width=20>Lvl</td><td width=30>Id</td></tr>");
 		
 		for (L2Skill skill : list)
 		{
 			final L2Skill currentSkill = targetClan.getClanSkills().get(skill.getId());
 			if (currentSkill == null)
-				StringUtil.append(sb, "<tr><td>", skill.getName(), "</td><td>", skill.getLevel(), "</td><td>", skill.getId(), "</td></tr>");
+				list.append("<tr><td>", skill.getName(), "</td><td>", skill.getLevel(), "</td><td>", skill.getId(), "</td></tr>");
 			else
-				StringUtil.append(sb, "<tr><td><a action=\"bypass -h admin_clan_skill remove ", skill.getId(), "\">", skill.getName(), "</a>", "</td><td>", currentSkill.getLevel(), "</td><td>", skill.getId(), "</td></tr>");
+				list.append("<tr><td><a action=\"bypass -h admin_clan_skill remove ", skill.getId(), "\">", skill.getName(), "</a>", "</td><td>", currentSkill.getLevel(), "</td><td>", skill.getId(), "</td></tr>");
 		}
-		sb.append("</table><br>");
+		list.append("</table><br>");
 		
-		list.generateSpace(sb);
-		list.generatePages(sb, "bypass admin_clan_skill %page%");
+		list.generateSpace();
+		list.generatePages("bypass admin_clan_skill %page%");
 		
-		html.replace("%content%", sb.toString());
+		html.replace("%content%", list.getContent());
 		player.sendPacket(html);
 	}
 	

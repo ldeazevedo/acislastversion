@@ -27,11 +27,11 @@ public class EffectZone extends ZoneType
 	private int _chance = 100;
 	private int _initialDelay = 0;
 	private int _reuseDelay = 30000;
+	private Class<?> _target = Player.class;
 	
 	private boolean _isEnabled = true;
 	
 	private volatile Future<?> _task;
-	private String _target = "Playable";
 	
 	public EffectZone(int id)
 	{
@@ -71,7 +71,16 @@ public class EffectZone extends ZoneType
 			}
 		}
 		else if (name.equals("targetType"))
-			_target = value;
+		{
+			try
+			{
+				_target = Class.forName("net.sf.l2j.gameserver.model.actor." + value);
+			}
+			catch (ClassNotFoundException e)
+			{
+				LOGGER.error("Invalid target type {} for {}.", value, toString());
+			}
+		}
 		else
 			super.setParameter(name, value);
 	}
@@ -79,16 +88,7 @@ public class EffectZone extends ZoneType
 	@Override
 	protected boolean isAffected(Creature character)
 	{
-		try
-		{
-			if (!(Class.forName("net.sf.l2j.gameserver.model.actor." + _target).isInstance(character)))
-				return false;
-		}
-		catch (ClassNotFoundException e)
-		{
-			LOGGER.error("Error for {} on invalid target type {}.", e, toString(), _target);
-		}
-		return true;
+		return _target.isInstance(character);
 	}
 	
 	@Override
@@ -101,32 +101,7 @@ public class EffectZone extends ZoneType
 			{
 				task = _task;
 				if (task == null)
-					_task = task = ThreadPool.scheduleAtFixedRate(() ->
-					{
-						if (!_isEnabled)
-							return;
-						
-						if (_characters.isEmpty())
-						{
-							_task.cancel(true);
-							_task = null;
-							
-							return;
-						}
-						
-						for (Creature temp : _characters.values())
-						{
-							if (temp.isDead() || Rnd.get(100) >= _chance)
-								continue;
-							
-							for (IntIntHolder entry : _skills)
-							{
-								final L2Skill skill = entry.getSkill();
-								if (skill != null && skill.checkCondition(temp, temp, false) && temp.getFirstEffect(entry.getId()) == null)
-									skill.getEffects(temp, temp);
-							}
-						}
-					}, _initialDelay, _reuseDelay);
+					_task = ThreadPool.scheduleAtFixedRate(this::applyEffect, _initialDelay, _reuseDelay);
 			}
 		}
 		
@@ -156,5 +131,35 @@ public class EffectZone extends ZoneType
 	public void editStatus(boolean state)
 	{
 		_isEnabled = state;
+	}
+	
+	/**
+	 * Apply this {@link EffectZone} effect to all {@link Creature} of defined target type.
+	 */
+	private final void applyEffect()
+	{
+		if (!_isEnabled)
+			return;
+		
+		if (_characters.isEmpty())
+		{
+			_task.cancel(true);
+			_task = null;
+			
+			return;
+		}
+		
+		for (Creature temp : _characters.values())
+		{
+			if (temp.isDead() || Rnd.get(100) >= _chance)
+				continue;
+			
+			for (IntIntHolder entry : _skills)
+			{
+				final L2Skill skill = entry.getSkill();
+				if (skill != null && skill.checkCondition(temp, temp, false) && temp.getFirstEffect(entry.getId()) == null)
+					skill.getEffects(temp, temp);
+			}
+		}
 	}
 }

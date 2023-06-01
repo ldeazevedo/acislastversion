@@ -59,10 +59,10 @@ public class Q163_LegacyOfThePoet extends Quest
 		
 		setItemsIds(RUMIELS_POEMS);
 		
-		addStartNpc(STARDEN);
+		addQuestStart(STARDEN);
 		addTalkId(STARDEN);
 		
-		addKillId(20372, 20373);
+		addMyDying(20372, 20373);
 	}
 	
 	@Override
@@ -127,17 +127,15 @@ public class Q163_LegacyOfThePoet extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropMultipleItems(player, DROPLIST))
 			st.setCond(2);
-		
-		return null;
 	}
 }

@@ -28,10 +28,10 @@ public class Q276_TotemOfTheHestui extends Quest
 		
 		setItemsIds(KASHA_PARASITE, KASHA_CRYSTAL);
 		
-		addStartNpc(30571); // Tanapi
+		addQuestStart(30571); // Tanapi
 		addTalkId(30571);
 		
-		addKillId(20479, 27044);
+		addMyDying(20479, 27044);
 	}
 	
 	@Override
@@ -91,13 +91,13 @@ public class Q276_TotemOfTheHestui extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (!player.getInventory().hasItems(KASHA_CRYSTAL))
 		{
@@ -123,7 +123,5 @@ public class Q276_TotemOfTheHestui extends Quest
 					break;
 			}
 		}
-		
-		return null;
 	}
 }

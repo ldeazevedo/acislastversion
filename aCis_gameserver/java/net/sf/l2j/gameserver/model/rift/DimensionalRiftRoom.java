@@ -132,19 +132,16 @@ public class DimensionalRiftRoom
 	{
 		for (Spawn spawn : _spawns)
 		{
-			spawn.doSpawn(false);
 			spawn.setRespawnState(!isBossRoom());
+			spawn.doSpawn(false);
 		}
 	}
 	
 	public void unspawn()
 	{
 		for (Spawn spawn : _spawns)
-		{
-			spawn.setRespawnState(false);
-			if (spawn.getNpc() != null)
-				spawn.getNpc().deleteMe();
-		}
+			spawn.doDelete();
+		
 		_partyInside = false;
 	}
 }

@@ -5,7 +5,7 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.serverpackets.VehicleDeparture;
 
-public class BoatAI extends CreatureAI
+public class BoatAI extends CreatureAI<Boat>
 {
 	public BoatAI(Boat boat)
 	{
@@ -15,14 +15,8 @@ public class BoatAI extends CreatureAI
 	@Override
 	public void describeStateToPlayer(Player player)
 	{
-		if (getActor().isMoving())
-			player.sendPacket(new VehicleDeparture(getActor()));
-	}
-	
-	@Override
-	public Boat getActor()
-	{
-		return (Boat) _actor;
+		if (_actor.isMoving())
+			player.sendPacket(new VehicleDeparture(_actor));
 	}
 	
 	@Override
@@ -33,7 +27,7 @@ public class BoatAI extends CreatureAI
 	@Override
 	protected void onEvtArrived()
 	{
-		getActor().getMove().onArrival();
+		_actor.getMove().onArrival();
 	}
 	
 	@Override

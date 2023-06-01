@@ -72,5 +72,9 @@ public final class RequestOustPledgeMember extends L2GameClientPacket
 		
 		if (member.isOnline())
 			member.getPlayerInstance().sendPacket(SystemMessageId.CLAN_MEMBERSHIP_TERMINATED);
+		
+		// Refresh surrounding Clan War tags.
+		for (Player attacker : player.getKnownType(Player.class, m -> clan.getWarList().contains(m.getClanId())))
+			attacker.broadcastUserInfo();
 	}
 }

@@ -31,10 +31,10 @@ public class Q406_PathToAnElvenKnight extends Quest
 		
 		setItemsIds(SORIUS_LETTER, KLUTO_BOX, TOPAZ_PIECE, EMERALD_PIECE, KLUTO_MEMO);
 		
-		addStartNpc(SORIUS);
+		addQuestStart(SORIUS);
 		addTalkId(SORIUS, KLUTO);
 		
-		addKillId(20035, 20042, 20045, 20051, 20054, 20060, 20782);
+		addMyDying(20035, 20042, 20045, 20051, 20054, 20060, 20782);
 	}
 	
 	@Override
@@ -139,13 +139,13 @@ public class Q406_PathToAnElvenKnight extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -164,7 +164,5 @@ public class Q406_PathToAnElvenKnight extends Quest
 					st.setCond(5);
 				break;
 		}
-		
-		return null;
 	}
 }

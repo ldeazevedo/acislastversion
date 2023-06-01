@@ -22,10 +22,10 @@ public class Q613_ProveYourCourage extends Quest
 		
 		setItemsIds(HEAD_OF_HEKATON);
 		
-		addStartNpc(31377); // Ashas Varka Durai
+		addQuestStart(31377); // Ashas Varka Durai
 		addTalkId(31377);
 		
-		addKillId(25299); // Hekaton
+		addMyDying(25299); // Hekaton
 	}
 	
 	@Override
@@ -91,7 +91,7 @@ public class Q613_ProveYourCourage extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
@@ -105,7 +105,5 @@ public class Q613_ProveYourCourage extends Quest
 				giveItems(pm, HEAD_OF_HEKATON, 1);
 			}
 		}
-		
-		return null;
 	}
 }

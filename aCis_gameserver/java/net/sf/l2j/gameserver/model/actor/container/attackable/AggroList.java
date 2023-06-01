@@ -4,16 +4,11 @@ import java.util.Comparator;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.sf.l2j.Config;
-import net.sf.l2j.gameserver.enums.IntentionType;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.actor.Summon;
-import net.sf.l2j.gameserver.model.actor.ai.type.AttackableAI;
 import net.sf.l2j.gameserver.model.actor.container.npc.AggroInfo;
 import net.sf.l2j.gameserver.model.actor.instance.SiegeGuard;
-import net.sf.l2j.gameserver.scripting.Quest;
 
 public class AggroList extends ConcurrentHashMap<Creature, AggroInfo>
 {
@@ -47,20 +42,6 @@ public class AggroList extends ConcurrentHashMap<Creature, AggroInfo>
 		final AggroInfo ai = computeIfAbsent(attacker, AggroInfo::new);
 		ai.addDamage(damage);
 		ai.addHate(aggro);
-		
-		if (aggro == 0)
-		{
-			final Player targetPlayer = attacker.getActingPlayer();
-			if (targetPlayer != null)
-			{
-				for (Quest quest : _owner.getTemplate().getEventQuests(ScriptEventType.ON_AGGRO))
-					quest.notifyAggro(_owner, targetPlayer, (attacker instanceof Summon));
-			}
-			else
-				ai.addHate(1);
-		}
-		else if (aggro > 0 && _owner.getAI().getCurrentIntention().getType() == IntentionType.IDLE)
-			_owner.getAI().tryToActive();
 	}
 	
 	/**
@@ -89,10 +70,6 @@ public class AggroList extends ConcurrentHashMap<Creature, AggroInfo>
 	 */
 	public int getHate(Creature target)
 	{
-		// If empty or no target, return 0.
-		if (target == null || isEmpty())
-			return 0;
-		
 		final AggroInfo ai = get(target);
 		return (ai == null) ? 0 : ai.getHate();
 	}
@@ -116,7 +93,7 @@ public class AggroList extends ConcurrentHashMap<Creature, AggroInfo>
 		
 		// Retrieve the most hated target. If null, return the owner back to peace.
 		if (getMostHated() == null)
-			((AttackableAI) _owner.getAI()).setBackToPeace(-25);
+			_owner.getAI().setBackToPeace(-25);
 	}
 	
 	/**
@@ -137,7 +114,7 @@ public class AggroList extends ConcurrentHashMap<Creature, AggroInfo>
 		
 		// Retrieve the most hated target. If null, return the owner back to peace.
 		if (getMostHated() == null)
-			((AttackableAI) _owner.getAI()).setBackToPeace(-25);
+			_owner.getAI().setBackToPeace(-25);
 	}
 	
 	/**

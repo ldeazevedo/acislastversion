@@ -1,5 +1,7 @@
 package net.sf.l2j.gameserver.model;
 
+import java.util.Arrays;
+
 /**
  * Macros are used to automate some processes, to perform a series of actions or to use several skills at once.
  */
@@ -47,6 +49,6 @@ public class Macro
 	@Override
 	public String toString()
 	{
-		return "macro id=" + id + ", icon=" + icon + ", name=" + name + ", descr=" + descr + ", acronym=" + acronym;
+		return "Macro [id=" + id + ", icon=" + icon + ", name=" + name + ", descr=" + descr + ", acronym=" + acronym + ", commands=" + Arrays.toString(commands) + "]";
 	}
 }

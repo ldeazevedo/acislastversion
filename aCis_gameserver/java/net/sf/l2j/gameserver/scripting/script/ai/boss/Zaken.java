@@ -3,12 +3,10 @@ package net.sf.l2j.gameserver.scripting.script.ai.boss;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.random.Rnd;
 
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
-import net.sf.l2j.gameserver.data.manager.GrandBossManager;
+import net.sf.l2j.gameserver.data.manager.SpawnManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.xml.DoorData;
 import net.sf.l2j.gameserver.enums.IntentionType;
@@ -19,7 +17,6 @@ import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.container.npc.AggroInfo;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
-import net.sf.l2j.gameserver.model.actor.instance.GrandBoss;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.zone.type.BossZone;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
@@ -53,14 +50,17 @@ public class Zaken extends AttackableAIScript
 		new Location(53930, 217760, -2944)
 	};
 	
+	// Grand boss
 	private static final int ZAKEN = 29022;
+	
+	// Monsters
 	private static final int DOLL_BLADER = 29023;
 	private static final int VALE_MASTER = 29024;
 	private static final int PIRATE_CAPTAIN = 29026;
 	private static final int PIRATE_ZOMBIE = 29027;
 	
-	private static final byte ALIVE = 0;
-	private static final byte DEAD = 1;
+	private static final byte DEAD = 0;
+	private static final byte ALIVE = 1;
 	
 	private final Location _zakenLocation = new Location(0, 0, 0);
 	
@@ -75,40 +75,26 @@ public class Zaken extends AttackableAIScript
 	public Zaken()
 	{
 		super("ai/boss");
-		
-		final StatSet info = GrandBossManager.getInstance().getStatSet(ZAKEN);
-		
-		// Zaken is dead, calculate the respawn time. If passed, we spawn it directly, otherwise we set a task to spawn it lately.
-		if (GrandBossManager.getInstance().getBossStatus(ZAKEN) == DEAD)
-		{
-			final long temp = info.getLong("respawn_time") - System.currentTimeMillis();
-			if (temp > 0)
-				startQuestTimer("zaken_unlock", null, null, temp);
-			else
-				spawnBoss(true);
-		}
-		// Zaken is alive, spawn it using stored data.
-		else
-			spawnBoss(false);
 	}
 	
 	@Override
 	protected void registerNpcs()
 	{
-		addAggroRangeEnterId(ZAKEN, DOLL_BLADER, VALE_MASTER, PIRATE_CAPTAIN, PIRATE_ZOMBIE);
-		addAttackId(ZAKEN);
-		addFactionCallId(DOLL_BLADER, VALE_MASTER, PIRATE_CAPTAIN, PIRATE_ZOMBIE);
-		addKillId(ZAKEN, DOLL_BLADER, VALE_MASTER, PIRATE_CAPTAIN, PIRATE_ZOMBIE);
-		addSkillSeeId(ZAKEN);
-		addSpellFinishedId(ZAKEN);
+		addAttacked(ZAKEN);
+		addClanAttacked(DOLL_BLADER, VALE_MASTER, PIRATE_CAPTAIN, PIRATE_ZOMBIE);
+		addCreated(ZAKEN);
+		addSeeCreature(ZAKEN, DOLL_BLADER, VALE_MASTER, PIRATE_CAPTAIN, PIRATE_ZOMBIE);
+		addMyDying(ZAKEN, DOLL_BLADER, VALE_MASTER, PIRATE_CAPTAIN, PIRATE_ZOMBIE);
+		addSeeSpell(ZAKEN);
+		addUseSkillFinished(ZAKEN);
 		
-		addGameTimeNotify();
+		addGameTime();
 	}
 	
 	@Override
 	public String onTimer(String name, Npc npc, Player player)
 	{
-		if (GrandBossManager.getInstance().getBossStatus(ZAKEN) == DEAD && !name.equalsIgnoreCase("zaken_unlock"))
+		if (SpawnManager.getInstance().getSpawn(ZAKEN).getSpawnData().getStatus() == DEAD)
 			return super.onTimer(name, npc, player);
 		
 		if (name.equalsIgnoreCase("1001"))
@@ -352,11 +338,6 @@ public class Zaken extends AttackableAIScript
 				cancelQuestTimers("1003");
 			}
 		}
-		else if (name.equalsIgnoreCase("zaken_unlock"))
-		{
-			// Spawn the boss.
-			spawnBoss(true);
-		}
 		else if (name.equalsIgnoreCase("CreateOnePrivateEx"))
 			addSpawn(npc.getNpcId(), npc.getX(), npc.getY(), npc.getZ(), Rnd.get(65535), false, 0, true);
 		
@@ -364,35 +345,11 @@ public class Zaken extends AttackableAIScript
 	}
 	
 	@Override
-	public String onAggro(Npc npc, Player player, boolean isPet)
-	{
-		final Playable realBypasser = (isPet && player.getSummon() != null) ? player.getSummon() : player;
-		
-		if (ZONE.isInsideZone(npc))
-			((Attackable) npc).getAggroList().addDamageHate(realBypasser, 1, 200);
-		
-		if (npc.getNpcId() == ZAKEN)
-		{
-			// Feed victims list, but only if not already full.
-			if (Rnd.get(3) < 1 && VICTIMS.size() < 5)
-				VICTIMS.add(player);
-			
-			// Cast a skill.
-			if (Rnd.get(15) < 1)
-				callSkills(npc, realBypasser);
-		}
-		else if (realBypasser.testCursesOnAggro(npc))
-			return null;
-		
-		return super.onAggro(npc, player, isPet);
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		// Curses
 		if (attacker instanceof Playable && attacker.testCursesOnAttack(npc))
-			return null;
+			return;
 		
 		if (Rnd.get(10) < 1)
 			callSkills(npc, attacker);
@@ -402,11 +359,11 @@ public class Zaken extends AttackableAIScript
 			_teleportCheck -= 1;
 			npc.getAI().tryToCast(npc, FrequentSkill.ZAKEN_SELF_TELE.getSkill());
 		}
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 	
 	@Override
-	public String onFactionCall(Attackable caller, Attackable called, Creature target)
+	public void onClanAttacked(Attackable caller, Attackable called, Creature attacker, int damage)
 	{
 		if (caller.getNpcId() == ZAKEN && GameTimeTaskManager.getInstance().isNight())
 		{
@@ -422,63 +379,113 @@ public class Zaken extends AttackableAIScript
 				startQuestTimer("1002", caller, null, 300);
 			}
 		}
-		return super.onFactionCall(caller, called, target);
+		
+		super.onClanAttacked(caller, called, attacker, damage);
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onCreated(Npc npc)
+	{
+		// Reset variables.
+		_teleportCheck = 3;
+		_hate = 0;
+		_hasTeleported = false;
+		_mostHated = null;
+		
+		// Store current Zaken position.
+		_zakenLocation.set(npc.getPosition());
+		
+		// Clear victims list.
+		VICTIMS.clear();
+		
+		// If Zaken is on its lair, begin the minions spawn cycle.
+		if (ZONE.isInsideZone(npc))
+		{
+			_minionStatus = 1;
+			startQuestTimerAtFixedRate("1003", null, null, 1700);
+		}
+		
+		// Generic task is running from now.
+		startQuestTimerAtFixedRate("1001", npc, null, 1000, 30000);
+		
+		npc.broadcastPacket(new PlaySound(1, "BS01_A", npc));
+		
+		super.onCreated(npc);
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		if (npc.getNpcId() == ZAKEN)
 		{
 			// Broadcast death sound.
 			npc.broadcastPacket(new PlaySound(1, "BS02_D", npc));
 			
-			// Flag Zaken as dead.
-			GrandBossManager.getInstance().setBossStatus(ZAKEN, DEAD);
-			
-			// Calculate the next respawn time.
-			final long respawnTime = (long) (Config.SPAWN_INTERVAL_ZAKEN + Rnd.get(-Config.RANDOM_SPAWN_TIME_ZAKEN, Config.RANDOM_SPAWN_TIME_ZAKEN)) * 3600000;
-			
 			// Cancel tasks.
 			cancelQuestTimers("1001");
 			cancelQuestTimers("1003");
-			
-			// Start respawn timer.
-			startQuestTimer("zaken_unlock", null, null, respawnTime);
-			
-			// Save the respawn time so that the info is maintained past reboots
-			final StatSet info = GrandBossManager.getInstance().getStatSet(ZAKEN);
-			info.set("respawn_time", System.currentTimeMillis() + respawnTime);
-			GrandBossManager.getInstance().setStatSet(ZAKEN, info);
 		}
-		else if (GrandBossManager.getInstance().getBossStatus(ZAKEN) == ALIVE)
+		else if (SpawnManager.getInstance().getSpawn(ZAKEN).getSpawnData().getStatus() == ALIVE)
 			startQuestTimer("CreateOnePrivateEx", npc, null, ((30 + Rnd.get(60)) * 1000));
 		
-		return super.onKill(npc, killer);
+		super.onMyDying(npc, killer);
 	}
 	
 	@Override
-	public String onSkillSee(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
+	public void onSeeCreature(Npc npc, Creature creature)
+	{
+		if (creature instanceof Playable)
+		{
+			final Player player = creature.getActingPlayer();
+			
+			if (ZONE.isInsideZone(npc))
+				((Attackable) npc).getAggroList().addDamageHate(creature, 1, 200);
+			
+			if (npc.getNpcId() == ZAKEN)
+			{
+				// Feed victims list, but only if not already full.
+				if (Rnd.get(3) < 1 && VICTIMS.size() < 5)
+					VICTIMS.add(player);
+				
+				// Cast a skill.
+				if (Rnd.get(15) < 1)
+					callSkills(npc, creature);
+			}
+			else if (creature.testCursesOnAggro(npc))
+				return;
+		}
+		
+		super.onSeeCreature(npc, creature);
+	}
+	
+	@Override
+	public void onSeeSpell(Npc npc, Player caster, L2Skill skill, Creature[] targets, boolean isPet)
 	{
 		if (Rnd.get(12) < 1)
 			callSkills(npc, caster);
 		
-		return super.onSkillSee(npc, caster, skill, targets, isPet);
+		super.onSeeSpell(npc, caster, skill, targets, isPet);
 	}
 	
 	@Override
-	public String onSpellFinished(Npc npc, Player player, L2Skill skill)
+	public void onUseSkillFinished(Npc npc, Player player, L2Skill skill)
 	{
 		switch (skill.getId())
 		{
-			case 4222: // Instant Move; a self teleport skill Zaken uses to move from one point to another. Location is computed on the fly, depending conditions/checks.
+			case 4222: // Instant Move; teleport Zaken to a defined, random Location.
+				_zakenLocation.set(Rnd.get(LOCS));
+				_zakenLocation.addPositiveOffset(650);
+				
 				((Attackable) npc).getAggroList().cleanAllHate();
 				npc.teleportTo(_zakenLocation, 0);
 				break;
 			
-			case 4216: // Scatter Enemy ; a target teleport skill, which teleports the targeted Player to a defined, random Location.
+			case 4216: // Scatter Enemy ; teleport the targeted Player to a defined, random Location.
+				Location loc = Rnd.get(LOCS).clone();
+				loc.addPositiveOffset(650);
+				
 				((Attackable) npc).getAggroList().stopHate(player);
-				player.teleportTo(Rnd.get(LOCS), 0);
+				player.teleportTo(loc, 0);
 				break;
 			
 			case 4217: // Mass Teleport ; teleport victims and targeted Player, each on a defined, random Location.
@@ -486,15 +493,22 @@ public class Zaken extends AttackableAIScript
 				{
 					if (victim.isIn3DRadius(player, 250))
 					{
+						loc = Rnd.get(LOCS).clone();
+						loc.addPositiveOffset(650);
+						
 						((Attackable) npc).getAggroList().stopHate(victim);
-						victim.teleportTo(Rnd.get(LOCS), 0);
+						victim.teleportTo(loc, 0);
 					}
 				}
+				
+				loc = Rnd.get(LOCS).clone();
+				loc.addPositiveOffset(650);
+				
 				((Attackable) npc).getAggroList().stopHate(player);
-				player.teleportTo(Rnd.get(LOCS), 0);
+				player.teleportTo(loc, 0);
 				break;
 		}
-		return super.onSpellFinished(npc, player, skill);
+		super.onUseSkillFinished(npc, player, skill);
 	}
 	
 	@Override
@@ -532,55 +546,6 @@ public class Zaken extends AttackableAIScript
 		
 		if (target == ((Attackable) npc).getAggroList().getMostHatedCreature() && Rnd.nextBoolean())
 			npc.getAI().tryToCast(target, FrequentSkill.ZAKEN_DUAL_ATTACK.getSkill());
-	}
-	
-	/**
-	 * Make additional actions on boss spawn : register the NPC as boss, activate tasks.
-	 * @param freshStart : If true, it uses static data, otherwise it uses stored data.
-	 */
-	private void spawnBoss(boolean freshStart)
-	{
-		final GrandBoss zaken;
-		if (freshStart)
-		{
-			GrandBossManager.getInstance().setBossStatus(ZAKEN, ALIVE);
-			
-			final Location loc = Rnd.get(LOCS);
-			zaken = (GrandBoss) addSpawn(ZAKEN, loc.getX(), loc.getY(), loc.getZ(), 0, false, 0, false);
-		}
-		else
-		{
-			final StatSet info = GrandBossManager.getInstance().getStatSet(ZAKEN);
-			
-			zaken = (GrandBoss) addSpawn(ZAKEN, info.getInteger("loc_x"), info.getInteger("loc_y"), info.getInteger("loc_z"), info.getInteger("heading"), false, 0, false);
-			zaken.getStatus().setHpMp(info.getInteger("currentHP"), info.getInteger("currentMP"));
-		}
-		
-		GrandBossManager.getInstance().addBoss(zaken);
-		
-		// Reset variables.
-		_teleportCheck = 3;
-		_hate = 0;
-		_hasTeleported = false;
-		_mostHated = null;
-		
-		// Store current Zaken position.
-		_zakenLocation.set(zaken.getPosition());
-		
-		// Clear victims list.
-		VICTIMS.clear();
-		
-		// If Zaken is on its lair, begin the minions spawn cycle.
-		if (ZONE.isInsideZone(zaken))
-		{
-			_minionStatus = 1;
-			startQuestTimerAtFixedRate("1003", null, null, 1700);
-		}
-		
-		// Generic task is running from now.
-		startQuestTimerAtFixedRate("1001", zaken, null, 1000, 30000);
-		
-		zaken.broadcastPacket(new PlaySound(1, "BS01_A", zaken));
 	}
 	
 	/**

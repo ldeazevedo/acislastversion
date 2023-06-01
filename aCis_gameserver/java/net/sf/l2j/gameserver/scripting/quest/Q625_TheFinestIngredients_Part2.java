@@ -2,17 +2,13 @@ package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
 
-import net.sf.l2j.gameserver.data.manager.RaidBossManager;
-import net.sf.l2j.gameserver.enums.BossStatus;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.spawn.BossSpawn;
 import net.sf.l2j.gameserver.network.NpcStringId;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
-import net.sf.l2j.gameserver.skills.L2Skill;
 
 public class Q625_TheFinestIngredients_Part2 extends Quest
 {
@@ -39,12 +35,9 @@ public class Q625_TheFinestIngredients_Part2 extends Quest
 		4594
 	};
 	
-	// Other
-	private static final int CHECK_INTERVAL = 600000; // 10 minutes
-	private static final int IDLE_INTERVAL = 3; // (X * CHECK_INTERVAL) = 30 minutes
-	
+	// Instances
 	private Npc _npc;
-	private int _status = -1;
+	private Npc _raid;
 	
 	public Q625_TheFinestIngredients_Part2()
 	{
@@ -52,20 +45,11 @@ public class Q625_TheFinestIngredients_Part2 extends Quest
 		
 		setItemsIds(FOOD_FOR_BUMBALUMP, SPECIAL_YETI_MEAT);
 		
-		addStartNpc(JEREMY);
+		addQuestStart(JEREMY);
 		addTalkId(JEREMY, YETI_TABLE);
 		
-		addAttackId(ICICLE_EMPEROR_BUMBALUMP);
-		addKillId(ICICLE_EMPEROR_BUMBALUMP);
-		
-		switch (RaidBossManager.getInstance().getStatus(ICICLE_EMPEROR_BUMBALUMP))
-		{
-			case ALIVE:
-				spawnNpc();
-			case DEAD:
-				startQuestTimerAtFixedRate("check", null, null, CHECK_INTERVAL);
-				break;
-		}
+		addDecayed(ICICLE_EMPEROR_BUMBALUMP);
+		addMyDying(ICICLE_EMPEROR_BUMBALUMP);
 	}
 	
 	@Override
@@ -107,14 +91,19 @@ public class Q625_TheFinestIngredients_Part2 extends Quest
 		{
 			if (player.getInventory().hasItems(FOOD_FOR_BUMBALUMP))
 			{
-				if (_status < 0)
+				if (_raid == null)
 				{
-					if (spawnRaid())
-					{
-						st.setCond(2);
-						playSound(player, SOUND_MIDDLE);
-						takeItems(player, FOOD_FOR_BUMBALUMP, 1);
-					}
+					// Spawn raid.
+					_raid = addSpawn(ICICLE_EMPEROR_BUMBALUMP, 158240, -121536, -2222, Rnd.get(65536), false, 1200000, false);
+					_raid.broadcastNpcSay(NpcStringId.ID_62503);
+					
+					// Despawn npc.
+					_npc = npc;
+					_npc.deleteMe();
+					
+					st.setCond(2);
+					playSound(player, SOUND_MIDDLE);
+					takeItems(player, FOOD_FOR_BUMBALUMP, 1);
 				}
 				else
 					htmltext = "31542-04.htm";
@@ -167,105 +156,35 @@ public class Q625_TheFinestIngredients_Part2 extends Quest
 	}
 	
 	@Override
-	public String onTimer(String name, Npc npc, Player player)
+	public void onDecayed(Npc npc)
 	{
-		if (name.equals("check"))
+		if (npc == _raid)
 		{
-			final BossSpawn bs = RaidBossManager.getInstance().getBossSpawn(ICICLE_EMPEROR_BUMBALUMP);
-			if (bs != null && bs.getStatus() == BossStatus.ALIVE)
+			// Raid is not dead, decay it.
+			if (!_raid.isDead())
 			{
-				final Npc raid = bs.getBoss();
+				// Respawn npc (it cancels respawn task).
+				_npc.getSpawn().doRespawn(_npc);
 				
-				if (_status >= 0 && _status-- == 0)
-					despawnRaid(raid);
-				
-				spawnNpc();
+				_raid.broadcastNpcSay(NpcStringId.ID_62504);
 			}
+			
+			_npc = null;
+			_raid = null;
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
-	{
-		final Player player = attacker.getActingPlayer();
-		if (player != null)
-			_status = IDLE_INTERVAL;
-		
-		return null;
-	}
-	
-	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
-		if (player != null)
-		{
-			for (QuestState st : getPartyMembers(player, npc, 2))
-			{
-				Player pm = st.getPlayer();
-				st.setCond(3);
-				playSound(pm, SOUND_MIDDLE);
-				giveItems(pm, SPECIAL_YETI_MEAT, 1);
-			}
-		}
 		
-		npc.broadcastNpcSay(NpcStringId.ID_62504);
+		final QuestState st = getRandomPartyMember(player, npc, 2);
+		if (st == null)
+			return;
 		
-		// despawn raid (reset info)
-		despawnRaid(npc);
-		
-		// despawn npc
-		if (_npc != null)
-		{
-			_npc.deleteMe();
-			_npc = null;
-		}
-		
-		return null;
-	}
-	
-	private void spawnNpc()
-	{
-		// spawn npc, if not spawned
-		if (_npc == null)
-			_npc = addSpawn(YETI_TABLE, 157136, -121456, -2363, 40000, false, 0, false);
-	}
-	
-	private boolean spawnRaid()
-	{
-		final BossSpawn bs = RaidBossManager.getInstance().getBossSpawn(ICICLE_EMPEROR_BUMBALUMP);
-		if (bs != null && bs.getStatus() == BossStatus.ALIVE)
-		{
-			final Npc raid = bs.getBoss();
-			
-			// set temporarily spawn location (to provide correct behavior of checkAndReturnToSpawn())
-			raid.getSpawn().setLoc(157117, -121939, -2397, Rnd.get(65536));
-			
-			// teleport raid from secret place
-			raid.teleportTo(157117, -121939, -2397, 100);
-			raid.broadcastNpcSay(NpcStringId.ID_62503);
-			
-			// set raid status
-			_status = IDLE_INTERVAL;
-			
-			return true;
-		}
-		
-		return false;
-	}
-	
-	private void despawnRaid(Npc raid)
-	{
-		// reset spawn location
-		raid.getSpawn().setLoc(-104700, -252700, -15542, 0);
-		
-		// teleport raid back to secret place
-		if (!raid.isDead())
-			raid.teleportTo(-104700, -252700, -15542, 0);
-		
-		// reset raid status
-		_status = -1;
+		st.setCond(3);
+		playSound(st.getPlayer(), SOUND_MIDDLE);
+		giveItems(st.getPlayer(), SPECIAL_YETI_MEAT, 1);
 	}
 }

@@ -1,12 +1,13 @@
 package net.sf.l2j.commons.geometry;
 
+import java.awt.Color;
+
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.gameserver.model.location.Location;
+import net.sf.l2j.gameserver.model.location.Point2D;
+import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 
-/**
- * @author Hasha
- */
 public class Rectangle extends AShape
 {
 	// rectangle origin coordinates
@@ -31,12 +32,14 @@ public class Rectangle extends AShape
 		
 		_w = w;
 		_h = h;
+		
+		_center = new Point2D(x + (w / 2), y + (h / 2));
 	}
 	
 	@Override
-	public final int getSize()
+	public final long getSize()
 	{
-		return _w * _h;
+		return (long) _w * _h;
 	}
 	
 	@Override
@@ -84,5 +87,18 @@ public class Rectangle extends AShape
 	{
 		// calculate coordinates and return
 		return new Location(_x + Rnd.get(_w), _y + Rnd.get(_h), 0);
+	}
+	
+	@Override
+	public void visualize(String info, ExServerPrimitive debug, int z)
+	{
+		final int x2 = _x + _w;
+		final int y2 = _y + _h;
+		z -= 32;
+		
+		debug.addLine(info, Color.YELLOW, true, _x, _y, z, _x, y2, z);
+		debug.addLine(info, Color.YELLOW, true, _x, y2, z, x2, y2, z);
+		debug.addLine(info, Color.YELLOW, true, x2, y2, z, x2, _y, z);
+		debug.addLine(info, Color.YELLOW, true, x2, _y, z, _x, _y, z);
 	}
 }

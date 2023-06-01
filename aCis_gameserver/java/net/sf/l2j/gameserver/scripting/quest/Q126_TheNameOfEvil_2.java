@@ -25,7 +25,7 @@ public class Q126_TheNameOfEvil_2 extends Quest
 	{
 		super(126, "The Name of Evil - 2");
 		
-		addStartNpc(ASAMANAH);
+		addQuestStart(ASAMANAH);
 		addTalkId(ASAMANAH, MUSHIKA, ULU_KAIMU, BALU_KAIMU, CHUTA_KAIMU, WARRIOR_GRAVE, SHILEN_STONE_STATUE);
 	}
 	

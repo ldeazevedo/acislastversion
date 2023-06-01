@@ -219,11 +219,16 @@ public class Pet extends Summon
 		if (!super.doDie(killer))
 			return false;
 		
+		// Stop the feed task.
 		stopFeed();
+		
+		// Send message.
 		getOwner().sendPacket(SystemMessageId.MAKE_SURE_YOU_RESSURECT_YOUR_PET_WITHIN_20_MINUTES);
+		
+		// Run the decay task.
 		DecayTaskManager.getInstance().add(this, 1200);
 		
-		// Dont decrease exp if killed in duel or arena
+		// Dont decrease exp if killed in duel or arena.
 		final Player owner = getOwner();
 		if (owner != null && !owner.isInDuel() && (!isInsideZone(ZoneId.PVP) || isInsideZone(ZoneId.SIEGE)))
 			deathPenalty();

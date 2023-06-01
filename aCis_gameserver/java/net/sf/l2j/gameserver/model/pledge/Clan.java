@@ -652,8 +652,10 @@ public class Clan
 	public void addClanMember(Player player)
 	{
 		final ClanMember member = new ClanMember(this, player);
-		_members.put(member.getObjectId(), member);
 		member.setPlayerInstance(player);
+		
+		_members.put(member.getObjectId(), member);
+		
 		player.setClan(this);
 		player.setPledgeClass(ClanMember.calculatePledgeClass(player));
 		

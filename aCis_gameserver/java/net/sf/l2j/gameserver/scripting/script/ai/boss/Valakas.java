@@ -7,7 +7,7 @@ import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Playable;
@@ -120,7 +120,7 @@ public class Valakas extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(VALAKAS, ScriptEventType.ON_ATTACK, ScriptEventType.ON_KILL, ScriptEventType.ON_SPAWN, ScriptEventType.ON_AGGRO);
+		addEventIds(VALAKAS, EventHandler.ATTACKED, EventHandler.CREATED, EventHandler.MY_DYING);
 	}
 	
 	@Override
@@ -263,32 +263,33 @@ public class Valakas extends AttackableAIScript
 	}
 	
 	@Override
-	public String onSpawn(Npc npc)
-	{
-		npc.disableCoreAi(true);
-		return super.onSpawn(npc);
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		if (npc.isInvul())
-			return null;
+			return;
 		
 		if (attacker instanceof Playable)
 		{
 			// Curses
 			if (attacker.testCursesOnAttack(npc))
-				return null;
+				return;
 			
 			// Refresh timer on every hit.
 			_timeTracker = System.currentTimeMillis();
 		}
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onCreated(Npc npc)
+	{
+		npc.disableCoreAi(true);
+		
+		super.onCreated(npc);
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		// Cancel skill_task and regen_task.
 		cancelQuestTimers("regen_task", npc);
@@ -318,13 +319,7 @@ public class Valakas extends AttackableAIScript
 		info.set("respawn_time", System.currentTimeMillis() + respawnTime);
 		GrandBossManager.getInstance().setStatSet(VALAKAS, info);
 		
-		return super.onKill(npc, killer);
-	}
-	
-	@Override
-	public String onAggro(Npc npc, Player player, boolean isPet)
-	{
-		return null;
+		super.onMyDying(npc, killer);
 	}
 	
 	private void callSkillAI(Npc npc)
@@ -367,7 +362,7 @@ public class Valakas extends AttackableAIScript
 			return METEOR_SWARM;
 		
 		// Find enemies surrounding Valakas.
-		final int[] playersAround = getPlayersCountInPositions(1200, npc, false);
+		final int[] playersAround = getPlayersCountInPositions(1200, npc);
 		
 		// Behind position got more ppl than front position, use behind aura skill.
 		if (playersAround[1] > playersAround[0])

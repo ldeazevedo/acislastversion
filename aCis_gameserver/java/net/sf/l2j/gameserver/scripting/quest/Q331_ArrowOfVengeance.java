@@ -22,10 +22,10 @@ public class Q331_ArrowOfVengeance extends Quest
 		
 		setItemsIds(HARPY_FEATHER, MEDUSA_VENOM, WYRM_TOOTH);
 		
-		addStartNpc(30125); // Belton
+		addQuestStart(30125); // Belton
 		addTalkId(30125);
 		
-		addKillId(20145, 20158, 20176);
+		addMyDying(20145, 20158, 20176);
 	}
 	
 	@Override
@@ -92,13 +92,13 @@ public class Q331_ArrowOfVengeance extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -114,7 +114,5 @@ public class Q331_ArrowOfVengeance extends Quest
 				dropItems(player, WYRM_TOOTH, 1, 0, 500000);
 				break;
 		}
-		
-		return null;
 	}
 }

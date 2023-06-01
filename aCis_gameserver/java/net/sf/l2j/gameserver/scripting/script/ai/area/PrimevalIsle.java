@@ -1,17 +1,14 @@
 package net.sf.l2j.gameserver.scripting.script.ai.area;
 
 import net.sf.l2j.commons.random.Rnd;
-import net.sf.l2j.commons.util.ArraysUtil;
 
 import net.sf.l2j.gameserver.data.SkillTable;
-import net.sf.l2j.gameserver.data.sql.SpawnTable;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
@@ -47,18 +44,14 @@ public class PrimevalIsle extends AttackableAIScript
 	public PrimevalIsle()
 	{
 		super("ai/area");
-		
-		for (Spawn npc : SpawnTable.getInstance().getSpawns())
-			if (ArraysUtil.contains(MOBIDS, npc.getNpcId()) && npc.getNpc() != null && npc.getNpc() instanceof Attackable)
-				((Attackable) npc.getNpc()).seeThroughSilentMove(true);
 	}
 	
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(SPRIGANTS, ScriptEventType.ON_AGGRO, ScriptEventType.ON_KILL);
-		addAttackId(ANCIENT_EGG);
-		addSpawnId(MOBIDS);
+		addEventIds(SPRIGANTS, EventHandler.MY_DYING, EventHandler.SEE_CREATURE);
+		addAttacked(ANCIENT_EGG);
+		addCreated(MOBIDS);
 	}
 	
 	@Override
@@ -86,48 +79,49 @@ public class PrimevalIsle extends AttackableAIScript
 	}
 	
 	@Override
-	public String onAggro(Npc npc, Player player, boolean isPet)
-	{
-		npc.getAI().tryToCast(npc, (npc.getNpcId() == 18345) ? ANESTHESIA : POISON);
-		
-		// Launch a task every 15sec.
-		startQuestTimerAtFixedRate("sprigant_skill_cast", npc, null, 15000);
-		
-		return super.onAggro(npc, player, isPet);
-	}
-	
-	@Override
-	public String onKill(Npc npc, Creature killer)
-	{
-		cancelQuestTimers("sprigant_skill_cast", npc);
-		
-		return super.onKill(npc, killer);
-	}
-	
-	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		if (Rnd.get(100) < 80)
 		{
 			for (Attackable called : attacker.getKnownTypeInRadius(Attackable.class, 300))
 			{
-				// Called hasn't AI, is dead, or got already target registered.
-				if (!called.hasAI() || called.isDead() || called.getAggroList().containsKey(attacker))
+				// Called is dead, or got already target registered.
+				if (called.isDead() || called.getAggroList().containsKey(attacker))
 					continue;
 				
 				// TODO Must be a swap of aggro with highest aggro (eg. ScriptEvent 10016).
 				called.forceAttack(attacker, 1);
 			}
 		}
-		return null;
 	}
 	
 	@Override
-	public String onSpawn(Npc npc)
+	public void onCreated(Npc npc)
 	{
 		if (npc instanceof Attackable)
 			((Attackable) npc).seeThroughSilentMove(true);
 		
-		return super.onSpawn(npc);
+		super.onCreated(npc);
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
+	{
+		cancelQuestTimers("sprigant_skill_cast", npc);
+		
+		super.onMyDying(npc, killer);
+	}
+	
+	@Override
+	public void onSeeCreature(Npc npc, Creature creature)
+	{
+		if (creature instanceof Playable)
+		{
+			npc.getAI().tryToCast(npc, (npc.getNpcId() == 18345) ? ANESTHESIA : POISON);
+			
+			// Launch a task every 15sec.
+			startQuestTimerAtFixedRate("sprigant_skill_cast", npc, null, 15000);
+		}
+		super.onSeeCreature(npc, creature);
 	}
 }

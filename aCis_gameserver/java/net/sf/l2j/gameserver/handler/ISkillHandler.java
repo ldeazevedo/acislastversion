@@ -5,6 +5,7 @@ import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
+import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
 public interface ISkillHandler
@@ -16,8 +17,9 @@ public interface ISkillHandler
 	 * @param creature : The Creature who uses that L2Skill.
 	 * @param skill : The L2Skill object itself.
 	 * @param targets : The eventual targets.
+	 * @param item : The eventual item used for skill cast.
 	 */
-	public void useSkill(Creature creature, L2Skill skill, WorldObject[] targets);
+	public void useSkill(Creature creature, L2Skill skill, WorldObject[] targets, ItemInstance item);
 	
 	/**
 	 * @return all known {@link SkillType}s.

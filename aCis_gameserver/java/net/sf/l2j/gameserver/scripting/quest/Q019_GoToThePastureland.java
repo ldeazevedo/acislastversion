@@ -23,7 +23,7 @@ public class Q019_GoToThePastureland extends Quest
 		
 		setItemsIds(YOUNG_WILD_BEAST_MEAT);
 		
-		addStartNpc(VLADIMIR);
+		addQuestStart(VLADIMIR);
 		addTalkId(VLADIMIR, TUNATUN);
 	}
 	

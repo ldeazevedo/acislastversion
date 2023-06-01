@@ -228,7 +228,7 @@ public class MailBBSManager extends BaseBBSManager
 				if (mail.isUnread())
 					sb.append("<font color=\"LEVEL\">");
 				
-				sb.append(StringUtil.trim(mail.getSubject(), 30)).append((mail.getSubject().length() > 30) ? "..." : "");
+				sb.append(StringUtil.trimAndDress(mail.getSubject(), 30));
 				
 				if (mail.isUnread())
 					sb.append("</font>");

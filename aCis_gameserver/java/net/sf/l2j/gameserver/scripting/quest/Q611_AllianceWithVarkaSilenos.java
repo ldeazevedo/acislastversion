@@ -86,11 +86,11 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 		
 		setItemsIds(KETRA_BADGE_SOLDIER, KETRA_BADGE_OFFICER, KETRA_BADGE_CAPTAIN);
 		
-		addStartNpc(31378); // Naran Ashanuk
+		addQuestStart(31378); // Naran Ashanuk
 		addTalkId(31378);
 		
 		for (int mobs : CHANCES.keySet())
-			addKillId(mobs);
+			addMyDying(mobs);
 	}
 	
 	@Override
@@ -281,13 +281,13 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		player = st.getPlayer();
 		final int npcId = npc.getNpcId();
@@ -297,12 +297,12 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 		if (st2 != null && Rnd.nextBoolean() && CHANCES_MOLAR.containsKey(npcId))
 		{
 			dropItems(player, MOLAR_OF_KETRA_ORC, 1, 0, CHANCES_MOLAR.get(npcId));
-			return null;
+			return;
 		}
 		
 		final int cond = st.getCond();
 		if (cond == 6)
-			return null;
+			return;
 		
 		switch (npcId)
 		{
@@ -353,7 +353,5 @@ public class Q611_AllianceWithVarkaSilenos extends Quest
 					dropItems(player, KETRA_BADGE_CAPTAIN, 1, 200, CHANCES.get(npcId));
 				break;
 		}
-		
-		return null;
 	}
 }

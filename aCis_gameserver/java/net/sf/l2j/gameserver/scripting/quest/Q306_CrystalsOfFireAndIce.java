@@ -56,10 +56,10 @@ public class Q306_CrystalsOfFireAndIce extends Quest
 		
 		setItemsIds(FLAME_SHARD, ICE_SHARD);
 		
-		addStartNpc(30004); // Katerina
+		addQuestStart(30004); // Katerina
 		addTalkId(30004);
 		
-		addKillId(20109, 20110, 20112, 20113, 20114, 20115);
+		addMyDying(20109, 20110, 20112, 20113, 20114, 20115);
 	}
 	
 	@Override
@@ -117,13 +117,13 @@ public class Q306_CrystalsOfFireAndIce extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		for (int[] drop : DROPLIST)
 		{
@@ -133,7 +133,5 @@ public class Q306_CrystalsOfFireAndIce extends Quest
 				break;
 			}
 		}
-		
-		return null;
 	}
 }

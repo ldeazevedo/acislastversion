@@ -39,10 +39,10 @@ public class Q412_PathToADarkWizard extends Quest
 		
 		setItemsIds(SEED_OF_ANGER, SEED_OF_DESPAIR, SEED_OF_HORROR, SEED_OF_LUNACY, FAMILY_REMAINS, VARIKA_LIQUOR, KNEE_BONE, HEART_OF_LUNACY, LUCKY_KEY, CANDLE, HUB_SCENT);
 		
-		addStartNpc(VARIKA);
+		addQuestStart(VARIKA);
 		addTalkId(VARIKA, CHARKEREN, ANNIKA, ARKENIA);
 		
-		addKillId(20015, 20022, 20045, 20517, 20518);
+		addMyDying(20015, 20022, 20045, 20517, 20518);
 	}
 	
 	@Override
@@ -201,13 +201,13 @@ public class Q412_PathToADarkWizard extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -228,7 +228,5 @@ public class Q412_PathToADarkWizard extends Quest
 					dropItems(player, HEART_OF_LUNACY, 1, 3, 500000);
 				break;
 		}
-		
-		return null;
 	}
 }

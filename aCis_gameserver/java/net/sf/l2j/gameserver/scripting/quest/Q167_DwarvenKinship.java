@@ -25,7 +25,7 @@ public class Q167_DwarvenKinship extends Quest
 		
 		setItemsIds(CARLON_LETTER, NORMAN_LETTER);
 		
-		addStartNpc(CARLON);
+		addQuestStart(CARLON);
 		addTalkId(CARLON, HAPROCK, NORMAN);
 	}
 	

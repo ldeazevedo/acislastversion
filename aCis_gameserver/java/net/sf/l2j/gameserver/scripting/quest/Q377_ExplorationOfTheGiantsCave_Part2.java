@@ -69,11 +69,11 @@ public class Q377_ExplorationOfTheGiantsCave_Part2 extends Quest
 	{
 		super(377, "Exploration of the Giants' Cave, Part 2");
 		
-		addStartNpc(31147); // Sobling
+		addQuestStart(31147); // Sobling
 		addTalkId(31147);
 		
 		for (int npcId : CHANCES.keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 	}
 	
 	@Override
@@ -126,17 +126,15 @@ public class Q377_ExplorationOfTheGiantsCave_Part2 extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), ANCIENT_TITAN_BOOK, 1, 0, CHANCES.get(npc.getNpcId()));
-		
-		return null;
 	}
 	
 	private static String checkItems(Player player)

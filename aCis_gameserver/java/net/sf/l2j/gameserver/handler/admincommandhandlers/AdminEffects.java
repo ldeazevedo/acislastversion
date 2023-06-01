@@ -266,7 +266,7 @@ public class AdminEffects implements IAdminCommandHandler
 						player.getCast().callSkill(SkillTable.getInstance().getInfo(7029, skillLevel), new Creature[]
 						{
 							player
-						});
+						}, null);
 				}
 				catch (Exception e)
 				{
@@ -346,28 +346,28 @@ public class AdminEffects implements IAdminCommandHandler
 	
 	public static void showMainPage(Player player, Creature creature, int page)
 	{
+		// Load static htm.
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/admin/char_effects.htm");
 		html.replace("%name%", creature.getName());
 		
-		final Pagination<AbstractEffect> list = new Pagination<>(Arrays.stream(creature.getAllEffects()), page, PAGE_LIMIT_15);
-		final StringBuilder sb = new StringBuilder(3000);
+		int row = 0;
 		
-		if (list.isEmpty())
-			sb.append("<br>This Creature got no running effects.");
-		else
+		// Generate data.
+		final Pagination<AbstractEffect> list = new Pagination<>(Arrays.stream(creature.getAllEffects()), page, PAGE_LIMIT_14);
+		for (AbstractEffect effect : list)
 		{
-			sb.append("<table width=270><tr><td width=220>Name</td><td width=50>Time Left</td></tr>");
+			list.append(((row % 2) == 0 ? "<table width=280 bgcolor=000000><tr>" : "<table width=280><tr>"));
+			list.append("<td width=220><a action=\"bypass -h admin_effect remove ", effect.getSkill().getId(), "\">", effect.getSkill().getName(), "</a></td><td width=60>", (effect.getSkill().isToggle()) ? "toggle" : effect.getPeriod() - effect.getTime() + "s", "</td>");
+			list.append("</tr></table><img src=\"L2UI.SquareGray\" width=280 height=1>");
 			
-			for (AbstractEffect effect : list)
-				StringUtil.append(sb, "<tr><td><a action=\"bypass -h admin_effect remove ", effect.getSkill().getId(), "\">", effect.getSkill().getName(), "</a></td><td>", (effect.getSkill().isToggle()) ? "toggle" : effect.getPeriod() - effect.getTime() + "s", "</td></tr>");
-			
-			sb.append("</table><br>");
-			
-			list.generateSpace(sb);
-			list.generatePages(sb, "bypass admin_effect %page%");
+			row++;
 		}
-		html.replace("%content%", sb.toString());
+		
+		list.generateSpace(20);
+		list.generatePages("bypass admin_effect %page%");
+		
+		html.replace("%content%", list.getContent());
 		player.sendPacket(html);
 	}
 }

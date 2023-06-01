@@ -6,6 +6,7 @@ import net.sf.l2j.gameserver.handler.SkillHandler;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
@@ -18,11 +19,11 @@ public class CombatPointHeal implements ISkillHandler
 	};
 	
 	@Override
-	public void useSkill(Creature actChar, L2Skill skill, WorldObject[] targets)
+	public void useSkill(Creature actChar, L2Skill skill, WorldObject[] targets, ItemInstance itemInstance)
 	{
 		final ISkillHandler handler = SkillHandler.getInstance().getHandler(SkillType.BUFF);
 		if (handler != null)
-			handler.useSkill(actChar, skill, targets);
+			handler.useSkill(actChar, skill, targets, itemInstance);
 		
 		for (WorldObject obj : targets)
 		{

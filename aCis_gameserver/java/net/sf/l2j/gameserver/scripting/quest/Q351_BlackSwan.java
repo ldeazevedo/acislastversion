@@ -30,10 +30,10 @@ public class Q351_BlackSwan extends Quest
 		
 		setItemsIds(ORDER_OF_GOSTA, BARREL_OF_LEAGUE, LIZARD_FANG);
 		
-		addStartNpc(GOSTA);
+		addQuestStart(GOSTA);
 		addTalkId(GOSTA, IASON_HEINE, ROMAN);
 		
-		addKillId(20784, 20785, 21639, 21640);
+		addMyDying(20784, 20785, 21639, 21640);
 	}
 	
 	@Override
@@ -131,13 +131,13 @@ public class Q351_BlackSwan extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int random = Rnd.get(4);
 		if (random < 3)
@@ -147,7 +147,5 @@ public class Q351_BlackSwan extends Quest
 		}
 		else
 			dropItems(player, BARREL_OF_LEAGUE, 1, 0, (npc.getNpcId() > 20785) ? 30000 : 40000);
-		
-		return null;
 	}
 }

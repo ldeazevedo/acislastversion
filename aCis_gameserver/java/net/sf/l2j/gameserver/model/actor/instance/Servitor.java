@@ -98,17 +98,19 @@ public class Servitor extends Summon
 		if (!super.doDie(killer))
 			return false;
 		
-		// Popup for summon if phoenix buff was on
-		if (isPhoenixBlessed())
-			getOwner().reviveRequest(getOwner(), null, true);
-		
-		DecayTaskManager.getInstance().add(this, getTemplate().getCorpseTime());
-		
+		// Stop the life time task.
 		if (_summonLifeTask != null)
 		{
 			_summonLifeTask.cancel(false);
 			_summonLifeTask = null;
 		}
+		
+		// Send message.
+		getOwner().sendPacket(SystemMessageId.SERVITOR_PASSED_AWAY);
+		
+		// Run the decay task.
+		DecayTaskManager.getInstance().add(this, getTemplate().getCorpseTime());
+		
 		return true;
 		
 	}

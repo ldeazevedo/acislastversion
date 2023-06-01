@@ -11,7 +11,7 @@ import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
 /**
- * TODO To fully review. AI for mobs in Plains of Dion (near Floran Village)
+ * AI for mobs in Plains of Dion (near Floran Village)
  */
 public final class PlainsOfDion extends AttackableAIScript
 {
@@ -46,26 +46,26 @@ public final class PlainsOfDion extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addAttackId(MONSTERS);
+		addAttacked(MONSTERS);
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		if (npc.isScriptValue(0))
 		{
 			npc.broadcastNpcSay(Rnd.get(MONSTERS_MSG).replace("$s1", attacker.getName()));
 			
-			for (Monster obj : npc.getKnownTypeInRadius(Monster.class, 300))
+			for (Monster monster : npc.getKnownTypeInRadius(Monster.class, 600))
 			{
-				if (!obj.getAttack().isAttackingNow() && !obj.isDead() && ArraysUtil.contains(MONSTERS, obj.getNpcId()))
+				if (!monster.getAttack().isAttackingNow() && !monster.isDead() && ArraysUtil.contains(MONSTERS, monster.getNpcId()))
 				{
-					obj.forceAttack(attacker, 200);
-					obj.broadcastNpcSay(Rnd.get(MONSTERS_ASSIST_MSG));
+					monster.forceAttack(attacker, 200);
+					monster.broadcastNpcSay(Rnd.get(MONSTERS_ASSIST_MSG));
 				}
 			}
 			npc.setScriptValue(1);
 		}
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 }

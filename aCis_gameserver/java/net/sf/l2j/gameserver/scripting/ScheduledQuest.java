@@ -14,7 +14,7 @@ public abstract class ScheduledQuest extends Quest
 	
 	private ScheduledFuture<?> _task;
 	
-	public ScheduledQuest(int questId, String descr)
+	protected ScheduledQuest(int questId, String descr)
 	{
 		super(questId, descr);
 	}
@@ -48,49 +48,49 @@ public abstract class ScheduledQuest extends Quest
 			final long now = System.currentTimeMillis();
 			if (_end == null || _end.getTimeInMillis() == st)
 			{
-				// start and end events are at same time, consider as one-event script
+				// Start and end events are at same time, consider as one-event script.
 				_end = null;
 				
-				// schedule next start
+				// Schedule next start.
 				if (st < now)
 					_start.add(_type.getPeriod(), 1);
 			}
 			else
 			{
-				// normal schedule, both events are in same period
+				// Normal schedule, both events are in same period.
 				final long en = _end.getTimeInMillis();
 				if (st < en)
 				{
-					// last schedule had passed, schedule next start
+					// Last schedule had passed, schedule next start.
 					if (en < now)
 						_start.add(_type.getPeriod(), 1);
-					// last schedule is running, start script
+					// Last schedule is running, start script.
 					else if (st < now)
 						_started = true;
-					// last schedule has not started yet, shift end by 1 period backwards (is updated in notifyAndSchedule() when starting schedule)
+					// Last schedule has not started yet, shift end by 1 period backwards (is updated in notifyAndSchedule() when starting schedule).
 					else
 						_end.add(_type.getPeriod(), -1);
 				}
-				// reverse schedule, each event is in different period (e.g. different day for DAILY - start = 23:00, end = 01:00)
+				// Reverse schedule, each event is in different period (e.g. different day for DAILY - start = 23:00, end = 01:00).
 				else
 				{
-					// last schedule is running, schedule next end and start script
+					// Last schedule is running, schedule next end and start script.
 					if (st < now)
 					{
 						_end.add(_type.getPeriod(), 1);
 						_started = true;
 					}
-					// last schedule is running, shift start by 1 period backwards (is updated in notifyAndSchedule() when starting schedule) and start script
+					// Last schedule is running, shift start by 1 period backwards (is updated in notifyAndSchedule() when starting schedule) and start script.
 					else if (now < en)
 					{
 						_start.add(_type.getPeriod(), -1);
 						_started = true;
 					}
-					// last schedule has not started yet, do nothing
+					// Last schedule has not started yet, do nothing.
 				}
 			}
 			
-			// initialize script and return
+			// Initialize script and return.
 			return init();
 		}
 		catch (Exception e)
@@ -195,6 +195,24 @@ public abstract class ScheduledQuest extends Quest
 	}
 	
 	/**
+	 * Returns the last/next start time, regardless the state of the script.
+	 * @return long : Time in milliseconds.
+	 */
+	public final long getStartTime()
+	{
+		return _start.getTimeInMillis();
+	}
+	
+	/**
+	 * Returns the last/next end time, regardless the state of the script.
+	 * @return long : Time in milliseconds.
+	 */
+	public final long getEndTime()
+	{
+		return _end.getTimeInMillis();
+	}
+	
+	/**
 	 * Notify and schedule next action of the script.
 	 */
 	public final void notifyAndSchedule()
@@ -202,10 +220,14 @@ public abstract class ScheduledQuest extends Quest
 		if (_type == null)
 			return;
 		
-		// notify one-action script
+		// Notify one-action script (start).
 		if (_end == null)
 		{
-			// notify start
+			// Schedule next start.
+			_start.add(_type.getPeriod(), 1);
+			print(_start);
+			
+			// Notify start.
 			try
 			{
 				onStart();
@@ -215,56 +237,55 @@ public abstract class ScheduledQuest extends Quest
 				LOGGER.error("Error starting {}.", e, toString());
 			}
 			
-			// schedule next start
-			_start.add(_type.getPeriod(), 1);
-			print(_start);
 			return;
 		}
 		
-		// notify two-action script
+		// Notify two-action script (start + end).
 		if (_started)
 		{
-			// notify end
+			// Schedule start.
+			_start.add(_type.getPeriod(), 1);
+			print(_start);
+			
+			// Notify end.
 			try
 			{
-				onEnd();
 				_started = false;
+				onEnd();
 			}
 			catch (Exception e)
 			{
 				LOGGER.error("Error ending {}.", e, toString());
 			}
-			
-			// schedule start
-			_start.add(_type.getPeriod(), 1);
-			print(_start);
 		}
 		else
 		{
-			// notify start
+			// Schedule end.
+			_end.add(_type.getPeriod(), 1);
+			print(_end);
+			
+			// Notify start.
 			try
 			{
-				onStart();
 				_started = true;
+				onStart();
 			}
 			catch (Exception e)
 			{
 				LOGGER.error("Error starting {}.", e, toString());
 			}
-			
-			// schedule end
-			_end.add(_type.getPeriod(), 1);
-			print(_end);
 		}
 	}
 	
 	/**
-	 * Initializes a script and returns information about script to be scheduled or not. Set internal values, parameters, etc...
+	 * Initializes a script and returns information about script to be scheduled or not. Set internal values, parameters, etc...<br>
+	 * <br>
+	 * Note: Default behavior is to call onStart(), when the script is supposed to be started.
 	 * @return boolean : True, when script was initialized and can be scheduled.
 	 */
 	protected boolean init()
 	{
-		// the script was initialized as started, run start event
+		// The script was initialized as started, run start event.
 		if (_started)
 			onStart();
 		
@@ -280,6 +301,18 @@ public abstract class ScheduledQuest extends Quest
 	 * Ends a script. Handles spawns, announcements, saves variables, etc...
 	 */
 	protected abstract void onEnd();
+	
+	/**
+	 * Stops a script. Clears internal values, parameters, etc...<br>
+	 * <br>
+	 * Note: Default behavior is to call onEnd(), when the script is started.
+	 */
+	public void stop()
+	{
+		// The script is running, run end event.
+		if (_started)
+			onEnd();
+	}
 	
 	/**
 	 * Convert a {@link String} representation of a day into a {@link Calendar} day.

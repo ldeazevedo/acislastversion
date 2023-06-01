@@ -141,23 +141,27 @@ public class AdminFind implements IAdminCommandHandler
 	 */
 	private static void listAllPlayers(Player player, int page)
 	{
+		// Load static htm.
 		final NpcHtmlMessage html = new NpcHtmlMessage(0);
 		html.setFile("data/html/admin/charlist.htm");
 		
-		final Pagination<Player> list = new Pagination<>(World.getInstance().getPlayers().stream(), page, PAGE_LIMIT_15);
+		int row = 0;
 		
-		final StringBuilder sb = new StringBuilder(2000);
+		// Generate data.
+		final Pagination<Player> list = new Pagination<>(World.getInstance().getPlayers().stream(), page, PAGE_LIMIT_12);
 		for (Player targetPlayer : list)
-			StringUtil.append(sb, "<tr><td><a action=\"bypass -h admin_debug ", targetPlayer.getName(), "\">", targetPlayer.getName(), "</a></td><td>", targetPlayer.getTemplate().getClassName(), "</td><td>", targetPlayer.getStatus().getLevel(), "</td></tr>");
+		{
+			list.append(((row % 2) == 0 ? "<table width=280 bgcolor=000000><tr>" : "<table width=280><tr>"));
+			list.append("<td width=140><a action=\"bypass -h admin_debug ", targetPlayer.getName(), "\">", targetPlayer.getName(), "</a></td><td width=120>", targetPlayer.getTemplate().getClassName(), "</td><td width=20>", targetPlayer.getStatus().getLevel(), "</td>");
+			list.append("</tr></table><img src=\"L2UI.SquareGray\" width=280 height=1>");
+			
+			row++;
+		}
 		
-		html.replace("%players%", sb.toString());
+		list.generateSpace(20);
+		list.generatePages("bypass admin_list %page%");
 		
-		sb.setLength(0);
-		
-		list.generateSpace(sb);
-		list.generatePages(sb, "bypass admin_list %page%");
-		
-		html.replace("%pages%", sb.toString());
+		html.replace("%content%", list.getContent());
 		player.sendPacket(html);
 	}
 	

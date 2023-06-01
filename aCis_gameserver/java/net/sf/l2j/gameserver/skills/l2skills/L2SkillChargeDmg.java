@@ -4,6 +4,7 @@ import net.sf.l2j.commons.data.StatSet;
 
 import net.sf.l2j.gameserver.enums.items.ShotType;
 import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
+import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -57,40 +58,61 @@ public class L2SkillChargeDmg extends L2Skill
 			
 			final boolean isCrit = getBaseCritRate() > 0 && Formulas.calcCrit(getBaseCritRate() * 10 * Formulas.getSTRBonus(caster));
 			final ShieldDefense sDef = Formulas.calcShldUse(caster, target, this, isCrit);
+			final byte reflect = Formulas.calcSkillReflect(target, this);
 			
-			final double damage = Formulas.calcPhysicalSkillDamage(caster, target, this, sDef, isCrit, ss);
-			if (damage > 0)
+			if (hasEffects())
 			{
-				byte reflect = Formulas.calcSkillReflect(target, this);
-				if (hasEffects())
+				if ((reflect & Formulas.SKILL_REFLECT_SUCCEED) != 0)
 				{
-					if ((reflect & Formulas.SKILL_REFLECT_SUCCEED) != 0)
-					{
-						caster.stopSkillEffects(getId());
-						getEffects(target, caster);
-					}
-					else
-					{
-						// activate attacked effects, if any
-						target.stopSkillEffects(getId());
-						if (Formulas.calcSkillSuccess(caster, target, this, sDef, true))
-							getEffects(caster, target, sDef, false);
-						else
-							caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(this));
-					}
+					caster.stopSkillEffects(getId());
+					
+					getEffects(target, caster);
 				}
+				else
+				{
+					target.stopSkillEffects(getId());
+					
+					if (Formulas.calcSkillSuccess(caster, target, this, sDef, true))
+						getEffects(caster, target, sDef, false);
+					else
+						caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(this));
+				}
+			}
+			
+			double damage = Formulas.calcPhysicalSkillDamage(caster, target, this, sDef, isCrit, ss);
+			damage *= modifier;
+			
+			// Skill counter.
+			if ((reflect & Formulas.SKILL_COUNTER) != 0)
+			{
+				if (target instanceof Player)
+					target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.COUNTERED_S1_ATTACK).addCharName(caster));
 				
-				double finalDamage = damage * modifier;
-				target.reduceCurrentHp(finalDamage, caster, this);
+				if (caster instanceof Player)
+					caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_PERFORMING_COUNTERATTACK).addCharName(target));
 				
-				// vengeance reflected damage
-				if ((reflect & Formulas.SKILL_REFLECT_VENGEANCE) != 0)
-					caster.reduceCurrentHp(damage, target, this);
+				// Calculate the counter percent.
+				final double counteredPercent = target.getStatus().calcStat(Stats.COUNTER_SKILL_PHYSICAL, 0, target, null) / 100.;
 				
-				caster.sendDamageMessage(target, (int) finalDamage, false, isCrit, false);
+				damage *= counteredPercent;
+				
+				// Reduce caster HPs.
+				caster.reduceCurrentHp(damage, target, this);
+				
+				// Send damage message.
+				target.sendDamageMessage(caster, (int) damage, false, false, false);
 			}
 			else
-				caster.sendDamageMessage(target, 0, false, false, true);
+			{
+				// Manage cast break of the target (calculating rate, sending message...)
+				Formulas.calcCastBreak(target, damage);
+				
+				// Reduce target HPs.
+				target.reduceCurrentHp(damage, caster, this);
+				
+				// Send damage message.
+				caster.sendDamageMessage(target, (int) damage, false, false, false);
+			}
 		}
 		
 		if (hasSelfEffects())

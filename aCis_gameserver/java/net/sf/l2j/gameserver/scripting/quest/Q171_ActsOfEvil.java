@@ -54,11 +54,11 @@ public class Q171_ActsOfEvil extends Quest
 		
 		setItemsIds(BLADE_MOLD, TYRA_BILL, RANGER_REPORT_1, RANGER_REPORT_2, RANGER_REPORT_3, RANGER_REPORT_4, WEAPON_TRADE_CONTRACT, ATTACK_DIRECTIVES, CERTIFICATE, CARGO_BOX, OL_MAHUM_HEAD);
 		
-		addStartNpc(ALVAH);
+		addQuestStart(ALVAH);
 		addTalkId(ALVAH, ARODIN, TYRA, ROLENTO, NETI, BURAI);
 		
-		addKillId(20496, 20497, 20498, 20499, 20062, 20064, 20066, 20438);
-		addDecayId(OL_MAHUM_SUPPORT_TROOP);
+		addDecayed(OL_MAHUM_SUPPORT_TROOP);
+		addMyDying(20496, 20497, 20498, 20499, 20062, 20064, 20066, 20438);
 	}
 	
 	@Override
@@ -254,22 +254,20 @@ public class Q171_ActsOfEvil extends Quest
 	}
 	
 	@Override
-	public String onDecay(Npc npc)
+	public void onDecayed(Npc npc)
 	{
 		if (!npc.isDead())
 			npc.broadcastNpcSay(NpcStringId.ID_17151);
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		
@@ -334,7 +332,5 @@ public class Q171_ActsOfEvil extends Quest
 					dropItems(player, OL_MAHUM_HEAD, 1, 30, 500000);
 				break;
 		}
-		
-		return null;
 	}
 }

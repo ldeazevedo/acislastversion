@@ -30,13 +30,8 @@ public class CastleZone extends ResidenceZoneType
 		if (castle == null)
 			return;
 		
-		for (Player player : getKnownTypeInside(Player.class))
-		{
-			if (player.getClanId() == clanId)
-				continue;
-			
+		for (Player player : getKnownTypeInside(Player.class, p -> p.getClanId() != clanId))
 			player.teleportTo(castle.getRndSpawn(SpawnType.BANISH), 20);
-		}
 	}
 	
 	@Override

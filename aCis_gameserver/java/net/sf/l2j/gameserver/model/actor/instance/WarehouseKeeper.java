@@ -66,7 +66,6 @@ public class WarehouseKeeper extends Folk
 		
 		if (command.startsWith("WithdrawP"))
 		{
-			player.sendPacket(ActionFailed.STATIC_PACKET);
 			player.setActiveWarehouse(player.getWarehouse());
 			
 			if (player.getActiveWarehouse().getSize() == 0)
@@ -76,6 +75,7 @@ public class WarehouseKeeper extends Folk
 			}
 			
 			player.sendPacket(new WarehouseWithdrawList(player, WarehouseWithdrawList.PRIVATE));
+			player.sendPacket(ActionFailed.STATIC_PACKET);
 		}
 		else if (command.equals("DepositP"))
 		{
@@ -86,8 +86,6 @@ public class WarehouseKeeper extends Folk
 		}
 		else if (command.equals("WithdrawC"))
 		{
-			player.sendPacket(ActionFailed.STATIC_PACKET);
-			
 			if (!player.hasClanPrivileges(Clan.CP_CL_VIEW_WAREHOUSE))
 			{
 				player.sendPacket(SystemMessageId.YOU_DO_NOT_HAVE_THE_RIGHT_TO_USE_CLAN_WAREHOUSE);
@@ -105,12 +103,18 @@ public class WarehouseKeeper extends Folk
 			}
 			
 			player.setActiveWarehouse(player.getClan().getWarehouse());
+			
+			if (player.getActiveWarehouse().getSize() == 0)
+			{
+				player.sendPacket(SystemMessageId.NO_ITEM_DEPOSITED_IN_WH);
+				return;
+			}
+			
 			player.sendPacket(new WarehouseWithdrawList(player, WarehouseWithdrawList.CLAN));
+			player.sendPacket(ActionFailed.STATIC_PACKET);
 		}
 		else if (command.equals("DepositC"))
 		{
-			player.sendPacket(ActionFailed.STATIC_PACKET);
-			
 			final Clan clan = player.getClan();
 			if (clan == null)
 				return;
@@ -124,6 +128,7 @@ public class WarehouseKeeper extends Folk
 			player.setActiveWarehouse(player.getClan().getWarehouse());
 			player.tempInventoryDisable();
 			player.sendPacket(new WarehouseDepositList(player, WarehouseDepositList.CLAN));
+			player.sendPacket(ActionFailed.STATIC_PACKET);
 		}
 		else if (command.startsWith("WithdrawF"))
 		{

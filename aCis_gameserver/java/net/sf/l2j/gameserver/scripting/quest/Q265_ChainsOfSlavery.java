@@ -21,10 +21,10 @@ public class Q265_ChainsOfSlavery extends Quest
 		
 		setItemsIds(SHACKLE);
 		
-		addStartNpc(30357); // Kristin
+		addQuestStart(30357); // Kristin
 		addTalkId(30357);
 		
-		addKillId(20004, 20005);
+		addMyDying(20004, 20005);
 	}
 	
 	@Override
@@ -92,16 +92,14 @@ public class Q265_ChainsOfSlavery extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(player, SHACKLE, 1, 0, (npc.getNpcId() == 20004) ? 500000 : 600000);
-		
-		return null;
 	}
 }

@@ -1,23 +1,16 @@
 package net.sf.l2j.gameserver.scripting.script.feature;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.lang.StringUtil;
 
-import net.sf.l2j.gameserver.data.sql.SpawnTable;
+import net.sf.l2j.gameserver.data.manager.SpawnManager;
+import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.location.Location;
-import net.sf.l2j.gameserver.model.spawn.Spawn;
+import net.sf.l2j.gameserver.model.spawn.ASpawn;
 import net.sf.l2j.gameserver.scripting.Quest;
 
 public class RaidbossInfo extends Quest
 {
-	private static final String BOSS_CLASS_TYPE = "RaidBoss";
-	
-	private static final Map<Integer, Location> RADARS = new HashMap<>();
-	
 	private static final int[] NPCs =
 	{
 		31729,
@@ -104,13 +97,6 @@ public class RaidbossInfo extends Quest
 		super(-1, "feature");
 		
 		addTalkId(NPCs);
-		
-		// Add all Raid Bosses locations.
-		for (Spawn spawn : SpawnTable.getInstance().getSpawns())
-		{
-			if (spawn.getTemplate().isType(BOSS_CLASS_TYPE))
-				RADARS.put(spawn.getNpcId(), spawn.getLoc());
-		}
 	}
 	
 	@Override
@@ -119,9 +105,19 @@ public class RaidbossInfo extends Quest
 		if (!StringUtil.isDigit(event))
 			return event;
 		
-		final Location loc = RADARS.get(Integer.parseInt(event));
-		if (loc != null)
-			player.getRadarList().addMarker(loc);
+		final int raidId = Integer.parseInt(event);
+		
+		// get spawn information of the raid boss
+		final ASpawn spawn = SpawnManager.getInstance().getSpawn(raidId);
+		if (spawn != null)
+			player.getRadarList().addMarker(spawn.getSpawnLocation());
+		else
+		{
+			// spawn information does not exist, try to find living instance
+			final Npc raid = World.getInstance().getNpc(raidId);
+			if (raid != null)
+				player.getRadarList().addMarker(raid.getPosition());
+		}
 		
 		return null;
 	}

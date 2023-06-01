@@ -4,73 +4,28 @@ import net.sf.l2j.commons.random.Rnd;
 
 /**
  * This class defines the spawn data of a Minion type.<BR>
- * In a group mob, there are one master called RaidBoss and several slaves called Minions.
+ * In a NPC group, there are one master and several minions (named leader and privates on L2OFF).
  */
 public class MinionData
 {
-	/** The Identifier of the L2Minion */
-	private int _minionId;
+	private final int _id;
+	private final int _minAmount;
+	private final int _maxAmount;
 	
-	/** The number of this Minion Type to spawn */
-	private int _minionAmount;
-	private int _minionAmountMin;
-	private int _minionAmountMax;
-	
-	/**
-	 * Set the Identifier of the Minion to spawn.
-	 * @param id The Creature Identifier to spawn
-	 */
-	public void setMinionId(int id)
+	public MinionData(int id, int minAmount, int maxAmount)
 	{
-		_minionId = id;
+		_id = id;
+		_minAmount = minAmount;
+		_maxAmount = maxAmount;
 	}
 	
-	/**
-	 * @return the Identifier of the Minion to spawn.
-	 */
-	public int getMinionId()
+	public int getId()
 	{
-		return _minionId;
+		return _id;
 	}
 	
-	/**
-	 * Set the minimum of minions to amount.
-	 * @param amountMin The minimum quantity of this Minion type to spawn
-	 */
-	public void setAmountMin(int amountMin)
-	{
-		_minionAmountMin = amountMin;
-	}
-	
-	/**
-	 * Set the maximum of minions to amount.
-	 * @param amountMax The maximum quantity of this Minion type to spawn
-	 */
-	public void setAmountMax(int amountMax)
-	{
-		_minionAmountMax = amountMax;
-	}
-	
-	/**
-	 * Set the amount of this Minion type to spawn.
-	 * @param amount The quantity of this Minion type to spawn
-	 */
-	public void setAmount(int amount)
-	{
-		_minionAmount = amount;
-	}
-	
-	/**
-	 * @return the amount of this Minion type to spawn.
-	 */
 	public int getAmount()
 	{
-		if (_minionAmountMax > _minionAmountMin)
-		{
-			_minionAmount = Rnd.get(_minionAmountMin, _minionAmountMax);
-			return _minionAmount;
-		}
-		
-		return _minionAmountMin;
+		return (_maxAmount > _minAmount) ? Rnd.get(_minAmount, _maxAmount) : _minAmount;
 	}
 }

@@ -21,7 +21,7 @@ public class Q124_MeetingTheElroki extends Quest
 	{
 		super(124, "Meeting the Elroki");
 		
-		addStartNpc(MARQUEZ);
+		addQuestStart(MARQUEZ);
 		addTalkId(MARQUEZ, MUSHIKA, ASAMAH, KARAKAWEI, MANTARASA);
 	}
 	

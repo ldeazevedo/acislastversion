@@ -236,11 +236,11 @@ public class Q333_HuntOfTheBlackLion extends Quest
 		
 		setItemsIds(LION_CLAW, LION_EYE, GUILD_COIN, UNDEAD_ASH, BLOODY_AXE_INSIGNIA, DELU_FANG, STAKATO_TALON, SOPHYA_LETTER_1, SOPHYA_LETTER_2, SOPHYA_LETTER_3, SOPHYA_LETTER_4);
 		
-		addStartNpc(SOPHYA);
+		addQuestStart(SOPHYA);
 		addTalkId(SOPHYA, REDFOOT, RUPIO, UNDRIAS, LOCKIRIN, MORGAN);
 		
 		for (int[] i : DROPLIST)
-			addKillId(i[1]);
+			addMyDying(i[1]);
 	}
 	
 	@Override
@@ -726,13 +726,13 @@ public class Q333_HuntOfTheBlackLion extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		for (int[] info : DROPLIST)
 		{
@@ -743,7 +743,5 @@ public class Q333_HuntOfTheBlackLion extends Quest
 				break;
 			}
 		}
-		
-		return null;
 	}
 }

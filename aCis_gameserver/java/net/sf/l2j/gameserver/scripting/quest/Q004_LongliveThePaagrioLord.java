@@ -29,7 +29,7 @@ public class Q004_LongliveThePaagrioLord extends Quest
 		
 		setItemsIds(1541, 1542, 1543, 1544, 1545, 1546);
 		
-		addStartNpc(30578); // Nakusin
+		addQuestStart(30578); // Nakusin
 		addTalkId(30578, 30585, 30566, 30562, 30560, 30559, 30587);
 	}
 	

@@ -24,10 +24,10 @@ public class Q257_TheGuardIsBusy extends Quest
 		
 		setItemsIds(ORC_AMULET, ORC_NECKLACE, WEREWOLF_FANG, GLUDIO_LORD_MARK);
 		
-		addStartNpc(30039); // Gilbert
+		addQuestStart(30039); // Gilbert
 		addTalkId(30039);
 		
-		addKillId(20006, 20093, 20096, 20098, 20130, 20131, 20132, 20342, 20343);
+		addMyDying(20006, 20093, 20096, 20098, 20130, 20131, 20132, 20342, 20343);
 	}
 	
 	@Override
@@ -103,13 +103,13 @@ public class Q257_TheGuardIsBusy extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -137,7 +137,5 @@ public class Q257_TheGuardIsBusy extends Quest
 				dropItems(player, WEREWOLF_FANG, 1, 0, 500000);
 				break;
 		}
-		
-		return null;
 	}
 }

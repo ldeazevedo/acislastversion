@@ -5,8 +5,8 @@ import java.util.Map;
 
 import net.sf.l2j.commons.random.Rnd;
 
+import net.sf.l2j.gameserver.enums.EventHandler;
 import net.sf.l2j.gameserver.enums.QuestStatus;
-import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -178,11 +178,11 @@ public class Q619_RelicsOfTheOldEmpire extends Quest
 		
 		setItemsIds(BROKEN_RELIC_PART);
 		
-		addStartNpc(GHOST_OF_ADVENTURER);
+		addQuestStart(GHOST_OF_ADVENTURER);
 		addTalkId(GHOST_OF_ADVENTURER);
 		
-		addEventIds(IMPERIAL_TOMB_DROPLIST.keySet(), ScriptEventType.ON_KILL);
-		addEventIds(FOUR_SEPULCHERS_DROPLIST.keySet(), ScriptEventType.ON_KILL);
+		addEventIds(IMPERIAL_TOMB_DROPLIST.keySet(), EventHandler.MY_DYING);
+		addEventIds(FOUR_SEPULCHERS_DROPLIST.keySet(), EventHandler.MY_DYING);
 	}
 	
 	@Override
@@ -246,13 +246,13 @@ public class Q619_RelicsOfTheOldEmpire extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final int npcId = npc.getNpcId();
 		
@@ -265,7 +265,5 @@ public class Q619_RelicsOfTheOldEmpire extends Quest
 		}
 		else
 			dropItems(st.getPlayer(), BROKEN_RELIC_PART, 1, 0, FOUR_SEPULCHERS_DROPLIST.get(npcId));
-		
-		return null;
 	}
 }

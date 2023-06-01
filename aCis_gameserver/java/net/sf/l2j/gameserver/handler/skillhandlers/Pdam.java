@@ -7,6 +7,7 @@ import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
+import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.handler.ISkillHandler;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -29,7 +30,7 @@ public class Pdam implements ISkillHandler
 	};
 	
 	@Override
-	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets)
+	public void useSkill(Creature activeChar, L2Skill skill, WorldObject[] targets, ItemInstance itemInstance)
 	{
 		if (activeChar.isAlikeDead())
 			return;
@@ -83,18 +84,12 @@ public class Pdam implements ISkillHandler
 				}
 			}
 			
-			final int damage = (int) Formulas.calcPhysicalSkillDamage(activeChar, target, skill, sDef, isCrit, ss);
+			double damage = Formulas.calcPhysicalSkillDamage(activeChar, target, skill, sDef, isCrit, ss);
+			
 			if (damage > 0)
 			{
-				activeChar.sendDamageMessage(target, damage, false, isCrit, false);
-				
-				// Possibility of a lethal strike
-				Formulas.calcLethalHit(activeChar, target, skill);
-				
-				target.reduceCurrentHp(damage, activeChar, skill);
-				
-				// vengeance reflected damage
-				if ((reflect & Formulas.SKILL_REFLECT_VENGEANCE) != 0)
+				// Skill counter.
+				if ((reflect & Formulas.SKILL_COUNTER) != 0)
 				{
 					if (target instanceof Player)
 						target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.COUNTERED_S1_ATTACK).addCharName(activeChar));
@@ -102,9 +97,31 @@ public class Pdam implements ISkillHandler
 					if (activeChar instanceof Player)
 						activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_PERFORMING_COUNTERATTACK).addCharName(target));
 					
-					double vegdamage = (700 * target.getStatus().getPAtk(activeChar) / activeChar.getStatus().getPDef(target));
-					activeChar.reduceCurrentHp(vegdamage, target, skill);
+					// Calculate the counter percent.
+					final double counteredPercent = target.getStatus().calcStat(Stats.COUNTER_SKILL_PHYSICAL, 0, target, null) / 100.;
+					
+					damage *= counteredPercent;
+					
+					// Reduce caster HPs.
+					activeChar.reduceCurrentHp(damage, target, skill);
+					
+					// Send damage message.
+					target.sendDamageMessage(activeChar, (int) damage, false, false, false);
 				}
+				else
+				{
+					// Manage cast break of the target (calculating rate, sending message...)
+					Formulas.calcCastBreak(target, damage);
+					
+					// Reduce target HPs.
+					target.reduceCurrentHp(damage, activeChar, skill);
+					
+					// Send damage message.
+					activeChar.sendDamageMessage(target, (int) damage, false, false, false);
+				}
+				
+				// Possibility of a lethal strike.
+				Formulas.calcLethalHit(activeChar, target, skill);
 			}
 			else
 				activeChar.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ATTACK_FAILED));

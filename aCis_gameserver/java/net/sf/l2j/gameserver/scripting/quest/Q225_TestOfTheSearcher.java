@@ -69,12 +69,12 @@ public class Q225_TestOfTheSearcher extends SecondClassQuest
 		
 		setItemsIds(LUTHER_LETTER, ALEX_WARRANT, LEIRYNN_ORDER_1, DELU_TOTEM, LEIRYNN_ORDER_2, CHIEF_KALKI_FANG, LEIRYNN_REPORT, STRANGE_MAP, LAMBERT_MAP, ALEX_LETTER, ALEX_ORDER, WINE_CATALOG, TYRA_CONTRACT, RED_SPORE_DUST, MALRUKIAN_WINE, OLD_ORDER, JAX_DIARY, TORN_MAP_PIECE_1, TORN_MAP_PIECE_2, SOLT_MAP, MAKEL_MAP, COMBINED_MAP, RUSTED_KEY, GOLD_BAR, ALEX_RECOMMEND);
 		
-		addStartNpc(LUTHER);
+		addQuestStart(LUTHER);
 		addTalkId(ALEX, TYRA, TREE, STRONG_WOODEN_CHEST, LUTHER, LEIRYNN, BORYS, JAX);
-		addDecayId(STRONG_WOODEN_CHEST);
 		
-		addAttackId(DELU_LIZARDMAN_SHAMAN);
-		addKillId(HANGMAN_TREE, ROAD_SCAVENGER, GIANT_FUNGUS, DELU_LIZARDMAN_SHAMAN, DELU_CHIEF_KALKIS, NEER_BODYGUARD);
+		addAttacked(DELU_LIZARDMAN_SHAMAN);
+		addDecayed(STRONG_WOODEN_CHEST);
+		addMyDying(HANGMAN_TREE, ROAD_SCAVENGER, GIANT_FUNGUS, DELU_LIZARDMAN_SHAMAN, DELU_CHIEF_KALKIS, NEER_BODYGUARD);
 	}
 	
 	@Override
@@ -155,17 +155,6 @@ public class Q225_TestOfTheSearcher extends SecondClassQuest
 		}
 		
 		return htmltext;
-	}
-	
-	@Override
-	public String onDecay(Npc npc)
-	{
-		if (npc == _strongWoodenChest)
-		{
-			_strongWoodenChest = null;
-		}
-		
-		return null;
 	}
 	
 	@Override
@@ -365,25 +354,32 @@ public class Q225_TestOfTheSearcher extends SecondClassQuest
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		final Player player = attacker.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		if (player.getInventory().hasItems(LEIRYNN_ORDER_1) && !npc.isScriptValue(1))
 		{
 			npc.setScriptValue(1);
 			addSpawn(NEER_BODYGUARD, npc, false, 200000, true);
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onDecayed(Npc npc)
+	{
+		if (npc == _strongWoodenChest)
+		{
+			_strongWoodenChest = null;
+		}
+	}
+	
+	@Override
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
@@ -392,7 +388,7 @@ public class Q225_TestOfTheSearcher extends SecondClassQuest
 			case DELU_LIZARDMAN_SHAMAN:
 				QuestState st = checkPlayerCondition(player, npc, 3);
 				if (st == null)
-					return null;
+					return;
 				
 				if (dropItemsAlways(player, DELU_TOTEM, 1, 10))
 					st.setCond(4);
@@ -401,7 +397,7 @@ public class Q225_TestOfTheSearcher extends SecondClassQuest
 			case DELU_CHIEF_KALKIS:
 				st = checkPlayerCondition(player, npc, 5);
 				if (st == null)
-					return null;
+					return;
 				
 				st.setCond(6);
 				playSound(player, SOUND_MIDDLE);
@@ -412,7 +408,7 @@ public class Q225_TestOfTheSearcher extends SecondClassQuest
 			case GIANT_FUNGUS:
 				st = checkPlayerCondition(player, npc, 10);
 				if (st == null)
-					return null;
+					return;
 				
 				if (dropItemsAlways(player, RED_SPORE_DUST, 1, 10))
 					st.setCond(11);
@@ -421,7 +417,7 @@ public class Q225_TestOfTheSearcher extends SecondClassQuest
 			case ROAD_SCAVENGER:
 				st = checkPlayerCondition(player, npc, 14);
 				if (st == null)
-					return null;
+					return;
 				
 				if (!player.getInventory().hasItems(SOLT_MAP) && dropItems(player, TORN_MAP_PIECE_1, 1, 4, 500000))
 				{
@@ -436,7 +432,7 @@ public class Q225_TestOfTheSearcher extends SecondClassQuest
 			case HANGMAN_TREE:
 				st = checkPlayerCondition(player, npc, 14);
 				if (st == null)
-					return null;
+					return;
 				
 				if (!player.getInventory().hasItems(MAKEL_MAP) && dropItems(player, TORN_MAP_PIECE_2, 1, 4, 500000))
 				{
@@ -448,7 +444,5 @@ public class Q225_TestOfTheSearcher extends SecondClassQuest
 				}
 				break;
 		}
-		
-		return null;
 	}
 }

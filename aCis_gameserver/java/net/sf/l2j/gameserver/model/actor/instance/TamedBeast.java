@@ -2,7 +2,6 @@ package net.sf.l2j.gameserver.model.actor.instance;
 
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.actor.ai.type.CreatureAI;
 import net.sf.l2j.gameserver.model.actor.ai.type.TamedBeastAI;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.location.Location;
@@ -61,25 +60,21 @@ public final class TamedBeast extends FeedableBeast
 		super.deleteMe();
 	}
 	
-	public int getFoodId()
+	@Override
+	public TamedBeastAI getAI()
 	{
-		return _foodId;
+		return (TamedBeastAI) _ai;
 	}
 	
 	@Override
-	public CreatureAI getAI()
+	public void setAI()
 	{
-		CreatureAI ai = _ai;
-		if (ai == null)
-		{
-			synchronized (this)
-			{
-				ai = _ai;
-				if (ai == null)
-					_ai = ai = new TamedBeastAI(this);
-			}
-		}
-		return ai;
+		_ai = new TamedBeastAI(this);
+	}
+	
+	public int getFoodId()
+	{
+		return _foodId;
 	}
 	
 	public Player getOwner()

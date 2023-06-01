@@ -43,12 +43,12 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 		
 		setItemsIds(LOST_SKULL_OF_ELF, REPORT_BOX, SEALED_REPORT_BOX, LETTER_OF_INNOCENTIN, RED_JEWEL_OF_ADVENTURER, GREEN_JEWEL_OF_ADVENTURER);
 		
-		addStartNpc(TIFAREN, INNOCENTIN);
+		addQuestStart(TIFAREN, INNOCENTIN);
 		addTalkId(INNOCENTIN, TIFAREN, GHOST_OF_PRIEST, GHOST_OF_ADVENTURER, WELL);
 		
-		addAttackId(SOUL_OF_WELL);
-		addKillId(SOUL_OF_WELL, 21553, 21554, 21555, 21556, 21561);
-		addDecayId(GHOST_OF_PRIEST);
+		addAttacked(SOUL_OF_WELL);
+		addDecayed(GHOST_OF_PRIEST);
+		addMyDying(SOUL_OF_WELL, 21553, 21554, 21555, 21556, 21561);
 	}
 	
 	@Override
@@ -356,7 +356,23 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 	}
 	
 	@Override
-	public String onDecay(Npc npc)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
+	{
+		final Player player = attacker.getActingPlayer();
+		
+		final QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
+		if (st == null || !st.isStarted())
+			return;
+		
+		if (attacker instanceof Summon || npc != _soulOfWell)
+			return;
+		
+		if (st.getCond() == 10)
+			startQuestTimer("attack_timer", npc, player, 20000);
+	}
+	
+	@Override
+	public void onDecayed(Npc npc)
 	{
 		if (npc == _ghostOfPriest)
 		{
@@ -365,36 +381,16 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 			cancelQuestTimers(_ghostOfPriest);
 			_ghostOfPriest = null;
 		}
-		
-		return null;
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
-	{
-		final Player player = attacker.getActingPlayer();
-		
-		final QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
-		if (st == null || !st.isStarted())
-			return null;
-		
-		if (attacker instanceof Summon || npc != _soulOfWell)
-			return null;
-		
-		if (st.getCond() == 10)
-			startQuestTimer("attack_timer", npc, player, 20000);
-		
-		return null;
-	}
-	
-	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		if (npc.getNpcId() != SOUL_OF_WELL)
 		{
@@ -407,7 +403,5 @@ public class Q022_TragedyInVonHellmannForest extends Quest
 			
 			_soulOfWell = null;
 		}
-		
-		return null;
 	}
 }

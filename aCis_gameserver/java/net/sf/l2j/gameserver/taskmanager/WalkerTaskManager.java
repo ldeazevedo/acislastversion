@@ -5,14 +5,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import net.sf.l2j.commons.pool.ThreadPool;
 
-import net.sf.l2j.gameserver.model.actor.instance.Walker;
+import net.sf.l2j.gameserver.model.actor.Npc;
 
 /**
- * Handles {@link Walker} waiting state case, when they got a delay option on their WalkNode.
+ * Handles {@link Npc} waiting state case, when their current WalkerLocation got a delay.
  */
 public final class WalkerTaskManager implements Runnable
 {
-	private final Map<Walker, Long> _walkers = new ConcurrentHashMap<>();
+	private final Map<Npc, Long> _walkers = new ConcurrentHashMap<>();
 	
 	protected WalkerTaskManager()
 	{
@@ -31,35 +31,35 @@ public final class WalkerTaskManager implements Runnable
 		final long time = System.currentTimeMillis();
 		
 		// Loop all Walkers.
-		for (Map.Entry<Walker, Long> entry : _walkers.entrySet())
+		for (Map.Entry<Npc, Long> entry : _walkers.entrySet())
 		{
 			// Time hasn't passed yet, skip.
 			if (time < entry.getValue())
 				continue;
 			
 			// Retrieve the Walker.
-			final Walker walker = entry.getKey();
+			final Npc npc = entry.getKey();
 			
-			// Walker is still moving ; delay the acquisition of next point.
-			if (walker.isMoving())
+			// Npc is still moving ; delay the acquisition of next point.
+			if (npc.isMoving())
 				continue;
 			
-			// Order the Walker to move to next point.
-			walker.getAI().moveToNextPoint();
+			// Order the Npc to move to next point.
+			npc.getAI().moveToNextPoint();
 			
 			// Release it from the map.
-			_walkers.remove(walker);
+			_walkers.remove(npc);
 		}
 	}
 	
 	/**
-	 * Adds {@link Walker} to the WalkerTaskManager.
-	 * @param walker : Walker to be added.
+	 * Adds {@link Npc} to the WalkerTaskManager.
+	 * @param npc : The {@link Npc} to be added.
 	 * @param delay : The delay to add.
 	 */
-	public final void add(Walker walker, int delay)
+	public final void add(Npc npc, int delay)
 	{
-		_walkers.put(walker, System.currentTimeMillis() + delay);
+		_walkers.put(npc, System.currentTimeMillis() + delay);
 	}
 	
 	public static final WalkerTaskManager getInstance()

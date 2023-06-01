@@ -30,10 +30,10 @@ public class Q381_LetsBecomeARoyalMember extends Quest
 		
 		setItemsIds(KAIL_COIN, GOLDEN_CLOVER_COIN);
 		
-		addStartNpc(SORINT);
+		addQuestStart(SORINT);
 		addTalkId(SORINT, SANDRA);
 		
-		addKillId(21018, 27316);
+		addMyDying(21018, 27316);
 	}
 	
 	@Override
@@ -117,19 +117,17 @@ public class Q381_LetsBecomeARoyalMember extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		if (npc.getNpcId() == 21018)
 			dropItems(player, KAIL_COIN, 1, 1, 50000);
 		else if (st.getInteger("aCond") == 1)
 			dropItemsAlways(player, GOLDEN_CLOVER_COIN, 1, 1);
-		
-		return null;
 	}
 }

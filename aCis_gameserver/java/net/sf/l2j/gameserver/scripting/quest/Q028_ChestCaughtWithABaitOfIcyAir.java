@@ -25,7 +25,7 @@ public class Q028_ChestCaughtWithABaitOfIcyAir extends Quest
 		
 		setItemsIds(KIKI_LETTER);
 		
-		addStartNpc(OFULLE);
+		addQuestStart(OFULLE);
 		addTalkId(OFULLE, KIKI);
 	}
 	

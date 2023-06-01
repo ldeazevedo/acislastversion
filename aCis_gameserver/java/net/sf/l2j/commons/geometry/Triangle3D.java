@@ -1,13 +1,15 @@
 package net.sf.l2j.commons.geometry;
 
+import java.awt.Color;
+
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.gameserver.model.location.Location;
+import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 
 /**
- * Tri-sided polygon in 3D, while having bottom and top area flat (in Z coordinate).<br>
+ * Tri-sided polygon in 3D space, while having bottom and top area flat (in Z coordinate).<br>
  * It is <b>not</b> 3D oriented triangle.
- * @author Hasha
  */
 public class Triangle3D extends Triangle
 {
@@ -77,5 +79,32 @@ public class Triangle3D extends Triangle
 		
 		// return
 		return new Location(x, y, Rnd.get(_minZ, _maxZ));
+	}
+	
+	@Override
+	public void visualize(String info, ExServerPrimitive debug, int z)
+	{
+		final int x2 = _Ax + _BAx;
+		final int y2 = _Ay + _BAy;
+		final int x3 = _Ax + _CAx;
+		final int y3 = _Ay + _CAy;
+		final int z1 = _minZ - 32;
+		final int z2 = _maxZ - 32;
+		
+		debug.addLine(info + " MinZ", Color.GREEN, true, _Ax, _Ay, z1, x2, y2, z1);
+		debug.addLine(info, Color.YELLOW, true, _Ax, _Ay, z, x2, y2, z);
+		debug.addLine(info + " MaxZ", Color.RED, true, _Ax, _Ay, z2, x2, y2, z2);
+		
+		debug.addLine(info + " MinZ", Color.GREEN, true, _Ax, _Ay, z1, x3, y3, z1);
+		debug.addLine(info, Color.YELLOW, true, _Ax, _Ay, z, x3, y3, z);
+		debug.addLine(info + " MaxZ", Color.RED, true, _Ax, _Ay, z2, x3, y3, z2);
+		
+		debug.addLine(info + " MinZ", Color.GREEN, true, x2, y2, z1, x3, y3, z1);
+		debug.addLine(info, Color.YELLOW, true, x2, y2, z, x3, y3, z);
+		debug.addLine(info + " MaxZ", Color.RED, true, x2, y2, z2, x3, y3, z2);
+		
+		debug.addLine(info, Color.YELLOW, true, _Ax, _Ay, z1, _Ax, _Ay, z2);
+		debug.addLine(info, Color.YELLOW, true, x2, y2, z1, x2, y2, z2);
+		debug.addLine(info, Color.YELLOW, true, x3, y3, z1, x3, y3, z2);
 	}
 }

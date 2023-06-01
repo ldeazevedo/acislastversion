@@ -26,10 +26,10 @@ public class Q294_CovertBusiness extends Quest
 		
 		setItemsIds(BAT_FANG);
 		
-		addStartNpc(30534); // Keef
+		addQuestStart(30534); // Keef
 		addTalkId(30534);
 		
-		addKillId(20370, 20480); // Barded Bat, Blade Bat
+		addMyDying(20370, 20480); // Barded Bat, Blade Bat
 	}
 	
 	@Override
@@ -97,13 +97,13 @@ public class Q294_CovertBusiness extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		int count = 1;
 		final int chance = Rnd.get(10);
@@ -118,7 +118,5 @@ public class Q294_CovertBusiness extends Quest
 		
 		if (dropItemsAlways(player, BAT_FANG, count, 100))
 			st.setCond(2);
-		
-		return null;
 	}
 }

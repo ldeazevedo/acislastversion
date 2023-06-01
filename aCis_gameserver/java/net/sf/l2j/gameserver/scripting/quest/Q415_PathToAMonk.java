@@ -55,10 +55,10 @@ public class Q415_PathToAMonk extends Quest
 		
 		setItemsIds(POMEGRANATE, LEATHER_POUCH_1, LEATHER_POUCH_2, LEATHER_POUCH_3, LEATHER_POUCH_FULL_1, LEATHER_POUCH_FULL_2, LEATHER_POUCH_FULL_3, KASHA_BEAR_CLAW, KASHA_BLADE_SPIDER_TALON, SCARLET_SALAMANDER_SCALE, FIERY_SPIRIT_SCROLL, ROSHEEK_LETTER, GANTAKI_LETTER_OF_RECOMMENDATION, FIG, LEATHER_POUCH_4, LEATHER_POUCH_FULL_4, VUKU_ORC_TUSK, RATMAN_FANG, LANG_KLIZARDMAN_TOOTH, FELIM_LIZARDMAN_TOOTH, IRON_WILL_SCROLL, TORUKU_LETTER, KASHA_SPIDER_TOOTH, HORN_OF_BAAR_DRE_VANUL);
 		
-		addStartNpc(GANTAKI);
+		addQuestStart(GANTAKI);
 		addTalkId(GANTAKI, ROSHEEK, KASMAN, TORUKU, AREN, MOIRA);
 		
-		addKillId(20014, 20017, 20024, 20359, 20415, 20476, 20478, 20479, 21118);
+		addMyDying(20014, 20017, 20024, 20359, 20415, 20476, 20478, 20479, 21118);
 	}
 	
 	@Override
@@ -287,20 +287,20 @@ public class Q415_PathToAMonk extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		final WeaponType weapon = player.getAttackType();
 		if (weapon != WeaponType.DUALFIST && weapon != WeaponType.FIST)
 		{
 			playSound(player, SOUND_GIVEUP);
 			st.exitQuest(true);
-			return null;
+			return;
 		}
 		
 		switch (npc.getNpcId())
@@ -415,7 +415,5 @@ public class Q415_PathToAMonk extends Quest
 				}
 				break;
 		}
-		
-		return null;
 	}
 }

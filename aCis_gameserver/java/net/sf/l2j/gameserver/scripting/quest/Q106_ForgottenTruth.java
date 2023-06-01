@@ -41,10 +41,10 @@ public class Q106_ForgottenTruth extends Quest
 		
 		setItemsIds(ONYX_TALISMAN_1, ONYX_TALISMAN_2, ANCIENT_SCROLL, ANCIENT_CLAY_TABLET, KARTIA_TRANSLATION);
 		
-		addStartNpc(THIFIELL);
+		addQuestStart(THIFIELL);
 		addTalkId(THIFIELL, KARTIA);
 		
-		addKillId(27070); // Tumran Orc Brigand
+		addMyDying(27070); // Tumran Orc Brigand
 	}
 	
 	@Override
@@ -155,19 +155,17 @@ public class Q106_ForgottenTruth extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 2);
 		if (st == null)
-			return null;
+			return;
 		
 		if (!player.getInventory().hasItems(ANCIENT_SCROLL))
 			dropItems(player, ANCIENT_SCROLL, 1, 1, 200000);
 		else if (dropItems(player, ANCIENT_CLAY_TABLET, 1, 1, 200000))
 			st.setCond(3);
-		
-		return null;
 	}
 }

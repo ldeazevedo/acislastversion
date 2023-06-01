@@ -23,10 +23,10 @@ public class Q050_LanoscosSpecialBait extends Quest
 		
 		setItemsIds(ESSENCE_OF_WIND);
 		
-		addStartNpc(31570); // Lanosco
+		addQuestStart(31570); // Lanosco
 		addTalkId(31570);
 		
-		addKillId(21026); // Singing wind
+		addMyDying(21026); // Singing wind
 	}
 	
 	@Override
@@ -82,17 +82,15 @@ public class Q050_LanoscosSpecialBait extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, ESSENCE_OF_WIND, 1, 100, 500000))
 			st.setCond(2);
-		
-		return null;
 	}
 }

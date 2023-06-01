@@ -116,11 +116,11 @@ public class Q663_SeductiveWhispers extends Quest
 		
 		setItemsIds(SPIRIT_BEAD);
 		
-		addStartNpc(WILBERT);
+		addQuestStart(WILBERT);
 		addTalkId(WILBERT);
 		
 		for (int npcId : CHANCES.keySet())
-			addKillId(npcId);
+			addMyDying(npcId);
 	}
 	
 	@Override
@@ -483,17 +483,15 @@ public class Q663_SeductiveWhispers extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = getRandomPartyMemberState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(st.getPlayer(), SPIRIT_BEAD, 1, 0, CHANCES.get(npc.getNpcId()));
-		
-		return null;
 	}
 	
 	private String getHTML(String html, int index, int param3, String name)

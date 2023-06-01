@@ -3,11 +3,11 @@ package net.sf.l2j.gameserver.skills;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.math.MathUtil;
 
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
@@ -26,7 +26,6 @@ import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.actor.Summon;
 import net.sf.l2j.gameserver.model.actor.instance.Cubic;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.SiegeFlag;
@@ -392,6 +391,28 @@ public abstract class L2Skill implements IChanceSkillTrigger
 			
 			_extractableItems = parseExtractableSkill(_id, _level, capsuledItems);
 		}
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(_id, _level);
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		
+		if (obj == null)
+			return false;
+		
+		if (getClass() != obj.getClass())
+			return false;
+		
+		final L2Skill other = (L2Skill) obj;
+		return _id == other._id && _level == other._level;
 	}
 	
 	public abstract void useSkill(Creature caster, WorldObject[] targets);
@@ -1079,27 +1100,6 @@ public abstract class L2Skill implements IChanceSkillTrigger
 				return false;
 			}
 		}
-		return true;
-	}
-	
-	public final boolean addSummon(Creature caster, Player owner, boolean isDead)
-	{
-		final Summon summon = owner.getSummon();
-		
-		if (summon == null)
-			return false;
-		
-		return addCharacter(caster, summon, isDead);
-	}
-	
-	public final boolean addCharacter(Creature caster, Creature target, boolean isDead)
-	{
-		if (isDead != target.isDead())
-			return false;
-		
-		if (_skillRadius > 0 && !MathUtil.checkIfInRange(_skillRadius, caster, target, true))
-			return false;
-		
 		return true;
 	}
 	

@@ -27,9 +27,9 @@ public class Q650_ABrokenDream extends Quest
 		
 		setItemsIds(DREAM_FRAGMENT);
 		
-		addStartNpc(GHOST);
+		addQuestStart(GHOST);
 		addTalkId(GHOST);
-		addKillId(CREWMAN, VAGABOND);
+		addMyDying(CREWMAN, VAGABOND);
 	}
 	
 	@Override
@@ -90,16 +90,14 @@ public class Q650_ABrokenDream extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		dropItems(player, DREAM_FRAGMENT, 1, 0, 250000);
-		
-		return null;
 	}
 }

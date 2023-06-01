@@ -26,7 +26,7 @@ public class Q362_BardsMandolin extends Quest
 		
 		setItemsIds(SWAN_FLUTE, SWAN_LETTER);
 		
-		addStartNpc(SWAN);
+		addQuestStart(SWAN);
 		addTalkId(SWAN, NANARIN, GALION, WOODROW);
 	}
 	

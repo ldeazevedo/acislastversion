@@ -30,10 +30,10 @@ public class Q035_FindGlitteringJewelry extends Quest
 		
 		setItemsIds(ROUGH_JEWEL);
 		
-		addStartNpc(ELLIE);
+		addQuestStart(ELLIE);
 		addTalkId(ELLIE, FELTON);
 		
-		addKillId(20135); // Alligator
+		addMyDying(20135); // Alligator
 	}
 	
 	@Override
@@ -133,17 +133,15 @@ public class Q035_FindGlitteringJewelry extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 2);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, ROUGH_JEWEL, 1, 10, 500000))
 			st.setCond(3);
-		
-		return null;
 	}
 }

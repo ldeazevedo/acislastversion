@@ -23,7 +23,7 @@ public class Q014_WhereaboutsOfTheArchaeologist extends Quest
 		
 		setItemsIds(LETTER);
 		
-		addStartNpc(LIESEL);
+		addQuestStart(LIESEL);
 		addTalkId(LIESEL, GHOST_OF_ADVENTURER);
 	}
 	

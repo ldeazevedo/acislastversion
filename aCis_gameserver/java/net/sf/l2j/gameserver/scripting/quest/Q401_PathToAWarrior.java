@@ -34,10 +34,10 @@ public class Q401_PathToAWarrior extends Quest
 		
 		setItemsIds(AURON_LETTER, WARRIOR_GUILD_MARK, RUSTED_BRONZE_SWORD_1, RUSTED_BRONZE_SWORD_2, RUSTED_BRONZE_SWORD_3, SIMPLON_LETTER, POISON_SPIDER_LEG);
 		
-		addStartNpc(AURON);
+		addQuestStart(AURON);
 		addTalkId(AURON, SIMPLON);
 		
-		addKillId(20035, 20038, 20042, 20043);
+		addMyDying(20035, 20038, 20042, 20043);
 	}
 	
 	@Override
@@ -154,13 +154,13 @@ public class Q401_PathToAWarrior extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -177,7 +177,5 @@ public class Q401_PathToAWarrior extends Quest
 						st.setCond(6);
 				break;
 		}
-		
-		return null;
 	}
 }

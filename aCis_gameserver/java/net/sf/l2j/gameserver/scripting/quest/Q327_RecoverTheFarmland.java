@@ -111,10 +111,10 @@ public class Q327_RecoverTheFarmland extends Quest
 		
 		setItemsIds(LEIKAN_LETTER);
 		
-		addStartNpc(LEIKAN, PIOTUR);
+		addQuestStart(LEIKAN, PIOTUR);
 		addTalkId(LEIKAN, PIOTUR, IRIS, ASHA, NESTLE);
 		
-		addKillId(TUREK_ORC_WARLORD, TUREK_ORC_ARCHER, TUREK_ORC_SKIRMISHER, TUREK_ORC_SUPPLIER, TUREK_ORC_FOOTMAN, TUREK_ORC_SENTINEL, TUREK_ORC_SHAMAN);
+		addMyDying(TUREK_ORC_WARLORD, TUREK_ORC_ARCHER, TUREK_ORC_SKIRMISHER, TUREK_ORC_SUPPLIER, TUREK_ORC_FOOTMAN, TUREK_ORC_SENTINEL, TUREK_ORC_SHAMAN);
 	}
 	
 	@Override
@@ -395,13 +395,13 @@ public class Q327_RecoverTheFarmland extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		for (int[] npcData : DROPLIST)
 		{
@@ -412,7 +412,5 @@ public class Q327_RecoverTheFarmland extends Quest
 				break;
 			}
 		}
-		
-		return null;
 	}
 }

@@ -26,13 +26,8 @@ public class ClanHallZone extends ResidenceZoneType
 		if (ch == null)
 			return;
 		
-		for (Player player : getKnownTypeInside(Player.class))
-		{
-			if (player.getClanId() == clanId)
-				continue;
-			
+		for (Player player : getKnownTypeInside(Player.class, p -> p.getClanId() != clanId))
 			player.teleportTo(ch.getRndSpawn(SpawnType.BANISH), 20);
-		}
 	}
 	
 	@Override

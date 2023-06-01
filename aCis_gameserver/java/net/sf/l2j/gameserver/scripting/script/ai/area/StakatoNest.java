@@ -44,12 +44,12 @@ public class StakatoNest extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addAttackId(CANNIBALISTIC_STAKATO_LEADER_1, CANNIBALISTIC_STAKATO_LEADER_2);
-		addKillId(MALE_SPIKED_STAKATO_1, FEMALE_SPIKED_STAKATO, SPIKED_STAKATO_NURSE_1, SPIKED_STAKATO_BABY);
+		addAttacked(CANNIBALISTIC_STAKATO_LEADER_1, CANNIBALISTIC_STAKATO_LEADER_2);
+		addMyDying(MALE_SPIKED_STAKATO_1, FEMALE_SPIKED_STAKATO, SPIKED_STAKATO_NURSE_1, SPIKED_STAKATO_BABY);
 	}
 	
 	@Override
-	public String onAttack(Npc npc, Creature attacker, int damage, L2Skill skill)
+	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
 		if (npc.getStatus().getHpRatio() < 0.3 && Rnd.get(100) < 5)
 		{
@@ -72,11 +72,11 @@ public class StakatoNest extends AttackableAIScript
 				}
 			}
 		}
-		return super.onAttack(npc, attacker, damage, skill);
+		super.onAttacked(npc, attacker, damage, skill);
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		switch (npc.getNpcId())
 		{
@@ -134,6 +134,6 @@ public class StakatoNest extends AttackableAIScript
 				}
 				break;
 		}
-		return super.onKill(npc, killer);
+		super.onMyDying(npc, killer);
 	}
 }

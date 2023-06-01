@@ -89,7 +89,6 @@ $MYG < ../sql/castle.sql &> /dev/null
 $MYG < ../sql/castle_doorupgrade.sql &> /dev/null
 $MYG < ../sql/castle_manor_procure.sql &> /dev/null
 $MYG < ../sql/castle_manor_production.sql &> /dev/null
-$MYG < ../sql/castle_siege_guards.sql &> /dev/null
 $MYG < ../sql/castle_trapupgrade.sql &> /dev/null
 $MYG < ../sql/character_friends.sql &> /dev/null
 $MYG < ../sql/character_hennas.sql &> /dev/null
@@ -110,9 +109,10 @@ $MYG < ../sql/clan_skills.sql &> /dev/null
 $MYG < ../sql/clan_subpledges.sql &> /dev/null
 $MYG < ../sql/clan_wars.sql &> /dev/null
 $MYG < ../sql/clanhall.sql &> /dev/null
+$MYG < ../sql/clanhall_flagwar_attackers.sql &> /dev/null
+$MYG < ../sql/clanhall_flagwar_members.sql &> /dev/null
 $MYG < ../sql/clanhall_functions.sql &> /dev/null
 $MYG < ../sql/clanhall_siege_attackers.sql &> /dev/null
-$MYG < ../sql/clanhall_siege_guards.sql &> /dev/null
 $MYG < ../sql/cursed_weapons.sql &> /dev/null
 $MYG < ../sql/fishing_championship.sql &> /dev/null
 $MYG < ../sql/games.sql &> /dev/null
@@ -132,17 +132,13 @@ $MYG < ../sql/olympiad_nobles.sql&> /dev/null
 $MYG < ../sql/petition.sql &> /dev/null
 $MYG < ../sql/petition_message.sql &> /dev/null
 $MYG < ../sql/pets.sql &> /dev/null
-$MYG < ../sql/raidboss_spawnlist.sql &> /dev/null
 $MYG < ../sql/rainbowsprings_attacker_list.sql &> /dev/null
-$MYG < ../sql/random_spawn.sql &> /dev/null
-$MYG < ../sql/random_spawn_loc.sql &> /dev/null
 $MYG < ../sql/server_memo.sql &> /dev/null
 $MYG < ../sql/seven_signs.sql &> /dev/null
 $MYG < ../sql/seven_signs_festival.sql &> /dev/null
 $MYG < ../sql/seven_signs_status.sql &> /dev/null
 $MYG < ../sql/siege_clans.sql &> /dev/null
-$MYG < ../sql/spawnlist_4s.sql &> /dev/null
-$MYG < ../sql/spawnlist.sql &> /dev/null
+$MYG < ../sql/spawn_data.sql &> /dev/null
 echo ""
 echo "Was fast, isn't it ?"
 }

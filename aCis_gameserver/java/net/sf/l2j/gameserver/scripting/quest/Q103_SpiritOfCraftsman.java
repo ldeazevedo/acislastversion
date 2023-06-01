@@ -45,10 +45,10 @@ public class Q103_SpiritOfCraftsman extends Quest
 		
 		setItemsIds(KARROD_LETTER, CECKTINON_VOUCHER_1, CECKTINON_VOUCHER_2, BONE_FRAGMENT, SOUL_CATCHER, PRESERVING_OIL, ZOMBIE_HEAD, STEELBENDER_HEAD);
 		
-		addStartNpc(KARROD);
+		addQuestStart(KARROD);
 		addTalkId(KARROD, CECKTINON, HARNE);
 		
-		addKillId(20015, 20020, 20455, 20517, 20518);
+		addMyDying(20015, 20020, 20455, 20517, 20518);
 	}
 	
 	@Override
@@ -190,13 +190,13 @@ public class Q103_SpiritOfCraftsman extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		switch (npc.getNpcId())
 		{
@@ -216,7 +216,5 @@ public class Q103_SpiritOfCraftsman extends Quest
 				}
 				break;
 		}
-		
-		return null;
 	}
 }

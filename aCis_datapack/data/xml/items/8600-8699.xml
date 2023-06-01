@@ -608,7 +608,7 @@
 		<set name="weight" val="50" />
 		<set name="reuse_delay" val="500" />
 		<set name="is_stackable" val="true" />
-		<set name="handler" val="SummonItems" />
+		<set name="handler" val="ItemSkills" />
 		<set name="item_skill" val="2103-1" />
 	</item>
 	<item id="8664" type="EtcItem" name="Masking Oil">

@@ -304,7 +304,7 @@
 	<script path="quest.Q617_GatherTheFlames"/>
 	<script path="quest.Q618_IntoTheFlame"/>
 	<script path="quest.Q619_RelicsOfTheOldEmpire"/>
-	<script path="quest.Q620_FourGoblets"/>
+	<script path="quest.Q620_FourGoblets" schedule="HOURLY" start="00:00" end="50:00"/>
 	<script path="quest.Q621_EggDelivery"/>
 	<script path="quest.Q622_SpecialtyLiquorDelivery"/>
 	<script path="quest.Q623_TheFinestFood"/>
@@ -351,8 +351,6 @@
 	<script path="script.ai.AttackableAIScript"/>
 
 	<script path="script.ai.area.BrekaStronghold"/>
-	<script path="script.ai.area.ForestOfTheDead"/>
-	<script path="script.ai.area.FourSepulchers"/>
 	<script path="script.ai.area.FrozenLabyrinth"/>
 	<script path="script.ai.area.HotSprings"/>
 	<script path="script.ai.area.MonasteryOfSilence"/>
@@ -378,15 +376,23 @@
 	<script path="script.ai.group.Chests"/>
 	<script path="script.ai.group.FeedableBeasts"/>
 	<script path="script.ai.group.FishingBlocker"/>
+	<script path="script.ai.group.FollowerMovingAroundMaster"/>
 	<script path="script.ai.group.FrenzyOnAttack"/>
 	<script path="script.ai.group.PolymorphingAngel"/>
 	<script path="script.ai.group.PolymorphingOnAttack"/>
+	<script path="script.ai.group.RandomTeleport"/>
 	<script path="script.ai.group.SummonMinions"/>
 	<script path="script.ai.group.SummonPlayer"/>
 
+	<script path="script.ai.individual.DaimonTheWhiteEyed"/>
 	<script path="script.ai.individual.Elpy"/>
 	<script path="script.ai.individual.ImperialGravekeeper"/>
 	<script path="script.ai.individual.Medusa"/>
+	<script path="script.ai.individual.Victim"/>
+
+	<script path="script.ai.spawn.ExclusiveSpawn"/>
+	<script path="script.ai.spawn.InstantSpawn"/>
+	<script path="script.ai.spawn.UniqueNpcKill"/>
 
 	<!-- Events -->
 
@@ -415,10 +421,12 @@
 
 	<!-- Siegable Halls -->
 
+	<script path="script.siegablehall.BanditStronghold"/>
 	<script path="script.siegablehall.DevastatedCastle"/>
 	<script path="script.siegablehall.FortressOfResistance"/>
 	<script path="script.siegablehall.FortressOfTheDead"/>
 	<script path="script.siegablehall.RainbowSpringsChateau"/>
+	<script path="script.siegablehall.WildBeastReserve"/>
 
 	<!-- Teleports -->
 
@@ -447,14 +455,20 @@
 
 <!--
 WHAT IS SCHEDULED SCRIPT?
- -	a way to periodicly schedule action on your server periodicly and/or certain duration
+ -	a way to periodically schedule action on your server periodically and/or certain duration
  -	scheduled script can be set to have starting and ending action or only starting action
- -	all actions may be periodicly triggered, based on the scheduled settings
+ -	all actions may be periodically triggered, based on the scheduled settings
 
 HOW TO CREATE SCHEDULED SCRIPT?
  1)	Create a new script anywhere in "gameserver.scripting" package/sub-package, which inherits ScheduledQuest.
- 2)	Implement onStart() and onEnd() methods (Note: onEnd() is not invocated, when having a script with one action)
-	Implement init() method, when you have special conditions to start scheduling a script (e.g. config settings, etc)
+ 2)	Implement onStart() and onEnd() methods (Note: onEnd() is not invoked, when having a script with one action)
+	Implement init() method, when you want to load data to the script (e.g. config settings, database, etc)
+		- used during script initialization = during server startup
+		- when returns True, the script is considered as scheduled script
+		- by default runs onStart(), when the script is to be scheduled
+	Implement stop() method, when you want to save data of the script (e.g. internal variables, etc)
+		- used during server shutdown/restart
+		- by default runs onEnd(), when the script is running
 
 HOW TO SCHEDULE SCRIPT?
  1)	Add a setup line to "scripts.xml", set up "schedule", "start" and "end" parameters

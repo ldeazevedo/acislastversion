@@ -6,6 +6,7 @@ import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.Config;
+import net.sf.l2j.gameserver.data.xml.HealSpsData;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
 import net.sf.l2j.gameserver.enums.actors.NpcRace;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
@@ -17,9 +18,9 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.Summon;
 import net.sf.l2j.gameserver.model.actor.instance.Cubic;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
-import net.sf.l2j.gameserver.model.actor.instance.SiegeFlag;
 import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
@@ -34,9 +35,9 @@ public final class Formulas
 	
 	private static final int HP_REGENERATE_PERIOD = 3000; // 3 secs
 	
-	public static final byte SKILL_REFLECT_FAILED = 0; // no reflect
+	public static final byte SKILL_REFLECT_FAILED = 0; // Reflect failed.
 	public static final byte SKILL_REFLECT_SUCCEED = 1; // normal reflect, some damage reflected some other not
-	public static final byte SKILL_REFLECT_VENGEANCE = 2; // 100% of the damage affect both
+	public static final byte SKILL_COUNTER = 2; // Damages are reflected, partially or completely, to the attacker.
 	
 	private static final byte MELEE_ATTACK_RANGE = 40;
 	
@@ -112,7 +113,7 @@ public final class Formulas
 	
 	/**
 	 * @param creature : The {@link Creature} to test.
-	 * @return The period between 2 regenerations task.
+	 * @return The period between 2 regeneration ticks.
 	 */
 	public static int getRegeneratePeriod(Creature creature)
 	{
@@ -207,6 +208,12 @@ public final class Formulas
 		return lethalRate > Rnd.get(1000);
 	}
 	
+	/**
+	 * Calculate and process the effects of a lethal hit, based on {@link Creature} attacker, {@link Creature} target and {@link L2Skill} parameters.
+	 * @param attacker : The {@link Creature} attacker.
+	 * @param target : The {@link Creature} target.
+	 * @param skill : The {@link L2Skill} to test.
+	 */
 	public static final void calcLethalHit(Creature attacker, Creature target, L2Skill skill)
 	{
 		// If the attacker can't attack, return.
@@ -214,22 +221,9 @@ public final class Formulas
 		if (attackerPlayer != null && !attackerPlayer.getAccessLevel().canGiveDamage())
 			return;
 		
-		// If the target is invulnerable, related to RaidBoss or a Door/SiegeFlag, return.
-		if (target.isInvul() || target.isRaidRelated() || target instanceof Door || target instanceof SiegeFlag)
+		// If the target is invulnerable, related to RaidBoss or not lethalable, return.
+		if (target.isInvul() || target.isRaidRelated() || !target.isLethalable())
 			return;
-		
-		// If one of following IDs is found, return (Tyrannosaurus x 3, Headquarters).
-		if (target instanceof Npc)
-		{
-			switch (((Npc) target).getNpcId())
-			{
-				case 22215:
-				case 22216:
-				case 22217:
-				case 35062:
-					return;
-			}
-		}
 		
 		// Second lethal effect (hp to 1 for npc, cp/hp to 1 for player).
 		if (skill.getLethalChance2() > 0 && calcLethalRate(attacker, target, skill.getLethalChance2(), skill.getMagicLevel()))
@@ -316,6 +310,52 @@ public final class Formulas
 			LOGGER.info("Final blow damage: {}", damage);
 		}
 		return Math.max(1, damage);
+	}
+	
+	/**
+	 * @param caster : The {@link Creature} launching the heal.
+	 * @param skill : The {@link L2Skill} to test.
+	 * @param sps : True if sps are activated, false otherwise.
+	 * @param bsps : True if bsps are activated, false otherwise.
+	 * @return The calculated heal amount of a {@link L2Skill}.
+	 */
+	public static double calcHealAmount(Creature caster, L2Skill skill, boolean sps, boolean bsps)
+	{
+		final double skillPower = skill.getPower();
+		final double addHealPower = caster.getStatus().calcStat(Stats.HEAL_PROFICIENCY, 0, null, null);
+		
+		double amount = skillPower + addHealPower;
+		if (skill.getSkillType() == SkillType.HEAL_STATIC)
+			return amount;
+		
+		final int mAtkPower = caster.getStatus().getMAtk(caster, null);
+		
+		double spsPower = 0.;
+		double mAtkMul = 1.;
+		
+		if (sps || bsps)
+		{
+			spsPower = HealSpsData.getInstance().calculateHealSps(skill, mAtkPower);
+			if (sps)
+				spsPower *= 0.41;
+			
+			if ((caster instanceof Player && caster.getActingPlayer().isMageClass()) || caster instanceof Summon)
+				mAtkMul = (bsps) ? 4. : 2.;
+			else if (caster instanceof Npc)
+				mAtkMul = 4.;
+		}
+		
+		amount += spsPower + Math.sqrt(mAtkMul * mAtkPower);
+		
+		if (Config.DEVELOPER)
+		{
+			StringUtil.printSection("Heal amount");
+			LOGGER.info("magicLevel: {}, sps:{}, bsps:{}", skill.getMagicLevel(), sps, bsps);
+			LOGGER.info("Basic powers: mAtk: {}, skill: {}, addHeal: {}, sps: {}", mAtkPower, skillPower, addHealPower, spsPower);
+			LOGGER.info("Multipliers: mAtk: {}", mAtkMul);
+			LOGGER.info("Final heal amount: {}", amount);
+		}
+		return amount;
 	}
 	
 	/**
@@ -834,16 +874,12 @@ public final class Formulas
 	
 	public static boolean calcMagicAffected(Creature actor, Creature target, L2Skill skill)
 	{
-		SkillType type = skill.getSkillType();
-		if (target.isRaidRelated() && !calcRaidAffected(type))
-			return false;
-		
 		double defence = 0;
 		
 		if (skill.isActive() && skill.isOffensive())
 			defence = target.getStatus().getMDef(actor, skill);
 		
-		double attack = 2 * actor.getStatus().getMAtk(target, skill) * calcSkillVulnerability(actor, target, skill, type);
+		double attack = 2 * actor.getStatus().getMAtk(target, skill) * calcSkillVulnerability(actor, target, skill, skill.getSkillType());
 		double d = (attack - defence) / (attack + defence);
 		
 		d += 0.5 * Rnd.nextGaussian();
@@ -998,15 +1034,11 @@ public final class Formulas
 		if (sDef == ShieldDefense.PERFECT)
 			return false;
 		
-		final SkillType type = skill.getEffectType();
-		
-		if (target.isRaidRelated() && !calcRaidAffected(type))
-			return false;
-		
 		final double baseChance = skill.getEffectPower();
 		if (skill.ignoreResists())
 			return (Rnd.get(100) < baseChance);
 		
+		final SkillType type = skill.getEffectType();
 		final double statModifier = calcSkillStatModifier(type, target, skill.isMagic());
 		final double skillModifier = calcSkillVulnerability(attacker, target, skill, type);
 		final double mAtkModifier = getMatkModifier(attacker, target, skill, bss);
@@ -1028,11 +1060,6 @@ public final class Formulas
 		if (sDef == ShieldDefense.PERFECT)
 			return false;
 		
-		final SkillType type = skill.getEffectType();
-		
-		if (target.isRaidRelated() && !calcRaidAffected(type))
-			return false;
-		
 		final double baseChance = skill.getEffectPower();
 		
 		if (skill.ignoreResists())
@@ -1051,6 +1078,7 @@ public final class Formulas
 			mAtkModifier = (Math.sqrt(val) / target.getStatus().getMDef(null, null)) * 11.0;
 		}
 		
+		final SkillType type = skill.getEffectType();
 		final double statModifier = calcSkillStatModifier(type, target, skill.isMagic());
 		final double skillModifier = calcSkillVulnerability(attacker.getOwner(), target, skill, type);
 		final double lvlModifier = getLevelModifier(attacker.getOwner(), target, skill);
@@ -1097,46 +1125,50 @@ public final class Formulas
 		return damage;
 	}
 	
-	public static double calculateSkillResurrectRestorePercent(double baseRestorePercent, Creature caster)
+	public static double calcRevivePower(Creature caster, double skillPower)
 	{
-		if (baseRestorePercent == 0 || baseRestorePercent == 100)
-			return baseRestorePercent;
+		if (skillPower == 0. || skillPower == 100.)
+			return skillPower;
 		
-		double restorePercent = baseRestorePercent * WIT_BONUS[caster.getStatus().getWIT()];
-		if (restorePercent - baseRestorePercent > 20.0)
-			restorePercent += 20.0;
+		double revivePower = skillPower * WIT_BONUS[caster.getStatus().getWIT()];
+		if (revivePower - skillPower > 20.)
+			revivePower += 20.;
 		
-		restorePercent = Math.max(restorePercent, baseRestorePercent);
-		restorePercent = Math.min(restorePercent, 90.0);
+		revivePower = Math.max(revivePower, skillPower);
 		
-		return restorePercent;
+		return Math.min(revivePower, 90.);
 	}
 	
 	public static boolean calcPhysicalSkillEvasion(Creature target, L2Skill skill)
 	{
-		if (skill.isMagic())
-			return false;
-		
-		return Rnd.get(100) < target.getStatus().calcStat(Stats.P_SKILL_EVASION, 0, null, skill);
+		return !skill.isMagic() && Rnd.get(100) < target.getStatus().calcStat(Stats.P_SKILL_EVASION, 0, null, skill);
 	}
 	
-	public static boolean calcSkillMastery(Creature actor, L2Skill sk)
+	/**
+	 * @param creature : The {@link Creature} to test.
+	 * @param skill : The {@link L2Skill} to test.
+	 * @return True if the Skill Mastery skill activates, false otherwise.
+	 */
+	public static boolean calcSkillMastery(Creature creature, L2Skill skill)
 	{
-		// Pointless check for Creature other than players, as initial value will stay 0.
-		if (!(actor instanceof Player))
+		if (!(creature instanceof Player) || skill.getSkillType() == SkillType.FISHING)
 			return false;
 		
-		if (sk.getSkillType() == SkillType.FISHING)
-			return false;
+		final double skillPower = creature.getStatus().calcStat(Stats.SKILL_MASTERY, 0, null, null);
+		final double statMul = (((Player) creature).isMageClass()) ? INT_BONUS[creature.getStatus().getINT()] : STR_BONUS[creature.getStatus().getSTR()];
 		
-		double val = actor.getStatus().calcStat(Stats.SKILL_MASTERY, 0, null, null);
+		final double toReach = skillPower * statMul;
+		final double toTest = Rnd.get(100.);
 		
-		if (((Player) actor).isMageClass())
-			val *= INT_BONUS[actor.getStatus().getINT()];
-		else
-			val *= STR_BONUS[actor.getStatus().getSTR()];
+		if (Config.DEVELOPER)
+		{
+			StringUtil.printSection("Skill mastery");
+			LOGGER.info("Basic powers: skill: {}", skillPower);
+			LOGGER.info("Multipliers: stat: {}", statMul);
+			LOGGER.info("Value to reach: {}. Did {} / 100", toReach, toTest);
+		}
 		
-		return Rnd.get(100) < val;
+		return toTest < toReach;
 	}
 	
 	/**
@@ -1201,7 +1233,7 @@ public final class Formulas
 		
 		byte reflect = SKILL_REFLECT_FAILED;
 		
-		// Check for non-reflected skilltypes, need additional retail check.
+		// Check for skilltypes.
 		switch (skill.getSkillType())
 		{
 			case BUFF:
@@ -1216,12 +1248,9 @@ public final class Formulas
 			
 			case PDAM:
 			case BLOW:
-			case MDAM:
-			case DEATHLINK:
 			case CHARGEDAM:
-				final double venganceChance = target.getStatus().calcStat((skill.isMagic()) ? Stats.VENGEANCE_SKILL_MAGIC_DAMAGE : Stats.VENGEANCE_SKILL_PHYSICAL_DAMAGE, 0, target, skill);
-				if (venganceChance > Rnd.get(100))
-					reflect |= SKILL_REFLECT_VENGEANCE;
+				if (target.getStatus().calcStat(Stats.COUNTER_SKILL_PHYSICAL, 0, target, null) > 0)
+					reflect |= SKILL_COUNTER;
 				break;
 		}
 		
@@ -1243,34 +1272,6 @@ public final class Formulas
 			return 0;
 		
 		return actor.getStatus().calcStat(Stats.FALL, fallHeight * actor.getStatus().getMaxHp() / 1000., null, null);
-	}
-	
-	/**
-	 * @param type : The L2SkillType to test.
-	 * @return true if the L2SkillType can affect a raid boss, false otherwise.
-	 */
-	public static boolean calcRaidAffected(SkillType type)
-	{
-		switch (type)
-		{
-			case MANADAM:
-			case MDOT:
-				return true;
-			
-			case CONFUSION:
-			case ROOT:
-			case STUN:
-			case MUTE:
-			case FEAR:
-			case DEBUFF:
-			case PARALYZE:
-			case SLEEP:
-			case AGGDEBUFF:
-			case AGGREDUCE_CHAR:
-				if (Rnd.get(1000) == 1)
-					return true;
-		}
-		return false;
 	}
 	
 	/**

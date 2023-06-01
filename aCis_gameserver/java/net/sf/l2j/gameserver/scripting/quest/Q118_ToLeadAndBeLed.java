@@ -44,10 +44,10 @@ public class Q118_ToLeadAndBeLed extends Quest
 		
 		setItemsIds(BLOOD_OF_MAILLE_LIZARDMAN, LEG_OF_KING_ARANEID);
 		
-		addStartNpc(PINTER);
+		addQuestStart(PINTER);
 		addTalkId(PINTER);
 		
-		addKillId(MAILLE_LIZARDMAN, MAILLE_LIZARDMAN_SCOUT, MAILLE_LIZARDMAN_GUARD, KING_OF_THE_ARANEID);
+		addMyDying(MAILLE_LIZARDMAN, MAILLE_LIZARDMAN_SCOUT, MAILLE_LIZARDMAN_GUARD, KING_OF_THE_ARANEID);
 	}
 	
 	@Override
@@ -264,18 +264,18 @@ public class Q118_ToLeadAndBeLed extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerState(player, npc, QuestStatus.STARTED);
 		if (st == null)
-			return null;
+			return;
 		
 		if (player.getSponsor() == 0)
 		{
 			st.exitQuest(true);
-			return null;
+			return;
 		}
 		
 		switch (npc.getNpcId())
@@ -292,7 +292,5 @@ public class Q118_ToLeadAndBeLed extends Quest
 					st.setCond(8);
 				break;
 		}
-		
-		return null;
 	}
 }

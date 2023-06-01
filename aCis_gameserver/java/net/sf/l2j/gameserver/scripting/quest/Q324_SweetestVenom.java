@@ -31,10 +31,10 @@ public class Q324_SweetestVenom extends Quest
 		
 		setItemsIds(VENOM_SAC);
 		
-		addStartNpc(30351); // Astaron
+		addQuestStart(30351); // Astaron
 		addTalkId(30351);
 		
-		addKillId(20034, 20038, 20043);
+		addMyDying(20034, 20038, 20043);
 	}
 	
 	@Override
@@ -87,17 +87,15 @@ public class Q324_SweetestVenom extends Quest
 	}
 	
 	@Override
-	public String onKill(Npc npc, Creature killer)
+	public void onMyDying(Npc npc, Creature killer)
 	{
 		final Player player = killer.getActingPlayer();
 		
 		final QuestState st = checkPlayerCondition(player, npc, 1);
 		if (st == null)
-			return null;
+			return;
 		
 		if (dropItems(player, VENOM_SAC, 1, 10, CHANCES.get(npc.getNpcId())))
 			st.setCond(2);
-		
-		return null;
 	}
 }
