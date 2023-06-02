@@ -96,6 +96,9 @@ public class TeleportLocation extends Location
 			
 			return (check) ? _priceCount : (int) (_priceCount * 1.6);
 		}
+
+		if (player.getStatus().getLevel() <= 20)
+			return 0;
 		
 		// Half price system.
 		if (_type == TeleportType.STANDARD && isCoreTime())
