@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
+import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.location.ObserverLocation;
 
 public class ObserverStart extends L2GameServerPacket
@@ -17,6 +18,15 @@ public class ObserverStart extends L2GameServerPacket
 		_z = loc.getZ();
 		_yaw = loc.getYaw();
 		_pitch = loc.getPitch();
+	}
+	
+	public ObserverStart(Location loc)
+	{
+		_x = loc.getX();
+		_y = loc.getY();
+		_z = loc.getZ();
+		_yaw = 0x00;
+		_pitch = 0xc0;
 	}
 	
 	@Override

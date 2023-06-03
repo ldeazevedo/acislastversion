@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -122,6 +123,8 @@ import net.sf.l2j.gameserver.model.actor.template.PlayerTemplate;
 import net.sf.l2j.gameserver.model.craft.ManufactureList;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
+import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.group.PartyMatchRoom;
@@ -335,8 +338,8 @@ public final class Player extends Playable
 	private boolean _isStanding;
 	private boolean _isSittingNow;
 	private boolean _isStandingNow;
-	
-	private final Location _savedLocation = new Location(0, 0, 0);
+
+	private Location _savedLocation = new Location(0, 0, 0);
 	
 	private int _recomHave;
 	private int _recomLeft;
@@ -466,6 +469,22 @@ public final class Player extends Playable
 	private L2Skill _summonSkillRequest;
 	
 	private Door _requestedGate;
+	
+	/** Event parameters */
+	public int eventX;
+	public int eventY;
+	public int eventZ;
+	public int eventkarma;
+	public int eventpvpkills;
+	public int eventpkkills;
+	public String eventTitle;
+	public LinkedList<String> kills = new LinkedList<>();
+	public boolean eventSitForced = false;
+	public boolean atEvent = false;
+	
+	public boolean isInSurvival = false;
+	public int countDMkills;
+	boolean _isInObserverMode;
 	
 	/**
 	 * Constructor of Player (use Creature constructor).
@@ -2725,7 +2744,14 @@ public final class Player extends Playable
 		if (killer != null)
 		{
 			final Player pk = killer.getActingPlayer();
+
+			TvTEvent.onKill(killer, this);
 			
+			if (atEvent && pk != null)
+				pk.kills.add(getName());
+			
+			if (isInEvent(this) && isInEvent(pk) && EventManager.getInstance().onKill(this, pk))
+				return true;
 			// Clear resurrect xp calculation
 			setExpBeforeDeath(0);
 			
@@ -5442,28 +5468,14 @@ public final class Player extends Playable
 		// Delete any form of cubics
 		_cubicList.stopCubics(true);
 	}
-	
+
 	public void enterObserverMode(ObserverLocation loc)
 	{
 		// Adena check.
 		if (loc.getCost() > 0 && !reduceAdena("Broadcast", loc.getCost(), this, true))
 			return;
-		
-		dropAllSummons();
-		
-		if (getParty() != null)
-			getParty().removePartyMember(this, MessageType.EXPELLED);
-		
-		standUp();
-		
-		_savedLocation.set(getPosition());
-		
-		setInvul(true);
-		getAppearance().setVisible(false);
-		setIsParalyzed(true);
-		
-		// Abort attack, cast and move.
-		abortAll(true);
+
+		enterObserverMode();
 		
 		teleportTo(loc, 0);
 		sendPacket(new ObserverStart(loc));
@@ -5487,6 +5499,7 @@ public final class Player extends Playable
 		// Don't override saved location if we jump from stadium to stadium.
 		if (!isInObserverMode())
 			_savedLocation.set(getPosition());
+		_isInObserverMode = true;
 		
 		setTarget(null);
 		setInvul(true);
@@ -5504,6 +5517,7 @@ public final class Player extends Playable
 		getAppearance().setVisible(true);
 		setInvul(false);
 		setIsParalyzed(false);
+		_isInObserverMode = false;
 		
 		sendPacket(new ObserverEnd(_savedLocation));
 		teleportTo(_savedLocation, 0);
@@ -5559,7 +5573,7 @@ public final class Player extends Playable
 	
 	public boolean isInObserverMode()
 	{
-		return !_isInOlympiadMode && !_savedLocation.equals(Location.DUMMY_LOC);
+		return (!_isInOlympiadMode && !_savedLocation.equals(Location.DUMMY_LOC)) || _isInObserverMode;
 	}
 	
 	public TeleportMode getTeleportMode()
@@ -6327,6 +6341,8 @@ public final class Player extends Playable
 		// If under shop mode, cancel it. Leave the Player sat down.
 		if (isInStoreMode())
 			setOperateType(OperateType.NONE);
+		
+		TvTEvent.onTeleported(this);
 	}
 	
 	@Override
@@ -6624,6 +6640,8 @@ public final class Player extends Playable
 				if (object instanceof StaticObject)
 					((StaticObject) object).setBusy(false);
 			}
+
+			EventManager.getInstance().onLogout(this);
 			
 			World.getInstance().removePlayer(this); // force remove in case of crash during teleport
 			
@@ -7443,5 +7461,48 @@ public final class Player extends Playable
 			gms.add(this);
 		
 		return gms;
+	}
+	
+	public static boolean isInEvent(Player pc)
+	{
+		return EventManager.getInstance().isInEvent(pc);
+	}
+	
+	public void setLastLocation(Location _lastLocation)
+	{
+		_savedLocation = _lastLocation;
+	}
+	
+	public Location getLastLocation()
+	{
+		return _savedLocation;
+	}
+	
+	public void enterObserverMode(Location loc)
+	{
+		enterObserverMode();
+
+		teleportTo(loc, 0);
+		sendPacket(new ObserverStart(loc));
+	}
+	
+	public void enterObserverMode()
+	{
+		dropAllSummons();
+		
+		if (getParty() != null)
+			getParty().removePartyMember(this, MessageType.EXPELLED);
+		
+		standUp();
+		
+		_isInObserverMode = true;
+		_savedLocation.set(getPosition());
+		
+		setInvul(true);
+		getAppearance().setVisible(false);
+		setIsParalyzed(true);
+		
+		// Abort attack, cast and move.
+		abortAll(true);
 	}
 }

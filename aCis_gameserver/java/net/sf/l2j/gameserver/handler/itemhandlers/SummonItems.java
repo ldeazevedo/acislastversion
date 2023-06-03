@@ -11,6 +11,8 @@ import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.ChristmasTree;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
+import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
@@ -32,6 +34,9 @@ public class SummonItems implements IItemHandler
 			player.sendPacket(SystemMessageId.CANT_MOVE_SITTING);
 			return;
 		}
+		
+		if (!TvTEvent.onItemSummon(player.getObjectId()) || EventManager.getInstance().isInEvent(player))
+			return;
 		
 		if (player.isInObserverMode())
 			return;

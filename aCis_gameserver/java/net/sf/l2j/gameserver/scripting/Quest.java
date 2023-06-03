@@ -645,6 +645,11 @@ public class Quest
 		return startQuestTimerAtFixedRate(name, npc, player, time, 0);
 	}
 	
+	public void startQuestTimer(String name, long time, Npc npc, Player player, boolean repeating)
+	{
+		startQuestTimerAtFixedRate(name, npc, player, time, 0);
+	}
+	
 	/**
 	 * Add new {@link QuestTimer}, if it doesn't exist already.<br>
 	 * <br>

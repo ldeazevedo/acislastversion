@@ -8,6 +8,8 @@ import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.enums.PunishmentType;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -126,6 +128,12 @@ public class Punishment
 					_task = ThreadPool.schedule(() -> setType(PunishmentType.NONE, 0), _timer);
 					_owner.sendMessage("You are jailed for " + delayInMinutes + " minutes.");
 				}
+
+				if (EventManager.getInstance().isInEvent(_owner))
+					EventManager.getInstance().removePlayer(_owner);
+				
+				if (!TvTEvent.isInactive() && TvTEvent.isPlayerParticipant(_owner.getObjectId()))
+					TvTEvent.removeParticipant(_owner.getObjectId());
 				
 				if (OlympiadManager.getInstance().isRegisteredInComp(_owner))
 					OlympiadManager.getInstance().removeDisconnectedCompetitor(_owner);

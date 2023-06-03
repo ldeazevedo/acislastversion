@@ -3,9 +3,11 @@ package net.sf.l2j.gameserver.network.clientpackets;
 import net.sf.l2j.gameserver.data.manager.FestivalOfDarknessManager;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.network.GameClient;
 import net.sf.l2j.gameserver.network.GameClient.GameClientState;
 import net.sf.l2j.gameserver.network.SystemMessageId;
+import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.CharSelectInfo;
 import net.sf.l2j.gameserver.network.serverpackets.RestartResponse;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
@@ -34,6 +36,13 @@ public final class RequestRestart extends L2GameClientPacket
 		{
 			player.sendPacket(SystemMessageId.NO_RESTART_HERE);
 			sendPacket(RestartResponse.valueOf(false));
+			return;
+		}
+
+		if (EventManager.getInstance().containsPlayer(player))
+		{
+			player.sendMessage("No podes restartear cuando estas en evento.");
+			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}
 		

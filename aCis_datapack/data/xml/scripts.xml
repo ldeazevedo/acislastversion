@@ -407,6 +407,7 @@
 	<script path="script.feature.CabalBuffer"/>
 	<script path="script.feature.Clan"/>
 	<script path="script.feature.EchoCrystal"/>
+	<script path="script.feature.EventsTask"/>
 	<script path="script.feature.FirstClassChange"/>
 	<script path="script.feature.HeroCirclet"/>
 	<script path="script.feature.HeroWeapon"/>

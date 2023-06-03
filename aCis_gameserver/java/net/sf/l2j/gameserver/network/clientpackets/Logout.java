@@ -3,6 +3,7 @@ package net.sf.l2j.gameserver.network.clientpackets;
 import net.sf.l2j.gameserver.data.manager.FestivalOfDarknessManager;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
@@ -30,6 +31,13 @@ public final class Logout extends L2GameClientPacket
 		if (player.isInsideZone(ZoneId.NO_RESTART))
 		{
 			player.sendPacket(SystemMessageId.NO_LOGOUT_HERE);
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+
+		if (EventManager.getInstance().containsPlayer(player))
+		{
+			player.sendMessage("No puedes salir mientras participas en un evento.");
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}

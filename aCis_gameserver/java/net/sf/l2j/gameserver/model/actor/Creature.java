@@ -10,6 +10,7 @@ import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.Config;
+import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.xml.MapRegionData;
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
@@ -85,7 +86,7 @@ public abstract class Creature extends WorldObject
 	
 	private CreatureTemplate _template;
 	private NpcTemplate _polymorphTemplate;
-	
+
 	protected CreatureAI<? extends Creature> _ai;
 	protected CreatureStatus<? extends Creature> _status;
 	protected CreatureMove<? extends Creature> _move;
@@ -1908,5 +1909,17 @@ public abstract class Creature extends WorldObject
 	{
 		if (DecayTaskManager.getInstance().cancel(this))
 			onDecay();
+	}
+	
+	public void getSkill(L2Skill skill)
+	{
+		getSkill(skill.getId(), skill.getLevel());
+	}
+	
+	public void getSkill(Integer id, Integer level)
+	{
+		final L2Skill skill = SkillTable.getInstance().getInfo(id, level);
+		if (skill != null && getFirstEffect(skill) == null)
+			skill.getEffects(this, this);
 	}
 }

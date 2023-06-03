@@ -12,6 +12,8 @@ import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.OlympiadType;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
@@ -238,6 +240,11 @@ public class OlympiadManager
 		if (player.getStatus().isOverburden())
 		{
 			player.sendPacket(SystemMessageId.SINCE_80_PERCENT_OR_MORE_OF_YOUR_INVENTORY_SLOTS_ARE_FULL_YOU_CANNOT_PARTICIPATE_IN_THE_OLYMPIAD);
+			return false;
+		}
+		if (TvTEvent.isPlayerParticipant(player.getObjectId()) || EventManager.getInstance().isInEvent(player))
+		{
+			player.sendMessage("You can't join olympiad while participating on Event.");
 			return false;
 		}
 		

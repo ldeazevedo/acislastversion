@@ -8,6 +8,8 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.model.entity.ClanHallSiege;
 import net.sf.l2j.gameserver.model.entity.Siege;
+import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 
 public class Die extends L2GameServerPacket
@@ -19,6 +21,7 @@ public class Die extends L2GameServerPacket
 	private boolean _sweepable;
 	private boolean _allowFixedRes;
 	private Clan _clan;
+	private boolean _canTeleport;
 	
 	public Die(Creature creature)
 	{
@@ -35,6 +38,8 @@ public class Die extends L2GameServerPacket
 		}
 		else if (creature instanceof Monster)
 			_sweepable = ((Monster) creature).getSpoilState().isSweepable();
+		if (creature instanceof Player)
+			_canTeleport = !((TvTEvent.isStarted() && TvTEvent.isPlayerParticipant(_objectId))) || EventManager.getInstance().isInEvent((Player) creature);
 	}
 	
 	@Override
@@ -45,9 +50,9 @@ public class Die extends L2GameServerPacket
 		
 		writeC(0x06);
 		writeD(_objectId);
-		writeD(0x01); // to nearest village
+		writeD(_canTeleport ? 0x01 : 0); // to nearest village
 		
-		if (_clan != null)
+		if (_canTeleport && _clan != null)
 		{
 			final Siege siege = CastleManager.getInstance().getActiveSiege(_creature);
 			final ClanHallSiege chs = ClanHallManager.getInstance().getActiveSiege(_creature);

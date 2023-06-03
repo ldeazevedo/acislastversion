@@ -7,6 +7,8 @@ import net.sf.l2j.gameserver.enums.actors.NpcTalkCond;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
+import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 
@@ -123,6 +125,19 @@ public class CastleMagician extends Folk
 					return false;
 				}
 			}
+		}
+		
+		if (!TvTEvent.onEscapeUse(player.getObjectId()) || EventManager.getInstance().isInEvent(player))
+		{
+			player.sendMessage("You on TvT Event, teleporting disabled.");
+			return false;
+		}
+		
+		if (!TvTEvent.onEscapeUse(clanLeader.getObjectId()) || EventManager.getInstance().isInEvent(clanLeader))
+		{
+			// TODO: Need retail message if there's one.
+			player.sendMessage("Couldn't teleport to clan leader. The requirements was not meet.");
+			return false;
 		}
 		
 		return true;

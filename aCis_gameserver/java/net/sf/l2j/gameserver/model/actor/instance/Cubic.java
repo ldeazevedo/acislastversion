@@ -23,6 +23,8 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.entity.Duel;
+import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.MagicSkillUse;
@@ -198,6 +200,28 @@ public class Cubic
 			return null;
 		
 		Creature target = null;
+		
+		// TvT event targeting
+		if (TvTEvent.isStarted() && TvTEvent.isPlayerParticipant(_owner.getObjectId()))
+		{
+			if (ownerTarget.getActingPlayer() != null)
+			{
+				final Player targetPlayer = ownerTarget.getActingPlayer();
+				if (targetPlayer != null && TvTEvent.getParticipantEnemyTeam(_owner.getObjectId()).containsPlayer(targetPlayer.getObjectId()) && !(targetPlayer.isDead()))
+					target = (Creature) ownerTarget;
+			}
+			return null;
+		}
+		if (EventManager.getInstance().isInEvent(_owner))
+		{
+			if (ownerTarget.getActingPlayer() != null)
+			{
+				final Player targetPlayer = ownerTarget.getActingPlayer();
+				if (targetPlayer != null && EventManager.getInstance().isInEvent(targetPlayer) && !(targetPlayer.isDead()))
+					target = (Creature) ownerTarget;
+			}
+			return null;
+		}
 		
 		if (_owner.isInDuel())
 		{

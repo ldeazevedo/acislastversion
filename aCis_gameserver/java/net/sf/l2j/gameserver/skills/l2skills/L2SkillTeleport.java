@@ -10,6 +10,8 @@ import net.sf.l2j.gameserver.enums.skills.SkillType;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
@@ -39,7 +41,7 @@ public class L2SkillTeleport extends L2Skill
 		if (activeChar instanceof Player)
 		{
 			// Check invalid states.
-			if (activeChar.isAfraid() || ((Player) activeChar).isInOlympiadMode() || activeChar.isInsideZone(ZoneId.BOSS))
+			if (activeChar.isAfraid() || ((Player) activeChar).isInOlympiadMode() || activeChar.isInsideZone(ZoneId.BOSS) || !TvTEvent.onEscapeUse(((Player) activeChar).getObjectId()) || EventManager.getInstance().isInEvent((Player) activeChar))
 				return;
 		}
 		

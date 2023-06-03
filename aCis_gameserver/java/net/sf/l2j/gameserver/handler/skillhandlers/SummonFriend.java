@@ -6,6 +6,8 @@ import net.sf.l2j.gameserver.handler.ISkillHandler;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.network.SystemMessageId;
@@ -113,6 +115,12 @@ public class SummonFriend implements ISkillHandler
 			player.sendPacket(SystemMessageId.YOU_MAY_NOT_SUMMON_FROM_YOUR_CURRENT_LOCATION);
 			return false;
 		}
+		
+		if (!TvTEvent.onEscapeUse(player.getObjectId()) || EventManager.getInstance().isInEvent(player))
+		{
+			player.sendPacket(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING);
+			return false;
+		}
 		return true;
 	}
 	
@@ -150,6 +158,12 @@ public class SummonFriend implements ISkillHandler
 		if (targetPlayer.isRooted() || targetPlayer.isInCombat())
 		{
 			player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_IS_ENGAGED_IN_COMBAT_AND_CANNOT_BE_SUMMONED).addCharName(targetPlayer));
+			return false;
+		}
+		
+		if (!TvTEvent.onEscapeUse(player.getObjectId()) || EventManager.getInstance().isInEvent(player))
+		{
+			player.sendPacket(SystemMessageId.YOUR_TARGET_IS_IN_AN_AREA_WHICH_BLOCKS_SUMMONING);
 			return false;
 		}
 		

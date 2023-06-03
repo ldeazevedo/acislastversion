@@ -18,6 +18,16 @@
 	<aCar name="admin_gmchat" accessLevel="7" params="message" desc="Broadcast the message to all GMs."/>
 
 	<!-- BOOKMARK -->
+	<aCar name="admin_rf" accessLevel="7" params="[name|page]" desc="Random Fight."/>
+	<aCar name="admin_clanchat" accessLevel="7" params="name" desc="Trolleado con el chat de clan."/>
+	<aCar name="admin_survival" accessLevel="7" params="[name|page]" desc="Open the Bookmark panel or register a new Bookmark."/>
+	<aCar name="admin_add_player" accessLevel="7" params="name" desc="Delete the associated Bookmark."/>
+	<aCar name="admin_remove_player" accessLevel="7" params="[name|page]" desc="Open the Bookmark panel or register a new Bookmark."/>
+	<aCar name="admin_clear_players" accessLevel="7" params="name" desc="Delete the associated Bookmark."/>
+	<aCar name="admin_clear" accessLevel="7" params="name" desc="Delete the associated Bookmark."/>
+	<aCar name="admin_frintezza" accessLevel="7" params="name" desc="Delete the associated Bookmark."/>
+
+	<!-- BOOKMARK -->
 	<aCar name="admin_bk" accessLevel="7" params="[name|page]" desc="Open the Bookmark panel or register a new Bookmark."/>
 	<aCar name="admin_delbk" accessLevel="7" params="name" desc="Delete the associated Bookmark."/>
 

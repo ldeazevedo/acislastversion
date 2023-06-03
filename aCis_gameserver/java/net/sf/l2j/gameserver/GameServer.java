@@ -85,6 +85,7 @@ import net.sf.l2j.gameserver.model.boat.BoatGludinRune;
 import net.sf.l2j.gameserver.model.boat.BoatInnadrilTour;
 import net.sf.l2j.gameserver.model.boat.BoatRunePrimeval;
 import net.sf.l2j.gameserver.model.boat.BoatTalkingGludin;
+import net.sf.l2j.gameserver.model.events.TvTManager;
 import net.sf.l2j.gameserver.model.olympiad.Olympiad;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadGameManager;
 import net.sf.l2j.gameserver.network.GameClient;
@@ -269,6 +270,8 @@ public class GameServer
 		LOGGER.info("Loaded {} skill handlers.", SkillHandler.getInstance().size());
 		LOGGER.info("Loaded {} target handlers.", TargetHandler.getInstance().size());
 		LOGGER.info("Loaded {} user command handlers.", UserCommandHandler.getInstance().size());
+
+		TvTManager.getInstance();
 		
 		StringUtil.printSection("System");
 		Runtime.getRuntime().addShutdownHook(Shutdown.getInstance());

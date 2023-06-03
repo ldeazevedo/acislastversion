@@ -10,6 +10,7 @@ import net.sf.l2j.gameserver.handler.IItemHandler;
 import net.sf.l2j.gameserver.handler.ItemHandler;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
+import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Item;
@@ -184,6 +185,16 @@ public final class UseItem extends L2GameClientPacket
 		}
 		else
 		{
+			if (EventManager.getInstance().isInEvent(player))
+			{
+				int id = item.getItemId();
+				if (id == 3926 || id == 3927 || id == 3929 || id == 3928 || id == 3930 || id == 3931 || id == 3932 || id == 3933 || id == 3934 || id == 3935 || item.isPotion())
+				{
+					player.sendMessage("No podes usar este item en evento.");
+					return;
+				}
+			}
+			
 			if (player.getAttackType() == WeaponType.FISHINGROD && item.getItem().getItemType() == EtcItemType.LURE)
 			{
 				player.getInventory().setPaperdollItem(Paperdoll.LHAND, item);
