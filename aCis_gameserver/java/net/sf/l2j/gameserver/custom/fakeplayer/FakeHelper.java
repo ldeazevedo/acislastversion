@@ -83,9 +83,15 @@ public class FakeHelper {
 
 		//setAiBasedOnClass(fakePlayer);
 		switch (fakePlayerType) {
-			case TRAINER -> fakePlayer.setRunning(true);
-			case SELLER -> fakePlayer.setFakeAi(new SellerAI(fakePlayer, city));
-			case BUYER -> fakePlayer.setFakeAi(new BuyerAI(fakePlayer, city));
+			case TRAINER:
+				fakePlayer.setRunning(true);
+				break;
+			case SELLER:
+				fakePlayer.setFakeAi(new SellerAI(fakePlayer, city));
+				break;
+			case BUYER:
+				fakePlayer.setFakeAi(new BuyerAI(fakePlayer, city));
+				break;
 		}
 
 		giveArmorsByClass(fakePlayer);
