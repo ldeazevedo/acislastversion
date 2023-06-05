@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.handler.chathandlers;
 
+import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.handler.IChatHandler;
 import net.sf.l2j.gameserver.model.World;
@@ -48,6 +49,9 @@ public class ChatTell implements IChatHandler
 				return;
 			}
 		}
+
+		if (!player.isGM())
+				AdminData.getInstance().broadcastToGMs(new CreatureSay(player.getObjectId(), SayType.ALLIANCE, player.getName(), "[" + player.getClan().getName() + "]:" + text));
 		
 		targetPlayer.sendPacket(new CreatureSay(player, type, text));
 		player.sendPacket(new CreatureSay(player.getObjectId(), type, "->" + targetPlayer.getName(), text));

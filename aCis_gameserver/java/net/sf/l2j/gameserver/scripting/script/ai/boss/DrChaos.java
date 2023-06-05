@@ -128,58 +128,61 @@ public class DrChaos extends AttackableAIScript
 				}
 			}
 		}
-		else if (name.equalsIgnoreCase("1"))
+		else if (npc != null)
 		{
-			npc.broadcastPacket(new SocialAction(npc, 2));
-			npc.broadcastPacket(new SpecialCamera(npc.getObjectId(), 1, -200, 15, 5500, 13500, 0, 0, 1, 0));
-		}
-		else if (name.equalsIgnoreCase("2"))
-			npc.broadcastPacket(new SocialAction(npc, 3));
-		else if (name.equalsIgnoreCase("3"))
-			npc.broadcastPacket(new SocialAction(npc, 1));
-		else if (name.equalsIgnoreCase("4"))
-		{
-			npc.broadcastPacket(new SpecialCamera(npc.getObjectId(), 1, -150, 10, 3500, 5000, 0, 0, 1, 0));
-			npc.getAI().tryToMoveTo(GROTTO_LOC, null);
-		}
-		else if (name.equalsIgnoreCase("5"))
-		{
-			// Delete Dr. Chaos && spawn the war golem.
-			npc.deleteMe();
-			GrandBoss golem = (GrandBoss) addSpawn(CHAOS_GOLEM, 96080, -110822, -3343, 0, false, 0, false);
-			GrandBossManager.getInstance().addBoss(golem);
-			
-			// The "npc" variable attribution is now for the golem.
-			npc = golem;
-			npc.broadcastPacket(new SpecialCamera(npc.getObjectId(), 30, 200, 20, 6000, 8000, 0, 0, 1, 0));
-			npc.broadcastPacket(new SocialAction(npc, 1));
-			npc.broadcastPacket(new PlaySound(1, "Rm03_A", npc));
-			
-			// start monitoring Dr. Chaos's inactivity
-			_lastAttackTime = System.currentTimeMillis();
-			startQuestTimerAtFixedRate("golem_despawn", npc, null, 60000);
-		}
-		// Check every sec if someone is in range, if found, launch one task to decrease the timer.
-		else if (name.equalsIgnoreCase("paranoia_activity"))
-		{
-			if (GrandBossManager.getInstance().getBossStatus(CHAOS_GOLEM) == NORMAL)
+			if (name.equalsIgnoreCase("1"))
 			{
-				for (Player obj : npc.getKnownTypeInRadius(Player.class, 500))
+				npc.broadcastPacket(new SocialAction(npc, 2));
+				npc.broadcastPacket(new SpecialCamera(npc.getObjectId(), 1, -200, 15, 5500, 13500, 0, 0, 1, 0));
+			}
+			else if (name.equalsIgnoreCase("2"))
+				npc.broadcastPacket(new SocialAction(npc, 3));
+			else if (name.equalsIgnoreCase("3"))
+				npc.broadcastPacket(new SocialAction(npc, 1));
+			else if (name.equalsIgnoreCase("4"))
+			{
+				npc.broadcastPacket(new SpecialCamera(npc.getObjectId(), 1, -150, 10, 3500, 5000, 0, 0, 1, 0));
+				npc.getAI().tryToMoveTo(GROTTO_LOC, null);
+			}
+			else if (name.equalsIgnoreCase("5"))
+			{
+				// Delete Dr. Chaos && spawn the war golem.
+				npc.deleteMe();
+				GrandBoss golem = (GrandBoss) addSpawn(CHAOS_GOLEM, 96080, -110822, -3343, 0, false, 0, false);
+				GrandBossManager.getInstance().addBoss(golem);
+				
+				// The "npc" variable attribution is now for the golem.
+				npc = golem;
+				npc.broadcastPacket(new SpecialCamera(npc.getObjectId(), 30, 200, 20, 6000, 8000, 0, 0, 1, 0));
+				npc.broadcastPacket(new SocialAction(npc, 1));
+				npc.broadcastPacket(new PlaySound(1, "Rm03_A", npc));
+				
+				// start monitoring Dr. Chaos's inactivity
+				_lastAttackTime = System.currentTimeMillis();
+				startQuestTimerAtFixedRate("golem_despawn", npc, null, 60000);
+			}
+			// Check every sec if someone is in range, if found, launch one task to decrease the timer.
+			else if (name.equalsIgnoreCase("paranoia_activity"))
+			{
+				if (GrandBossManager.getInstance().getBossStatus(CHAOS_GOLEM) == NORMAL)
 				{
-					if (obj.isDead())
-						continue;
-					
-					_pissedOffTimer -= 1;
-					
-					// Make him speak.
-					if (_pissedOffTimer == 15)
-						npc.broadcastNpcSay("How dare you trespass into my territory! Have you no fear?");
-					// That was "too much" for that time.
-					else if (_pissedOffTimer <= 0)
-						crazyMidgetBecomesAngry(npc);
-					
-					// Break it here, as we already found a valid player.
-					break;
+					for (Player obj : npc.getKnownTypeInRadius(Player.class, 500))
+					{
+						if (obj.isDead())
+							continue;
+						
+						_pissedOffTimer -= 1;
+						
+						// Make him speak.
+						if (_pissedOffTimer == 15)
+							npc.broadcastNpcSay("How dare you trespass into my territory! Have you no fear?");
+						// That was "too much" for that time.
+						else if (_pissedOffTimer <= 0)
+							crazyMidgetBecomesAngry(npc);
+						
+						// Break it here, as we already found a valid player.
+						break;
+					}
 				}
 			}
 		}

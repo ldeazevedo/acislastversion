@@ -124,6 +124,7 @@ import net.sf.l2j.gameserver.model.craft.ManufactureList;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
 import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.L2Event;
 import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
 import net.sf.l2j.gameserver.model.group.Party;
@@ -338,6 +339,7 @@ public final class Player extends Playable
 	private boolean _isStanding;
 	private boolean _isSittingNow;
 	private boolean _isStandingNow;
+	private boolean isReadChat;
 
 	private Location _savedLocation = new Location(0, 0, 0);
 	
@@ -484,7 +486,7 @@ public final class Player extends Playable
 	
 	public boolean isInSurvival = false;
 	public int countDMkills;
-	boolean _isInObserverMode;
+	boolean _isInObserverMode = false;
 	
 	/**
 	 * Constructor of Player (use Creature constructor).
@@ -1548,21 +1550,26 @@ public final class Player extends Playable
 	 */
 	public void standUp()
 	{
-		_isStandingNow = true;
-		_isSitting = false;
-		
-		// Schedule a stand up task to wait for the animation to finish
-		ThreadPool.schedule(() ->
+		if (L2Event.active && eventSitForced)
+			sendMessage("A dark force beyond your mortal understanding makes your knees to shake when you try to stand up ...");
+		else
 		{
-			_isStandingNow = false;
-			_isStanding = true;
+			_isStandingNow = true;
+			_isSitting = false;
 			
-			getAI().notifyEvent(AiEventType.STOOD_UP, null, null);
+			// Schedule a stand up task to wait for the animation to finish
+			ThreadPool.schedule(() ->
+			{
+				_isStandingNow = false;
+				_isStanding = true;
+				
+				getAI().notifyEvent(AiEventType.STOOD_UP, null, null);
+				
+			}, 2500);
 			
-		}, 2500);
-		
-		// Broadcast the packet.
-		broadcastPacket(new ChangeWaitType(this, ChangeWaitType.WT_STANDING));
+			// Broadcast the packet.
+			broadcastPacket(new ChangeWaitType(this, ChangeWaitType.WT_STANDING));
+		}
 	}
 	
 	/**
@@ -2815,7 +2822,7 @@ public final class Player extends Playable
 	
 	private void onDieDropItem(Creature killer)
 	{
-		if (killer == null)
+		if (atEvent || killer == null)
 			return;
 		
 		final Player pk = killer.getActingPlayer();
@@ -3046,11 +3053,14 @@ public final class Player extends Playable
 		// Calculate the xp loss.
 		long lostExp = 0;
 		
-		final int maxLevel = PlayerLevelData.getInstance().getMaxLevel();
-		if (lvl < maxLevel)
-			lostExp = Math.round((getStatus().getExpForLevel(lvl + 1) - getStatus().getExpForLevel(lvl)) * percentLost / 100);
-		else
-			lostExp = Math.round((getStatus().getExpForLevel(maxLevel) - getStatus().getExpForLevel(maxLevel - 1)) * percentLost / 100);
+		if (!atEvent)
+		{
+			final int maxLevel = PlayerLevelData.getInstance().getMaxLevel();
+			if (lvl < maxLevel)
+				lostExp = Math.round((getStatus().getExpForLevel(lvl + 1) - getStatus().getExpForLevel(lvl)) * percentLost / 100);
+			else
+				lostExp = Math.round((getStatus().getExpForLevel(maxLevel) - getStatus().getExpForLevel(maxLevel - 1)) * percentLost / 100);
+		}
 		
 		// Get the xp before applying penalty.
 		setExpBeforeDeath(getStatus().getExp());
@@ -4548,7 +4558,11 @@ public final class Player extends Playable
 			ps.setInt(10, getAppearance().getHairColor());
 			ps.setInt(11, getAppearance().getSex().ordinal());
 			ps.setInt(12, getHeading());
-			
+
+			ps.setInt(13, _isInObserverMode ? _savedLocation.getX() : getX());
+			ps.setInt(14, _isInObserverMode ? _savedLocation.getY() : getY());
+			ps.setInt(15, _isInObserverMode ? _savedLocation.getZ() : getZ());
+			/*
 			if (!isInObserverMode())
 			{
 				ps.setInt(13, getX());
@@ -4560,7 +4574,7 @@ public final class Player extends Playable
 				ps.setInt(13, _savedLocation.getX());
 				ps.setInt(14, _savedLocation.getY());
 				ps.setInt(15, _savedLocation.getZ());
-			}
+			}*/
 			
 			ps.setLong(16, exp);
 			ps.setLong(17, getExpBeforeDeath());
@@ -5468,7 +5482,7 @@ public final class Player extends Playable
 		// Delete any form of cubics
 		_cubicList.stopCubics(true);
 	}
-
+	
 	public void enterObserverMode(ObserverLocation loc)
 	{
 		// Adena check.
@@ -5541,6 +5555,7 @@ public final class Player extends Playable
 		
 		sendPacket(new ExOlympiadMode(0));
 		teleportTo(_savedLocation, 0);
+		_isInObserverMode = false;
 		
 		// Clear the location.
 		_savedLocation.clean();
@@ -5573,7 +5588,7 @@ public final class Player extends Playable
 	
 	public boolean isInObserverMode()
 	{
-		return (!_isInOlympiadMode && !_savedLocation.equals(Location.DUMMY_LOC)) || _isInObserverMode;
+		return /*(!_isInOlympiadMode && !_savedLocation.equals(Location.DUMMY_LOC)) || */_isInObserverMode;
 	}
 	
 	public TeleportMode getTeleportMode()
@@ -6153,6 +6168,7 @@ public final class Player extends Playable
 		return _subclassLock.isLocked();
 	}
 	
+	// TODO: onPlayerEnter
 	public void onPlayerEnter()
 	{
 		if (isCursedWeaponEquipped())
@@ -6192,6 +6208,7 @@ public final class Player extends Playable
 			
 			if (getBlockList().isBlockingAll())
 				sendMessage("Entering world in Refusal mode.");
+			isReadChat = false;
 		}
 		
 		revalidateZone(true);
@@ -6642,6 +6659,7 @@ public final class Player extends Playable
 			}
 
 			EventManager.getInstance().onLogout(this);
+			TvTEvent.onLogout(this);
 			
 			World.getInstance().removePlayer(this); // force remove in case of crash during teleport
 			
@@ -7463,10 +7481,6 @@ public final class Player extends Playable
 		return gms;
 	}
 	
-	public static boolean isInEvent(Player pc)
-	{
-		return EventManager.getInstance().isInEvent(pc);
-	}
 	
 	public void setLastLocation(Location _lastLocation)
 	{
@@ -7504,5 +7518,15 @@ public final class Player extends Playable
 		
 		// Abort attack, cast and move.
 		abortAll(true);
+	}
+	
+	public void setReadChat(boolean a)
+	{
+		isReadChat = a;
+	}
+	
+	public boolean getReadChat()
+	{
+		return isReadChat;
 	}
 }

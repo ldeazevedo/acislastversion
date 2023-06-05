@@ -16,11 +16,13 @@ package net.sf.l2j.gameserver.model.events;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -39,6 +41,7 @@ import net.sf.l2j.gameserver.model.zone.type.TownZone;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
+import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.StopMove;
 
@@ -155,7 +158,7 @@ public class EventManager
 	
 	public void checkTimeusEvents(String text, Player player)
 	{
-		if (!isInProgress() || player == null || player.isInOlympiadMode() || player.isFestivalParticipant() || /*player.isInSiege() || */ player.isInJail() || player.isFestivalParticipant() || player.isCursedWeaponEquipped() || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(player.getObjectId()) || player.getKarma() > 0)
+		if (!isInProgress() || player == null || player.isInObserverMode() || player.isInOlympiadMode() || player.isFestivalParticipant() || /*player.isInSiege() || */ player.isInJail() || player.isFestivalParticipant() || player.isCursedWeaponEquipped() || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(player.getObjectId()) || player.getKarma() > 0)
 			return;
 		
 		if (OlympiadManager.getInstance().isRegistered(player))
@@ -261,21 +264,20 @@ public class EventManager
 		if (player.isDead())
 			player.doRevive();
 	//	player.setCurrentHp(player.getMaxHp());
-	//	player.setCurrentCp(player.getMaxCp());
-	//	player.setCurrentMp(player.getMaxMp());
-	//	player.set
-		player.broadcastUserInfo();
+	//	player.setCurrentCp(player.getMaxCp()); //	player.setCurrentMp(player.getMaxMp());
+			player.getStatus().setMaxCpHpMp();
+			player.broadcastUserInfo();
 		
-		if (player.getLastLocation() != null)
-			player.instantTeleportTo(player.getLastLocation(), 0);
-		else
-			player.instantTeleportTo(82698, 148638, -3473, 0);
+			if (player.getLastLocation() != null)
+				player.instantTeleportTo(player.getLastLocation(), 0);
+			else
+				player.instantTeleportTo(82698, 148638, -3473, 0);
 		
-		if (player.getKarma() > 0)
-			player.setKarma(0);
+			if (player.getKarma() > 0)
+				player.setKarma(0);
 		
-		player.setPvpFlag(0);
-		player.setTeam(TeamType.NONE);
+			player.setPvpFlag(0);
+			player.setTeam(TeamType.NONE);
 	}
 	
 	private class RevertTask implements Runnable
@@ -302,7 +304,7 @@ public class EventManager
 								player.stopAbnormalEffect(0x0200);
 								player.setIsImmobilized(false);
 								player.setInvul(false);
-								setCurrentHpMpCp(player);
+								player.getStatus().setMaxCpHpMp();
 							}
 					}
 				}
@@ -369,14 +371,16 @@ public class EventManager
 	//				pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
 					
 					// Guardar en la base de datos
-					try (Connection con = ConnectionPool.getConnection())
-					{
+					try (Connection con = ConnectionPool.getConnection();
 						PreparedStatement statement = con.prepareStatement("select * from rf where char_name=?");
+						ResultSet rs = statement.executeQuery();
+						PreparedStatement statement2 = con.prepareStatement(rs.first() ? "update rf set count=count+1 where char_name=?" : "insert rf set count=1,char_name=?"))
+					{
 						statement.setString(1, pk.getName());
-						PreparedStatement statement2 = con.prepareStatement(statement.executeQuery().first() ? "update rf set count=count+1 where char_name=?" : "insert rf set count=1,char_name=?");
 						statement2.setString(1, pk.getName());
 						statement2.execute();
 						statement2.close();
+						rs.close();
 						statement.close();
 					}
 					catch (Exception e)
@@ -388,8 +392,6 @@ public class EventManager
 				
 				isInEvent = true;
 			}
-			
-			
 			
 			if (event == Events.DM && StateEvent == 4)
 			{
@@ -475,7 +477,8 @@ public class EventManager
 		//ScriptData.getInstance().getQuest("EventsTask").onTimer("clear", null, null);
 		//.startQuestTimer("clear", 1000, null, null, false);
 	}
-	
+
+	protected static final CLogger LOGGER = new CLogger(Quest.class.getName());
 	public void setSurvival(int stage)
 	{
 		if (TvTEvent.isInProgress() || event == Events.RF || event == Events.DM)
@@ -498,6 +501,7 @@ public class EventManager
 					announce("Evento Survival empezara en 1 minuto");
 					announce("Para registrarte, escribi .register");
 					announce("Para mirar la pelea, escribi .ver");
+					LOGGER.warn("stage 0 Reg time");
 				}
 				break;
 			case 1:
@@ -558,7 +562,7 @@ public class EventManager
 						player.setIsImmobilized(false);
 						player.setInvul(false);
 						player.isInSurvival = true;
-						setCurrentHpMpCp(player);
+						player.getStatus().setMaxCpHpMp();
 					}
 					StateEvent = 4;
 				}
@@ -718,7 +722,7 @@ public class EventManager
 						player.stopAbnormalEffect(0x0200);
 						player.setIsImmobilized(false);
 						player.setInvul(false);
-						setCurrentHpMpCp(player);
+						player.getStatus().setMaxCpHpMp();
 					}
 					StateEvent = 5;
 				}
@@ -775,18 +779,10 @@ public class EventManager
 		player.setIsImmobilized(true);
 		player.broadcastPacket(new StopMove(player));
 		getBuffs(player);
-		setCurrentHpMpCp(player);
+		player.getStatus().setMaxCpHpMp();
 		String message = "La pelea comenzara en 30 segundos!";
 		player.sendMessage(message);
 		player.sendPacket(new ExShowScreenMessage(message, 3500, SMPOS.MIDDLE_RIGHT, false));
-	}
-	
-	public static void setCurrentHpMpCp(Player player)
-	{
-		//player.getStatus().getMaxCp();
-		//player.setCurrentCp(player.getStatus().getMaxCp());
-		//player.setCurrentHpMp(player.getMaxHp(), player.getMaxMp());
-		player.getStatus().setMaxCpHpMp();
 	}
 	
 	public void setDM(int stage)
@@ -872,7 +868,7 @@ public class EventManager
 						player.setIsImmobilized(false);
 						player.setInvul(false);
 						player.isInSurvival = true;
-						setCurrentHpMpCp(player);
+						player.getStatus().setMaxCpHpMp();
 					}
 					StateEvent = 4;
 				}

@@ -66,20 +66,10 @@ public class AdminTimeus implements IAdminCommandHandler
 		else if (command.startsWith("admin_clear"))
 			EventManager.getInstance().clear();
 		else if (command.equals("admin_rf"))
-		{
-			//ScriptData.getInstance().getQuest("EventsTask").startQuestTimer("doItJustOnceRF", 1000, null, null, false);
-			//ScriptData.getInstance().getQuest("EventsTask").onTimer("doItJustOnceRF", null, null);
 			ScriptData.getInstance().getQuest("EventsTask").startQuestTimer("doItJustOnceRF", null, null, 1000);
-			
-		}
 			//EventManager.getInstance().doItJustOnceRF();
 		else if (command.equals("admin_survival"))
-		{
-			//ScriptData.getInstance().getQuest("EventsTask").startQuestTimer("doItJustOnceSurvival", 1000, null, null, false);
-			//ScriptData.getInstance().getQuest("EventsTask").onTimer("doItJustOnceSurvival", null, null);
-
 			ScriptData.getInstance().getQuest("EventsTask").startQuestTimer("doItJustOnceSurvivalbeginning", null, null, 1000);
-		}
 			//EventManager.getInstance().doItJustOnceSurvival();
 		else if (command.equals("admin_clanchat"))
 		{
