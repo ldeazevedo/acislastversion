@@ -233,7 +233,7 @@ import net.sf.l2j.gameserver.taskmanager.WaterTaskManager;
  * This class represents a player in the world.<br>
  * There is always a client-thread connected to this (except if a player-store is activated upon logout).
  */
-public final class Player extends Playable
+public class Player extends Playable
 {
 	private static final String RESTORE_SKILLS_FOR_CHAR = "SELECT skill_id,skill_level FROM character_skills WHERE char_obj_id=? AND class_index=?";
 	private static final String ADD_OR_UPDATE_SKILL = "INSERT INTO character_skills (char_obj_id,skill_id,skill_level,class_index) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE skill_level=VALUES(skill_level)";
@@ -500,7 +500,7 @@ public final class Player extends Playable
 	 * @param accountName The name of the account including this Player
 	 * @param app The PcAppearance of the Player
 	 */
-	private Player(int objectId, PlayerTemplate template, String accountName, Appearance app)
+	protected Player(int objectId, PlayerTemplate template, String accountName, Appearance app)
 	{
 		super(objectId, template);
 		
