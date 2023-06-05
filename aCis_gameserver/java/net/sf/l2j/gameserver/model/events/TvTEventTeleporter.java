@@ -100,7 +100,9 @@ public class TvTEventTeleporter implements Runnable
 				
 			//_playerInstance.setTeam(TvTEvent.getParticipantTeamId(_playerInstance.getObjectId()) + 1);
 			//_playerInstance.setTeam(TvTEvent.getParticipantTeamId(_playerInstance.getObjectId()) == 0 ? TeamType.BLUE : TeamType.RED);
-			_playerInstance.setTeam(TvTEvent.getParticipantTeamId(_playerInstance.getObjectId()) == 0 ? TeamType.BLUE : TeamType.RED);
+			//_playerInstance.setTeam(TvTEvent.getParticipantTeamId(_playerInstance.getObjectId()) == 0 ? TeamType.BLUE : TeamType.RED);
+			int teamByte = TvTEvent.getParticipantTeamId(_playerInstance.getObjectId()) + 1;
+			_playerInstance.setTeam(TeamType.getById(teamByte));
 			TvTEvent.getParticipantTeamId(_playerInstance.getObjectId() + 1);
 		}
 		else

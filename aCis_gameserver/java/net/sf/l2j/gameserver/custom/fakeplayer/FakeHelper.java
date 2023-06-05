@@ -39,9 +39,9 @@ public class FakeHelper {
 			"Wamir", "Tabeen", "Mija", "Thufou", "Rajha", "Rijthi", "Waan", "Raser", "Fisa", "Qardil", "Amsim", "Qina",
 			"Sarasa", "Yatin", "Yasghayth", "Halah", "Vidmu", "Taulfa", "Shahqa"};
 	private static ClassId classId;
-	private static List<Player> fakePlayers = new ArrayList<>();
-	private static HashMap<Integer, Location> locationsHash = new HashMap<>();
-	private static List<String> usedNames = new ArrayList<>();
+	private static final List<Player> fakePlayers = new ArrayList<>();
+	private static final HashMap<Integer, Location> locationsHash = new HashMap<>();
+	private static final List<String> usedNames = new ArrayList<>();
 
 	public static void createFakePlayers(int count, City city, FakePlayerType fakePlayerType) {
 		for (int i = 0; i < count; i++)
