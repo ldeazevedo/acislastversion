@@ -59,9 +59,7 @@ public class TvTEventTeam
 	public boolean addPlayer(Player playerInstance)
 	{
 		if (playerInstance == null)
-		{
 			return false;
-		}
 		
 		synchronized (_participatedPlayers)
 		{
@@ -106,16 +104,12 @@ public class TvTEventTeam
 	 * @param playerObjectId
 	 * @return boolean: true if player is in this team, otherwise false
 	 */
-	public boolean containsPlayer(int playerObjectId)
+	public boolean containsPlayer(int playerObjectId) // boolean containsPlayer; return containsPlayer;
 	{
-		boolean containsPlayer;
-		
 		synchronized (_participatedPlayers)
 		{
-			containsPlayer = _participatedPlayers.containsKey(playerObjectId);
+			return _participatedPlayers.containsKey(playerObjectId);
 		}
-		
-		return containsPlayer;
 	}
 	
 	/**
@@ -153,16 +147,12 @@ public class TvTEventTeam
 	 * <br>
 	 * @return Map<String, Player>: map of players in this team<br>
 	 */
-	public Map<Integer, Player> getParticipatedPlayers()
+	public Map<Integer, Player> getParticipatedPlayers() // Map<Integer, Player> participatedPlayers = null; return participatedPlayers;
 	{
-		Map<Integer, Player> participatedPlayers = null;
-		
 		synchronized (_participatedPlayers)
 		{
-			participatedPlayers = _participatedPlayers;
+			return _participatedPlayers;
 		}
-		
-		return participatedPlayers;
 	}
 	
 	/**
@@ -170,15 +160,11 @@ public class TvTEventTeam
 	 * <br>
 	 * @return int: number of players in team<br>
 	 */
-	public int getParticipatedPlayerCount()
+	public int getParticipatedPlayerCount() // 	int participatedPlayerCount; 	return participatedPlayerCount;
 	{
-		int participatedPlayerCount;
-		
 		synchronized (_participatedPlayers)
 		{
-			participatedPlayerCount = _participatedPlayers.size();
+			return _participatedPlayers.size();
 		}
-		
-		return participatedPlayerCount;
 	}
 }

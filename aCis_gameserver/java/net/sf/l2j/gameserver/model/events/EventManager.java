@@ -3,12 +3,12 @@
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -48,17 +48,17 @@ import net.sf.l2j.gameserver.network.serverpackets.StopMove;
 public class EventManager
 {
 	protected static final Logger _log = Logger.getLogger(EventManager.class.getName());
-	
+
 	public Vector<Player> players = new Vector<>();
 	public State state = State.INACTIVE;
 	public Events event = Events.NULL;
-	
+
 	int StateEvent = 0;
 	protected int topKills = 0;
 	public List<Player> topPlayers = new ArrayList<>();
-	
+
 	public Player _activeChar;
-	
+
 	enum State
 	{
 		INACTIVE,
@@ -67,7 +67,7 @@ public class EventManager
 		FIGHT,
 		ENDING
 	}
-	
+
 	enum Events
 	{
 		NULL,
@@ -75,11 +75,11 @@ public class EventManager
 		RF,
 		DM
 	}
-	
+
 	protected EventManager()
 	{
 	}
-	
+
 	public void removePlayer(Player player)
 	{
 		synchronized (players)
@@ -87,19 +87,19 @@ public class EventManager
 			players.remove(player);
 		}
 	}
-	
+
 	public boolean addPlayer(Player player)
 	{
 		if (player == null)
 			return false;
-		
+
 		synchronized (players)
 		{
 			players.add(player);
 		}
 		return true;
 	}
-	
+
 	public boolean containsPlayer(Player player)
 	{
 		synchronized (players)
@@ -107,7 +107,7 @@ public class EventManager
 			return players.contains(player);
 		}
 	}
-	
+
 	public static void getBuffs(Player killer)
 	{
 		killer.getSkill(1204, 2); // Wind Walk
@@ -116,57 +116,57 @@ public class EventManager
 		else
 			killer.getSkill(1086, 2); // haste
 	}
-	
+
 	public class Msg implements Runnable
 	{
 		private String _Msg;
 		private int _Time;
-		
+
 		public Msg(String msg, int time)
 		{
 			_Msg = msg;
 			_Time = time;
 		}
-		
+
 		@Override
 		public void run()
 		{
 			sendMsg(_Msg, _Time);
 		}
-		
+
 		void sendMsg(String msg, int time)
 		{
 			for (Player player : World.getInstance().getPlayers())
 				player.sendPacket(new ExShowScreenMessage(msg, time, SMPOS.TOP_CENTER, false));
 		}
 	}
-	
+
 	public boolean isInEvent(Player pc)
 	{
 		return state == State.FIGHT && containsPlayer(pc);
 	}
-	
+
 	public void announce(String msg)
 	{
 		World.announceToOnlinePlayers(msg);
 	}
-	
+
 	public boolean isInProgress()
 	{
 		return state != State.INACTIVE;
 	}
-	
+
 	public void checkTimeusEvents(String text, Player player)
 	{
 		if (!isInProgress() || player == null || player.isInObserverMode() || player.isInOlympiadMode() || player.isFestivalParticipant() || /*player.isInSiege() || */ player.isInJail() || player.isFestivalParticipant() || player.isCursedWeaponEquipped() || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(player.getObjectId()) || player.getKarma() > 0)
 			return;
-		
+
 		if (OlympiadManager.getInstance().isRegistered(player))
 		{
 			player.sendMessage("No puedes participar ni ver el evento mientras estas registrado en oly.");
 			return;
 		}
-		
+
 		if (text.equalsIgnoreCase(".salir") && isInProgress())
 		{
 			if (!containsPlayer(player) || state != State.FIGHT)
@@ -178,7 +178,7 @@ public class EventManager
 			}
 			return;
 		}
-		
+
 		if (text.equalsIgnoreCase(".ver"))
 		{
 			if (containsPlayer(player) || player.isInObserverMode())
@@ -190,7 +190,7 @@ public class EventManager
 				player.enterObserverMode(new Location(85574, 256964, -11674));
 			return;
 		}
-		
+
 		if (text.equalsIgnoreCase(".register"))
 		{
 			if (player.isDead())
@@ -254,7 +254,7 @@ public class EventManager
 			return;
 		}
 	}
-	
+
 	public void revertPlayer(Player player)
 	{
 		if (player.atEvent)
@@ -267,25 +267,25 @@ public class EventManager
 	//	player.setCurrentCp(player.getMaxCp()); //	player.setCurrentMp(player.getMaxMp());
 			player.getStatus().setMaxCpHpMp();
 			player.broadcastUserInfo();
-		
+
 			if (player.getLastLocation() != null)
 				player.instantTeleportTo(player.getLastLocation(), 0);
 			else
 				player.instantTeleportTo(82698, 148638, -3473, 0);
-		
+
 			if (player.getKarma() > 0)
 				player.setKarma(0);
-		
+
 			player.setPvpFlag(0);
 			player.setTeam(TeamType.NONE);
 	}
-	
+
 	private class RevertTask implements Runnable
 	{
 		RevertTask()
 		{
 		}
-		
+
 		@Override
 		public void run()
 		{
@@ -311,7 +311,7 @@ public class EventManager
 			clean();
 		}
 	}
-	
+
 	public boolean onKill(Player pc, Player pk)
 	{
 		boolean isInEvent = false;
@@ -337,7 +337,7 @@ public class EventManager
 							allDead = false;
 					}
 				}
-				
+
 				if (allDead && state != State.ENDING)
 				{
 					state = State.ENDING;
@@ -369,7 +369,7 @@ public class EventManager
 					announce("Resultado Random Fight: " + pk.getName() + " es el ganador.");
 					announce("Evento finalizado");
 	//				pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
-					
+
 					// Guardar en la base de datos
 					try (Connection con = ConnectionPool.getConnection();
 						PreparedStatement statement = con.prepareStatement("select * from rf where char_name=?");
@@ -379,9 +379,6 @@ public class EventManager
 						statement.setString(1, pk.getName());
 						statement2.setString(1, pk.getName());
 						statement2.execute();
-						statement2.close();
-						rs.close();
-						statement.close();
 					}
 					catch (Exception e)
 					{
@@ -389,10 +386,10 @@ public class EventManager
 					}
 				}
 				ThreadPool.schedule(new RevertTask(), 15000);
-				
+
 				isInEvent = true;
 			}
-			
+
 			if (event == Events.DM && StateEvent == 4)
 			{
 				if (pc != null && pk != null)
@@ -406,7 +403,7 @@ public class EventManager
 		}
 		return isInEvent;
 	}
-	
+
 	public void onLogout(Player pc)
 	{
 		Player pk = null;
@@ -423,7 +420,7 @@ public class EventManager
 			}
 			if (containsPlayer(pc))
 				removePlayer(pc);
-			
+
 			pc.atEvent = false;
 			pc.isInSurvival = false;
 		}
@@ -435,31 +432,31 @@ public class EventManager
 					alive++;
 					pk = player;
 				}
-			
+
 			if (alive == 1)
 				onKill(null, pk);
 			else
 				alive = 0;
 		}
 	}
-	
+
 	public boolean reqPlayers()
 	{
 		return players.isEmpty() || players.size() < 2;
 	}
-	
+
 	public void clean()
 	{
 		if (state == State.FIGHT)
 			for (Player p : players)
 				p.setTeam(TeamType.NONE);
-		
+
 		for (Player pc : World.getInstance().getPlayers())
 		{
 			pc.isInSurvival = false;
 			pc.atEvent = false;
 		}
-		
+
 		players.clear();
 		state = State.INACTIVE;
 		event = Events.NULL;
@@ -468,7 +465,7 @@ public class EventManager
 	//	ScriptData.getInstance().getQuest("EventsTask").startQuestTimer("cancelQuestTimers", 1000, null, null, false);
 		ScriptData.getInstance().getQuest("EventsTask").startQuestTimer("cancelQuestTimers", null, null, 1000);
 	}
-	
+
 	public void clear()
 	{
 		clean();
@@ -524,7 +521,7 @@ public class EventManager
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
-					
+
 					announce("Cantidad de registrados: " + players.size());
 					announce("Los personajes seran teleportados en 15 segundos.");
 					StateEvent = 2;
@@ -539,7 +536,7 @@ public class EventManager
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
-					
+
 					for (Player player : players)
 						setPcPrepare(player);
 					StateEvent = 3;
@@ -575,12 +572,12 @@ public class EventManager
 						ThreadPool.schedule(new RevertTask(), 15000);
 						return;
 					}
-					
+
 					int alive = 0;
 					for (Player player : players)
 						if (player.isInSurvival)
 							alive++;
-					
+
 					if (alive >= 2)
 					{
 						state = State.ENDING;
@@ -591,7 +588,7 @@ public class EventManager
 				break;
 		}
 	}
-	
+
 	public void setRandomFight(int _status)
 	{
 		if (TvTEvent.isInProgress() || event == Events.SURVIVAL || event == Events.DM)
@@ -620,14 +617,14 @@ public class EventManager
 				if (state == State.REGISTER && event == Events.RF && StateEvent == 1)
 				{
 					state = State.LOADING;
-					
+
 					if (reqPlayers())
 					{
 						announce("Random Fight no comenzara por que faltan participantes.");
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
-					
+
 					announce("Cantidad de registrados: " + players.size());
 					announce("2 personajes al azar seran elegidos en 10 segundos!");
 					StateEvent = 2;
@@ -644,7 +641,7 @@ public class EventManager
 							ThreadPool.schedule(new RevertTask(), 1000);
 							return;
 						}
-						
+
 						Vector<Player> newPlayers = new Vector<>();
 						for (Player p : players)
 							newPlayers.add(p);
@@ -655,13 +652,13 @@ public class EventManager
 								p.sendMessage("no cumples los requisitos para participar en el evento.");
 							}
 						players = newPlayers;
-						
+
 						int rnd1 = Rnd.get(players.size());
 						int rnd2 = Rnd.get(players.size());
-						
+
 						while (rnd2 == rnd1)
 							rnd2 = Rnd.get(players.size());
-						
+
 						Vector<Player> players2 = new Vector<>();
 						for (Player player : players)
 							if (player != players.get(rnd1) && player != players.get(rnd2))
@@ -669,7 +666,7 @@ public class EventManager
 						for (Player player : players2)
 							if (players.contains(player))
 								players.remove(player);
-						
+
 						announce("Personajes elegidos: " + players.firstElement().getName() + " || " + players.lastElement().getName());
 						announce("Los personajes seran teleportados en 15 segundos.");
 						StateEvent = 3;
@@ -689,19 +686,19 @@ public class EventManager
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
-					
+
 					Player player1 = players.firstElement();
 					Player player2 = players.lastElement();
-					
+
 					setPcPrepare(player1);
 					setPcPrepare(player2);
-					
+
 					// Arriba de GC
 					player1.instantTeleportTo(179621, 54371, -3093, 0);
 					player2.instantTeleportTo(178167, 54851, -3093, 0);
 					player1.setTeam(TeamType.BLUE);
 					player2.setTeam(TeamType.RED);
-					
+
 					state = State.FIGHT;
 					StateEvent = 4;
 				}
@@ -735,12 +732,12 @@ public class EventManager
 						ThreadPool.schedule(new RevertTask(), 15000);
 						return;
 					}
-					
+
 					int alive = 0;
 					for (Player player : players)
 						if (!player.isDead())
 							alive++;
-					
+
 					if (alive == 2)
 					{
 						state = State.ENDING;
@@ -752,17 +749,17 @@ public class EventManager
 				break;
 		}
 	}
-	
+
 	public static EventManager getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-	
+
 	private static class SingletonHolder
 	{
 		protected static final EventManager _instance = new EventManager();
 	}
-	
+
 	private void setPcPrepare(Player player)
 	{
 		player.setLastLocation(new Location(player.getX(), player.getY(), player.getZ()));
@@ -784,7 +781,7 @@ public class EventManager
 		player.sendMessage(message);
 		player.sendPacket(new ExShowScreenMessage(message, 3500, SMPOS.MIDDLE_RIGHT, false));
 	}
-	
+
 	public void setDM(int stage)
 	{
 		if (TvTEvent.isInProgress() || event == Events.RF || event == Events.SURVIVAL)
@@ -830,7 +827,7 @@ public class EventManager
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
-					
+
 					announce("Cantidad de registrados: " + players.size());
 					announce("Los personajes seran teleportados en 15 segundos.");
 					StateEvent = 2;
@@ -845,7 +842,7 @@ public class EventManager
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
-					
+
 					for (Player player : players)
 						setPcPrepare(player);
 					StateEvent = 3;
@@ -886,7 +883,7 @@ public class EventManager
 						String winners = "";
 						for (Player winner : topPlayers)
 							winners = winners + " " + winner.getName();
-						
+
 						state = State.ENDING;
 						if (topPlayers.size() > 0)
 						{
@@ -903,7 +900,7 @@ public class EventManager
 						}
 						ThreadPool.schedule(new RevertTask(), 15000);
 					}
-					else 
+					else
 					{
 						state = State.ENDING;
 						announce("Death Match No hubo ganador, no hay premio!");
@@ -913,7 +910,7 @@ public class EventManager
 				break;
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
 	private void removeParty()
 	{
@@ -929,7 +926,7 @@ public class EventManager
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
 	private void winner()
 	{
@@ -949,7 +946,7 @@ public class EventManager
 			}
 		}
 	}
-	
+
 	/**
 	 * Teleport the {@link Player} back to his initial {@link Location}.
 	 * @param player : The Player to teleport back.
@@ -958,16 +955,16 @@ public class EventManager
 	{
 		if (player == null)
 			return;
-		
+
 		// Retrieve the initial Location.
 		Location loc = player.getSavedLocation();
 		if (loc.equals(Location.DUMMY_LOC))
 			return;
-		
+
 		final TownZone town = MapRegionData.getTown(loc.getX(), loc.getY(), loc.getZ());
 		if (town != null)
 			loc = town.getRndSpawn(SpawnType.NORMAL);
-		
+
 		player.teleportTo(loc, 0);
 		player.getSavedLocation().clean();
 	}

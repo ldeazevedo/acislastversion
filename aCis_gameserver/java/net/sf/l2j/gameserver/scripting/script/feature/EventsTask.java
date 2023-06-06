@@ -19,17 +19,24 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.TvTEvent;
+import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.scripting.Quest;
 
 public class EventsTask extends Quest
 {
+	private static final int MESSENGER = Config.TVT_EVENT_PARTICIPATION_NPC_ID;
 	private Timer time = new Timer();
+	
 	public EventsTask()
 	{
 		super(-1, "feature");
+	//	addFirstTalkId(MESSENGER);
+	//	addTalkId(MESSENGER);
 		setTask();
 	}
 	
@@ -45,7 +52,7 @@ public class EventsTask extends Quest
 		}
 		else if (event.equalsIgnoreCase("Survival"))
 		{
-			startQuestTimer("Survival", 10800000, null, null, true); //10800000
+			startQuestTimer("Survival", 10800000, null, null, true); // 10800000
 			setSurvival(0);
 			
 			startQuestTimer("Survival01", 60000, null, null, false); // checkRegist
@@ -121,7 +128,7 @@ public class EventsTask extends Quest
 		
 		else if (event.equalsIgnoreCase("DM"))
 		{
-		//	startQuestTimer("Survival", 10800000, null, null, true); //10800000
+			// startQuestTimer("Survival", 10800000, null, null, true); //10800000
 			setDM(0);
 			
 			startQuestTimer("DM01", 60000, null, null, false); // checkRegist
@@ -198,15 +205,101 @@ public class EventsTask extends Quest
 	private class setTimerTask extends TimerTask
 	{
 		final int _time;
+		
 		public setTimerTask(int time)
 		{
 			_time = time;
 		}
-
+		
 		@Override
 		public void run()
 		{
 			startQuestTimer(_time <= 1000 ? "Survival" : "RF", _time, null, null, false);
 		}
+	}
+	
+	@Override
+	public String onFirstTalk(Npc npc, Player player)
+	{
+		String html = null;
+		if (TvTEvent.isParticipating())
+	//		return "TvTEventParticipation.htm";
+		html = "TvTEventParticipation.htm";
+	/*	TvTEvent.isPlayerParticipant(player.getObjectId());
+		final boolean isParticipant = TvTEvent.isPlayerParticipant(player.getObjectId());
+//TvTEventParticipation.htm
+		if (TvTEvent.isParticipating())
+			html = (!isParticipant ? "Participation.htm" : "RemoveParticipation.htm");
+		*/else if (TvTEvent.isStarting() || TvTEvent.isStarted())
+			html = "Status.htm";
+	/*	if (html != null)
+		{
+			if (TvTEvent.getTeamsPlayerCounts() != null && TvTEvent.getTeamsPoints() != null)
+			{
+				int[] teamsPlayerCounts = TvTEvent.getTeamsPlayerCounts();
+				int[] teamsPointsCounts = TvTEvent.getTeamsPoints();
+			//	if (!isParticipant)
+				replaceAll(html, "%fee%", TvTEvent.getParticipationFee());
+				replaceAll(html, "%objectId%", String.valueOf(npc.getObjectId()));
+				replaceAll(html, "%team1name%", Config.TVT_EVENT_TEAM_1_NAME);
+				replaceAll(html, "%team1playercount%", String.valueOf(teamsPlayerCounts[0]));
+				replaceAll(html, "%team1points%", String.valueOf(teamsPointsCounts[0]));
+				replaceAll(html, "%team2name%", Config.TVT_EVENT_TEAM_2_NAME);
+				replaceAll(html, "%team2playercount%", String.valueOf(teamsPlayerCounts[1]));
+				replaceAll(html, "%playercount%", String.valueOf(teamsPlayerCounts[0] + teamsPlayerCounts[1]));
+			}
+			else 
+				replaceAll(html, "%playercount%", String.valueOf(0));
+		}*/
+		return html;
+	}
+	
+	private String replaceAll(String html, String text, String replace)
+	{
+		return getHtmlText(html).replaceAll(text, replace);
+	}
+	
+	@Override
+	public String onAdvEvent(String event, Npc npc, Player player)
+	{
+		String html = event;
+		if (player == null || !TvTEvent.isParticipating())
+			return html;
+		
+		if (event.equalsIgnoreCase("tvt_event_participation"))
+		{
+			int playerLevel = player.getStatus().getLevel();
+			
+			if (player.isCursedWeaponEquipped())
+				html = "CursedWeaponEquipped.htm";
+			else if (EventManager.getInstance().containsPlayer(player))
+				html = "already_another_event.htm";
+			else if (OlympiadManager.getInstance().isRegistered(player))
+				html = "Olympiad.htm";
+			else if (player.getKarma() > 0)
+				html = "Karma.htm";
+			else if ((playerLevel < Config.TVT_EVENT_MIN_LVL) || (playerLevel > Config.TVT_EVENT_MAX_LVL))
+				html = "Karma.htm";
+			else if ((TvTEvent.getTeams()[0].getParticipatedPlayerCount() == Config.TVT_EVENT_MAX_PLAYERS_IN_TEAMS) && (TvTEvent.getTeams()[1].getParticipatedPlayerCount() == Config.TVT_EVENT_MAX_PLAYERS_IN_TEAMS))
+				html = "TeamsFull.htm";
+			else if (TvTEvent.needParticipationFee() && !TvTEvent.hasParticipationFee(player))
+				html = "ParticipationFee.htm";
+			else if (TvTEvent.addParticipant(player))
+				html = "Registered.htm";
+
+			html = getHtmlText(html);
+			html = html.replace("%min%", String.valueOf(Config.TVT_EVENT_MIN_LVL));
+			html = html.replace("%max%", String.valueOf(Config.TVT_EVENT_MAX_LVL));
+			
+			html = html.replace("%max%", String.valueOf(Config.TVT_EVENT_MAX_PLAYERS_IN_TEAMS));
+			
+			html = html.replace("%fee%", TvTEvent.getParticipationFee());
+		}
+		else if (event.equalsIgnoreCase("tvt_event_remove_participation"))
+		{
+			TvTEvent.removeParticipant(player.getObjectId());
+			html = "Unregistered.htm";
+		}
+		return html;
 	}
 }

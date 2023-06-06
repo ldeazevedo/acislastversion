@@ -54,9 +54,7 @@ public class TvTManager
 			_log.info("TvTEventEngine[TvTManager.TvTManager()]: Started.");
 		}
 		else
-		{
 			_log.info("TvTEventEngine[TvTManager.TvTManager()]: Engine is disabled.");
-		}
 	}
 	
 	/**
@@ -89,14 +87,11 @@ public class TvTManager
 				testStartTime.set(Calendar.MINUTE, Integer.parseInt(splitTimeOfDay[1]));
 				// If the date is in the past, make it the next day (Example: Checking for "1:00", when the time is 23:57.)
 				if (testStartTime.getTimeInMillis() < currentTime.getTimeInMillis())
-				{
 					testStartTime.add(Calendar.DAY_OF_MONTH, 1);
-				}
+				
 				// Check for the test date to be the minimum (smallest in the specified list)
 				if ((nextStartTime == null) || (testStartTime.getTimeInMillis() < nextStartTime.getTimeInMillis()))
-				{
 					nextStartTime = testStartTime;
-				}
 			}
 			if (nextStartTime != null)
 			{
@@ -174,6 +169,13 @@ public class TvTManager
 		}
 	}
 	
+	public void startTvT()
+	{
+		_task = new TvTStartTask(1000);
+		ThreadPool.execute(_task);
+		startReg();
+	}
+	
 	/**
 	 * Class for TvT cycles
 	 */
@@ -198,64 +200,38 @@ public class TvTManager
 			int delay = (int) Math.round((_startTime - System.currentTimeMillis()) / 1000.0);
 			
 			if (delay > 0)
-			{
 				announce(delay);
-			}
 			
 			int nextMsg = 0;
 			if (delay > 3600)
-			{
 				nextMsg = delay - 3600;
-			}
 			else if (delay > 1800)
-			{
 				nextMsg = delay - 1800;
-			}
 			else if (delay > 900)
-			{
 				nextMsg = delay - 900;
-			}
 			else if (delay > 600)
-			{
 				nextMsg = delay - 600;
-			}
 			else if (delay > 300)
-			{
 				nextMsg = delay - 300;
-			}
 			else if (delay > 60)
-			{
 				nextMsg = delay - 60;
-			}
 			else if (delay > 5)
-			{
 				nextMsg = delay - 5;
-			}
 			else if (delay > 0)
-			{
 				nextMsg = delay;
-			}
 			else
 			{
 				// start
 				if (TvTEvent.isInactive())
-				{
 					startReg();
-				}
 				else if (TvTEvent.isParticipating())
-				{
 					startEvent();
-				}
 				else
-				{
 					endEvent();
-				}
 			}
 			
 			if (delay > 0)
-			{
 				nextRun = ThreadPool.schedule(this, nextMsg * 1000);
-			}
 		}
 		
 		private void announce(long time)
@@ -265,35 +241,23 @@ public class TvTManager
 			if ((time >= 3600) && ((time % 3600) == 0))
 			{
 				if (TvTEvent.isParticipating())
-				{
 					World.toAllOnlinePlayers(new CreatureSay(0, SayType.CRITICAL_ANNOUNCE, "", "TvT Event: " + (time / 60 / 60) + " hour(s) until registration is closed!"));
-				}
 				else if (TvTEvent.isStarted())
-				{
 					World.toAllOnlinePlayers(new CreatureSay(0, SayType.CRITICAL_ANNOUNCE, "", "TvT Event: " + (time / 60 / 60) + " hour(s) until event is finished!"));
-				}
 			}
 			else if (time >= 60)
 			{
 				if (TvTEvent.isParticipating())
-				{
 					World.toAllOnlinePlayers(new CreatureSay(0, SayType.CRITICAL_ANNOUNCE, "", "TvT Event: " + (time / 60) + " minute(s) until registration is closed!"));
-				}
 				else if (TvTEvent.isStarted())
-				{
 					World.toAllOnlinePlayers(new CreatureSay(0, SayType.CRITICAL_ANNOUNCE, "", "TvT Event: " + (time / 60) + " minute(s) until the event is finished!"));
-				}
 			}
 			else
 			{
 				if (TvTEvent.isParticipating())
-				{
 					World.toAllOnlinePlayers(new CreatureSay(0, SayType.CRITICAL_ANNOUNCE, "", "TvT Event: " + time + " second(s) until registration is closed!"));
-				}
 				else if (TvTEvent.isStarted())
-				{
 					World.toAllOnlinePlayers(new CreatureSay(0, SayType.CRITICAL_ANNOUNCE, "", "TvT Event: " + time + " second(s) until the event is finished!"));
-				}
 			}
 		}
 	}
