@@ -63,6 +63,11 @@ public class ChatAll implements IChatHandler
 				
 				add(player, player.getTarget().getActingPlayer());
 			}
+			else if (text.equals(".tvt_start"))
+			{
+				TvTManager.getInstance().startTvT();
+				return;
+			}
 			else if (text.equals(".tvt_remove"))
 			{
 				if (!(player.getTarget() instanceof Player))
@@ -80,8 +85,9 @@ public class ChatAll implements IChatHandler
 			}
 			if (text.startsWith(".read"))
 			{
-				player.sendMessage("You should select a player!");
-				
+				player.sendMessage("test");
+				player.test = true;
+				return;
 			}
 			
 			if (text.startsWith(".clanchat"))
@@ -166,8 +172,10 @@ public class ChatAll implements IChatHandler
 		{
 			if (text.equalsIgnoreCase(".tvt"))
 			{
+			/*	ScriptData.getInstance().getQuest("EventsTask").startQuestTimer("tvt_event_participation", null, player, 1000);
 				if (!TvTEvent.isPlayerParticipant(player.getObjectId()))
 					TvTEvent.onBypass("tvt_event_participation", player);
+				else */TvTEvent.addParticipant(player);
 				return;
 			}
 		}

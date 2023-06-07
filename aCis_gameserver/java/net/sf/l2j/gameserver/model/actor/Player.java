@@ -7529,4 +7529,14 @@ public class Player extends Playable
 	{
 		return isReadChat;
 	}
+
+	public boolean test;
+	/**
+	 * @return
+	 */
+	public boolean inTest()
+	{
+		// TODO Auto-generated method stub
+		return test;
+	}
 }
