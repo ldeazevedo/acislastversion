@@ -371,12 +371,11 @@ public class EventManager
 	//				pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
 
 					// Guardar en la base de datos
-					try (Connection con = ConnectionPool.getConnection();
-						PreparedStatement statement = con.prepareStatement("select * from rf where char_name=?");
-						ResultSet rs = statement.executeQuery();
-						PreparedStatement statement2 = con.prepareStatement(rs.first() ? "update rf set count=count+1 where char_name=?" : "insert rf set count=1,char_name=?"))
+					try (Connection con = ConnectionPool.getConnection())
 					{
+						PreparedStatement statement = con.prepareStatement("select * from rf where char_name=?");
 						statement.setString(1, pk.getName());
+						PreparedStatement statement2 = con.prepareStatement(statement.executeQuery().first() ? "update rf set count=count+1 where char_name=?" : "insert rf set count=1,char_name=?");
 						statement2.setString(1, pk.getName());
 						statement2.execute();
 					}
