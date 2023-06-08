@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -41,7 +40,6 @@ import net.sf.l2j.gameserver.model.zone.type.TownZone;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
-import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.StopMove;
 
@@ -61,11 +59,11 @@ public class EventManager
 
 	enum State
 	{
-		INACTIVE,
-		REGISTER,
-		LOADING,
-		FIGHT,
-		ENDING
+		INACTIVE,  //0
+		REGISTER,  //1
+		LOADING,  //2
+		FIGHT,  //3
+		ENDING  //4
 	}
 
 	enum Events
@@ -346,7 +344,7 @@ public class EventManager
 						pk.sendMessage("Sos el ganador!");
 						announce("Resultado Survival: " + pk.getName() + " es el ganador.");
 						announce("Evento finalizado");
-		//				pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, 2, null, true);
+						//pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, 2, null, true);
 						pk.addAncientAdena("Survival", 100000, pk, true);
 					}
 					ThreadPool.schedule(new RevertTask(), 15000);
@@ -371,12 +369,11 @@ public class EventManager
 	//				pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
 
 					// Guardar en la base de datos
-					try (Connection con = ConnectionPool.getConnection();
-						PreparedStatement statement = con.prepareStatement("select * from rf where char_name=?");
-						ResultSet rs = statement.executeQuery();
-						PreparedStatement statement2 = con.prepareStatement(rs.first() ? "update rf set count=count+1 where char_name=?" : "insert rf set count=1,char_name=?"))
+					try (Connection con = ConnectionPool.getConnection())
 					{
+						PreparedStatement statement = con.prepareStatement("select * from rf where char_name=?");
 						statement.setString(1, pk.getName());
+						PreparedStatement statement2 = con.prepareStatement(statement.executeQuery().first() ? "update rf set count=count+1 where char_name=?" : "insert rf set count=1,char_name=?");
 						statement2.setString(1, pk.getName());
 						statement2.execute();
 					}
@@ -474,8 +471,7 @@ public class EventManager
 		//ScriptData.getInstance().getQuest("EventsTask").onTimer("clear", null, null);
 		//.startQuestTimer("clear", 1000, null, null, false);
 	}
-
-	protected static final CLogger LOGGER = new CLogger(Quest.class.getName());
+	
 	public void setSurvival(int stage)
 	{
 		if (TvTEvent.isInProgress() || event == Events.RF || event == Events.DM)
@@ -498,7 +494,7 @@ public class EventManager
 					announce("Evento Survival empezara en 1 minuto");
 					announce("Para registrarte, escribi .register");
 					announce("Para mirar la pelea, escribi .ver");
-					LOGGER.warn("stage 0 Reg time");
+					_log.warning("stage 0 Reg time");
 				}
 				break;
 			case 1:
@@ -889,8 +885,7 @@ public class EventManager
 						{
 							for (Player topPlayer : topPlayers)
 							{
-						//		topPlayer.addItem("DM Event: " + _eventName, _rewardId, _rewardAmount, topPlayer, true);
-
+								//topPlayer.addItem("DM Event: " + _eventName, _rewardId, _rewardAmount, topPlayer, true);
 								topPlayer.addAncientAdena("Survival", 100000, topPlayer, true);
 								StatusUpdate su = new StatusUpdate(topPlayer);
 								su.addAttribute(StatusType.CUR_LOAD, topPlayer.getCurrentWeight());

@@ -35,8 +35,8 @@ public class EventsTask extends Quest
 	public EventsTask()
 	{
 		super(-1, "feature");
-	//	addFirstTalkId(MESSENGER);
-	//	addTalkId(MESSENGER);
+		addFirstTalkId(MESSENGER);
+		addTalkId(MESSENGER);
 		setTask();
 	}
 	
@@ -223,40 +223,25 @@ public class EventsTask extends Quest
 	{
 		String html = null;
 		if (TvTEvent.isParticipating())
-	//		return "TvTEventParticipation.htm";
-		html = "TvTEventParticipation.htm";
-	/*	TvTEvent.isPlayerParticipant(player.getObjectId());
-		final boolean isParticipant = TvTEvent.isPlayerParticipant(player.getObjectId());
-//TvTEventParticipation.htm
-		if (TvTEvent.isParticipating())
-			html = (!isParticipant ? "Participation.htm" : "RemoveParticipation.htm");
-		*/else if (TvTEvent.isStarting() || TvTEvent.isStarted())
+			html = "TvTEventParticipation.htm";
+		else if (TvTEvent.isStarting() || TvTEvent.isStarted())
 			html = "Status.htm";
-	/*	if (html != null)
+		
+		final boolean isParticipant = TvTEvent.isPlayerParticipant(player.getObjectId());
+		int[] teamsPlayerCounts = TvTEvent.getTeamsPlayerCounts();
+		int[] teamsPointsCounts = TvTEvent.getTeamsPoints();
+		
+		if (TvTEvent.isParticipating())
 		{
-			if (TvTEvent.getTeamsPlayerCounts() != null && TvTEvent.getTeamsPoints() != null)
-			{
-				int[] teamsPlayerCounts = TvTEvent.getTeamsPlayerCounts();
-				int[] teamsPointsCounts = TvTEvent.getTeamsPoints();
-			//	if (!isParticipant)
-				replaceAll(html, "%fee%", TvTEvent.getParticipationFee());
-				replaceAll(html, "%objectId%", String.valueOf(npc.getObjectId()));
-				replaceAll(html, "%team1name%", Config.TVT_EVENT_TEAM_1_NAME);
-				replaceAll(html, "%team1playercount%", String.valueOf(teamsPlayerCounts[0]));
-				replaceAll(html, "%team1points%", String.valueOf(teamsPointsCounts[0]));
-				replaceAll(html, "%team2name%", Config.TVT_EVENT_TEAM_2_NAME);
-				replaceAll(html, "%team2playercount%", String.valueOf(teamsPlayerCounts[1]));
-				replaceAll(html, "%playercount%", String.valueOf(teamsPlayerCounts[0] + teamsPlayerCounts[1]));
-			}
-			else 
-				replaceAll(html, "%playercount%", String.valueOf(0));
-		}*/
+			html = getHtmlText(html).replace("%fee%", TvTEvent.getParticipationFee());
+			html = (!isParticipant ? getHtmlText("TvTEventParticipation.htm").replace("%playercount%", String.valueOf(teamsPlayerCounts[0] + teamsPlayerCounts[1])) : "RemoveParticipation.htm");
+		}
+		else if (TvTEvent.isStarting() || TvTEvent.isStarted() || player.isGM() && player.inTest())
+			html = getHtmlText("Status.htm").replace("%team1name%", Config.TVT_EVENT_TEAM_1_NAME).replace("%team2name%", Config.TVT_EVENT_TEAM_2_NAME).replace("%playercount%", String.valueOf(teamsPlayerCounts[0] + teamsPlayerCounts[1]).replace("%team1points%", String.valueOf(teamsPointsCounts[0])).replace("%team2points%", String.valueOf(teamsPointsCounts[1])).replace("%team1playercount%", String.valueOf(teamsPlayerCounts[0]).replace("%team2playercount%", String.valueOf(teamsPlayerCounts[1]))));
+		if (!isParticipant)
+			html = getHtmlText(html).replace("%fee%", TvTEvent.getParticipationFee());
+
 		return html;
-	}
-	
-	private String replaceAll(String html, String text, String replace)
-	{
-		return getHtmlText(html).replaceAll(text, replace);
 	}
 	
 	@Override
@@ -287,13 +272,7 @@ public class EventsTask extends Quest
 			else if (TvTEvent.addParticipant(player))
 				html = "Registered.htm";
 
-			html = getHtmlText(html);
-			html = html.replace("%min%", String.valueOf(Config.TVT_EVENT_MIN_LVL));
-			html = html.replace("%max%", String.valueOf(Config.TVT_EVENT_MAX_LVL));
-			
-			html = html.replace("%max%", String.valueOf(Config.TVT_EVENT_MAX_PLAYERS_IN_TEAMS));
-			
-			html = html.replace("%fee%", TvTEvent.getParticipationFee());
+			html = getHtmlText(html).replace("%min%", String.valueOf(Config.TVT_EVENT_MIN_LVL)).replace("%max%", String.valueOf(Config.TVT_EVENT_MAX_LVL)).replace("%max%", String.valueOf(Config.TVT_EVENT_MAX_PLAYERS_IN_TEAMS)).replace("%fee%", TvTEvent.getParticipationFee());
 		}
 		else if (event.equalsIgnoreCase("tvt_event_remove_participation"))
 		{

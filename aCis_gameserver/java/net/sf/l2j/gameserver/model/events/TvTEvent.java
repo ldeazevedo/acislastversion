@@ -140,9 +140,9 @@ public class TvTEvent
 			SpawnManager.getInstance().addSpawn(_npcSpawn);
 			_npcSpawn.doSpawn(false);
 			_lastNpcSpawn = _npcSpawn.getNpc();
-	//		_lastNpcSpawn.setCurrentHp(_lastNpcSpawn.getMaxHp());
+			//_lastNpcSpawn.setCurrentHp(_lastNpcSpawn.getMaxHp());
 			_lastNpcSpawn.setTitle("TvT Event Participation");
-	//		_lastNpcSpawn.isAggressive();
+			//_lastNpcSpawn.isAggressive();
 			_lastNpcSpawn.decayMe();
 			_lastNpcSpawn.spawnMe(_npcSpawn.getLocX(), _npcSpawn.getLocY(), _npcSpawn.getLocZ());
 			_lastNpcSpawn.broadcastPacket(new MagicSkillUse(_lastNpcSpawn, _lastNpcSpawn, 1034, 1, 1, 1));
@@ -276,13 +276,10 @@ public class TvTEvent
 		setState(EventState.STARTED);
 		
 		// Iterate over all teams
-		for (TvTEventTeam team : _teams)
-		{
-			// Iterate over all participated player instances in this team
+		for (TvTEventTeam team : _teams) // Iterate over all participated player instances in this team
 			for (Player playerInstance : team.getParticipatedPlayers().values())
 				if (playerInstance != null)
 					new TvTEventTeleporter(playerInstance, team.getCoordinates(), false, false); // Teleporter implements Runnable and starts itself
-		}
 		
 		return true;
 	}
