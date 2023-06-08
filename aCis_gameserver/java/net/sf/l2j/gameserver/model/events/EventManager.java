@@ -14,21 +14,10 @@
  */
 package net.sf.l2j.gameserver.model.events;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-import java.util.logging.Logger;
-
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.gameserver.data.xml.MapRegionData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
-import net.sf.l2j.gameserver.enums.SpawnType;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
@@ -36,26 +25,31 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
-import net.sf.l2j.gameserver.model.zone.type.TownZone;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
 import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.StopMove;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 public class EventManager
 {
 	protected static final Logger _log = Logger.getLogger(EventManager.class.getName());
 
-	public Vector<Player> players = new Vector<>();
-	public State state = State.INACTIVE;
-	public Events event = Events.NULL;
+	private List<Player> players = new ArrayList<>();
+	private State state = State.INACTIVE;
+	private Events event = Events.NULL;
 
-	int StateEvent = 0;
-	protected int topKills = 0;
-	public List<Player> topPlayers = new ArrayList<>();
-
-	public Player _activeChar;
+	private int stateEvent = 0;
+	private int topKills = 0;
+	private final List<Player> topPlayers = new ArrayList<>();
 
 	enum State
 	{
@@ -86,16 +80,15 @@ public class EventManager
 		}
 	}
 
-	public boolean addPlayer(Player player)
+	public void addPlayer(Player player)
 	{
 		if (player == null)
-			return false;
+			return;
 
 		synchronized (players)
 		{
 			players.add(player);
 		}
-		return true;
 	}
 
 	public boolean containsPlayer(Player player)
@@ -115,27 +108,32 @@ public class EventManager
 			killer.getSkill(1086, 2); // haste
 	}
 
-	public class Msg implements Runnable
+	private static class DataBaseQuery{
+		public static final String QUERY_EVENT_INFO = "select * from rf where char_name=?";
+		public static final String UPDATE_EVENT_INFO = "update rf set count=count+1 where char_name=?";
+		public static final String INSERT_EVENT_INFO = "insert rf set count=1,char_name=?";
+	}
+
+	public static class Msg implements Runnable
 	{
-		private String _Msg;
-		private int _Time;
+		private final String message;
+		private final int time;
 
 		public Msg(String msg, int time)
 		{
-			_Msg = msg;
-			_Time = time;
+			message = msg;
+			this.time = time;
 		}
 
 		@Override
 		public void run()
 		{
-			sendMsg(_Msg, _Time);
+			sendMsg(message, time);
 		}
 
 		void sendMsg(String msg, int time)
 		{
-			for (Player player : World.getInstance().getPlayers())
-				player.sendPacket(new ExShowScreenMessage(msg, time, SMPOS.TOP_CENTER, false));
+			World.getInstance().getPlayers().forEach(p-> p.sendPacket(new ExShowScreenMessage(msg, time, SMPOS.TOP_CENTER, false)));
 		}
 	}
 
@@ -249,7 +247,6 @@ public class EventManager
 			}
 			removePlayer(player);
 			player.sendMessage("Saliste del evento.");
-			return;
 		}
 	}
 
@@ -280,8 +277,7 @@ public class EventManager
 
 	private class RevertTask implements Runnable
 	{
-		RevertTask()
-		{
+		RevertTask() {
 		}
 
 		@Override
@@ -296,7 +292,7 @@ public class EventManager
 					if (state == State.FIGHT || state == State.ENDING)
 					{
 						revertPlayer(p);
-						if (StateEvent == 3)
+						if (stateEvent == 3)
 							for (Player player : players)
 							{
 								player.stopAbnormalEffect(0x0200);
@@ -315,7 +311,7 @@ public class EventManager
 		boolean isInEvent = false;
 		if (isInProgress() && state == State.FIGHT)
 		{
-			if (event == Events.SURVIVAL && StateEvent == 4)
+			if (event == Events.SURVIVAL && stateEvent == 4)
 			{
 				if (pc != null)
 				{
@@ -331,8 +327,10 @@ public class EventManager
 					{
 						if (pk.equals(player))
 							continue;
-						if (player.isInSurvival)
+						if (player.isInSurvival) {
 							allDead = false;
+							break;
+						}
 					}
 				}
 
@@ -351,7 +349,7 @@ public class EventManager
 				}
 				isInEvent = true;
 			}
-			if (event == Events.RF && state != State.ENDING && StateEvent == 5)
+			if (event == Events.RF && state != State.ENDING && stateEvent == 5)
 			{
 				for (Player player : players)
 				{
@@ -371,11 +369,15 @@ public class EventManager
 					// Guardar en la base de datos
 					try (Connection con = ConnectionPool.getConnection())
 					{
-						PreparedStatement statement = con.prepareStatement("select * from rf where char_name=?");
-						statement.setString(1, pk.getName());
-						PreparedStatement statement2 = con.prepareStatement(statement.executeQuery().first() ? "update rf set count=count+1 where char_name=?" : "insert rf set count=1,char_name=?");
-						statement2.setString(1, pk.getName());
-						statement2.execute();
+						try (PreparedStatement statement = con.prepareStatement(DataBaseQuery.QUERY_EVENT_INFO)){
+							statement.setString(1, pk.getName());
+							boolean existsRow = statement.executeQuery().first();
+							String sql = existsRow ? DataBaseQuery.UPDATE_EVENT_INFO : DataBaseQuery.INSERT_EVENT_INFO;
+							try (PreparedStatement statement2 = con.prepareStatement(sql)){
+								statement2.setString(1, pk.getName());
+								statement2.execute();
+							}
+						}
 					}
 					catch (Exception e)
 					{
@@ -387,7 +389,7 @@ public class EventManager
 				isInEvent = true;
 			}
 
-			if (event == Events.DM && StateEvent == 4)
+			if (event == Events.DM && stateEvent == 4)
 			{
 				if (pc != null && pk != null)
 				{
@@ -432,8 +434,6 @@ public class EventManager
 
 			if (alive == 1)
 				onKill(null, pk);
-			else
-				alive = 0;
 		}
 	}
 
@@ -458,7 +458,7 @@ public class EventManager
 		state = State.INACTIVE;
 		event = Events.NULL;
 
-		StateEvent = 0;
+		stateEvent = 0;
 	//	ScriptData.getInstance().getQuest("EventsTask").startQuestTimer("cancelQuestTimers", 1000, null, null, false);
 		ScriptData.getInstance().getQuest("EventsTask").startQuestTimer("cancelQuestTimers", null, null, 1000);
 	}
@@ -486,7 +486,7 @@ public class EventManager
 				{
 					event = Events.SURVIVAL;
 					state = State.REGISTER;
-					StateEvent = 1;
+					stateEvent = 1;
 					for (Player player : World.getInstance().getPlayers())
 						player.sendPacket(new ExShowScreenMessage("Evento Survival empezara en 1 minuto", 5000, SMPOS.TOP_CENTER, false));
 					ThreadPool.schedule(new Msg("Para registrarte escribi .register", 5000), 5000);
@@ -498,19 +498,10 @@ public class EventManager
 				}
 				break;
 			case 1:
-				if (state == State.REGISTER && event == Events.SURVIVAL && StateEvent == 1)
+				if (state == State.REGISTER && event == Events.SURVIVAL && stateEvent == 1)
 				{
 					state = State.LOADING;
-					Vector<Player> newPlayers = new Vector<>();
-					for (Player p : players)
-						newPlayers.add(p);
-					for (Player p : players)
-						if (p.isInOlympiadMode() || p.isInObserverMode() || OlympiadManager.getInstance().isRegistered(p) && p.getKarma() > 0 || p.isCursedWeaponEquipped() || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(p.getObjectId()))
-						{
-							newPlayers.remove(p);
-							p.sendMessage("no cumples los requisitos para participar en el evento.");
-						}
-					players = newPlayers;
+					checkRequirements();
 					if (reqPlayers())
 					{
 						announce("Survival no comenzara por que faltan participantes.");
@@ -520,11 +511,11 @@ public class EventManager
 
 					announce("Cantidad de registrados: " + players.size());
 					announce("Los personajes seran teleportados en 15 segundos.");
-					StateEvent = 2;
+					stateEvent = 2;
 				}
 				break;
 			case 2:
-				if (state == State.LOADING && event == Events.SURVIVAL && StateEvent == 2)
+				if (state == State.LOADING && event == Events.SURVIVAL && stateEvent == 2)
 				{
 					if (reqPlayers())
 					{
@@ -535,11 +526,11 @@ public class EventManager
 
 					for (Player player : players)
 						setPcPrepare(player);
-					StateEvent = 3;
+					stateEvent = 3;
 				}
 				break;
 			case 3:
-				if (state == State.LOADING && event == Events.SURVIVAL && StateEvent == 3)
+				if (state == State.LOADING && event == Events.SURVIVAL && stateEvent == 3)
 				{
 					if (reqPlayers())
 					{
@@ -557,11 +548,11 @@ public class EventManager
 						player.isInSurvival = true;
 						player.getStatus().setMaxCpHpMp();
 					}
-					StateEvent = 4;
+					stateEvent = 4;
 				}
 				break;
 			case 4:
-				if (state == State.FIGHT && event == Events.SURVIVAL && StateEvent == 4)
+				if (state == State.FIGHT && event == Events.SURVIVAL && stateEvent == 4)
 				{
 					if (reqPlayers())
 					{
@@ -595,9 +586,9 @@ public class EventManager
 		switch (_status)
 		{
 			case 0:
-				if (state == State.INACTIVE && event == Events.NULL && StateEvent == 0)
+				if (state == State.INACTIVE && event == Events.NULL && stateEvent == 0)
 				{
-					StateEvent = 1;
+					stateEvent = 1;
 					event = Events.RF;
 					state = State.REGISTER;
 					for (Player player : World.getInstance().getPlayers())
@@ -610,7 +601,7 @@ public class EventManager
 				}
 				break;
 			case 1:
-				if (state == State.REGISTER && event == Events.RF && StateEvent == 1)
+				if (state == State.REGISTER && event == Events.RF && stateEvent == 1)
 				{
 					state = State.LOADING;
 
@@ -623,11 +614,11 @@ public class EventManager
 
 					announce("Cantidad de registrados: " + players.size());
 					announce("2 personajes al azar seran elegidos en 10 segundos!");
-					StateEvent = 2;
+					stateEvent = 2;
 				}
 				break;
 			case 2:
-				if (state == State.LOADING && event == Events.RF && StateEvent == 2)
+				if (state == State.LOADING && event == Events.RF && stateEvent == 2)
 				{
 					try
 					{
@@ -638,16 +629,7 @@ public class EventManager
 							return;
 						}
 
-						Vector<Player> newPlayers = new Vector<>();
-						for (Player p : players)
-							newPlayers.add(p);
-						for (Player p : players)
-							if (p.isInOlympiadMode() || p.isInObserverMode() || OlympiadManager.getInstance().isRegistered(p) && p.getKarma() > 0 || p.isCursedWeaponEquipped() || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(p.getObjectId()))
-							{
-								newPlayers.remove(p);
-								p.sendMessage("no cumples los requisitos para participar en el evento.");
-							}
-						players = newPlayers;
+						checkRequirements();
 
 						int rnd1 = Rnd.get(players.size());
 						int rnd2 = Rnd.get(players.size());
@@ -655,26 +637,24 @@ public class EventManager
 						while (rnd2 == rnd1)
 							rnd2 = Rnd.get(players.size());
 
-						Vector<Player> players2 = new Vector<>();
-						for (Player player : players)
-							if (player != players.get(rnd1) && player != players.get(rnd2))
-								players2.add(player);
-						for (Player player : players2)
-							if (players.contains(player))
-								players.remove(player);
+						int finalRnd = rnd2;
+						players = players.stream()
+								.filter(p -> p.getName().equalsIgnoreCase(players.get(rnd1).getName())
+										|| p.getName().equalsIgnoreCase(players.get(finalRnd).getName()))
+								.collect(Collectors.toList());
 
-						announce("Personajes elegidos: " + players.firstElement().getName() + " || " + players.lastElement().getName());
+						announce("Personajes elegidos: " + players.get(0).getName() + " || " + players.get(players.size() - 1).getName());
 						announce("Los personajes seran teleportados en 15 segundos.");
-						StateEvent = 3;
+						stateEvent = 3;
 					}
 					catch (Exception ex)
 					{
-						ex.printStackTrace();
+						_log.log(Level.SEVERE, ex.getMessage(), ex);
 					}
 				}
 				break;
 			case 3:
-				if (state == State.LOADING && event == Events.RF && StateEvent == 3)
+				if (state == State.LOADING && event == Events.RF && stateEvent == 3)
 				{
 					if (reqPlayers())
 					{
@@ -683,8 +663,8 @@ public class EventManager
 						return;
 					}
 
-					Player player1 = players.firstElement();
-					Player player2 = players.lastElement();
+					Player player1 = players.get(0);
+					Player player2 = players.get(players.size() - 1);
 
 					setPcPrepare(player1);
 					setPcPrepare(player2);
@@ -696,11 +676,11 @@ public class EventManager
 					player2.setTeam(TeamType.RED);
 
 					state = State.FIGHT;
-					StateEvent = 4;
+					stateEvent = 4;
 				}
 				break;
 			case 4:
-				if (state == State.FIGHT && event == Events.RF && StateEvent == 4)
+				if (state == State.FIGHT && event == Events.RF && stateEvent == 4)
 				{
 					if (reqPlayers())
 					{
@@ -717,11 +697,11 @@ public class EventManager
 						player.setInvul(false);
 						player.getStatus().setMaxCpHpMp();
 					}
-					StateEvent = 5;
+					stateEvent = 5;
 				}
 				break;
 			case 5:
-				if (state == State.FIGHT && event == Events.RF && StateEvent == 5)
+				if (state == State.FIGHT && event == Events.RF && stateEvent == 5)
 				{
 					if (reqPlayers())
 					{
@@ -746,6 +726,17 @@ public class EventManager
 		}
 	}
 
+	private void checkRequirements() {
+		List<Player> newPlayers = new ArrayList<>(players);
+		for (Player p : players)
+			if (p.isInOlympiadMode() || p.isInObserverMode() || OlympiadManager.getInstance().isRegistered(p) && p.getKarma() > 0 || p.isCursedWeaponEquipped() || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(p.getObjectId()))
+			{
+				newPlayers.remove(p);
+				p.sendMessage("No cumples los requisitos para participar en el evento.");
+			}
+		players = newPlayers;
+	}
+
 	public static EventManager getInstance()
 	{
 		return SingletonHolder._instance;
@@ -760,7 +751,7 @@ public class EventManager
 	{
 		player.setLastLocation(new Location(player.getX(), player.getY(), player.getZ()));
 		player.atEvent = true;
-		if (state == State.LOADING && event == Events.SURVIVAL && StateEvent == 2)
+		if (state == State.LOADING && event == Events.SURVIVAL && stateEvent == 2)
 		{
 			player.setInvul(true);
 			player.instantTeleportTo(85574, 256964, -11674, Rnd.get(200, 1800));
@@ -792,7 +783,7 @@ public class EventManager
 				{
 					event = Events.DM;
 					state = State.REGISTER;
-					StateEvent = 1;
+					stateEvent = 1;
 					for (Player player : World.getInstance().getPlayers())
 						player.sendPacket(new ExShowScreenMessage("Evento Death Match empezara en 1 minuto", 5000, SMPOS.TOP_CENTER, false));
 					ThreadPool.schedule(new Msg("Para registrarte escribi .register", 5000), 5000);
@@ -803,10 +794,10 @@ public class EventManager
 				}
 				break;
 			case 1:
-				if (state == State.REGISTER && event == Events.DM && StateEvent == 1)
+				if (state == State.REGISTER && event == Events.DM && stateEvent == 1)
 				{
 					state = State.LOADING;
-					Vector<Player> newPlayers = new Vector<>();
+					List<Player> newPlayers = new ArrayList<>();
 					for (Player p : players)
 					{
 						newPlayers.add(p);
@@ -826,11 +817,11 @@ public class EventManager
 
 					announce("Cantidad de registrados: " + players.size());
 					announce("Los personajes seran teleportados en 15 segundos.");
-					StateEvent = 2;
+					stateEvent = 2;
 				}
 				break;
 			case 2:
-				if (state == State.LOADING && event == Events.DM && StateEvent == 2)
+				if (state == State.LOADING && event == Events.DM && stateEvent == 2)
 				{
 					if (reqPlayers())
 					{
@@ -841,11 +832,11 @@ public class EventManager
 
 					for (Player player : players)
 						setPcPrepare(player);
-					StateEvent = 3;
+					stateEvent = 3;
 				}
 				break;
 			case 3:
-				if (state == State.LOADING && event == Events.DM && StateEvent == 3)
+				if (state == State.LOADING && event == Events.DM && stateEvent == 3)
 				{
 					if (reqPlayers())
 					{
@@ -863,11 +854,11 @@ public class EventManager
 						player.isInSurvival = true;
 						player.getStatus().setMaxCpHpMp();
 					}
-					StateEvent = 4;
+					stateEvent = 4;
 				}
 				break;
 			case 4:
-				if (state == State.FIGHT && event == Events.DM && StateEvent == 4)
+				if (state == State.FIGHT && event == Events.DM && stateEvent == 4)
 				{
 					if (reqPlayers())
 					{
@@ -876,10 +867,6 @@ public class EventManager
 					}
 					if (topKills != 0)
 					{
-						String winners = "";
-						for (Player winner : topPlayers)
-							winners = winners + " " + winner.getName();
-
 						state = State.ENDING;
 						if (topPlayers.size() > 0)
 						{
@@ -893,36 +880,30 @@ public class EventManager
 								topPlayer.sendPacket(ActionFailed.STATIC_PACKET);
 							}
 						}
-						ThreadPool.schedule(new RevertTask(), 15000);
 					}
 					else
 					{
 						state = State.ENDING;
 						announce("Death Match No hubo ganador, no hay premio!");
-						ThreadPool.schedule(new RevertTask(), 15000);
 					}
+					ThreadPool.schedule(new RevertTask(), 15000);
 				}
 				break;
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void removeParty()
 	{
 		synchronized (players)
 		{
-			for (final Player player : players)
+			for (Player player : players)
 			{
 				if (player.getParty() != null)
-				{
-					Party party = player.getParty();
-					party.removePartyMember(player, null);
-				}
+					player.getParty().removePartyMember(player, null);
 			}
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void winner()
 	{
 		synchronized (players)
@@ -940,27 +921,5 @@ public class EventManager
 						topPlayers.add(player);
 			}
 		}
-	}
-
-	/**
-	 * Teleport the {@link Player} back to his initial {@link Location}.
-	 * @param player : The Player to teleport back.
-	 */
-	protected static final void portPlayerBack(Player player)
-	{
-		if (player == null)
-			return;
-
-		// Retrieve the initial Location.
-		Location loc = player.getSavedLocation();
-		if (loc.equals(Location.DUMMY_LOC))
-			return;
-
-		final TownZone town = MapRegionData.getTown(loc.getX(), loc.getY(), loc.getZ());
-		if (town != null)
-			loc = town.getRndSpawn(SpawnType.NORMAL);
-
-		player.teleportTo(loc, 0);
-		player.getSavedLocation().clean();
 	}
 }
