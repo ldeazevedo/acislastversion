@@ -62,7 +62,7 @@ public class AdminTimeus implements IAdminCommandHandler
 			}
 		}
 		else if (command.startsWith("admin_clear_players"))
-			EventManager.getInstance().players.clear();
+			EventManager.getInstance().getPlayers().clear();
 		else if (command.startsWith("admin_clear"))
 			EventManager.getInstance().clear();
 		else if (command.equals("admin_rf"))
@@ -104,11 +104,9 @@ public class AdminTimeus implements IAdminCommandHandler
 	private static void addTargetPlayer(boolean register, Player activeChar)
 	{
 		WorldObject target = activeChar.getTarget();
-		Player player = null;
-		
 		if (target instanceof Player)
 		{
-			player = (Player) target;
+			Player player = (Player) target;
 			if (player != activeChar)
 				register(register, player, activeChar);
 		}

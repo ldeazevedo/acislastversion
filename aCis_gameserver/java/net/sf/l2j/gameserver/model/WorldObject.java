@@ -1,24 +1,25 @@
 package net.sf.l2j.gameserver.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
-
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.items.ShotType;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.instance.Door;
+import net.sf.l2j.gameserver.model.actor.instance.Fence;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.model.zone.type.subtype.ZoneType;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * Mother class of all interactive objects in the world (PC, NPC, Item...)
@@ -34,6 +35,8 @@ public abstract class WorldObject
 	private WorldRegion _region;
 	
 	private boolean _isVisible;
+
+	private int instanceId = 0;
 	
 	public WorldObject(int objectId)
 	{
@@ -419,8 +422,33 @@ public abstract class WorldObject
 		}
 		
 		_region = newRegion;
+
+		for (WorldObject object : getDifferentInstanceObjects())
+		{
+			object.removeKnownObject(this);
+			removeKnownObject(object);
+		}
 	}
-	
+
+	private List<WorldObject> getDifferentInstanceObjects() {
+		final WorldRegion region = _region;
+		if (region == null)
+			return Collections.emptyList();
+
+		final List<WorldObject> result = new ArrayList<>();
+
+		for (WorldRegion reg : region.getSurroundingRegions()) {
+			for (WorldObject obj : reg.getObjects()) {
+				if (obj == this || obj.getInstanceId() == getInstanceId() || obj instanceof Door || obj instanceof Fence)
+					continue;
+
+				result.add(obj);
+			}
+		}
+
+		return result;
+	}
+
 	/**
 	 * Add a {@link WorldObject} to knownlist.
 	 * @param object : An object to be added.
@@ -487,6 +515,9 @@ public abstract class WorldObject
 			{
 				if (obj == this || !type.isAssignableFrom(obj.getClass()))
 					continue;
+
+				if (obj.getInstanceId() != getInstanceId() && !(obj instanceof Door || obj instanceof Fence))
+					continue;
 				
 				result.add((A) obj);
 			}
@@ -517,7 +548,10 @@ public abstract class WorldObject
 			{
 				if (obj == this || !type.isAssignableFrom(obj.getClass()) || !predicate.test((A) obj))
 					continue;
-				
+
+				if (obj.getInstanceId() != getInstanceId() && !(obj instanceof Door || obj instanceof Fence))
+					continue;
+
 				result.add((A) obj);
 			}
 		}
@@ -805,5 +839,15 @@ public abstract class WorldObject
 	public void onInteract(Player player)
 	{
 		
+	}
+
+	public int getInstanceId() {
+		return instanceId;
+	}
+
+	public void setInstanceId(int instanceId) {
+		this.instanceId = instanceId;
+		decayMe();
+		spawnMe();
 	}
 }

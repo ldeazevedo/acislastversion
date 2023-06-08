@@ -2161,7 +2161,9 @@ public class Player extends Playable
 			
 			return null;
 		}
-		
+
+		item.setInstanceId(getInstanceId());
+
 		item.dropMe(this, x, y, z);
 		
 		// Send inventory update packet

@@ -922,4 +922,8 @@ public class EventManager
 			}
 		}
 	}
+
+	public List<Player> getPlayers() {
+		return players;
+	}
 }

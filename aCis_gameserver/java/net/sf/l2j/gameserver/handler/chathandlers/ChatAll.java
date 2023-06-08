@@ -43,9 +43,17 @@ public class ChatAll implements IChatHandler
 			EventManager.getInstance().checkTimeusEvents(text, player);
 			return;
 		}
-		
+
 		if (player.isGM())
 		{
+			if (text.equalsIgnoreCase(".setinstance")){
+				if (player.getTarget() instanceof Player) {
+					Player targetPlayer = (Player)player.getTarget();
+					targetPlayer.setInstanceId(1);
+				}
+				return;
+			}
+
 		/*	Player target = player.getTarget() instanceof Player ? (Player) player.getTarget() : null;
 			if (text.equals(".pc"))
 			{
