@@ -50,8 +50,10 @@ public class ChatTell implements IChatHandler
 			}
 		}
 
-		if (!player.isGM())
-				AdminData.getInstance().broadcastToGMs(new CreatureSay(player.getObjectId(), SayType.ALLIANCE, player.getName(), "[" + player.getClan().getName() + "]:" + text));
+		if (!player.isGM()) {
+			String clanName = player.getClan() != null ? "[" + player.getClan().getName() + "]:" : "";
+			AdminData.getInstance().broadcastToGMs(new CreatureSay(player.getObjectId(), SayType.ALLIANCE, player.getName(), clanName + text));
+		}
 		
 		targetPlayer.sendPacket(new CreatureSay(player, type, text));
 		player.sendPacket(new CreatureSay(player.getObjectId(), type, "->" + targetPlayer.getName(), text));

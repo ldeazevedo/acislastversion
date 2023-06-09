@@ -367,16 +367,15 @@ public class EventManager
 	//				pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
 
 					// Guardar en la base de datos
-					try (Connection con = ConnectionPool.getConnection())
+					try (Connection con = ConnectionPool.getConnection();
+						 PreparedStatement statement = con.prepareStatement(DataBaseQuery.QUERY_EVENT_INFO))
 					{
-						try (PreparedStatement statement = con.prepareStatement(DataBaseQuery.QUERY_EVENT_INFO)){
-							statement.setString(1, pk.getName());
-							boolean existsRow = statement.executeQuery().first();
-							String sql = existsRow ? DataBaseQuery.UPDATE_EVENT_INFO : DataBaseQuery.INSERT_EVENT_INFO;
-							try (PreparedStatement statement2 = con.prepareStatement(sql)){
-								statement2.setString(1, pk.getName());
-								statement2.execute();
-							}
+						statement.setString(1, pk.getName());
+						boolean existsRow = statement.executeQuery().first();
+						String sql = existsRow ? DataBaseQuery.UPDATE_EVENT_INFO : DataBaseQuery.INSERT_EVENT_INFO;
+						try (PreparedStatement statement2 = con.prepareStatement(sql)){
+							statement2.setString(1, pk.getName());
+							statement2.execute();
 						}
 					}
 					catch (Exception e)
