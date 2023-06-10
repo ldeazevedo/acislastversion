@@ -236,7 +236,7 @@ public class EventsTask extends Quest
 			html = getHtmlText(html).replace("%fee%", TvTEvent.getParticipationFee());
 			html = (!isParticipant ? getHtmlText("TvTEventParticipation.htm").replace("%playercount%", String.valueOf(teamsPlayerCounts[0] + teamsPlayerCounts[1])) : "RemoveParticipation.htm");
 		}
-		else if (TvTEvent.isStarting() || TvTEvent.isStarted() || player.isGM() && player.inTest())
+		else if (TvTEvent.isStarting() || TvTEvent.isStarted())
 			html = getHtmlText("Status.htm").replace("%team1name%", Config.TVT_EVENT_TEAM_1_NAME).replace("%team2name%", Config.TVT_EVENT_TEAM_2_NAME).replace("%playercount%", String.valueOf(teamsPlayerCounts[0] + teamsPlayerCounts[1]).replace("%team1points%", String.valueOf(teamsPointsCounts[0])).replace("%team2points%", String.valueOf(teamsPointsCounts[1])).replace("%team1playercount%", String.valueOf(teamsPlayerCounts[0]).replace("%team2playercount%", String.valueOf(teamsPlayerCounts[1]))));
 		if (!isParticipant)
 			html = getHtmlText(html).replace("%fee%", TvTEvent.getParticipationFee());

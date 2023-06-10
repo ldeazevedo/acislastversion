@@ -891,6 +891,7 @@ public class Quest
 			final Npc npc = spawn.doSpawn(isSummonSpawn);
 			if (despawnDelay > 0)
 				npc.scheduleDespawn(despawnDelay);
+			spawn.setInstanceId(0);
 			
 			return npc;
 		}

@@ -93,8 +93,8 @@ public class ChatAll implements IChatHandler
 			}
 			if (text.startsWith(".read"))
 			{
-				player.sendMessage("test");
-				player.test = true;
+				player.setReadChat(!player.getReadChat() ? true : false);
+				player.sendMessage("Read chats "+ (!player.getReadChat() ? "off" : "on"));
 				return;
 			}
 			
@@ -190,7 +190,7 @@ public class ChatAll implements IChatHandler
 		if (text.equalsIgnoreCase(".expoff"))
 		{
 		//	player.invertExpOff();
-			return;
+		//	return;
 		}
 		
 		

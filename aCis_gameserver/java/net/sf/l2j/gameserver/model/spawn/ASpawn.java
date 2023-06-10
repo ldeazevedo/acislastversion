@@ -35,6 +35,7 @@ public abstract class ASpawn
 	protected int _respawnRandom;
 	
 	protected SpawnData _spawnData;
+	private int _instanceId = 0;
 	
 	protected ASpawn(int id) throws SecurityException, ClassNotFoundException, NoSuchMethodException, InvalidClassException
 	{
@@ -217,7 +218,8 @@ public abstract class ASpawn
 			
 			// Call the constructor and create Npc instance.
 			final Npc npc = (Npc) _constructor.newInstance(IdFactory.getInstance().getNextId(), _template);
-			
+		//	((WorldObject)npc).setInstanceId(_instanceId); // Must be done before object is spawned into visible world
+			setInstanceId(_instanceId);
 			// Assign ASpawn to Npc instance, set summon animation.
 			npc.setSpawn(this);
 			npc.setShowSummonAnimation(isSummonSpawn);
@@ -394,5 +396,15 @@ public abstract class ASpawn
 		}
 		
 		return npc;
+	}
+	
+    public int getInstanceId()
+	{
+		return _instanceId;
+	}
+
+    public void setInstanceId(int instanceId)
+	{
+		_instanceId = instanceId;
 	}
 }

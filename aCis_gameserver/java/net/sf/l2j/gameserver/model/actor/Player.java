@@ -7531,14 +7531,9 @@ public class Player extends Playable
 	{
 		return isReadChat;
 	}
-
-	public boolean test;
-	/**
-	 * @return
-	 */
-	public boolean inTest()
+	
+	public boolean getInEvent()
 	{
-		// TODO Auto-generated method stub
-		return test;
+		return atEvent || isInSurvival;
 	}
 }

@@ -404,6 +404,7 @@
 	<!-- Feature -->
 
 	<script path="script.feature.Alliance"/>
+	<script path="script.feature.BossRespawn"/>
 	<script path="script.feature.CabalBuffer"/>
 	<script path="script.feature.Clan"/>
 	<script path="script.feature.EchoCrystal"/>
