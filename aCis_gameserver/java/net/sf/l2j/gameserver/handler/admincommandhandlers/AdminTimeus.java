@@ -55,10 +55,9 @@ public class AdminTimeus implements IAdminCommandHandler
 			if (st.countTokens() > 1)
 			{
 				st.nextToken();
-				String player = st.nextToken();
-				Player plyr = World.getInstance().getPlayer(player);
-				if (plyr != null)
-					register(false, plyr, activeChar);
+				Player player = World.getInstance().getPlayer(st.nextToken());
+				if (player != null)
+					register(false, player, activeChar);
 			}
 		}
 		else if (command.startsWith("admin_clear_players"))
@@ -76,22 +75,17 @@ public class AdminTimeus implements IAdminCommandHandler
 			try
 			{
 				final String clanName = st.nextToken();
-				String message = "";
+				StringBuilder message = new StringBuilder();
 				while (st.hasMoreTokens())
-					message += st.nextToken() + " ";
+					message.append(st.nextToken()).append(" ");
 				
-				Clan receiverClan = null;
 				for (Clan clan : ClanTable.getInstance().getClans())
 					if (clan.getName().equalsIgnoreCase(clanName))
 					{
-						receiverClan = clan;
+						activeChar.sendMessage("[" + clan.getName() + "]->" + message);
+						clan.broadcastToMembers(new ExShowScreenMessage(message.toString(), 3500, SMPOS.MIDDLE_RIGHT, false));
 						break;
 					}
-				if (receiverClan != null)
-				{
-					activeChar.sendMessage("[" + receiverClan.getName() + "]->" + message);
-					receiverClan.broadcastToMembers(new ExShowScreenMessage(message, 3500, SMPOS.MIDDLE_RIGHT, false));
-				}
 			}
 			catch (Exception e)
 			{
@@ -147,7 +141,6 @@ public class AdminTimeus implements IAdminCommandHandler
 			EventManager.getInstance().removePlayer(player);
 			activeChar.sendMessage("Player removido del evento.");
 		}
-		return;
 	}
 	
 	@Override

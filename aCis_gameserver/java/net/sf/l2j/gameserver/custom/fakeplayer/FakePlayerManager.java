@@ -98,8 +98,9 @@ public class FakePlayerManager {
 			already25 = true;
 		}
 		if (maxLevel > 20 && !already10) {
-			FakeHelper.createFakePlayers(1, FakeHelper.City.GLUDIN, FakeHelper.FakePlayerType.SELLER);
+			FakeHelper.createFakePlayers(5, FakeHelper.City.GLUDIN, FakeHelper.FakePlayerType.SELLER);
 			already10 = true;
-		}
+		} else
+			FakeHelper.createFakePlayers(5, FakeHelper.City.GLUDIN, FakeHelper.FakePlayerType.SELLER);
 	}
 }

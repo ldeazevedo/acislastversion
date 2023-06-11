@@ -16,6 +16,7 @@ import net.sf.l2j.commons.util.SysUtil;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.communitybbs.CommunityBoard;
+import net.sf.l2j.gameserver.custom.fakeplayer.FakePlayerManager;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.cache.CrestCache;
 import net.sf.l2j.gameserver.data.cache.HtmCache;
@@ -274,6 +275,7 @@ public class GameServer
 
 		TvTManager.getInstance();
 		InstanceManager.getInstance();
+		FakePlayerManager.getInstance().init();
 		
 		StringUtil.printSection("System");
 		Runtime.getRuntime().addShutdownHook(Shutdown.getInstance());
