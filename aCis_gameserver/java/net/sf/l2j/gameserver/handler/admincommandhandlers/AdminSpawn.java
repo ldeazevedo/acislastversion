@@ -41,7 +41,8 @@ public class AdminSpawn implements IAdminCommandHandler
 		"admin_show_npcs",
 		"admin_spawnfence",
 		"admin_deletefence",
-		"admin_listfence"
+		"admin_listfence",
+		"admin_delete"
 	};
 	
 	@Override
@@ -245,6 +246,42 @@ public class AdminSpawn implements IAdminCommandHandler
 			{
 				sendFile(player, "spawns.htm");
 			}
+		}
+		else if (command.startsWith("admin_delete"))
+		{
+			final WorldObject obj = player.getTarget();
+			if (obj != null && obj instanceof Npc)
+			{
+				Npc target = (Npc) obj;
+				
+				ASpawn spawn = target.getSpawn();
+				if (spawn != null)
+				{
+					spawn.setRespawnState(false);
+					
+					NpcTemplate template = NpcData.getInstance().getTemplate(spawn.getNpcId());
+					try
+					{
+						final Spawn sp = new Spawn(template);
+						SpawnManager.getInstance().deleteSpawn(sp);
+						
+						sp.getNpc().deleteMe();
+					}
+					catch (Exception e)
+					{
+						player.sendPacket(SystemMessageId.APPLICANT_INFORMATION_INCORRECT);
+					}
+					/*if (RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcId()))
+						RaidBossSpawnManager.getInstance().deleteSpawn(spawn, true);
+					else
+						SpawnManager.getInstance().deleteSpawn(spawn, true);*/
+				}
+		//		target.deleteMe();
+				
+				player.sendMessage("Deleted " + target.getName() + " from " + target.getObjectId() + ".");
+			}
+			else
+				player.sendPacket(SystemMessageId.INVALID_TARGET);
 		}
 	}
 	

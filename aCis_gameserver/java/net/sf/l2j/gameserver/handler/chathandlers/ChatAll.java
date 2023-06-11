@@ -2,6 +2,8 @@ package net.sf.l2j.gameserver.handler.chathandlers;
 
 import java.util.StringTokenizer;
 
+import net.sf.l2j.commons.lang.StringUtil;
+
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.xml.AdminData;
@@ -9,6 +11,7 @@ import net.sf.l2j.gameserver.enums.FloodProtector;
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.handler.IChatHandler;
 import net.sf.l2j.gameserver.model.World;
+import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.model.events.TvTEvent;
@@ -29,7 +32,7 @@ public class ChatAll implements IChatHandler
 	{
 		if (!player.getClient().performAction(FloodProtector.GLOBAL_CHAT))
 			return;
-
+		
 		if (!TvTEvent.isInactive())
 		{
 			if (text.equalsIgnoreCase(".register"))
@@ -43,17 +46,36 @@ public class ChatAll implements IChatHandler
 			EventManager.getInstance().checkTimeusEvents(text, player);
 			return;
 		}
-
+			
 		if (player.isGM())
 		{
-			if (text.equalsIgnoreCase(".setinstance")){
-				if (player.getTarget() instanceof Player) {
-					Player targetPlayer = (Player)player.getTarget();
-					targetPlayer.setInstanceId(1);
+			if (text.startsWith(".setinstance"))
+			{
+				final StringTokenizer st = new StringTokenizer(text, " ");
+				st.nextToken();
+		
+				if (!st.hasMoreTokens())
+				{
+					player.sendMessage("Usage: .setinstance <id>");
+					return;
+				}
+			
+				final WorldObject targetWorldObject = player.getTarget();
+
+				final String param = st.nextToken();
+				if (StringUtil.isDigit(param))
+				{
+					final int id = Integer.parseInt(param);
+						//	if (!(targetWorldObject instanceof Player))
+						//		return;
+					if (targetWorldObject != null)
+					{
+						targetWorldObject.setInstanceId(id);
+						player.sendMessage("You successfully set in Instance " + id);
+					}
 				}
 				return;
 			}
-
 		/*	Player target = player.getTarget() instanceof Player ? (Player) player.getTarget() : null;
 			if (text.equals(".pc"))
 			{
