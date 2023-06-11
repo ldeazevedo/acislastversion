@@ -273,6 +273,7 @@ public class GameServer
 		LOGGER.info("Loaded {} target handlers.", TargetHandler.getInstance().size());
 		LOGGER.info("Loaded {} user command handlers.", UserCommandHandler.getInstance().size());
 
+		StringUtil.printSection("Custom");
 		TvTManager.getInstance();
 		InstanceManager.getInstance();
 		FakePlayerManager.getInstance().init();

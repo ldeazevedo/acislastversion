@@ -23,9 +23,6 @@ public class FakePlayerManager {
 	private boolean already45 = false;
 	private boolean already60 = false;
 
-	private FakePlayerManager() {
-	}
-
 	public static FakePlayerManager getInstance() {
 		if (instance == null)
 			instance = new FakePlayerManager();
