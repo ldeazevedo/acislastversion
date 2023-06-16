@@ -1861,4 +1861,16 @@ public class Npc extends Creature
 				quest.onSeeCreature(this, creature);
 		}
 	}
+	
+	private boolean isFlying = false;
+	@Override
+	public boolean isFlying()
+	{
+		return isFlying;
+	}
+	
+	public void setIsFlying(boolean a)
+	{
+		isFlying = a;
+	}
 }

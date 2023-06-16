@@ -845,7 +845,6 @@ public class Quest
 	{
 		return addSpawn(npcId, loc.getX(), loc.getY(), loc.getZ(), loc.getHeading(), randomOffset, despawnDelay, isSummonSpawn);
 	}
-	
 	/**
 	 * Spawns temporary (quest) {@link Npc} on the coordinates.
 	 * @param npcId : The {@link Npc} template to spawn.
@@ -859,6 +858,24 @@ public class Quest
 	 * @return The spawned {@link Npc}, null if some problem occurs.
 	 */
 	public Npc addSpawn(int npcId, int x, int y, int z, int heading, boolean randomOffset, long despawnDelay, boolean isSummonSpawn)
+	{
+		return addSpawn(npcId, x, y, z, heading, randomOffset, despawnDelay, isSummonSpawn, 0);
+	}
+	
+	/**
+	 * Spawns temporary (quest) {@link Npc} on the coordinates.
+	 * @param npcId : The {@link Npc} template to spawn.
+	 * @param x : The X coordinate.
+	 * @param y : The Y coordinate.
+	 * @param z : The Z coordinate.
+	 * @param heading : The heading.
+	 * @param randomOffset : Allow random offset coordinates.
+	 * @param despawnDelay : Define despawn delay in milliseconds, 0 for none.
+	 * @param isSummonSpawn : If true, spawn with animation (if any exists).
+	 * @param instance 
+	 * @return The spawned {@link Npc}, null if some problem occurs.
+	 */
+	public Npc addSpawn(int npcId, int x, int y, int z, int heading, boolean randomOffset, long despawnDelay, boolean isSummonSpawn, int instance)
 	{
 		try
 		{
@@ -891,7 +908,7 @@ public class Quest
 			final Npc npc = spawn.doSpawn(isSummonSpawn);
 			if (despawnDelay > 0)
 				npc.scheduleDespawn(despawnDelay);
-			spawn.setInstanceId(0);
+			spawn.setInstanceId(instance);
 			
 			return npc;
 		}

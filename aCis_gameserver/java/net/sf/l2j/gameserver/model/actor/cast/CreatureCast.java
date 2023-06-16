@@ -94,7 +94,6 @@ public class CreatureCast<T extends Creature>
 	{
 		// Non-Player Creatures cannot use TOGGLES
 	}
-	
 	/**
 	 * Manage the casting task and display the casting bar and animation on client.
 	 * @param skill : The {@link L2Skill} to cast.
@@ -102,6 +101,18 @@ public class CreatureCast<T extends Creature>
 	 * @param itemInstance : The potential {@link ItemInstance} used to cast.
 	 */
 	public void doCast(L2Skill skill, Creature target, ItemInstance itemInstance)
+	{
+		doCast(skill, target, itemInstance, true);
+	}
+	
+	/**
+	 * Manage the casting task and display the casting bar and animation on client.
+	 * @param skill : The {@link L2Skill} to cast.
+	 * @param target : The {@link Creature} effected target.
+	 * @param itemInstance : The potential {@link ItemInstance} used to cast.
+	 * @param magicSkillUse 
+	 */
+	public void doCast(L2Skill skill, Creature target, ItemInstance itemInstance, boolean magicSkillUse)
 	{
 		int hitTime = skill.getHitTime();
 		int coolTime = skill.getCoolTime();
@@ -150,8 +161,9 @@ public class CreatureCast<T extends Creature>
 		if (target != _actor)
 			_actor.getPosition().setHeadingTo(target);
 		
-		_actor.broadcastPacket(new MagicSkillUse(_actor, target, skill.getId(), skill.getLevel(), hitTime, reuseDelay, false));
-		
+		if (magicSkillUse)
+			_actor.broadcastPacket(new MagicSkillUse(_actor, target, skill.getId(), skill.getLevel(), hitTime, reuseDelay, false));
+
 		if (itemInstance == null)
 			_actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.USE_S1).addSkillName(skill));
 		
@@ -235,7 +247,7 @@ public class CreatureCast<T extends Creature>
 		}
 		
 		_targets = _skill.getTargetList(_actor, _target);
-		
+
 		_actor.broadcastPacket(new MagicSkillLaunched(_actor, _skill, _targets));
 		
 		_castTask = ThreadPool.schedule(this::onMagicHitTimer, _hitTime == 0 ? 0 : 400);

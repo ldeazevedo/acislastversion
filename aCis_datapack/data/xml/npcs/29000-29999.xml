@@ -2242,7 +2242,7 @@
 		</skills>
 	</npc>
 	<npc id="29045" name="Frintezza" title="">
-		<set name="level" val="90"/>
+		<set name="level" val="85"/>
 		<set name="radius" val="45"/>
 		<set name="height" val="42.7"/>
 		<set name="rHand" val="0"/>
@@ -2254,16 +2254,16 @@
 		<set name="mp" val="23423.9034583234"/>
 		<set name="hpRegen" val="2484.3"/>
 		<set name="mpRegen" val="3.15"/>
-		<set name="pAtk" val="2641.63342970569"/>
-		<set name="pDef" val="4218.55484265502"/>
-		<set name="mAtk" val="971.856593649426"/>
-		<set name="mDef" val="3093.6078479881"/>
+		<set name="pAtk" val="1859.355"/>
+		<set name="pDef" val="1006.668"/>
+		<set name="mAtk" val="2663.6362"/>
+		<set name="mDef" val="886.3965"/>
 		<set name="crit" val="4"/>
 		<set name="atkSpd" val="253"/>
 		<set name="str" val="60"/>
 		<set name="int" val="76"/>
 		<set name="dex" val="73"/>
-		<set name="wit" val="70"/>
+		<set name="wit" val="33"/>
 		<set name="con" val="57"/>
 		<set name="men" val="80"/>
 		<set name="corpseTime" val="7"/>
@@ -2276,7 +2276,7 @@
 		</skills>
 	</npc>
 	<npc id="29046" name="Scarlet van Halisha" title="">
-		<set name="level" val="85"/>
+		<set name="level" val="80"/>
 		<set name="radius" val="45"/>
 		<set name="height" val="90.7"/>
 		<set name="rHand" val="8204"/>
@@ -2294,12 +2294,12 @@
 		<set name="mDef" val="2089.07149518896"/>
 		<set name="crit" val="4"/>
 		<set name="atkSpd" val="253"/>
-		<set name="str" val="60"/>
-		<set name="int" val="76"/>
-		<set name="dex" val="73"/>
-		<set name="wit" val="70"/>
-		<set name="con" val="57"/>
-		<set name="men" val="80"/>
+		<set name="str" val="80"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="75"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="63"/>
+		<set name="men" val="50"/>
 		<set name="corpseTime" val="7"/>
 		<set name="walkSpd" val="240"/>
 		<set name="runSpd" val="111"/>
@@ -2354,6 +2354,9 @@
 			</category>
 			<category type="CURRENCY" chance="100.0">
 				<drop itemid="57" min="9000000" max="11000000" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="8191" min="1" max="1" chance="100.0"/>
 			</category>
 			<category type="DROP" chance="74.0">
 				<drop itemid="6367" min="1" max="1" chance="27.0274"/>

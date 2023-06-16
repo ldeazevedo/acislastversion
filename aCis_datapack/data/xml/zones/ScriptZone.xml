@@ -22,4 +22,8 @@
 		<node x="88759" y="-108195"/>
 		<node x="88677" y="-108275"/>
 	</zone>
+	<zone id="100004" shape="Cuboid" minZ="-5140" maxZ="-2319"> <!-- Frintezza.java# Frintezza's Concert Hall -->
+		<node x="172176" y="-86081" />
+		<node x="176284" y="-90033" />
+	</zone>
 </list>

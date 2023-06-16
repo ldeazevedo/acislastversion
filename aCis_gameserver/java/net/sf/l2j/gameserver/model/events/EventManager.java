@@ -55,6 +55,7 @@ public class EventManager
 	private final Location locSurvival = new Location(85574, 256964, -11674);
 	private int rewardID = 5575;
 	private int _rewardAmount = 100000;
+	private final static boolean stopAnn = true;
 	
 	enum State
 	{
@@ -139,7 +140,8 @@ public class EventManager
 		
 		void sendMsg(String msg, int time)
 		{
-			World.getInstance().getPlayers().forEach(p -> p.sendPacket(new ExShowScreenMessage(msg, time, SMPOS.TOP_CENTER, false)));
+			if (!stopAnn)
+				World.getInstance().getPlayers().forEach(p -> p.sendPacket(new ExShowScreenMessage(msg, time, SMPOS.TOP_CENTER, false)));
 		}
 	}
 	
@@ -150,7 +152,8 @@ public class EventManager
 	
 	public void announce(String msg)
 	{
-		World.announceToOnlinePlayers(msg);
+		if (!stopAnn)
+			World.announceToOnlinePlayers(msg);
 	}
 	
 	public boolean isInProgress()
@@ -298,7 +301,8 @@ public class EventManager
 				{
 					if (pc != pk)
 						setReward(pk, "Survival", 25000);
-					pc.sendPacket(new ExShowScreenMessage("Para regresar escribir .salir o esperar a que termine el evento", 5000, SMPOS.MIDDLE_RIGHT, false));
+					if (!stopAnn)
+						pc.sendPacket(new ExShowScreenMessage("Para regresar escribir .salir o esperar a que termine el evento", 5000, SMPOS.MIDDLE_RIGHT, false));
 					pc.isInSurvival = false;
 				}
 				boolean allDead = true;
@@ -464,8 +468,9 @@ public class EventManager
 					event = Events.SURVIVAL;
 					state = State.REGISTER;
 					stateEvent = 1;
-					for (Player player : World.getInstance().getPlayers())
-						player.sendPacket(new ExShowScreenMessage("Evento Survival empezara en 1 minuto", 5000, SMPOS.TOP_CENTER, false));
+					if (!stopAnn)
+						for (Player player : World.getInstance().getPlayers())
+							player.sendPacket(new ExShowScreenMessage("Evento Survival empezara en 1 minuto", 5000, SMPOS.TOP_CENTER, false));
 					ThreadPool.schedule(new Msg("Para registrarte escribi .register", 5000), 5000);
 					ThreadPool.schedule(new Msg("Para ver la pela escribi .ver", 5000), 10000);
 					announce("Evento Survival empezara en 1 minuto");
@@ -564,8 +569,9 @@ public class EventManager
 					stateEvent = 1;
 					event = Events.RF;
 					state = State.REGISTER;
-					for (Player player : World.getInstance().getPlayers())
-						player.sendPacket(new ExShowScreenMessage("Evento Random Fight empezara en 1 minuto", 5000, SMPOS.TOP_CENTER, false));
+					if (!stopAnn)
+						for (Player player : World.getInstance().getPlayers())
+							player.sendPacket(new ExShowScreenMessage("Evento Random Fight empezara en 1 minuto", 5000, SMPOS.TOP_CENTER, false));
 					ThreadPool.schedule(new Msg("Para registrarte escribi .register", 5000), 5000);
 					ThreadPool.schedule(new Msg("Para ver la pela escribi .ver", 5000), 10000);
 					announce("Evento Random Fight empezara en 1 minuto");
@@ -731,7 +737,8 @@ public class EventManager
 		player.getStatus().setMaxCpHpMp();
 		String message = "La pelea comenzara en 30 segundos!";
 		player.sendMessage(message);
-		player.sendPacket(new ExShowScreenMessage(message, 3500, SMPOS.MIDDLE_RIGHT, false));
+		if (!stopAnn)
+			player.sendPacket(new ExShowScreenMessage(message, 3500, SMPOS.MIDDLE_RIGHT, false));
 	}
 	
 	public void setDM(int stage)
@@ -749,8 +756,9 @@ public class EventManager
 					event = Events.DM;
 					state = State.REGISTER;
 					stateEvent = 1;
-					for (Player player : World.getInstance().getPlayers())
-						player.sendPacket(new ExShowScreenMessage("Evento Death Match empezara en 1 minuto", 5000, SMPOS.TOP_CENTER, false));
+					if (!stopAnn)
+						for (Player player : World.getInstance().getPlayers())
+							player.sendPacket(new ExShowScreenMessage("Evento Death Match empezara en 1 minuto", 5000, SMPOS.TOP_CENTER, false));
 					ThreadPool.schedule(new Msg("Para registrarte escribi .register", 5000), 5000);
 					ThreadPool.schedule(new Msg("Para ver la pela escribi .ver", 5000), 10000);
 					announce("Evento Death Match empezara en 1 minuto");
@@ -898,5 +906,31 @@ public class EventManager
 		player.setIsImmobilized(false);
 		player.setInvul(false);
 		player.getStatus().setMaxCpHpMp();
+	}
+	
+	public static void saveExp(Player player)
+	{
+		try (Connection con = ConnectionPool.getConnection();
+			PreparedStatement ps = con.prepareStatement(""))
+		{
+			ps.setInt(1, player.getObjectId());
+			ps.setLong(2, player.getRestantVitalityExp());
+			ps.executeUpdate();
+
+		}
+		catch (Exception e)
+		{
+			_log.warning("Error: " + e);
+		}
+	}
+
+	public long getRateVitalityRateXp()
+	{
+		return 2;
+	}
+	
+	public long getRateVitalityRateSp()
+	{
+		return 2;
 	}
 }

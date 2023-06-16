@@ -7536,4 +7536,48 @@ public class Player extends Playable
 	{
 		return atEvent || isInSurvival;
 	}
+
+	private static long _exp;
+	
+	public void setReduceVitalityExp(long exp)
+	{
+		_exp-=exp;
+	}
+	
+	public long setVitalityExp()
+	{
+		long exp = getStatus().getExpForThisLevel() - getStatus().getExpForNextLevel();
+		if (getStatus().getLevel() > 60)
+			return exp*=2;
+		if (getStatus().getLevel() < 20)
+			return exp*=5;
+		if (getStatus().getLevel() < 50)
+			return exp*=4;
+		if (getStatus().getLevel() < 60)
+			return exp*=3;
+		return _exp = exp;
+	}
+
+	public boolean getInVitality()
+	{
+		return _exp > 0;
+	}
+	
+	public long getRestantVitalityExp()
+	{
+		return _exp;
+	}
+	
+	public void updateVitalityEffect()
+	{
+		if (getInVitality())
+		{
+			final L2Skill skill = SkillTable.getInstance().getInfo(17001, 1);
+			if (skill == null)
+				return;
+			getAI().tryToCast(this, skill);
+			broadcastUserInfo();
+			updateEffectIcons();
+		}
+	}
 }

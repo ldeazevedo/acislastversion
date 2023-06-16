@@ -364,7 +364,7 @@
 	<script path="script.ai.boss.Benom"/>
 	<script path="script.ai.boss.Core"/>
 	<script path="script.ai.boss.DrChaos"/>
-<!-- 	<script path="script.ai.boss.Frintezza"/> -->
+ 	<script path="script.ai.boss.Frintezza"/>
 	<script path="script.ai.boss.Gordon"/>
 <!-- 	<script path="script.ai.boss.IceFairySirra"/> -->
 	<script path="script.ai.boss.Orfen"/>
@@ -380,6 +380,7 @@
 	<script path="script.ai.group.FrenzyOnAttack"/>
 	<script path="script.ai.group.PolymorphingAngel"/>
 	<script path="script.ai.group.PolymorphingOnAttack"/>
+	<script path="script.ai.group.LastImperialTomb"/>
 	<script path="script.ai.group.RandomTeleport"/>
 	<script path="script.ai.group.SummonMinions"/>
 	<script path="script.ai.group.SummonPlayer"/>

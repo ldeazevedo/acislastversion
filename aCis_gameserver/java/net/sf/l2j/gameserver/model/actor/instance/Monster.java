@@ -26,6 +26,7 @@ import net.sf.l2j.gameserver.model.actor.container.npc.AbsorbInfo;
 import net.sf.l2j.gameserver.model.actor.container.npc.AggroInfo;
 import net.sf.l2j.gameserver.model.actor.container.npc.RewardInfo;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
+import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
@@ -154,6 +155,9 @@ public class Monster extends Attackable
 					
 					long exp = expSp[0];
 					int sp = expSp[1];
+
+					exp *= EventManager.getInstance().getRateVitalityRateXp();
+					sp *= EventManager.getInstance().getRateVitalityRateSp();
 					
 					exp *= 1 - penalty;
 					
@@ -169,6 +173,7 @@ public class Monster extends Attackable
 					
 					// Distribute the Exp and SP.
 					attacker.addExpAndSp(exp, sp, rewards);
+					attacker.setReduceVitalityExp(exp);
 				}
 			}
 			// Share with party members.

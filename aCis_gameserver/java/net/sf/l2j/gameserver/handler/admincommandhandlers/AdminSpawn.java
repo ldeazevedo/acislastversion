@@ -249,39 +249,36 @@ public class AdminSpawn implements IAdminCommandHandler
 		}
 		else if (command.startsWith("admin_delete"))
 		{
-			final WorldObject obj = player.getTarget();
-			if (obj != null && obj instanceof Npc)
+			// Target must be a Npc.
+			final WorldObject targetWorldObject = player.getTarget();
+			if (!(targetWorldObject instanceof Npc))
 			{
-				Npc target = (Npc) obj;
-				
-				ASpawn spawn = target.getSpawn();
-				if (spawn != null)
-				{
-					spawn.setRespawnState(false);
-					
-					NpcTemplate template = NpcData.getInstance().getTemplate(spawn.getNpcId());
-					try
-					{
-						final Spawn sp = new Spawn(template);
-						SpawnManager.getInstance().deleteSpawn(sp);
-						
-						sp.getNpc().deleteMe();
-					}
-					catch (Exception e)
-					{
-						player.sendPacket(SystemMessageId.APPLICANT_INFORMATION_INCORRECT);
-					}
-					/*if (RaidBossSpawnManager.getInstance().isDefined(spawn.getNpcId()))
-						RaidBossSpawnManager.getInstance().deleteSpawn(spawn, true);
-					else
-						SpawnManager.getInstance().deleteSpawn(spawn, true);*/
-				}
-		//		target.deleteMe();
-				
-				player.sendMessage("Deleted " + target.getName() + " from " + target.getObjectId() + ".");
-			}
-			else
 				player.sendPacket(SystemMessageId.INVALID_TARGET);
+				return;
+			}
+			
+			final Npc targetNpc = (Npc) targetWorldObject;
+			
+			// Npc ASpawn must be Spawn type.
+			final ASpawn spawn = targetNpc.getSpawn();
+			if (!(spawn instanceof Spawn))
+			{
+				player.sendPacket(SystemMessageId.INVALID_TARGET);
+				return;
+			}
+			
+			// Delete the Npc.
+			targetNpc.deleteMe();
+			targetNpc.decayMe();
+			
+			// Stop the respawn.
+			spawn.setRespawnState(false);
+			
+			// Delete the Spawn entry.
+			SpawnManager.getInstance().deleteSpawn((Spawn) spawn);
+			
+			// Send Player log.
+			player.sendMessage("You deleted " + targetNpc.getName() + ".");
 		}
 	}
 	

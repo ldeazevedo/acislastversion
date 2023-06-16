@@ -12,11 +12,14 @@ import net.sf.l2j.gameserver.data.xml.DoorData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.group.CommandChannel;
+import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.zone.type.BossZone;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.script.ai.boss.Antharas;
 import net.sf.l2j.gameserver.scripting.script.ai.boss.Baium;
+import net.sf.l2j.gameserver.scripting.script.ai.boss.Frintezza;
 import net.sf.l2j.gameserver.scripting.script.ai.boss.Sailren;
 import net.sf.l2j.gameserver.scripting.script.ai.boss.Valakas;
 
@@ -47,6 +50,18 @@ public class GrandBossTeleporter extends Quest
 		new Location(115488, 22096, -5168)
 	};
 	
+	private static final Location[] FRINTEZZA_IN =
+	{
+		new Location(174102, -76039, -5105),
+		new Location(173235, -76884, -5105),
+		new Location(175003, -76933, -5105),
+		new Location(174196, -76190, -5105),
+		new Location(174013, -76120, -5105),
+		new Location(173263, -75161, -5105)
+		};
+	
+	private static final Location FRINTEZZA_OUT = new Location(150037, -57720, -2976);
+	
 	private static final Location SAILREN_IN = new Location(27333, -6835, -1970);
 	private static final Location[] SAILREN_OUT =
 	{
@@ -62,7 +77,7 @@ public class GrandBossTeleporter extends Quest
 		super(-1, "teleport");
 		
 		addFirstTalkId(29055, 31862);
-		addTalkId(13001, 29055, 31859, 31384, 31385, 31540, 31686, 31687, 31759, 31862, 32107, 32109);
+		addTalkId(13001, 29055, 31859, 31384, 31385, 31540, 31686, 31687, 31759, 31862, 32107, 32109, 32011, 29061);
 	}
 	
 	@Override
@@ -169,7 +184,11 @@ public class GrandBossTeleporter extends Quest
 						htmltext = "13001-03.htm";
 				}
 				break;
-			
+				
+			case 29061:
+				player.teleportTo(FRINTEZZA_OUT.getX() + Rnd.get(500), FRINTEZZA_OUT.getY() + Rnd.get(500), FRINTEZZA_OUT.getZ(), 0);
+				break;
+
 			case 31859:
 				player.teleportTo(79800 + Rnd.get(600), 151200 + Rnd.get(1100), -3534, 0);
 				break;
@@ -232,7 +251,73 @@ public class GrandBossTeleporter extends Quest
 			case 31759:
 				player.teleportTo(150037, -57720, -2976, 250);
 				break;
-			
+			case 32011:
+				status = GrandBossManager.getInstance().getBossStatus(Frintezza.FRINTEZZA);
+				if (status == Frintezza.DORMANT)
+				{
+					if (player.isGM())
+					{
+						final BossZone tomb = ZoneManager.getInstance().getZoneById(110012, BossZone.class);
+						
+						if (tomb != null)
+							tomb.allowPlayerEntry(player, 30);
+						ScriptData.getInstance().getQuest("LastImperialTomb").startQuestTimer("enter", 1000, null, player, false);
+						GrandBossManager.getInstance().setBossStatus(Frintezza.FRINTEZZA, Frintezza.WAITING);
+						break;
+					}
+					if ((!player.isInParty() || !player.getParty().isLeader(player)) || (player.getParty().getCommandChannel() == null) || (player.getParty().getCommandChannel().getLeader() != player))
+						htmltext = "32011-03.htm";
+					else if (player.getParty().getCommandChannel().getParties().size() < 2 || player.getParty().getCommandChannel().getParties().size() > 5)
+						htmltext = "32011-04.htm";
+					else
+					{
+						if (!player.destroyItemByItemId("Quest", 8073, 1, player, true))
+							return "32011-05.htm";
+
+						byte locCycle = 0;
+						ScriptData.getInstance().getQuest("LastImperialTomb").startQuestTimer("enter", 1000, null, player, false);
+						GrandBossManager.getInstance().setBossStatus(Frintezza.FRINTEZZA, Frintezza.WAITING);
+						
+						if (player.getParty() != null)
+						{
+							CommandChannel CommandChannel = player.getParty().getCommandChannel();
+							if (CommandChannel != null)
+								for (Party party : CommandChannel.getParties())
+								{
+									if (party == null)
+										continue;
+									for (Player member : party.getMembers())
+									{
+										if (member == null || member.getStatus().getLevel() < 74 || !MathUtil.checkIfInRange(700, npc, member, true))
+											continue;
+										if (CommandChannel.getMembersCount() > 45)
+										{
+											member.sendMessage("The number of challenges have been full, so can not enter.");
+											break;
+										}
+										final BossZone tomb = ZoneManager.getInstance().getZoneById(110011, BossZone.class);
+										
+										if (tomb != null)
+										{
+											tomb.allowPlayerEntry(member, 30);
+											member.teleportTo(FRINTEZZA_IN[locCycle], 100);
+										}
+										member.destroyItemByItemId(getName(), 8556, member.getInventory().getItemCount(8556, -1), null, true);
+										member.destroyItemByItemId(getName(), 8192, member.getInventory().getItemCount(8192, -1), null, true);
+									}
+									locCycle++;
+									if (locCycle >= 6)
+										locCycle = 1;
+								}
+						}
+					}
+				}
+				if (status == Frintezza.DEAD)
+					htmltext = "32011-01.htm";
+				else
+					htmltext = "32011-02.htm";
+				break;
+				
 			case 32107:
 				player.teleportTo(Rnd.get(SAILREN_OUT), 100);
 				break;

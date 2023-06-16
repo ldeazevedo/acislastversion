@@ -23,6 +23,7 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.container.npc.RewardInfo;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
+import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.rift.DimensionalRift;
@@ -701,14 +702,18 @@ public class Party extends AbstractGroup
 				final double sqLevel = member.getStatus().getLevel() * member.getStatus().getLevel();
 				final double preCalculation = (sqLevel / sqLevelSum) * (1 - penalty);
 				
-				final long xp = Math.round(xpReward * preCalculation);
-				final int sp = (int) (spReward * preCalculation);
+				long xp = (Math.round(xpReward * preCalculation));
+				int sp = (int) (spReward * preCalculation);
+				
+				xp *= EventManager.getInstance().getRateVitalityRateXp();
+				sp *= EventManager.getInstance().getRateVitalityRateSp();
 				
 				// Set new karma.
 				member.updateKarmaLoss(xp);
 				
 				// Add the XP/SP points to the requested party member.
 				member.addExpAndSp(xp, sp, rewards);
+				member.setReduceVitalityExp(xp);
 			}
 			else
 				member.addExpAndSp(0, 0);

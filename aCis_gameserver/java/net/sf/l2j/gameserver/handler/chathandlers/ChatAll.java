@@ -7,6 +7,7 @@ import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.xml.AdminData;
+import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.enums.FloodProtector;
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.handler.IChatHandler;
@@ -111,6 +112,11 @@ public class ChatAll implements IChatHandler
 			if (text.equalsIgnoreCase(".tvt_advance"))
 			{
 				TvTManager.getInstance().skipDelay();
+				return;
+			}
+			if (text.equalsIgnoreCase(".frintezza"))
+			{
+				ScriptData.getInstance().getQuest("Frintezza").startQuestTimer("start", null, null, 1000);
 				return;
 			}
 			if (text.startsWith(".read"))
