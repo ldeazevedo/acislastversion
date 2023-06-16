@@ -7544,6 +7544,8 @@ public class Player extends Playable
 	public void setReduceVitalityExp(long exp)
 	{
 		_exp-=exp;
+		if (_exp > 0)
+			updateVitalityEffect();
 	}
 	
 	public void setVitalityExp()
@@ -7551,7 +7553,7 @@ public class Player extends Playable
 		long exp = getStatus().getExpForNextLevel() - getStatus().getExpForThisLevel();
 		if (getStatus().getLevel() > 70)
 			exp*=1.5;
-		else if (getStatus().getLevel() < 60)
+		else if (getStatus().getLevel() < 70)
 			exp*=2;
 		else if (getStatus().getLevel() < 20)
 			exp*=6;
@@ -7562,8 +7564,6 @@ public class Player extends Playable
 		else if (getStatus().getLevel() < 60)
 			exp*=3;
 		_exp = exp;
-		if (exp > 0)
-			updateVitalityEffect();
 	}
 
 	public boolean getInVitality()
@@ -7578,14 +7578,14 @@ public class Player extends Playable
 	
 	public void updateVitalityEffect()
 	{
+		final L2Skill skill = SkillTable.getInstance().getInfo(17001, 1);
+		if (skill == null)
+			return;
 		if (getInVitality())
-		{
-			final L2Skill skill = SkillTable.getInstance().getInfo(17001, 1);
-			if (skill == null)
-				return;
 			getAI().tryToCast(this, skill);
-			broadcastUserInfo();
-			updateEffectIcons();
-		}
+		else
+			stopSkillEffects(skill.getId());
+		broadcastUserInfo();
+		updateEffectIcons();
 	}
 }
