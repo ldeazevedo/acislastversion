@@ -44,7 +44,7 @@ public class ChatAll implements IChatHandler
 		}
 		if (text.equalsIgnoreCase(".register") || text.equalsIgnoreCase(".unregister") || text.equalsIgnoreCase(".ver") || text.equalsIgnoreCase(".salir"))
 		{
-			EventManager.getInstance().checkTimeusEvents(text, player);
+			EventManager.getInstance().checkEvents(text, player);
 			return;
 		}
 			

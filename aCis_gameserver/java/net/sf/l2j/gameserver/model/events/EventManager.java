@@ -161,7 +161,7 @@ public class EventManager
 		return state != State.INACTIVE;
 	}
 	
-	public void checkTimeusEvents(String text, Player player)
+	public void checkEvents(String text, Player player)
 	{
 		if (!isInProgress() || player == null || player.isInObserverMode() || player.isInOlympiadMode() || player.isFestivalParticipant() || /*player.isInsideZone(ZoneId.SIEGE) ||/* player.isInSiege() || */ player.isInJail() || player.isFestivalParticipant() || player.isCursedWeaponEquipped() || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(player.getObjectId()) || player.getKarma() > 0)
 			return;
@@ -922,6 +922,14 @@ public class EventManager
 		{
 			_log.warning("Error: " + e);
 		}
+	}
+	
+	public void checkEnterWorld(Player player)
+	{
+		if (!player.getInVitality()) //Temporal arreglo para verlo en funcionamiento
+			player.setVitalityExp();
+		else
+			player.updateVitalityEffect();
 	}
 
 	public long getRateVitalityRateXp()
