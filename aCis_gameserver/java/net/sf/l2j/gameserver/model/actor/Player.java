@@ -6215,6 +6215,8 @@ public class Player extends Playable
 		
 		revalidateZone(true);
 		notifyFriends(true);
+		
+		EventManager.getInstance().checkEnterWorld(this);
 	}
 	
 	public long getLastAccess()
@@ -7544,9 +7546,9 @@ public class Player extends Playable
 		_exp-=exp;
 	}
 	
-	public long setVitalityExp()
+	public void setVitalityExp()
 	{
-		long exp = getStatus().getExpForThisLevel() - getStatus().getExpForNextLevel();
+		long exp = getStatus().getExpForNextLevel() - getStatus().getExpForThisLevel();
 		if (getStatus().getLevel() > 70)
 			exp*=1.5;
 		else if (getStatus().getLevel() < 60)
@@ -7559,7 +7561,9 @@ public class Player extends Playable
 			exp*=4;
 		else if (getStatus().getLevel() < 60)
 			exp*=3;
-		return _exp = exp;
+		_exp = exp;
+		if (exp > 0)
+			updateVitalityEffect();
 	}
 
 	public boolean getInVitality()

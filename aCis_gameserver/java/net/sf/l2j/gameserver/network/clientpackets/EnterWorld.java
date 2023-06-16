@@ -25,7 +25,6 @@ import net.sf.l2j.gameserver.model.clanhall.ClanHall;
 import net.sf.l2j.gameserver.model.clanhall.SiegableHall;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.entity.Siege;
-import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.olympiad.Olympiad;
 import net.sf.l2j.gameserver.model.pledge.Clan;
@@ -197,8 +196,6 @@ public class EnterWorld extends L2GameClientPacket
 		
 		// Set the location of debug packets.
 		player.setEnterWorldLoc(player.getX(), player.getY(), -16000);
-		
-		EventManager.getInstance().checkEnterWorld(player);
 		
 		// Engage and notify partner.
 		if (Config.ALLOW_WEDDING)

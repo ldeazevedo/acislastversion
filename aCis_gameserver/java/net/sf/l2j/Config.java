@@ -35,7 +35,9 @@ public final class Config
 	public static final String PLAYERS_FILE = "./config/players.properties";
 	public static final String SERVER_FILE = "./config/server.properties";
 	public static final String SIEGE_FILE = "./config/siege.properties";
-
+	
+	public static boolean FAKE_PLAYER_ENABLED;
+	
 	/** TvT */
 	public static boolean TVT_EVENT_ENABLED;
 	public static String[] TVT_EVENT_INTERVAL;
@@ -812,6 +814,8 @@ public final class Config
 		LOTTERY_4_NUMBER_RATE = events.getProperty("Lottery4NumberRate", 0.2);
 		LOTTERY_3_NUMBER_RATE = events.getProperty("Lottery3NumberRate", 0.2);
 		LOTTERY_2_AND_1_NUMBER_PRIZE = events.getProperty("Lottery2and1NumberPrize", 200);
+
+		FAKE_PLAYER_ENABLED = Boolean.parseBoolean(events.getProperty("FakePlayerEnabled", "false"));
 		
 		ALLOW_FISH_CHAMPIONSHIP = events.getProperty("AllowFishChampionship", true);
 		FISH_CHAMPIONSHIP_REWARD_ITEM = events.getProperty("FishChampionshipRewardItemId", 57);
