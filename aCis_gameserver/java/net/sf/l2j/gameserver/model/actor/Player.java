@@ -7547,14 +7547,18 @@ public class Player extends Playable
 	public long setVitalityExp()
 	{
 		long exp = getStatus().getExpForThisLevel() - getStatus().getExpForNextLevel();
-		if (getStatus().getLevel() > 60)
-			return exp*=2;
-		if (getStatus().getLevel() < 20)
-			return exp*=5;
-		if (getStatus().getLevel() < 50)
-			return exp*=4;
-		if (getStatus().getLevel() < 60)
-			return exp*=3;
+		if (getStatus().getLevel() > 70)
+			exp*=1.5;
+		else if (getStatus().getLevel() < 60)
+			exp*=2;
+		else if (getStatus().getLevel() < 20)
+			exp*=6;
+		else if (getStatus().getLevel() < 40)
+			exp*=5;
+		else if (getStatus().getLevel() < 50)
+			exp*=4;
+		else if (getStatus().getLevel() < 60)
+			exp*=3;
 		return _exp = exp;
 	}
 
