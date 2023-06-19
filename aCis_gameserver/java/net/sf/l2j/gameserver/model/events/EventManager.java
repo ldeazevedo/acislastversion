@@ -963,10 +963,6 @@ public class EventManager
 	{
 		attacker.setReduceVitalityExp(exp);
 		if (pcbandpoints != 0)
-		{
 			attacker.addPcBangScore(pcbandpoints);
-			attacker.updatePcBangWnd(pcbandpoints, true, false);
-			attacker.sendMessage("You have earned " + pcbandpoints + " PC Bang Point(s)");
-		}
 	}
 }

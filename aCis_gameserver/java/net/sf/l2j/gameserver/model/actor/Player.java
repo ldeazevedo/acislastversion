@@ -7672,13 +7672,14 @@ public class Player extends Playable
     public void addPcBangScore(int to)
     {
         pcBangPoint += to;
-        updatePcBangWnd(to, true, false);
+        sendPacket(new ExPCCafePointInfo(this, to, true, 1000, false));
+		sendMessage("You have earned " + to + " PC Bang Point(s)");
     }
     
     public void reducePcBangScore(int to)
     {
         pcBangPoint -= to;
-        updatePcBangWnd(to, false, false);
+        sendPacket(new ExPCCafePointInfo(this, to, false, 1000, false));
     }
     
     public int getPcBangScore()
@@ -7686,16 +7687,9 @@ public class Player extends Playable
         return pcBangPoint;
     }
     
-    public void updatePcBangWnd(int score, boolean add, boolean duble)
-    {
-        ExPCCafePointInfo wnd = new ExPCCafePointInfo(this, score, add, 1000, duble);
-        sendPacket(wnd);
-    }
-    
     public void showPcBangWindow()
     {
-        ExPCCafePointInfo wnd = new ExPCCafePointInfo(this, 0, false, 1000, false);
-        sendPacket(wnd);
+        sendPacket(new ExPCCafePointInfo(this, 0, false, 1000, false));
     }
     
     public void loadPcBangPoints()

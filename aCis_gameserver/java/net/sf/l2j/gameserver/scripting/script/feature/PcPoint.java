@@ -47,7 +47,6 @@ public class PcPoint extends Quest
 		
 		int score = Rnd.get(100, 250);
 		player.addPcBangScore(score);
-		player.updatePcBangWnd(score, true, false);
 		super.onMyDying(npc, killer);
 	}
 }
