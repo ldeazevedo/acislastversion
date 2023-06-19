@@ -926,19 +926,47 @@ public class EventManager
 	
 	public void checkEnterWorld(Player player)
 	{
+		player.showPcBangWindow();
 		if (!player.getInVitality()) //Temporal arreglo para verlo en funcionamiento
 			player.setVitalityExp();
 		else
-			player.updateVitalityEffect();
+			ThreadPool.schedule(new updateVitalityEffect(player), 15000);
 	}
 
-	public long getRateVitalityRateXp()
+	public long getRateVitalityRateXpSp(int expsp)
 	{
-		return 2;
+		return expsp == 1 ? 2 : 2;
 	}
 	
-	public long getRateVitalityRateSp()
+	private class updateVitalityEffect implements Runnable
 	{
-		return 2;
+		Player player = null;
+		updateVitalityEffect(Player p)
+		{
+			player = p;
+		}
+		
+		@Override
+		public void run()
+		{
+			player.updateVitalityEffect();
+		}
+	}
+
+	/**
+	 * @param attacker
+	 * @param exp
+	 * @param sp
+	 * @param pcbandpoints 
+	 */
+	public void onCalculateRewards(Player attacker, long exp, int sp, int pcbandpoints)
+	{
+		attacker.setReduceVitalityExp(exp);
+		if (pcbandpoints != 0)
+		{
+			attacker.addPcBangScore(pcbandpoints);
+			attacker.updatePcBangWnd(pcbandpoints, true, false);
+			attacker.sendMessage("You have earned " + pcbandpoints + " PC Bang Point(s)");
+		}
 	}
 }

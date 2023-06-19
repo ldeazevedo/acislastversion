@@ -165,6 +165,7 @@ import net.sf.l2j.gameserver.network.serverpackets.DeleteObject;
 import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.ExAutoSoulShot;
 import net.sf.l2j.gameserver.network.serverpackets.ExOlympiadMode;
+import net.sf.l2j.gameserver.network.serverpackets.ExPCCafePointInfo;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 import net.sf.l2j.gameserver.network.serverpackets.ExSetCompassZoneCode;
 import net.sf.l2j.gameserver.network.serverpackets.ExStorageMaxCount;
@@ -339,7 +340,6 @@ public class Player extends Playable
 	private boolean _isStanding;
 	private boolean _isSittingNow;
 	private boolean _isStandingNow;
-	private boolean isReadChat;
 
 	private Location _savedLocation = new Location(0, 0, 0);
 	
@@ -4388,6 +4388,7 @@ public class Player extends Playable
 					// Note that Clan, Noblesse and Hero skills are given separately and not here.
 					player.restoreCharData();
 					player.giveSkills();
+					player.loadPcBangPoints();
 					
 					// buff and status icons
 					if (Config.STORE_SKILL_COOLTIME)
@@ -4423,6 +4424,7 @@ public class Player extends Playable
 					player.setStanding(true);
 					
 					World.getInstance().addPlayer(player);
+					player.saveExpVitality();
 					
 					// Retrieve the name and ID of the other characters assigned to this account.
 					try (PreparedStatement ps2 = con.prepareStatement("SELECT obj_Id, char_name FROM characters WHERE account_name=? AND obj_Id<>?"))
@@ -4525,8 +4527,38 @@ public class Player extends Playable
 		storeCharBase();
 		storeCharSub();
 		storeEffect(storeActiveEffects);
+		storeCharPcBangPoints();
 	}
 	
+    private void storeCharPcBangPoints()
+    {
+        try (Connection con = ConnectionPool.getConnection();
+        	PreparedStatement statement = con.prepareStatement("DELETE FROM character_pccafe_points WHERE (objectId=?)"))
+        {
+        	statement.setInt(1, getObjectId());
+        	statement.execute();
+        }
+        catch (final Exception e)
+        {
+        	LOGGER.warn("Could not store char PC Cafe data: " + e);
+        }
+        
+        if (getPcBangScore() <= 0)
+            return;
+
+        try (Connection con = ConnectionPool.getConnection();
+        	PreparedStatement statement = con.prepareStatement("INSERT INTO character_pccafe_points VALUES(?,?);"))
+        {
+            statement.setInt(1, getObjectId());
+            statement.setInt(2, getPcBangScore());
+            statement.execute();
+        }
+        catch (Exception e)
+        {
+        	LOGGER.warn("Could not store char PC Cafe data: " + e);
+        }
+    }
+
 	public void store()
 	{
 		store(true);
@@ -7524,6 +7556,11 @@ public class Player extends Playable
 		abortAll(true);
 	}
 	
+	private boolean isReadChat;
+	private static long _exp;
+    private int pcBangPoint = 0;
+    private boolean expOff = false;
+	
 	public void setReadChat(boolean a)
 	{
 		isReadChat = a;
@@ -7538,8 +7575,6 @@ public class Player extends Playable
 	{
 		return atEvent || isInSurvival;
 	}
-
-	private static long _exp;
 	
 	public void setReduceVitalityExp(long exp)
 	{
@@ -7551,18 +7586,19 @@ public class Player extends Playable
 	public void setVitalityExp()
 	{
 		long exp = getStatus().getExpForNextLevel() - getStatus().getExpForThisLevel();
-		if (getStatus().getLevel() > 70)
+		final int lvl = getStatus().getLevel();
+		if (lvl > 70)
 			exp*=1.5;
-		else if (getStatus().getLevel() < 70)
-			exp*=2;
-		else if (getStatus().getLevel() < 20)
+		else if (lvl < 20)
 			exp*=6;
-		else if (getStatus().getLevel() < 40)
+		else if (lvl < 40)
 			exp*=5;
-		else if (getStatus().getLevel() < 50)
+		else if (lvl < 50)
 			exp*=4;
-		else if (getStatus().getLevel() < 60)
+		else if (lvl < 60)
 			exp*=3;
+		else if (lvl < 70)
+			exp*=2;
 		_exp = exp;
 	}
 
@@ -7588,4 +7624,95 @@ public class Player extends Playable
 		broadcastUserInfo();
 		updateEffectIcons();
 	}
+	
+	public void saveExpVitality()
+	{
+		try (Connection con = ConnectionPool.getConnection())
+		{
+			try (PreparedStatement ps = con.prepareStatement("INSERT INTO character_vitality (char_id,exp,lock) VALUES (?,?,?)"))
+			{
+				ps.setInt(1, getObjectId());
+				ps.setLong(2, getRestantVitalityExp());
+				ps.setInt(3, getInVitality() ? 0 : 1);
+				ps.execute();
+			}
+			
+			try (PreparedStatement ps = con.prepareStatement("UPDATE character_vitality SET exp=?,lock=? WHERE char_id=?"))
+			{
+				ps.setInt(1, getObjectId());
+				ps.setLong(2, getRestantVitalityExp());
+				ps.setInt(3, getInVitality() ? 0 : 1);
+				ps.execute();
+			}
+			
+			try (PreparedStatement ps = con.prepareStatement("DELETE FROM character_vitality WHERE exp=? AND lock=?"))
+			{
+				ps.setLong(2, getRestantVitalityExp());
+				ps.setInt(3, getInVitality() ? 0 : 1);
+				ps.executeUpdate();
+			}
+		}
+		catch (final Exception e)
+		{
+			LOGGER.error("", e);
+		}
+	}
+	
+    public boolean isExpOff()
+    {
+        return expOff;
+    }
+    
+    public void invertExpOff()
+    {
+        expOff = !expOff;
+        sendMessage(expOff ? "[Exp off] You dont get EXP from now." : "[Exp on] You get EXP from now."); // | A partir de ahora no obtenes EXP. | A partir de ahora obtenes EXP.
+    }
+    
+    public void addPcBangScore(int to)
+    {
+        pcBangPoint += to;
+        updatePcBangWnd(to, true, false);
+    }
+    
+    public void reducePcBangScore(int to)
+    {
+        pcBangPoint -= to;
+        updatePcBangWnd(to, false, false);
+    }
+    
+    public int getPcBangScore()
+    {
+        return pcBangPoint;
+    }
+    
+    public void updatePcBangWnd(int score, boolean add, boolean duble)
+    {
+        ExPCCafePointInfo wnd = new ExPCCafePointInfo(this, score, add, 1000, duble);
+        sendPacket(wnd);
+    }
+    
+    public void showPcBangWindow()
+    {
+        ExPCCafePointInfo wnd = new ExPCCafePointInfo(this, 0, false, 1000, false);
+        sendPacket(wnd);
+    }
+    
+    public void loadPcBangPoints()
+    {
+        try (Connection con = ConnectionPool.getConnection();
+        	PreparedStatement statement = con.prepareStatement("SELECT points FROM character_pccafe_points WHERE (objectId=?)"))
+        {
+        	statement.setInt(1, getObjectId());
+            try (ResultSet rset = statement.executeQuery())
+            {
+            	while (rset.next())
+            		addPcBangScore(rset.getInt("points"));
+            }
+        }
+        catch (final Exception e)
+        {
+			LOGGER.warn("Could not restore Pc Bang data: " + e);
+        }
+    }
 }

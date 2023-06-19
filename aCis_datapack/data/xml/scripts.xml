@@ -416,6 +416,7 @@
 	<script path="script.feature.KetraOrcSupport"/>
 	<script path="script.feature.MissQueen"/>
 	<script path="script.feature.NewbieHelper"/>
+	<script path="script.feature.PcPoint"/>
 	<script path="script.feature.RaidbossInfo"/>
 	<script path="script.feature.SecondClassChange"/>
 	<script path="script.feature.ShadowWeapon"/>

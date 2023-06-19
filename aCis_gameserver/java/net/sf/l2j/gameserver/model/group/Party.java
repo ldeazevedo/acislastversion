@@ -705,15 +705,18 @@ public class Party extends AbstractGroup
 				long xp = (Math.round(xpReward * preCalculation));
 				int sp = (int) (spReward * preCalculation);
 				
-				xp *= EventManager.getInstance().getRateVitalityRateXp();
-				sp *= EventManager.getInstance().getRateVitalityRateSp();
+				xp *= EventManager.getInstance().getRateVitalityRateXpSp(1);
+				sp *= EventManager.getInstance().getRateVitalityRateXpSp(2);
 				
 				// Set new karma.
 				member.updateKarmaLoss(xp);
 				
+				int points = Rnd.get(1, 3);
 				// Add the XP/SP points to the requested party member.
-				member.addExpAndSp(xp, sp, rewards);
-				member.setReduceVitalityExp(xp);
+				member.addExpAndSp(member.isExpOff() ? 0 : xp, sp, rewards);
+                if (member.getStatus().getLevel() <= (getLevel() + 9))
+            		points=0;
+				EventManager.getInstance().onCalculateRewards(member, xp, sp, points);
 			}
 			else
 				member.addExpAndSp(0, 0);

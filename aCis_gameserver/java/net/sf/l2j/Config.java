@@ -38,6 +38,16 @@ public final class Config
 	
 	public static boolean FAKE_PLAYER_ENABLED;
 	
+	 /////////////////////////////////////////////////
+   // PC Bang Settings
+   /////////////////////////////////////////////////
+   public static boolean PC_BANG_ENABLED;
+   public static int MAX_PC_BANG_POINTS;
+   public static boolean ENABLE_DOUBLE_PC_BANG_POINTS;
+   public static int DOUBLE_PC_BANG_POINTS_CHANCE;
+   public static double PC_BANG_POINT_RATE;
+   public static boolean RANDOM_PC_BANG_POINT;
+	
 	/** TvT */
 	public static boolean TVT_EVENT_ENABLED;
 	public static String[] TVT_EVENT_INTERVAL;
@@ -67,7 +77,7 @@ public final class Config
 	public static int TVT_EVENT_EFFECTS_REMOVAL;
 	public static Map<Integer, Integer> TVT_EVENT_FIGHTER_BUFFS;
 	public static Map<Integer, Integer> TVT_EVENT_MAGE_BUFFS;
-	
+    
 	// --------------------------------------------------
 	// Clans settings
 	// --------------------------------------------------
@@ -824,6 +834,19 @@ public final class Config
 		FISH_CHAMPIONSHIP_REWARD_3 = events.getProperty("FishChampionshipReward3", 300000);
 		FISH_CHAMPIONSHIP_REWARD_4 = events.getProperty("FishChampionshipReward4", 200000);
 		FISH_CHAMPIONSHIP_REWARD_5 = events.getProperty("FishChampionshipReward5", 100000);
+		
+		PC_BANG_ENABLED = Boolean.parseBoolean(events.getProperty("Enabled", "false"));
+        MAX_PC_BANG_POINTS = Integer.parseInt(events.getProperty("MaxPcBangPoints", "200000"));
+        if (MAX_PC_BANG_POINTS < 0)
+            MAX_PC_BANG_POINTS = 0;
+        ENABLE_DOUBLE_PC_BANG_POINTS = Boolean.parseBoolean(events.getProperty("DoublingAcquisitionPoints", "false"));
+        DOUBLE_PC_BANG_POINTS_CHANCE = Integer.parseInt(events.getProperty("DoublingAcquisitionPointsChance", "1"));
+        if (DOUBLE_PC_BANG_POINTS_CHANCE < 0 || DOUBLE_PC_BANG_POINTS_CHANCE > 100)
+            DOUBLE_PC_BANG_POINTS_CHANCE = 1;
+        PC_BANG_POINT_RATE = Double.parseDouble(events.getProperty("AcquisitionPointsRate", "1.0"));
+        if (PC_BANG_POINT_RATE < 0)
+            PC_BANG_POINT_RATE = 1;
+        RANDOM_PC_BANG_POINT = Boolean.parseBoolean(events.getProperty("AcquisitionPointsRandom", "false"));
 		
 		TVT_EVENT_ENABLED = Boolean.parseBoolean(events.getProperty("TvTEventEnabled", "false"));
 		TVT_EVENT_INTERVAL = events.getProperty("TvTEventInterval", "20:00").split(",");

@@ -72,7 +72,6 @@ public class Frintezza extends AttackableAIScript
 	private static int[][] scarletSkills;
 	
 	private static final IntIntHolder Bomber_Ghost = new IntIntHolder(5011, 1);
-	private static final IntIntHolder Frintezza_Melody = new IntIntHolder(5006, 1);
 	
 	protected static final int[][] PORTRAIT_GHOST =
 	{
@@ -230,12 +229,12 @@ public class Frintezza extends AttackableAIScript
 						broadcastPacket(new SpecialCamera(_dummys.get(2).getObjectId(), 1000, 118, 0, 0, 1000, 0, 0, 1, 0), new SpecialCamera(_dummys.get(2).getObjectId(), 1000, 118, 0, 0, 10000, 0, 0, 1, 0));
 					else
 						broadcastPacket(new SpecialCamera(_dummys.get(3).getObjectId(), 1000, 62, 0, 0, 1000, 0, 0, 1, 0), new SpecialCamera(_dummys.get(3).getObjectId(), 1000, 62, 0, 0, 10000, 0, 0, 1, 0));
-			for (Creature pc : FRINTEZZA_LAIR.getKnownTypeInside(Creature.class))
+	/*		for (Creature pc : cc)
 				if (pc instanceof Player)
 				{
 					boolean loc = pc.getX() < 174232;
 					broadcastPacket(new SpecialCamera(_dummys.get(loc ? 2 : 3).getObjectId(), 1000, loc ? 118 : 62, 0, 0, 1000, 0, 0, 1, 0), new SpecialCamera(_dummys.get(loc ? 2 : 3).getObjectId(), 1000, loc ? 118 : 62, 0, 0, 10000, 0, 0, 1, 0));
-				}
+				}*/
 		}
 		else if (event.equalsIgnoreCase("camera_09"))
 			broadcastPacket(new SpecialCamera(frintezza.getObjectId(), 240, 90, 0, 0, 1000, 0, 0, 1, 0), new SpecialCamera(frintezza.getObjectId(), 240, 90, 25, 5500, 10000, 0, 0, 1, 0), new SocialAction(frintezza, 3));
@@ -428,7 +427,7 @@ public class Frintezza extends AttackableAIScript
 			{
 				for (Creature pc : FRINTEZZA_LAIR.getKnownTypeInside(Creature.class))
 					if (pc instanceof Player)
-						scarlet.getCast().doCast(songEffect, songEffect.getLevel() < 4 ? pc : scarlet, null);
+						scarlet.getCast().doCast(songEffect, songEffect.getLevel() < 4 ? scarlet : pc, null);
 			}
 			else
 				cancelQuestTimers("songs_effect");
@@ -789,7 +788,7 @@ public class Frintezza extends AttackableAIScript
 	private static void playFrintezzaMelody()
 	{
 		// frintezza.getCast().doCast(Frintezza_Melody.getSkill(), frintezza, null); // frintezza.getAI().tryToCast(frintezza, Frintezza_Melody.getSkill());
-		L2Skill skill = Frintezza_Melody.getSkill(); // If tryToCast or doCast is used in the last acis, it looks like a speen run, Frintezza's casting stats are wrong?
+		L2Skill skill = new IntIntHolder(5006, 1).getSkill();  // If tryToCast or doCast is used in the last acis, it looks like a speen run, Frintezza's casting stats are wrong?
 		broadcastPacket(new MagicSkillUse(frintezza, frintezza, skill.getId(), skill.getLevel(), skill.getHitTime(), skill.getReuseDelay()));
 	}
 	

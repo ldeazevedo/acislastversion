@@ -47,6 +47,12 @@ public class ChatAll implements IChatHandler
 			EventManager.getInstance().checkEvents(text, player);
 			return;
 		}
+		
+        if(text.equalsIgnoreCase(".expoff"))
+        {
+        	player.invertExpOff();
+            return;
+        }
 			
 		if (player.isGM())
 		{
@@ -119,7 +125,7 @@ public class ChatAll implements IChatHandler
 				ScriptData.getInstance().getQuest("Frintezza").startQuestTimer("start", null, null, 1000);
 				return;
 			}
-			if (text.startsWith(".read"))
+			if (text.equalsIgnoreCase(".read"))
 			{
 				player.setReadChat(!player.getReadChat() ? true : false);
 				player.sendMessage("Read chats "+ (!player.getReadChat() ? "off" : "on"));

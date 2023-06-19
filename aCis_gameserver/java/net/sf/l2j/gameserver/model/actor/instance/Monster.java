@@ -9,6 +9,7 @@ import java.util.concurrent.ScheduledFuture;
 
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
+import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
@@ -156,8 +157,8 @@ public class Monster extends Attackable
 					long exp = expSp[0];
 					int sp = expSp[1];
 
-					exp *= EventManager.getInstance().getRateVitalityRateXp();
-					sp *= EventManager.getInstance().getRateVitalityRateSp();
+					exp *= EventManager.getInstance().getRateVitalityRateXpSp(1);
+					sp *= EventManager.getInstance().getRateVitalityRateXpSp(2);
 					
 					exp *= 1 - penalty;
 					
@@ -170,10 +171,16 @@ public class Monster extends Attackable
 					
 					// Set new karma.
 					attacker.updateKarmaLoss(exp);
-					
 					// Distribute the Exp and SP.
-					attacker.addExpAndSp(exp, sp, rewards);
-					attacker.setReduceVitalityExp(exp);
+					attacker.addExpAndSp(!attacker.isExpOff() ? exp : 0, sp, rewards);
+					int points = Rnd.get(4, 6);
+					int lvl = attacker.getStatus().getLevel();
+					int moblvl = getStatus().getLevel();
+					if (lvl >= (moblvl + 7) && lvl <= (moblvl + 9))
+						points -= Rnd.get(1, 3);
+					else if (lvl >= (moblvl + 10))
+						points = 0;
+					EventManager.getInstance().onCalculateRewards(attacker, exp, sp, points);
 				}
 			}
 			// Share with party members.
