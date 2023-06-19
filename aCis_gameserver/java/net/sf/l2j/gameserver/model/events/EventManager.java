@@ -150,7 +150,7 @@ public class EventManager
 		return state == State.FIGHT && containsPlayer(pc);
 	}
 	
-	public void announce(String msg)
+	public static void announce(String msg)
 	{
 		if (!stopAnn)
 			World.announceToOnlinePlayers(msg);

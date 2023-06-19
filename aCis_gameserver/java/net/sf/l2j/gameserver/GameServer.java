@@ -87,6 +87,7 @@ import net.sf.l2j.gameserver.model.boat.BoatGludinRune;
 import net.sf.l2j.gameserver.model.boat.BoatInnadrilTour;
 import net.sf.l2j.gameserver.model.boat.BoatRunePrimeval;
 import net.sf.l2j.gameserver.model.boat.BoatTalkingGludin;
+import net.sf.l2j.gameserver.model.events.HappyHourTask;
 import net.sf.l2j.gameserver.model.events.TvTManager;
 import net.sf.l2j.gameserver.model.olympiad.Olympiad;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadGameManager;
@@ -277,6 +278,7 @@ public class GameServer
 		TvTManager.getInstance();
 		InstanceManager.getInstance();
 		FakePlayerManager.getInstance().init();
+		HappyHourTask.getInstance();
 		
 		StringUtil.printSection("System");
 		Runtime.getRuntime().addShutdownHook(Shutdown.getInstance());

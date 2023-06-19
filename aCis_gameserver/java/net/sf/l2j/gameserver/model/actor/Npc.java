@@ -43,6 +43,7 @@ import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.clanhall.ClanHall;
 import net.sf.l2j.gameserver.model.clanhall.SiegableHall;
 import net.sf.l2j.gameserver.model.entity.Castle;
+import net.sf.l2j.gameserver.model.events.HappyHourTask;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
@@ -878,7 +879,7 @@ public class Npc extends Creature
 	 */
 	public int getExpReward()
 	{
-		return (int) (getTemplate().getRewardExp() * Config.RATE_XP);
+		return (int) (getTemplate().getRewardExp() * ((HappyHourTask.getInstance().isInEvent()) ? Config.HAPPY_HOUR_EXP : Config.RATE_XP));
 	}
 	
 	/**
@@ -886,7 +887,7 @@ public class Npc extends Creature
 	 */
 	public int getSpReward()
 	{
-		return (int) (getTemplate().getRewardSp() * Config.RATE_SP);
+		return (int) (getTemplate().getRewardSp() * ((HappyHourTask.getInstance().isInEvent()) ? Config.HAPPY_HOUR_SP : Config.RATE_SP));
 	}
 	
 	/**
