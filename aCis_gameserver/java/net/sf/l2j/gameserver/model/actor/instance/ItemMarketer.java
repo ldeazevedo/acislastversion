@@ -195,7 +195,7 @@ public class ItemMarketer extends Folk
 			}
 		}
 		else if ("Main".equalsIgnoreCase(actualCommand))
-			showMsgWindow(player);
+			showChatWindow(player);
 		else if ("SelectItem".equalsIgnoreCase(actualCommand))
 		{
 			if (st.hasMoreTokens())
@@ -304,8 +304,9 @@ public class ItemMarketer extends Folk
 		}
 		super.onBypassFeedback(player, command);
 	}
-	
-	private void showMsgWindow(Player player)
+
+	@Override
+	public void showChatWindow(Player player)
 	{
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 		String filename = "data/html/marketer/main.htm";

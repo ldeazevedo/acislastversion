@@ -162,6 +162,24 @@ public final class FleeingClanMembers extends AttackableAIScript
 		{
 			if (npc.getScriptValue() == FLEEING_NOT_STARTED)
 			{
+				if (attacker.isGM())
+				{
+					int index = (ATTACKED.length - 1);
+					int i5 = Rnd.get(100);
+					if (i5 < 77)
+						index = i5 / 7;
+					else if (i5 < 95)
+						index = (i5 - 77) / 2 + 11;
+					npc.broadcastPacket(new NpcSay(npc, SayType.ALL, ATTACKED[index]));
+					npc.setScriptValue(FLEEING_STARTED);
+					npc.disableCoreAi(true);
+					startQuestTimerAtFixedRate("help", npc, attacker.getActingPlayer(), 5000);
+					npc.getAI().tryToIdle();
+					npc.forceRunStance();
+					npc.getAI().tryToMoveTo(new Location(getFleeToLocation(npc)), null);
+					startQuestTimer("reset", npc, null, 120000);
+					return;
+				}
 				double hp = npc.getStatus().getHp();
 				if (hp < npc.getStatus().getMaxHp() / 2D && hp > npc.getStatus().getMaxHp() / 3D && attacker.getStatus().getHp() > attacker.getStatus().getMaxHp() / 4D && Rnd.get(100) < RUNAWAY_CHANCE)
 				{
