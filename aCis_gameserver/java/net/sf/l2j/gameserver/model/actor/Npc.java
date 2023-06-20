@@ -1864,6 +1864,8 @@ public class Npc extends Creature
 	}
 	
 	private boolean isFlying = false;
+	private Location _spawnAroundPos;
+	
 	@Override
 	public boolean isFlying()
 	{
@@ -1873,5 +1875,15 @@ public class Npc extends Creature
 	public void setIsFlying(boolean a)
 	{
 		isFlying = a;
+	}
+	
+	public void setMoveAroundPos(Location loc)
+	{
+		_spawnAroundPos = loc;
+	}
+	
+	public Location getMoveAroundPos()
+	{
+		return _spawnAroundPos;
 	}
 }

@@ -59,11 +59,13 @@ public class FakePlayerManager
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private int getFakePlayersCount()
 	{
 		return getFakePlayers().size();
 	}
 	
+	@SuppressWarnings("static-method")
 	private List<FakePlayer> getFakePlayers()
 	{
 		return World.getInstance().getPlayers().stream().filter(x -> x instanceof FakePlayer).map(x -> (FakePlayer) x).collect(Collectors.toList());

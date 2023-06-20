@@ -44,6 +44,7 @@ import net.sf.l2j.gameserver.data.manager.SpawnManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.sql.BookmarkTable;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
+import net.sf.l2j.gameserver.data.sql.ItemMarketTable;
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.data.sql.ServerMemoTable;
 import net.sf.l2j.gameserver.data.xml.AdminData;
@@ -279,6 +280,7 @@ public class GameServer
 		InstanceManager.getInstance();
 		FakePlayerManager.getInstance().init();
 		HappyHourTask.getInstance();
+		ItemMarketTable.getInstance();
 		
 		StringUtil.printSection("System");
 		Runtime.getRuntime().addShutdownHook(Shutdown.getInstance());

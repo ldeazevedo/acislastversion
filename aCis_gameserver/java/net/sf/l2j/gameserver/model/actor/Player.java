@@ -7626,7 +7626,7 @@ public class Player extends Playable
 	}
 	
 	public void saveExpVitality()
-	{
+	{/*
 		try (Connection con = ConnectionPool.getConnection())
 		{
 			try (PreparedStatement ps = con.prepareStatement("INSERT INTO character_vitality (char_id,exp,lock) VALUES (?,?,?)"))
@@ -7655,7 +7655,7 @@ public class Player extends Playable
 		catch (final Exception e)
 		{
 			LOGGER.error("", e);
-		}
+		}*/
 	}
 	
     public boolean isExpOff()

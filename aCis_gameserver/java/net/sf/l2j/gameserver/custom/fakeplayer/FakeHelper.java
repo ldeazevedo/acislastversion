@@ -170,6 +170,7 @@ public class FakeHelper {
 		player.broadcastCharInfo();
 	}
 
+	@SuppressWarnings("unused")
 	private static void generateRandomPet() {
 		int[] pets = new int[]{6650, 2375, 6648, 6649};
 		int petItemId = pets[Rnd.get(pets.length)];

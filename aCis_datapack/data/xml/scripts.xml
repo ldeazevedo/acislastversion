@@ -351,6 +351,7 @@
 	<script path="script.ai.AttackableAIScript"/>
 
 	<script path="script.ai.area.BrekaStronghold"/>
+	<script path="script.ai.area.FleeingClanMembers"/>
 	<script path="script.ai.area.FrozenLabyrinth"/>
 	<script path="script.ai.area.HotSprings"/>
 	<script path="script.ai.area.MonasteryOfSilence"/>
