@@ -15,7 +15,7 @@ public abstract class FakeShopAI extends FakePlayerAI {
 	protected FakeHelper.City city;
 	String[] sellerShopNames = new String[]{"te vendo todo", "baratitoooo", "ssd bssd", "compra raton", "ratonaso, veni", "SSD BSSD", "gratis", "otra tienda", "vendo de todo",
 			"shots barato", "todo por 2", "COTO", "Carrefuour", "Super Dia", "24 horas", "comprame", "ayudaaaaa", "MAMAAAA", "SELLS", "buy here", "please money", "Ricasio", "hernandez",
-			"compra rapido!!", "rapido amigo!!", "muere bart muere", "vicio l2agony", "vota l2agony", "mats agony", "tienda ramon", "tienda mia", "altas recipes", "me pica el mause", "tenedor libre",
+			"compra rapido!!", "rapido amigo!!", "muere bart muere", "vicio", "vota", "mats", "tienda ramon", "tienda mia", "altas recipes", "me pica el mause", "tenedor libre",
 			"5 estrellas", "3 estrellas", "tienda de apu", "kamehouse", "joyitas", "regalitos", "viernes de vicio", "sabado de vicio", "domingo de vicio", "feriado de vicio", "sacate las pulgas",
 			"el drop de un pk", "top drop", "drop free", "te mata un elpy?", "asi no te matan", "compra chinwenwencha", "rare items!"};
 	String[] buyerShopNames = new String[]{"te compro todo", "pago mas", "cositas ricas", "vende raton", "ratonaso, veni", "gratis", "otra tienda", "enano compra", "compro de todo",
