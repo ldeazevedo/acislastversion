@@ -17,6 +17,7 @@ public class CastleStatus
 		loadFromDB();
 	}
 	
+	@SuppressWarnings("resource")
 	private void loadFromDB()
 	{
 		try (Connection con = ConnectionPool.getConnection())

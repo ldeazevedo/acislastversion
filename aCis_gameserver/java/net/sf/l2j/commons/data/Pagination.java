@@ -135,4 +135,9 @@ public class Pagination<A> extends AbstractList<A>
 	{
 		return _list.size();
 	}
+	
+	public int getTotal()
+	{
+		return _total;
+	}
 }

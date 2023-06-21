@@ -36,6 +36,8 @@ public final class Config
 	public static final String PLAYERS_FILE = "./config/players.properties";
 	public static final String SERVER_FILE = "./config/server.properties";
 	public static final String SIEGE_FILE = "./config/siege.properties";
+
+	public static final boolean OLDBUFF = false;
 	
 	public static boolean FAKE_PLAYER_ENABLED;
 	
@@ -85,7 +87,22 @@ public final class Config
 	public static int TVT_EVENT_EFFECTS_REMOVAL;
 	public static Map<Integer, Integer> TVT_EVENT_FIGHTER_BUFFS;
 	public static Map<Integer, Integer> TVT_EVENT_MAGE_BUFFS;
-    
+
+	/** Buffer Manager Settings */
+	public static int BUFFS_MASTER_MAX_SKILLS_PER_SCHEME;
+	public static int BUFFS_MASTER_STATIC_COST_PER_BUFF;
+	public static int BUFFS_MASTER_PAYMENT_ITEM;
+	public static String BUFFS_MASTER_PAYMENT_ITEM_NAME;
+	public static int[] BUFFS_MASTER_WARRIOR_SCHEME;
+	public static int[] BUFFS_MASTER_MYSTIC_SCHEME;
+	public static int[] BUFFS_MASTER_HEALER_SCHEME;
+	public static int[] BUFFS_MASTER_TANKER_SCHEME;
+	public static int BUFFS_MASTER_CP_RESTORE_PRICE;
+	public static int BUFFS_MASTER_HP_RESTORE_PRICE;
+	public static int BUFFS_MASTER_MP_RESTORE_PRICE;
+	public static boolean BUFFS_MASTER_CAN_USE_KARMA;
+	public static boolean BUFFS_MASTER_CAN_USE_OUTSIDE_TOWN;
+	public static boolean BUFFS_MASTER_CAN_USE_IN_COMBAT;
 	// --------------------------------------------------
 	// Clans settings
 	// --------------------------------------------------
@@ -1215,6 +1232,50 @@ public final class Config
 		MAX_NPC_ANIMATION = npcs.getProperty("MaxNPCAnimation", 40);
 		MIN_MONSTER_ANIMATION = npcs.getProperty("MinMonsterAnimation", 10);
 		MAX_MONSTER_ANIMATION = npcs.getProperty("MaxMonsterAnimation", 40);
+		
+		//-------------------- Buffs Master NPC -------------------
+
+		BUFFS_MASTER_MAX_SKILLS_PER_SCHEME = npcs.getProperty("MaxSkillsPerScheme", 24);
+		BUFFS_MASTER_STATIC_COST_PER_BUFF = npcs.getProperty("BufferStaticCostPerBuff", 0);
+		BUFFS_MASTER_PAYMENT_ITEM = npcs.getProperty("BufferPaymentItem",57);
+		BUFFS_MASTER_PAYMENT_ITEM_NAME = npcs.getProperty("PaymentItemName", "");
+		
+		
+		BUFFS_MASTER_CP_RESTORE_PRICE = npcs.getProperty("CPRestorePrice",0);
+		BUFFS_MASTER_HP_RESTORE_PRICE = npcs.getProperty("HPRestorePrice",0);
+		BUFFS_MASTER_MP_RESTORE_PRICE = npcs.getProperty("MPRestorePrice",0);
+		
+		BUFFS_MASTER_CAN_USE_KARMA  = npcs.getProperty("CanUseWithKarma", false);
+		BUFFS_MASTER_CAN_USE_OUTSIDE_TOWN  = npcs.getProperty("CanUseOutsideTown", false);
+		BUFFS_MASTER_CAN_USE_IN_COMBAT = npcs.getProperty("CanUseInCombat", false);
+		
+		
+		String warScheme = npcs.getProperty("WarriorScheme");
+		String[] array = warScheme.split(";");
+		BUFFS_MASTER_WARRIOR_SCHEME = new int[array.length];
+		for (int i = 0; i < array.length; i++)
+			BUFFS_MASTER_WARRIOR_SCHEME[i] = Integer.parseInt(array[i]);
+				
+		String mystScheme = npcs.getProperty("MysticScheme");
+		String[] array2 = mystScheme.split(";");
+		BUFFS_MASTER_MYSTIC_SCHEME = new int[array2.length];
+		for (int i = 0; i < array2.length; i++)
+			BUFFS_MASTER_MYSTIC_SCHEME[i] = Integer.parseInt(array2[i]);
+		
+		String healerScheme = npcs.getProperty("HealerScheme");
+		String[] array3 = healerScheme.split(";");
+		BUFFS_MASTER_HEALER_SCHEME = new int[array3.length];
+		for (int i = 0; i < array3.length; i++)
+			BUFFS_MASTER_HEALER_SCHEME[i] = Integer.parseInt(array3[i]);
+		
+		String tankerScheme = npcs.getProperty("TankerScheme");
+		String[] array4 = tankerScheme.split(";");
+		BUFFS_MASTER_TANKER_SCHEME = new int[array4.length];
+		for (int i = 0; i < array4.length; i++)
+			BUFFS_MASTER_TANKER_SCHEME[i] = Integer.parseInt(array4[i]);
+		
+		//----------------------------------------------------------
+				
 	}
 	
 	/**

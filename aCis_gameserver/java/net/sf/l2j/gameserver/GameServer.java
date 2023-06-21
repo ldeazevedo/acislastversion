@@ -66,8 +66,10 @@ import net.sf.l2j.gameserver.data.xml.ObserverGroupData;
 import net.sf.l2j.gameserver.data.xml.PlayerData;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
 import net.sf.l2j.gameserver.data.xml.RecipeData;
+import net.sf.l2j.gameserver.data.xml.SchemeBufferData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.data.xml.SkillTreeData;
+import net.sf.l2j.gameserver.data.xml.SkillsIconsData;
 import net.sf.l2j.gameserver.data.xml.SoulCrystalData;
 import net.sf.l2j.gameserver.data.xml.SpellbookData;
 import net.sf.l2j.gameserver.data.xml.StaticObjectData;
@@ -88,6 +90,7 @@ import net.sf.l2j.gameserver.model.boat.BoatGludinRune;
 import net.sf.l2j.gameserver.model.boat.BoatInnadrilTour;
 import net.sf.l2j.gameserver.model.boat.BoatRunePrimeval;
 import net.sf.l2j.gameserver.model.boat.BoatTalkingGludin;
+import net.sf.l2j.gameserver.model.buffer.SchemeBufferManager;
 import net.sf.l2j.gameserver.model.events.HappyHourTask;
 import net.sf.l2j.gameserver.model.events.TvTManager;
 import net.sf.l2j.gameserver.model.olympiad.Olympiad;
@@ -154,7 +157,10 @@ public class GameServer
 		MapRegionData.getInstance();
 		AnnouncementData.getInstance();
 		ServerMemoTable.getInstance();
-		
+
+		StringUtil.printSection("Icons");
+		SkillsIconsData.getInstance();
+
 		StringUtil.printSection("Skills");
 		SkillTable.getInstance();
 		SkillTreeData.getInstance();
@@ -222,6 +228,8 @@ public class GameServer
 		
 		StringUtil.printSection("NPCs");
 		BufferManager.getInstance();
+		SchemeBufferData.getInstance();
+		SchemeBufferManager.getInstance();
 		NpcData.getInstance();
 		WalkerRouteData.getInstance();
 		DoorData.getInstance().spawn();

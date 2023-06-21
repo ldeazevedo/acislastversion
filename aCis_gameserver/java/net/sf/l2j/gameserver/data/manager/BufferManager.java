@@ -91,7 +91,8 @@ public class BufferManager implements IXmlReader
 			{
 				final NamedNodeMap attrs = buffNode.getAttributes();
 				final int skillId = parseInteger(attrs, "id");
-				_availableBuffs.put(skillId, new BuffSkillHolder(skillId, parseInteger(attrs, "level", SkillTable.getInstance().getMaxLevel(skillId)), parseInteger(attrs, "price", 0), category, parseString(attrs, "desc", "")));
+				if (Config.OLDBUFF)
+					_availableBuffs.put(skillId, new BuffSkillHolder(skillId, parseInteger(attrs, "level", SkillTable.getInstance().getMaxLevel(skillId)), parseInteger(attrs, "price", 0), category, parseString(attrs, "desc", "")));
 			});
 		}));
 	}
@@ -222,6 +223,7 @@ public class BufferManager implements IXmlReader
 	public List<Integer> getSkillsIdsByType(String groupType)
 	{
 		final List<Integer> skills = new ArrayList<>();
+		if (Config.OLDBUFF)
 		for (BuffSkillHolder holder : _availableBuffs.values())
 		{
 			if (holder.getType().equalsIgnoreCase(groupType))
@@ -236,6 +238,7 @@ public class BufferManager implements IXmlReader
 	public List<String> getSkillTypes()
 	{
 		final List<String> skillTypes = new ArrayList<>();
+		if (Config.OLDBUFF)
 		for (BuffSkillHolder holder : _availableBuffs.values())
 		{
 			if (!skillTypes.contains(holder.getType()))

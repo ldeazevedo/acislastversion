@@ -1,0 +1,75 @@
+<html><body>
+<table><tr><td width=23></td><td>
+
+	<img height=12>
+	<table cellpadding=0 cellspacing=0>
+	<tr>
+		<td width=120>Restoration upon use:</td>
+		<td>
+			<table cellpadding=0 cellspacing=0 bgcolor=000000>
+				<tr>
+					<td width=22><img height=-2>&nbsp;&nbsp;CP</td>
+					<td width=16 align=center><img height=2><button action="bypass npc_%objectId%_addrestore;cp" width=14 height=14 back=%cp_checkbox% fore=%cp_checkbox%></td>
+				</tr>
+			</table>
+		</td>
+		<td><img width=3></td>
+		<td>
+			<table cellpadding=0 cellspacing=0 bgcolor=000000>
+				<tr>
+					<td width=22><img height=-2>&nbsp;&nbsp;HP</td>
+					<td width=16 align=center><img height=2><button action="bypass npc_%objectId%_addrestore;hp" width=14 height=14 back=%hp_checkbox% fore=%hp_checkbox%></td>
+				</tr>
+			</table>
+		</td>
+		<td><img width=2></td>
+		<td>
+			<table cellpadding=0 cellspacing=0 bgcolor=000000>
+				<tr>
+					<td width=22><img height=-2>&nbsp;&nbsp;MP</td>
+					<td width=16 align=center><img height=2><button action="bypass npc_%objectId%_addrestore;mp" width=14 height=14 back=%mp_checkbox% fore=%mp_checkbox%></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+	
+	<img height=1>
+	<table cellpadding=0 cellspacing=0>
+	<tr>
+		<td width=120></td>
+		<td width=41 align=left><img src=l2ui_ch3.cpbar_compact width=38 height=1></td>
+		<td width=40 align=left><img src=l2ui_ch3.hpbar_compact width=38 height=1></td>
+		<td width=38><img src=l2ui_ch3.mpbar_compact width=38 height=1></td>
+	<tr>
+	</table>
+
+	<img height=12>
+	(%count%) <font color=LEVEL>%total_price%</font>
+	<img height=1>
+	<table cellpadding=0 cellspacing=-2>
+		<tr>
+			<td width=5></td>
+			<td width=51><button value=BUFFS action="bypass npc_%objectId%_buffstab;1" width=48 height=22 back=%tab_icon1% fore=%tab_icon1%></td>
+			<td width=51><button value=DANCES action="bypass npc_%objectId%_buffstab;2" width=48 height=22 back=%tab_icon2% fore=%tab_icon2%></td>
+			<td width=51><button value=SONGS action="bypass npc_%objectId%_buffstab;3" width=48 height=22 back=%tab_icon3% fore=%tab_icon3%></td>
+			<td width=51><button value=CHANTS action="bypass npc_%objectId%_buffstab;4" width=48 height=22 back=%tab_icon4% fore=%tab_icon4%></td>
+			<td width=50><button value=OTHER action="bypass npc_%objectId%_buffstab;5" width=48 height=22 back=%tab_icon5% fore=%tab_icon5%></td>
+		</tr>
+	</table>
+	
+	<img height=2>
+	%buffs%
+	
+	<img height=14>
+	%pager%
+
+	<img height=8>
+	<table cellpadding=0 cellspacing=0>
+		<tr>
+			<td width=240 align=right><button value=DONE action="bypass -h npc_%objectId%_manage" width=48 height=22 back=L2UI_CH3.smallbutton1_down fore=L2UI_CH3.smallbutton1></td>
+		</tr>
+	</table>
+
+</td></tr></table>
+</body></html>

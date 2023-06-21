@@ -126,4 +126,14 @@ public final class NpcHtmlMessage extends L2GameServerPacket
 	{
 		_html = _html.replaceAll(pattern, Double.toString(value));
 	}
+	
+	public int getLength()
+	{
+		return _html.length();
+	}
+	
+	public String getHtml()
+	{
+		return _html;
+	}
 }

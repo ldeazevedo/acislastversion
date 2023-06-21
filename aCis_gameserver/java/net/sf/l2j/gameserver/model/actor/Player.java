@@ -7579,7 +7579,7 @@ public class Player extends Playable
 	public void setReduceVitalityExp(long exp)
 	{
 		_exp-=exp;
-		if (_exp > 0 && exp != 0)
+		if (_exp > 0 && exp > 0)
 			updateVitalityEffect();
 	}
 	
