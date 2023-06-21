@@ -196,7 +196,8 @@ public class MultiSellChoose extends L2GameClientPacket
             {
                 if (player.getPcBangScore() < e.getItemCount() * _amount)
                 {
-                    player.sendMessage("Not enough PC BANG POINTS.");
+                	player.sendPacket(SystemMessageId.NOT_ENOUGH_ITEMS);
+                    //player.sendMessage("Not enough PC BANG POINTS.");
                     return;
                 }
             }
@@ -226,7 +227,7 @@ public class MultiSellChoose extends L2GameClientPacket
 			else if (e.getItemId() == PC_BANG_POINTS)
             {
 				final int amount = e.getItemCount() * _amount;
-                player.reducePcBangScore(amount);
+                player.updatePcBangScore(amount);
                 player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.USING_S1_PCPOINT).addNumber(amount));
             }
 			else

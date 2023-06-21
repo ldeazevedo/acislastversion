@@ -32,7 +32,7 @@ public class PcPoint extends Quest
 	public PcPoint()
 	{
 		super(-1, "feature");
-		for (NpcTemplate t : NpcData.getInstance().getTemplates(t -> t.isType("Monster")))
+		for (NpcTemplate t : NpcData.getInstance().getTemplates(t -> t.isType("RaidBoss")))
 		{
 			addMyDying(t.getIdTemplate());
 		}
@@ -46,7 +46,7 @@ public class PcPoint extends Quest
 			return;
 		
 		int score = Rnd.get(100, 250);
-		player.addPcBangScore(score);
+		player.updatePcBangScore(score);
 		super.onMyDying(npc, killer);
 	}
 }

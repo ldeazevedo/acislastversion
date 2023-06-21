@@ -7579,7 +7579,7 @@ public class Player extends Playable
 	public void setReduceVitalityExp(long exp)
 	{
 		_exp-=exp;
-		if (_exp > 0)
+		if (_exp > 0 && exp != 0)
 			updateVitalityEffect();
 	}
 	
@@ -7612,6 +7612,8 @@ public class Player extends Playable
 		return _exp;
 	}
 	
+	//Creo que lo tenemos que sacar al effecto, aunque provare despues si se puede crear o usar algun paquete cliente o server
+	// para poder mostrar el efecto a otros y mantener actualizado sin reaplicar el efecto de nuevo
 	public void updateVitalityEffect()
 	{
 		final L2Skill skill = SkillTable.getInstance().getInfo(17001, 1);
@@ -7669,22 +7671,14 @@ public class Player extends Playable
         sendMessage(expOff ? "[Exp off] You dont get EXP from now." : "[Exp on] You get EXP from now."); // | A partir de ahora no obtenes EXP. | A partir de ahora obtenes EXP.
     }
     
-    public void addPcBangScore(int to)
+    public void updatePcBangScore(int amount)
     {
-		updatePcBangScore(to, true);
+        pcBangPoint += amount;
+        sendPacket(new ExPCCafePointInfo(this, amount, amount > 0, 1000, false));
+        if (amount > 0)
+            sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_PCPOINT).addNumber(amount));
     }
     
-    public void reducePcBangScore(int to)
-    {
-    	updatePcBangScore(to, false);
-    }
-
-    public void updatePcBangScore(int amount, boolean add){
-		pcBangPoint += add ? amount : -amount;
-		sendPacket(new ExPCCafePointInfo(this, amount, add, 1000, false));
-		if (add)
-			sendMessage("You have earned " + amount + " PC Bang Point(s)");
-	}
     
     public int getPcBangScore()
     {
@@ -7705,7 +7699,7 @@ public class Player extends Playable
             try (ResultSet rset = statement.executeQuery())
             {
             	while (rset.next())
-            		addPcBangScore(rset.getInt("points"));
+            		updatePcBangScore(rset.getInt("points"));
             }
         }
         catch (final Exception e)

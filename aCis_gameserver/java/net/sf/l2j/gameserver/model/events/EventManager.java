@@ -26,7 +26,9 @@ import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 
+import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
+import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
@@ -34,7 +36,9 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
+import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage;
+import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
 import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.StopMove;
@@ -962,7 +966,14 @@ public class EventManager
 	public void onCalculateRewards(Player attacker, long exp, int sp, int pcbandpoints)
 	{
 		attacker.setReduceVitalityExp(exp);
-		if (pcbandpoints != 0)
-			attacker.addPcBangScore(pcbandpoints);
+		if (pcbandpoints > 0)
+			attacker.updatePcBangScore(pcbandpoints);
+	}
+	
+	public void readChats(Player player, String text, L2GameServerPacket packet)
+	{
+		for (Player gm : AdminData.getInstance().getAllGms(true))
+			if (gm.getReadChat())
+				gm.sendPacket(new CreatureSay(player.getObjectId(), SayType.ALLIANCE, player.getName(), "[" + player.getClan().getName() + "]:" + text));
 	}
 }
