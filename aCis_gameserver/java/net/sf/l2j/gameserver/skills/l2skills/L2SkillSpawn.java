@@ -32,6 +32,7 @@ public class L2SkillSpawn extends L2Skill
 			// Create spawn.
 			final Spawn spawn = new Spawn(_npcId);
 			spawn.setLoc(caster.getPosition());
+			spawn.setInstanceId(caster.getInstanceId());
 			
 			// Spawn NPC.
 			final Npc npc = spawn.doSpawn(false);

@@ -2,14 +2,18 @@ package net.sf.l2j.gameserver.model;
 
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
+
+import net.sf.l2j.gameserver.data.manager.InstanceManager;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.items.ShotType;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
 import net.sf.l2j.gameserver.model.actor.Creature;
+import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.Fence;
+import net.sf.l2j.gameserver.model.entity.Instance;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.model.zone.type.subtype.ZoneType;
@@ -36,7 +40,7 @@ public abstract class WorldObject
 	
 	private boolean _isVisible;
 
-	private int instanceId = 0;
+	private int _instanceId = 0;
 	
 	public WorldObject(int objectId)
 	{
@@ -430,25 +434,6 @@ public abstract class WorldObject
 		}
 	}
 
-	private List<WorldObject> getDifferentInstanceObjects() {
-		final WorldRegion region = _region;
-		if (region == null)
-			return Collections.emptyList();
-
-		final List<WorldObject> result = new ArrayList<>();
-
-		for (WorldRegion reg : region.getSurroundingRegions()) {
-			for (WorldObject obj : reg.getObjects()) {
-				if (obj == this || obj.getInstanceId() == getInstanceId() || obj instanceof Door || obj instanceof Fence)
-					continue;
-
-				result.add(obj);
-			}
-		}
-
-		return result;
-	}
-
 	/**
 	 * Add a {@link WorldObject} to knownlist.
 	 * @param object : An object to be added.
@@ -840,14 +825,81 @@ public abstract class WorldObject
 	{
 		
 	}
+	
+	private List<WorldObject> getDifferentInstanceObjects()
+	{
+		final WorldRegion region = _region;
+		if (region == null)
+			return Collections.emptyList();
 
-	public int getInstanceId() {
-		return instanceId;
+		final List<WorldObject> result = new ArrayList<>();
+
+		for (WorldRegion reg : region.getSurroundingRegions())
+		{
+			for (WorldObject obj : reg.getObjects())
+			{
+				if (obj == this || obj.getInstanceId() == getInstanceId() || obj instanceof Door || obj instanceof Fence)
+					continue;
+
+				result.add(obj);
+			}
+		}
+
+		return result;
 	}
 
-	public void setInstanceId(int instanceId) {
-		this.instanceId = instanceId;
+	public int getInstanceId()
+	{
+		return _instanceId;
+	}
+
+	public void setInstanceId(int instanceId)
+	{
+/*		_instanceId = instanceId;
 		decayMe();
-		spawnMe();
+		spawnMe();*/
+		
+		Instance oldI = InstanceManager.getInstance().getInstance(_instanceId);
+		Instance newI = InstanceManager.getInstance().getInstance(instanceId);
+		
+		if (newI == null)
+			return;
+		
+		if (this instanceof Player)
+		{
+			if (_instanceId > 0 && oldI != null)
+				oldI.removePlayer(getObjectId());
+			if (instanceId > 0)
+				newI.addPlayer(getObjectId());
+			
+			if (((Player)this).getSummon() != null)
+				((Player)this).getSummon().setInstanceId(instanceId);
+		}
+		else if (this instanceof Npc)
+		{
+			if (_instanceId > 0 && oldI != null)
+				oldI.removeNpc(((Npc)this));
+			if (instanceId > 0)
+				newI.addNpc(((Npc)this));
+		}
+		
+		_instanceId = instanceId;
+		
+		// If we change it for visible objects, me must clear & revalidate knownlists
+		if (_isVisible && getDifferentInstanceObjects() != null) // if (_isVisible && _knownList != null)
+		{
+			if (this instanceof Player)
+			{
+				
+				// We don't want some ugly looking disappear/appear effects, so don't update
+				// the knownlist here, but players usually enter instancezones through teleporting
+				// and the teleport will do the revalidation for us.
+			}
+			else
+			{
+				decayMe();
+				spawnMe();
+			}
+		}
 	}
 }

@@ -54,6 +54,11 @@ public final class AttackRequest extends L2GameClientPacket
 			return;
 		}
 		
+		// Players can't attack objects in the other instances
+		// except from multiverse
+		if (target.getInstanceId() != player.getInstanceId()/* && player.getInstanceId() != -1*/)
+			return;   
+		
 		// (player.getTarget() == target) -> This happens when you control + click a target without having had it selected beforehand. Behaves as the Action packet and will NOT trigger an attack.
 		target.onAction(player, (player.getTarget() == target), _isShiftAction);
 	}

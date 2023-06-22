@@ -903,12 +903,12 @@ public class Quest
 			// Create spawn.
 			final Spawn spawn = new Spawn(template);
 			spawn.setLoc(x, y, z + 20, heading);
+			spawn.setInstanceId(instance);
 			
 			// Spawn NPC.
 			final Npc npc = spawn.doSpawn(isSummonSpawn);
 			if (despawnDelay > 0)
 				npc.scheduleDespawn(despawnDelay);
-			spawn.setInstanceId(instance);
 			
 			return npc;
 		}

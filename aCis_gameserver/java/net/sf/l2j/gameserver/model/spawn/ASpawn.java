@@ -218,8 +218,8 @@ public abstract class ASpawn
 			
 			// Call the constructor and create Npc instance.
 			final Npc npc = (Npc) _constructor.newInstance(IdFactory.getInstance().getNextId(), _template);
-		//	((WorldObject)npc).setInstanceId(_instanceId); // Must be done before object is spawned into visible world
-			setInstanceId(_instanceId);
+			//((WorldObject)npc).setInstanceId(_instanceId); // Must be done before object is spawned into visible world
+			npc.setInstanceId(_instanceId);
 			// Assign ASpawn to Npc instance, set summon animation.
 			npc.setSpawn(this);
 			npc.setShowSummonAnimation(isSummonSpawn);
@@ -389,7 +389,7 @@ public abstract class ASpawn
 			
 			// Set HP and MP.
 			npc.getStatus().setHpMp(maxHp, maxMp);
-			
+
 			// Set spawn location and spawn Npc.
 			npc.setSpawnLocation(loc);
 			npc.spawnMe(loc);
@@ -398,13 +398,9 @@ public abstract class ASpawn
 		return npc;
 	}
 	
-    public int getInstanceId()
-	{
-		return _instanceId;
-	}
-
     public void setInstanceId(int instanceId)
 	{
+    	
 		_instanceId = instanceId;
 	}
 }

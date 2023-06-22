@@ -59,7 +59,7 @@ public class EventManager
 	private final Location locSurvival = new Location(85574, 256964, -11674);
 	private int rewardID = 5575;
 	private int _rewardAmount = 100000;
-	private final static boolean stopAnn = true;
+	private final static boolean stopAnn = false;
 	
 	enum State
 	{

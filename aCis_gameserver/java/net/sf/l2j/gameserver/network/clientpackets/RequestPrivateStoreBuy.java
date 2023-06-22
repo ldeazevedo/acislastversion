@@ -62,6 +62,9 @@ public final class RequestPrivateStoreBuy extends L2GameClientPacket
 		if (storePlayer == null || storePlayer.isDead())
 			return;
 		
+		if (player.getInstanceId() != storePlayer.getInstanceId() && player.getInstanceId() != -1)
+			return;
+		
 		if (!player.isIn3DRadius(storePlayer, Npc.INTERACTION_DISTANCE))
 			return;
 		

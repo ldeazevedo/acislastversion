@@ -87,6 +87,8 @@ public class EventHandlers
 					if (targetWorldObject != null)
 					{
 						targetWorldObject.setInstanceId(id);
+						targetWorldObject.decayMe();
+						targetWorldObject.spawnMe();
 						player.sendMessage("You successfully set in Instance " + id);
 					}
 				}

@@ -446,7 +446,7 @@ public abstract class Playable extends Creature
 			if (getActingPlayer().isInOlympiadMode() && !getActingPlayer().isOlympiadStart())
 				return false;
 			
-			if (isInsideZone(ZoneId.PVP))
+			if (isInsideZone(ZoneId.PVP) || isInEvent(getActingPlayer()))
 				return true;
 			
 			// One cannot be attacked if any of the two has Blessing of Protection and the other is >=10 levels higher and is PK
@@ -480,7 +480,7 @@ public abstract class Playable extends Creature
 		if (isInSameActiveOlympiadMatch(attackerPlayer))
 			return true;
 		
-		if (isInEvent(attackerPlayer))
+		if (isInEvent(attackerPlayer) || isInEvent(getActingPlayer()))
 			return true;
 		
 		// No checks for players in Duel.

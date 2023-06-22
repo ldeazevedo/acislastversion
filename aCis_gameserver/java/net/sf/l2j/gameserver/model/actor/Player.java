@@ -39,6 +39,7 @@ import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
 import net.sf.l2j.gameserver.data.manager.DimensionalRiftManager;
 import net.sf.l2j.gameserver.data.manager.FestivalOfDarknessManager;
 import net.sf.l2j.gameserver.data.manager.HeroManager;
+import net.sf.l2j.gameserver.data.manager.InstanceManager;
 import net.sf.l2j.gameserver.data.manager.PartyMatchRoomManager;
 import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
@@ -123,6 +124,7 @@ import net.sf.l2j.gameserver.model.actor.template.PlayerTemplate;
 import net.sf.l2j.gameserver.model.craft.ManufactureList;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
+import net.sf.l2j.gameserver.model.entity.Instance;
 import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.model.events.L2Event;
 import net.sf.l2j.gameserver.model.events.TvTEvent;
@@ -6696,6 +6698,36 @@ public class Player extends Playable
 
 			EventManager.getInstance().onLogout(this);
 			TvTEvent.onLogout(this);
+
+			// remove player from instance and set spawn location if any
+			try
+			{
+				final int instanceId = getInstanceId();
+				if (instanceId != 0/* && !Config.RESTORE_PLAYER_INSTANCE*/)
+				{
+					final Instance inst = InstanceManager.getInstance().getInstance(instanceId);
+					if (inst != null)
+					{
+						inst.removePlayer(getObjectId());
+						final int[] spawn = inst.getSpawnLoc();
+						if (spawn[0] != 0 && spawn[1] != 0 && spawn[2] != 0)
+						{
+							final int x = spawn[0] + Rnd.get(-30, 30);
+							final int y = spawn[1] + Rnd.get(-30, 30);
+							setXYZInvisible(x, y, spawn[2]);
+							if (getSummon() != null) // dead pet
+							{
+								getSummon().teleportTo(x, y, spawn[2], 0);
+								getSummon().setInstanceId(0);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("deleteMe()", e);
+			}
 			
 			World.getInstance().removePlayer(this); // force remove in case of crash during teleport
 			

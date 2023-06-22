@@ -207,10 +207,10 @@ public class Instance
 		_npcs.add(npc);
 	}
 
-	public void removeNpc(Spawn spawn)
+	public void removeNpc(Npc npc)
 	{
-		if (spawn != null)
-			_npcs.remove(spawn.getNpcId());
+		if (npc != null)
+			_npcs.remove(npc.getNpcId());
 	}
 	
 	/**

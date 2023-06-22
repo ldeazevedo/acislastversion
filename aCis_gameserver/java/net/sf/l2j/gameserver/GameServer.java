@@ -154,6 +154,7 @@ public class GameServer
 		
 		StringUtil.printSection("World");
 		World.getInstance();
+		InstanceManager.getInstance();
 		MapRegionData.getInstance();
 		AnnouncementData.getInstance();
 		ServerMemoTable.getInstance();

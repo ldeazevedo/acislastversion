@@ -78,6 +78,9 @@ public final class RequestBuyItem extends L2GameClientPacket
 			if (merchant == null || !buyList.isNpcAllowed(merchant.getNpcId()) || !player.getAI().canDoInteract(merchant))
 				return;
 			
+			if (player.getInstanceId() != target.getInstanceId())
+				return;
+			
 			if (merchant.getCastle() != null)
 				castleTaxRate = merchant.getCastle().getTaxRate();
 		}
