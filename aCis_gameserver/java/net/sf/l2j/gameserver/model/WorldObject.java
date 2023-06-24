@@ -371,7 +371,12 @@ public abstract class WorldObject
 		
 		if (newRegion != null)
 		{
-			newRegion.addVisibleObject(this);
+			for (WorldObject object : getDifferentInstanceObjects(newRegion))
+			{
+				object.removeKnownObject(this);
+				removeKnownObject(object);
+			}
+
 			newAreas = newRegion.getSurroundingRegions();
 		}
 		
@@ -426,12 +431,6 @@ public abstract class WorldObject
 		}
 		
 		_region = newRegion;
-
-		for (WorldObject object : getDifferentInstanceObjects())
-		{
-			object.removeKnownObject(this);
-			removeKnownObject(object);
-		}
 	}
 
 	/**
@@ -826,20 +825,21 @@ public abstract class WorldObject
 		
 	}
 	
-	private List<WorldObject> getDifferentInstanceObjects()
+	private List<WorldObject> getDifferentInstanceObjects(WorldRegion newRegion)
 	{
-		final WorldRegion region = _region;
-		if (region == null)
+		if (newRegion == null)
 			return Collections.emptyList();
 
 		final List<WorldObject> result = new ArrayList<>();
 
-		for (WorldRegion reg : region.getSurroundingRegions())
+		for (WorldRegion reg : newRegion.getSurroundingRegions())
 		{
 			for (WorldObject obj : reg.getObjects())
 			{
-				if (obj == this || obj.getInstanceId() == getInstanceId() || obj instanceof Door || obj instanceof Fence)
+				if (obj == this || obj.getInstanceId() == getInstanceId() || obj instanceof Door || obj instanceof Fence) {
+					newRegion.addVisibleObject(this);
 					continue;
+				}
 
 				result.add(obj);
 			}
