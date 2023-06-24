@@ -371,12 +371,6 @@ public abstract class WorldObject
 		
 		if (newRegion != null)
 		{
-			for (WorldObject object : getDifferentInstanceObjects(newRegion))
-			{
-				object.removeKnownObject(this);
-				removeKnownObject(object);
-			}
-
 			newAreas = newRegion.getSurroundingRegions();
 		}
 		
@@ -392,7 +386,7 @@ public abstract class WorldObject
 				// Update all objects.
 				for (WorldObject obj : region.getObjects())
 				{
-					if (obj == this)
+					if (obj == this || getInstanceId() == obj.getInstanceId())
 						continue;
 					
 					obj.removeKnownObject(this);
@@ -417,7 +411,7 @@ public abstract class WorldObject
 				// Update all objects.
 				for (WorldObject obj : region.getObjects())
 				{
-					if (obj == this)
+					if (obj == this || getInstanceId() != obj.getInstanceId())
 						continue;
 					
 					obj.addKnownObject(this);
@@ -431,6 +425,12 @@ public abstract class WorldObject
 		}
 		
 		_region = newRegion;
+
+		for (WorldObject object : getDifferentInstanceObjects())
+		{
+			object.removeKnownObject(this);
+			removeKnownObject(object);
+		}
 	}
 
 	/**
@@ -825,25 +825,26 @@ public abstract class WorldObject
 		
 	}
 	
-	private List<WorldObject> getDifferentInstanceObjects(WorldRegion newRegion)
+	private List<WorldObject> getDifferentInstanceObjects()
 	{
-		if (newRegion == null)
+		final WorldRegion region = _region;
+		if (region == null)
 			return Collections.emptyList();
 
 		final List<WorldObject> result = new ArrayList<>();
 
-		for (WorldRegion reg : newRegion.getSurroundingRegions())
+		for (WorldRegion reg : region.getSurroundingRegions())
 		{
 			for (WorldObject obj : reg.getObjects())
 			{
-				if (obj == this || obj.getInstanceId() == getInstanceId() || obj instanceof Door || obj instanceof Fence) {
-					newRegion.addVisibleObject(this);
+				if (obj == this || obj.getInstanceId() == getInstanceId() || obj instanceof Door || obj instanceof Fence)
 					continue;
-				}
 
 				result.add(obj);
 			}
 		}
+
+		region.addVisibleObject(this);
 
 		return result;
 	}
