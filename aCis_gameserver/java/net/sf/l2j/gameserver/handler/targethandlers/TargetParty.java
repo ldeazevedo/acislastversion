@@ -32,7 +32,7 @@ public class TargetParty implements ITargetHandler
 			if (playable != player.getSummon())
 			{
 				// Target isn't a Party member, ignore it.
-				if (!playable.isInSameParty(player))
+				if (!playable.isInSameParty(player) || caster.getInstanceId() != target.getInstanceId())
 					continue;
 			}
 			

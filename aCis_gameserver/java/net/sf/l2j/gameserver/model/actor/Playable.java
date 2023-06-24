@@ -357,7 +357,7 @@ public abstract class Playable extends Creature
 		final Player targetPlayer = target.getActingPlayer();
 		
 		// No cast upon self/owner.
-		if (targetPlayer == getActingPlayer())
+		if (targetPlayer == getActingPlayer() || getInstanceId() != targetPlayer.getInstanceId())
 			return false;
 		
 		// No checks for players in Olympiad.
@@ -383,7 +383,7 @@ public abstract class Playable extends Creature
 			return isCtrlDamagingTheMainTarget;
 		
 		// If the target not from the same CC/party/alliance/clan/SiegeSide is in a PVP area, you can do anything.
-		if (isInsideZone(ZoneId.PVP) && target.isInsideZone(ZoneId.PVP))
+		if (isInsideZone(ZoneId.PVP) && target.isInsideZone(ZoneId.PVP) || (isInEvent(targetPlayer) && isInEvent(getActingPlayer())))
 			return true;
 		
 		if (targetPlayer.getProtectionBlessing() && (getActingPlayer().getStatus().getLevel() - targetPlayer.getStatus().getLevel() >= 10) && getActingPlayer().getKarma() > 0)
@@ -448,6 +448,9 @@ public abstract class Playable extends Creature
 			
 			if (isInsideZone(ZoneId.PVP) || isInEvent(getActingPlayer()))
 				return true;
+			
+			if (getActingPlayer().getInstanceId() != attacker.getInstanceId())
+				return false;
 			
 			// One cannot be attacked if any of the two has Blessing of Protection and the other is >=10 levels higher and is PK
 			if (getProtectionBlessing() && (attackerPlayable.getStatus().getLevel() - getStatus().getLevel() >= 10) && attackerPlayable.getKarma() > 0)

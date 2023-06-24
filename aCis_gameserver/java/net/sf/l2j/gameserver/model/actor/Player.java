@@ -6271,6 +6271,13 @@ public class Player extends Playable
 		
 		if (isMounted())
 			startFeed(_mountNpcId);
+		
+		if (getInstanceId() > 0)
+		{
+			final Instance instance = InstanceManager.getInstance(getInstanceId());
+			if (instance != null)
+				instance.cancelEjectDeadPlayer(this);
+		}
 	}
 	
 	@Override
@@ -6703,21 +6710,21 @@ public class Player extends Playable
 			try
 			{
 				final int instanceId = getInstanceId();
-				if (instanceId != 0/* && !Config.RESTORE_PLAYER_INSTANCE*/)
+				if ((instanceId != 0))
 				{
-					final Instance inst = InstanceManager.getInstance().getInstance(instanceId);
+					final Instance inst = InstanceManager.getInstance(instanceId);
 					if (inst != null)
 					{
 						inst.removePlayer(getObjectId());
-						final int[] spawn = inst.getSpawnLoc();
-						if (spawn[0] != 0 && spawn[1] != 0 && spawn[2] != 0)
+						final Location loc = inst.getExitLoc();
+						if (loc != null)
 						{
-							final int x = spawn[0] + Rnd.get(-30, 30);
-							final int y = spawn[1] + Rnd.get(-30, 30);
-							setXYZInvisible(x, y, spawn[2]);
+							final int x = loc.getX() + Rnd.get(-30, 30);
+							final int y = loc.getY() + Rnd.get(-30, 30);
+							setXYZInvisible(x, y, loc.getZ());
 							if (getSummon() != null) // dead pet
 							{
-								getSummon().teleportTo(x, y, spawn[2], 0);
+								getSummon().teleportTo(loc, /*true*/ 20);
 								getSummon().setInstanceId(0);
 							}
 						}
@@ -6726,7 +6733,7 @@ public class Player extends Playable
 			}
 			catch (Exception e)
 			{
-				LOGGER.error("deleteMe()", e);
+				LOGGER.error("deleteMe() {}", e);
 			}
 			
 			World.getInstance().removePlayer(this); // force remove in case of crash during teleport

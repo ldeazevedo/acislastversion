@@ -855,12 +855,15 @@ public abstract class WorldObject
 
 	public void setInstanceId(int instanceId)
 	{
-/*		_instanceId = instanceId;
-		decayMe();
-		spawnMe();*/
-		
-		Instance oldI = InstanceManager.getInstance().getInstance(_instanceId);
-		Instance newI = InstanceManager.getInstance().getInstance(instanceId);
+		_instanceId = instanceId;
+	//	decayMe();
+	//	spawnMe();
+		if (instanceId != 0)
+			LOGGER.info(getName()+ " WorldObject : " + instanceId);
+		if (_instanceId != 0)
+			LOGGER.info(getName()+ " WorldObject : " + _instanceId);
+		Instance oldI = InstanceManager.getInstance(_instanceId);
+		Instance newI = InstanceManager.getInstance(instanceId);
 		
 		if (newI == null)
 			return;
@@ -884,7 +887,7 @@ public abstract class WorldObject
 		}
 		
 		_instanceId = instanceId;
-		
+		/*
 		// If we change it for visible objects, me must clear & revalidate knownlists
 		if (_isVisible && getDifferentInstanceObjects() != null) // if (_isVisible && _knownList != null)
 		{
@@ -900,6 +903,6 @@ public abstract class WorldObject
 				decayMe();
 				spawnMe();
 			}
-		}
+		}*/
 	}
 }

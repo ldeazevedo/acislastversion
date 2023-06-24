@@ -400,7 +400,6 @@ public abstract class ASpawn
 	
     public void setInstanceId(int instanceId)
 	{
-    	
 		_instanceId = instanceId;
 	}
 }

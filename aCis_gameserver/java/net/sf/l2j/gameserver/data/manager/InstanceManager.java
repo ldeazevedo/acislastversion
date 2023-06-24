@@ -1,32 +1,37 @@
 /*
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
+ * Copyright © 2004-2023 L2J Server
  * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
+ * This file is part of L2J Server.
  * 
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <http://www.gnu.org/licenses/>.
+ * L2J Server is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * L2J Server is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package net.sf.l2j.gameserver.data.manager;
 
 import java.nio.file.Path;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 import net.sf.l2j.commons.data.xml.IXmlReader;
 import net.sf.l2j.commons.pool.ConnectionPool;
 
+import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.entity.Instance;
 
@@ -34,90 +39,130 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-/** 
- * @author evill33t, GodKratos
- * 
+/**
+ * Instance Manager.
+ * @author evill33t
+ * @author GodKratos
  */
-public class InstanceManager
+public final class InstanceManager implements IXmlReader
 {
-	private final static Logger _log = Logger.getLogger(InstanceManager.class.getName());
-	private /*Fast*/Map<Integer, Instance> _instanceList = new ConcurrentHashMap<>();//new FastMap<Integer, Instance>();
-	private /*Fast*/Map<Integer, InstanceWorld> _instanceWorlds = new ConcurrentHashMap<>();//new FastMap<Integer, InstanceWorld>();
+	private final static Logger LOG = Logger.getLogger(InstanceManager.class.getName());
+	
+	private static final Map<Integer, Instance> INSTANCES = new ConcurrentHashMap<>();
+	
+	private final Map<Integer, InstanceWorld> _instanceWorlds = new ConcurrentHashMap<>();
+	
 	private int _dynamic = 300000;
 	
-	// InstanceId Names
-	private final static Map<Integer, String> _instanceIdNames = new ConcurrentHashMap<>();//new FastMap<Integer, String>();
-	private Map<Integer,Map<Integer,Long>> _playerInstanceTimes = new ConcurrentHashMap<>();//new FastMap<Integer, Map<Integer,Long>>();
+	private static final Map<Integer, String> _instanceIdNames = new HashMap<>();
+	
+	private final Map<Integer, Map<Integer, Long>> _playerInstanceTimes = new ConcurrentHashMap<>();
 	
 	private static final String ADD_INSTANCE_TIME = "INSERT INTO character_instance_time (charId,instanceId,time) values (?,?,?) ON DUPLICATE KEY UPDATE time=?";
+	
 	private static final String RESTORE_INSTANCE_TIMES = "SELECT instanceId,time FROM character_instance_time WHERE charId=?";
+	
 	private static final String DELETE_INSTANCE_TIME = "DELETE FROM character_instance_time WHERE charId=? AND instanceId=?";
+	
+	protected InstanceManager()
+	{
+		// Creates the multiverse.
+		INSTANCES.put(-1, new Instance(-1, "multiverse"));
+		LOG.info("Multiverse Instance created.");
+		// Creates the universe.
+		INSTANCES.put(0, new Instance(0, "universe"));
+		LOG.info("Universe Instance created.");
+		load();
+	}
+	
+	@Override
+	public void load()
+	{
+		_instanceIdNames.clear();
+		parseFile("data/instancenames.xml");
+		LOG.info("Loaded {} instance names. "+ _instanceIdNames.size());
+	}
 	
 	public long getInstanceTime(int playerObjId, int id)
 	{
 		if (!_playerInstanceTimes.containsKey(playerObjId))
+		{
 			restoreInstanceTimes(playerObjId);
+		}
 		if (_playerInstanceTimes.get(playerObjId).containsKey(id))
+		{
 			return _playerInstanceTimes.get(playerObjId).get(id);
+		}
 		return -1;
 	}
-
-	public Map<Integer,Long> getAllInstanceTimes(int playerObjId)
+	
+	public Map<Integer, Long> getAllInstanceTimes(int playerObjId)
 	{
 		if (!_playerInstanceTimes.containsKey(playerObjId))
+		{
 			restoreInstanceTimes(playerObjId);
+		}
 		return _playerInstanceTimes.get(playerObjId);
 	}
-
+	
 	public void setInstanceTime(int playerObjId, int id, long time)
 	{
 		if (!_playerInstanceTimes.containsKey(playerObjId))
-			restoreInstanceTimes(playerObjId);
-		try (Connection con = ConnectionPool.getConnection();
-		PreparedStatement statement = con.prepareStatement(ADD_INSTANCE_TIME))
 		{
-			statement.setInt(1, playerObjId);
-			statement.setInt(2, id);
-			statement.setLong(3, time);
-			statement.setLong(4, time);
-			statement.execute();
-			statement.close();
+			restoreInstanceTimes(playerObjId);
+		}
+
+		try (Connection con = ConnectionPool.getConnection();
+			var ps = con.prepareStatement(ADD_INSTANCE_TIME))
+		{
+			ps.setInt(1, playerObjId);
+			ps.setInt(2, id);
+			ps.setLong(3, time);
+			ps.setLong(4, time);
+			ps.execute();
 			_playerInstanceTimes.get(playerObjId).put(id, time);
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
-			_log.warning("Could not insert character instance time data: "+ e);
+			LOG.warning("Could not insert character instance time data!"+ ex);
 		}
 	}
-
+	
 	public void deleteInstanceTime(int playerObjId, int id)
 	{
 		try (Connection con = ConnectionPool.getConnection();
-			PreparedStatement statement = con.prepareStatement(DELETE_INSTANCE_TIME))
+			var ps = con.prepareStatement(DELETE_INSTANCE_TIME))
 		{
-			statement.setInt(1, playerObjId);
-			statement.setInt(2, id);
-			statement.execute();
+			ps.setInt(1, playerObjId);
+			ps.setInt(2, id);
+			ps.execute();
 			_playerInstanceTimes.get(playerObjId).remove(id);
 		}
-		catch (Exception e) { _log.warning("Could not delete character instance time data: "+ e); }
+		catch (Exception ex)
+		{
+			LOG.warning("Could not delete character instance time data!" + ex);
+		}
 	}
-
+	
 	public void restoreInstanceTimes(int playerObjId)
 	{
 		if (_playerInstanceTimes.containsKey(playerObjId))
-			return; // already restored
-		_playerInstanceTimes.put(playerObjId, new ConcurrentHashMap<>());//new FastMap<Integer, Long>());
-		try (Connection con = ConnectionPool.getConnection();
-			PreparedStatement statement = con.prepareStatement(RESTORE_INSTANCE_TIMES))
 		{
-			statement.setInt(1, playerObjId);
-			try (ResultSet rset = statement.executeQuery())
+			return; // already restored
+		}
+		_playerInstanceTimes.put(playerObjId, new ConcurrentHashMap<>());
+		
+		try (Connection con = ConnectionPool.getConnection();
+			// try (var con = ConnectionFactory.getInstance().getConnection();
+			var ps = con.prepareStatement(RESTORE_INSTANCE_TIMES))
+		{
+			ps.setInt(1, playerObjId);
+			try (var rs = ps.executeQuery())
 			{
-				while (rset.next())
+				while (rs.next())
 				{
-					int id = rset.getInt("instanceId");
-					long time = rset.getLong("time");
+					int id = rs.getInt("instanceId");
+					long time = rs.getLong("time");
 					if (time < System.currentTimeMillis())
 						deleteInstanceTime(playerObjId, id);
 					else
@@ -125,110 +170,44 @@ public class InstanceManager
 				}
 			}
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
-			_log.warning("Could not delete character instance time data: "+ e);
+			LOG.warning("Could not delete character instance time data!" + ex);
 		}
 	}
-
-	public String getInstanceIdName(int id)
+	
+	public static String getInstanceIdName(int id)
 	{
 		if (_instanceIdNames.containsKey(id))
+		{
 			return _instanceIdNames.get(id);
+		}
 		return ("UnknownInstance");
 	}
 	
-
-	public class loadInstanceNames implements IXmlReader
+	@Override
+	public void parseDocument(Document doc, Path path)
 	{
-		public void run()
+		for (Node n = doc.getFirstChild(); n != null; n = n.getNextSibling())
 		{
-			load();
-		}
-		
-		@Override
-		public void load()
-		{
-			parseFile("./data/instancenames.xml");
-			_instanceIdNames.clear();
-		//	parseDatapackFile("data/instancenames.xml");
-			_log.info("Loaded {} instance names. " + _instanceIdNames.size());
-		}
-		
-		@Override
-		public void parseDocument(Document doc, Path path)
-		{
-			for (Node n = doc.getFirstChild(); n != null; n = n.getNextSibling())
+			if ("list".equals(n.getNodeName()))
 			{
-				if ("list".equals(n.getNodeName()))
+				NamedNodeMap attrs;
+				for (Node d = n.getFirstChild(); d != null; d = d.getNextSibling())
 				{
-					NamedNodeMap attrs;
-					for (Node d = n.getFirstChild(); d != null; d = d.getNextSibling())
+					if ("instance".equals(d.getNodeName()))
 					{
-						if ("instance".equals(d.getNodeName()))
-						{
-							attrs = d.getAttributes();
-							_instanceIdNames.put(parseInteger(attrs, "id"), attrs.getNamedItem("name").getNodeValue());
-						}
+						attrs = d.getAttributes();
+						_instanceIdNames.put(parseInteger(attrs, "id"), attrs.getNamedItem("name").getNodeValue());
 					}
 				}
 			}
 		}
-	}
-	
-/*	private void loadInstanceNames() 
-	{
-		InputStream in = null;
-		try
-		{
-			in = new FileInputStream(Config.DATAPACK_ROOT + "/data/instancenames.xml");
-			XMLStreamReaderImpl xpp = new XMLStreamReaderImpl();
-			xpp.setInput(new UTF8StreamReader().setInput(in));
-			for (int e = xpp.getEventType(); e != XMLStreamConstants.END_DOCUMENT; e = xpp.next())
-			{
-				if (e == XMLStreamConstants.START_ELEMENT)
-				{
-					if (xpp.getLocalName().toString().equals("instance"))
-					{
-						Integer id = Integer.valueOf(xpp.getAttributeValue(null, "id").toString());
-						String name = xpp.getAttributeValue(null, "name").toString();
-						_instanceIdNames.put(id, name);
-					}
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			_log.warning("instancenames.xml could not be loaded: file not found");
-		}
-		catch (XMLStreamException xppe)
-		{
-			xppe.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				in.close();
-			}
-			catch (Exception e)
-			{
-			}
-		}
-	}
-*/
-	public class InstanceWorld
-	{
-		public int instanceId;
-		public int templateId = -1;
-		public List<Integer> allowed = new ArrayList<>();
-		//public FastList<Integer> allowed = new FastList<Integer>();
-		public int status;
 	}
 	
 	public void addWorld(InstanceWorld world)
 	{
-		_instanceWorlds.put(world.instanceId, world);
+		_instanceWorlds.put(world.getInstanceId(), world);
 	}
 	
 	public InstanceWorld getWorld(int instanceId)
@@ -236,104 +215,90 @@ public class InstanceManager
 		return _instanceWorlds.get(instanceId);
 	}
 	
+	/**
+	 * Check if the player have a World Instance where it's allowed to enter.
+	 * @param player the player to check
+	 * @return the instance world
+	 */
 	public InstanceWorld getPlayerWorld(Player player)
 	{
 		for (InstanceWorld temp : _instanceWorlds.values())
 		{
-			if (temp == null)
-				continue;
-			// check if the player have a World Instance where he/she is allowed to enter
-			if (temp.allowed.contains(player.getObjectId()))
+			if ((temp != null) && (temp.isAllowed(player.getObjectId())))
+			{
 				return temp;
+			}
 		}
 		return null;
-	}
-	
-	private InstanceManager()
-	{
-		_log.info("Initializing InstanceManager");
-		new loadInstanceNames();
-
-		_log.info("Loaded " + _instanceIdNames.size() + " instance names");
-		createWorld();
-	}
-	
-	public static final InstanceManager getInstance()
-	{
-		return SingletonHolder._instance;
-	}
-	
-	private void createWorld()
-	{
-		Instance themultiverse = new Instance(-1);
-		themultiverse.setName("multiverse");
-		_instanceList.put(-1, themultiverse);
-		_log.info("Multiverse Instance created");
-		
-		Instance universe = new Instance(0);
-		universe.setName("universe");
-		_instanceList.put(0, universe);
-		_log.info("Universe Instance created");
 	}
 	
 	public void destroyInstance(int instanceid)
 	{
 		if (instanceid <= 0)
+		{
 			return;
-		Instance temp = _instanceList.get(instanceid);
+		}
+		final Instance temp = INSTANCES.get(instanceid);
 		if (temp != null)
 		{
 			temp.removeNpcs();
 			temp.removePlayers();
 			temp.removeDoors();
 			temp.cancelTimer();
-			_instanceList.remove(instanceid);
-			if (_instanceWorlds.containsKey(instanceid))
-				_instanceWorlds.remove(instanceid);
+			INSTANCES.remove(instanceid);
+			_instanceWorlds.remove(instanceid);
 		}
 	}
 	
-	public Instance getInstance(int instanceid)
+	public static Instance getInstance(int instanceid)
 	{
-		return _instanceList.get(instanceid);
+		return INSTANCES.get(instanceid);
 	}
 	
-	public Map<Integer, Instance> getInstances()
+	public static Map<Integer, Instance> getInstances()
 	{
-		return _instanceList;
+		return INSTANCES;
 	}
 	
-	public int getPlayerInstance(int objectId)
+	public static int getPlayerInstance(int objectId)
 	{
-		for (Instance temp : _instanceList.values())
+		for (Instance temp : INSTANCES.values())
 		{
 			if (temp == null)
+			{
 				continue;
+			}
 			// check if the player is in any active instance
 			if (temp.containsPlayer(objectId))
+			{
 				return temp.getId();
+			}
 		}
 		// 0 is default instance aka the world
 		return 0;
 	}
 	
-	public boolean createInstance(int id)
+	public static boolean createInstance(int id)
 	{
 		if (getInstance(id) != null)
+		{
 			return false;
+		}
 		
-		Instance instance = new Instance(id);
-		_instanceList.put(id, instance);
+		final Instance instance = new Instance(id);
+		INSTANCES.put(id, instance);
 		return true;
 	}
 	
-	public boolean createInstanceFromTemplate(int id, String template)
+	public static boolean createInstanceFromTemplate(int id, String template)
 	{
 		if (getInstance(id) != null)
+		{
 			return false;
+		}
 		
-		Instance instance = new Instance(id);
-		_instanceList.put(id, instance);
+		final Instance instance = new Instance(id);
+		INSTANCES.put(id, instance);
 		instance.loadInstanceTemplate(template);
 		return true;
 	}
@@ -345,31 +310,130 @@ public class InstanceManager
 	 */
 	public int createDynamicInstance(String template)
 	{
-		
 		while (getInstance(_dynamic) != null)
 		{
 			_dynamic++;
 			if (_dynamic == Integer.MAX_VALUE)
 			{
-				_log.warning("InstanceManager: More then " + (Integer.MAX_VALUE - 300000) + " instances created");
+				LOG.warning("More then {} instances has been created! " + (Integer.MAX_VALUE - 300000));
 				_dynamic = 300000;
 			}
 		}
-		Instance instance = new Instance(_dynamic);
-		_instanceList.put(_dynamic, instance);
+		final Instance instance = new Instance(_dynamic);
+		INSTANCES.put(_dynamic, instance);
 		if (template != null)
 		{
-			try
-			{
-				instance.loadInstanceTemplate(template);
-			}
-			catch (Exception e)
-			{
-				_log.warning("InstanceManager: Failed creating instance from template " + template + ", " + e.getMessage());
-				e.printStackTrace();
-			}
+			instance.loadInstanceTemplate(template);
 		}
 		return _dynamic;
+	}
+	
+	public class InstanceWorld
+	{
+		private int _instanceId;
+		private int _templateId = -1;
+		private final List<Integer> _allowed = new CopyOnWriteArrayList<>();
+		private final AtomicInteger _status = new AtomicInteger();
+		
+		public List<Integer> getAllowed()
+		{
+			return _allowed;
+		}
+		
+		public void removeAllowed(int id)
+		{
+			_allowed.remove(Integer.valueOf(id));
+		}
+		
+		public void addAllowed(int id)
+		{
+			_allowed.add(id);
+		}
+		
+		public boolean isAllowed(int id)
+		{
+			return _allowed.contains(id);
+		}
+		
+		/**
+		 * Gets the dynamically generated instance ID.
+		 * @return the instance ID
+		 */
+		public int getInstanceId()
+		{
+			return _instanceId;
+		}
+		
+		/**
+		 * Sets the instance ID.
+		 * @param instanceId the instance ID
+		 */
+		public void setInstanceId(int instanceId)
+		{
+			_instanceId = instanceId;
+		}
+		
+		/**
+		 * Gets the client's template instance ID.
+		 * @return the template ID
+		 */
+		public int getTemplateId()
+		{
+			return _templateId;
+		}
+		
+		/**
+		 * Sets the template ID.
+		 * @param templateId the template ID
+		 */
+		public void setTemplateId(int templateId)
+		{
+			_templateId = templateId;
+		}
+		
+		public int getStatus()
+		{
+			return _status.get();
+		}
+		
+		public boolean isStatus(int status)
+		{
+			return _status.get() == status;
+		}
+		
+		public void setStatus(int status)
+		{
+			_status.set(status);
+		}
+		
+		public void incStatus()
+		{
+			_status.incrementAndGet();
+		}
+		
+		/**
+		 * @param killer
+		 * @param victim
+		 */
+		public void onDeath(Creature killer, Creature victim)
+		{
+			if ((victim != null) && victim/*.isPlayer()*/ instanceof Player)
+			{
+				final Instance instance = InstanceManager.getInstance(getInstanceId());
+				if (instance != null)
+				{
+			//		final SystemMessage sm = SystemMessage.getSystemMessage(SystemMessageId.YOU_WILL_BE_EXPELLED_IN_S1);
+			//		sm.addInt(instance.getEjectTime() / 60 / 1000);
+			//		victim.getActingPlayer().sendPacket(sm);
+					instance.addEjectDeadTask(victim.getActingPlayer());
+				}
+			}
+		}
+	}
+	
+	public static InstanceManager getInstance()
+	{
+		return SingletonHolder._instance;
 	}
 	
 	private static class SingletonHolder

@@ -58,6 +58,9 @@ public class Disablers implements ISkillHandler
 			if (target.isDead() || (target.isInvul() && !target.isParalyzed())) // bypass if target is dead or invul (excluding invul from Petrification)
 				continue;
 			
+			if  (activeChar.getInstanceId() != target.getInstanceId())
+				continue;
+			
 			if (skill.isOffensive() && target.getFirstEffect(EffectType.BLOCK_DEBUFF) != null)
 				continue;
 			

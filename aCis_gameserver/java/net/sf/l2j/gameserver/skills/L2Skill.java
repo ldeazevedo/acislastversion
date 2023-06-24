@@ -1079,6 +1079,9 @@ public abstract class L2Skill implements IChanceSkillTrigger
 		if (preCondition == null || preCondition.isEmpty())
 			return true;
 		
+		if (activeChar.getInstanceId() != target.getInstanceId())
+			return false;
+		
 		for (Condition cond : preCondition)
 		{
 			if (!cond.test(activeChar, target, this))
@@ -1159,7 +1162,7 @@ public abstract class L2Skill implements IChanceSkillTrigger
 			if (effector != null)
 			{
 				final Player effectorPlayer = effector.getActingPlayer();
-				if (effectorPlayer != null && !effectorPlayer.getAccessLevel().canGiveDamage())
+				if (effectorPlayer != null && !effectorPlayer.getAccessLevel().canGiveDamage() || effector.getInstanceId() != effected.getInstanceId())
 					return Collections.emptyList();
 			}
 		}
@@ -1386,6 +1389,7 @@ public abstract class L2Skill implements IChanceSkillTrigger
 		}
 		return false;
 	}
+
 	
 	public final Creature[] getTargetList(Creature caster, Creature target)
 	{

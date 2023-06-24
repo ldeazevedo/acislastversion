@@ -36,7 +36,7 @@ public class Blow implements ISkillHandler
 				continue;
 			
 			final Creature target = ((Creature) obj);
-			if (target.isAlikeDead())
+			if (target.isAlikeDead() || target.getInstanceId() != activeChar.getInstanceId())
 				continue;
 			
 			if (Formulas.calcBlowRate(activeChar, target, skill))

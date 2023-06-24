@@ -6,7 +6,6 @@ import net.sf.l2j.commons.data.xml.IXmlReader;
 
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
-import net.sf.l2j.gameserver.data.manager.InstanceManager;
 import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.enums.CabalType;
@@ -21,7 +20,6 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.clanhall.ClanHall;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.entity.ClanHallSiege;
-import net.sf.l2j.gameserver.model.entity.Instance;
 import net.sf.l2j.gameserver.model.entity.Siege;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.zone.type.TownZone;
@@ -232,18 +230,6 @@ public class MapRegionData implements IXmlReader
 		final Castle castle = CastleManager.getInstance().getCastle(player);
 		if (castle != null && castle.getSiege().isInProgress() && SevenSignsManager.getInstance().isSealValidationPeriod() && SevenSignsManager.getInstance().getSealOwner(SealType.STRIFE) == CabalType.DAWN)
 			return castle.getRndSpawn((player.getKarma() > 0) ? SpawnType.CHAOTIC : SpawnType.OTHER);
-
-		// Checking if in an instance
-		if (player.getInstanceId() > 0)
-		{
-			Instance inst = InstanceManager.getInstance().getInstance(player.getInstanceId());
-			if (inst != null)
-			{
-				int[] coord = inst.getSpawnLoc(); 
-				if (coord[0] != 0 && coord[1] != 0 && coord[2] != 0)
-					return new Location(coord[0], coord[1], coord[2]);
-			}
-		}
 		
 		// Karma player lands out of city, otherwise retrieve a random spawn location of the nearest town.
 		return (town != null) ? (town.getRndSpawn((player.getKarma() > 0) ? SpawnType.CHAOTIC : SpawnType.NORMAL)) : MDT_LOCATION;

@@ -81,6 +81,10 @@ public class StatSet extends HashMap<String, Object>
 		remove(key);
 	}
 	
+	private Map<String, Object> _set;
+	public void add(StatSet newSet){_set.putAll(newSet.getSet());}
+	public final Map<String, Object> getSet() {return _set;}
+	
 	public boolean getBool(final String key)
 	{
 		final Object val = get(key);

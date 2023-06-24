@@ -41,7 +41,7 @@ public final class TradeRequest extends L2GameClientPacket
 		}
 		
 		// cant trade with players from other instance except from multiverse
-		if (target.getInstanceId() != player.getInstanceId() && player.getInstanceId() != -1)
+		if (target.getInstanceId() != player.getInstanceId())
 			return;
 		
 		if (target.isInOlympiadMode() || player.isInOlympiadMode())

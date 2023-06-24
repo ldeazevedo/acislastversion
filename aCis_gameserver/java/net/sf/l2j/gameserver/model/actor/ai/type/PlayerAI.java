@@ -147,7 +147,9 @@ public class PlayerAI extends PlayableAI<Player>
 		
 		if (_actor.isSitting())
 			doStandIntention();
-		
+
+		if (_actor.getInstanceId() != attacker.getInstanceId())
+			return;
 		super.onEvtAttacked(attacker);
 	}
 	
@@ -556,7 +558,6 @@ public class PlayerAI extends PlayableAI<Player>
 			
 			_actor.broadcastPacket(new AutoAttackStart(_actor.getObjectId()));
 		}
-		
 		AttackStanceTaskManager.getInstance().add(_actor);
 	}
 	

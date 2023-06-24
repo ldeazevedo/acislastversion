@@ -28,7 +28,7 @@ public class TargetAreaSummon implements ITargetHandler
 		final List<Creature> list = new ArrayList<>();
 		for (Creature creature : target.getKnownTypeInRadius(Creature.class, skill.getSkillRadius()))
 		{
-			if (creature == caster || creature.isDead() || !GeoEngine.getInstance().canSeeTarget(target, creature))
+			if (creature == caster || creature.isDead() || !GeoEngine.getInstance().canSeeTarget(target, creature) || caster.getInstanceId() != target.getInstanceId())
 				continue;
 			
 			if (creature instanceof Attackable || creature instanceof Playable)

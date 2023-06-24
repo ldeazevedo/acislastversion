@@ -35,7 +35,7 @@ public class TargetCorpseAlly implements ITargetHandler
 			for (Player targetPlayer : player.getKnownTypeInRadius(Player.class, skill.getSkillRadius(), p -> p.isDead()))
 			{
 				// Target isn't the same zone state than caster.
-				if (isInsideBaiumZone != Baium.BAIUM_LAIR.isInsideZone(targetPlayer))
+				if (isInsideBaiumZone != Baium.BAIUM_LAIR.isInsideZone(targetPlayer) || caster.getInstanceId() != target.getInstanceId())
 					continue;
 				
 				// Target isn't a clan or alliance member, ignore it.

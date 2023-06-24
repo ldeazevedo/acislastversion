@@ -34,7 +34,7 @@ public class CpDamPercent implements ISkillHandler
 				continue;
 			
 			final Player target = ((Player) obj);
-			if (target.isDead() || target.isInvul())
+			if (target.isDead() || target.isInvul() || target.getInstanceId() != activeChar.getInstanceId())
 				continue;
 			
 			final ShieldDefense sDef = Formulas.calcShldUse(activeChar, target, skill, false);

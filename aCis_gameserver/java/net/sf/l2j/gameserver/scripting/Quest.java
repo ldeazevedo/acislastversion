@@ -169,6 +169,18 @@ public class Quest
 	{
 		return _descr;
 	}
+
+	public Set<QuestTimer> getAllQuestTimers()
+	{
+		return _timers;
+	}
+	
+	public boolean isQuests()
+	{
+		final int questId = _id;
+		return questId > 0 && questId < 20000;
+	}
+	//-------------------------------------------------------
 	
 	/**
 	 * @return An array of registered quest items ids. Those items are automatically destroyed in case a {@link Player} aborts or finishes this {@link Quest}.
@@ -2281,5 +2293,29 @@ public class Quest
 	 */
 	public void onZoneExit(Creature creature, ZoneType zone)
 	{
+	}
+	
+	/**
+	 * Teleport a player into/out of an instance.
+	 * @param player the player to teleport
+	 * @param loc the {@link Location} object containing the destination coordinates
+	 * @param instanceId the ID of the instance to teleport the player to (0 to teleport out of an instance)
+	 */
+	public void teleportPlayer(Player player, Location loc, int instanceId)
+	{
+		teleportPlayer(player, loc, instanceId, true);
+	}
+	
+	/**
+	 * Teleport a player into/out of an instance.
+	 * @param player the player to teleport
+	 * @param loc the {@link Location} object containing the destination coordinates
+	 * @param instanceId the ID of the instance to teleport the player to (0 to teleport out of an instance)
+	 * @param allowRandomOffset if {@code true}, will randomize the teleport coordinates by +/- MaxOffsetOnTeleport
+	 */
+	public void teleportPlayer(Player player, Location loc, int instanceId, boolean allowRandomOffset)
+	{
+		player.setInstanceId(instanceId);
+		player.teleportTo(loc, allowRandomOffset ? 20 : 0);
 	}
 }

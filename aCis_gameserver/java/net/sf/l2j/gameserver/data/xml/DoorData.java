@@ -168,6 +168,7 @@ public class DoorData implements IXmlReader
 			door.getPosition().set(posX, posY, posZ);
 			
 			_doors.put(door.getDoorId(), door);
+			_templates.put(set.getInteger("id"), set);
 		}));
 	}
 	
@@ -204,6 +205,12 @@ public class DoorData implements IXmlReader
 	public Door getDoor(int id)
 	{
 		return _doors.get(id);
+	}
+	
+	private final Map<Integer, StatSet> _templates = new HashMap<>();
+	public StatSet getDoorTemplate(int doorId)
+	{
+		return _templates.get(doorId);
 	}
 	
 	public Collection<Door> getDoors()

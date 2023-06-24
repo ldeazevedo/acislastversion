@@ -29,9 +29,9 @@ public class ConditionPlayerInstanceId extends Condition
 			return false; // player not in instance
 
 		final InstanceWorld world = InstanceManager.getInstance().getPlayerWorld((Player) effector);
-		if (world == null || world.instanceId != instanceId)
+		if (world == null || world.getInstanceId() != instanceId)
 			return false; // player in the different instance
 
-		return _instanceIds.contains(world.templateId);         
+		return _instanceIds.contains(world.getTemplateId());         
 	}
 }

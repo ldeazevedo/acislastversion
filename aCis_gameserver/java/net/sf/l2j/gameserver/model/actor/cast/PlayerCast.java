@@ -414,7 +414,8 @@ public class PlayerCast extends PlayableCast<Player>
 	public void onMagicEffectFinalizer()
 	{
 		_actor.rechargeShots(_skill.useSoulShot(), _skill.useSpiritShot());
-		
+		if (_actor.getInstanceId() != _target.getInstanceId())
+			return; 
 		if (_skill.isOffensive() && _targets.length != 0)
 			_actor.getAI().startAttackStance();
 		

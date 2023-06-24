@@ -313,7 +313,7 @@ public class CreatureCast<T extends Creature>
 	protected final void onMagicFinalizer()
 	{
 		// Content was cleaned meantime, simply return doing nothing.
-		if (!isCastingNow())
+		if (!isCastingNow() || _actor.getInstanceId() != _target.getInstanceId())
 			return;
 		
 		_actor.rechargeShots(_skill.useSoulShot(), _skill.useSpiritShot());

@@ -34,7 +34,6 @@ import net.sf.l2j.gameserver.data.manager.FestivalOfDarknessManager;
 import net.sf.l2j.gameserver.data.manager.FishingChampionshipManager;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.data.manager.HeroManager;
-import net.sf.l2j.gameserver.data.manager.InstanceManager;
 import net.sf.l2j.gameserver.data.manager.LotteryManager;
 import net.sf.l2j.gameserver.data.manager.PartyMatchRoomManager;
 import net.sf.l2j.gameserver.data.manager.PetitionManager;
@@ -154,7 +153,7 @@ public class GameServer
 		
 		StringUtil.printSection("World");
 		World.getInstance();
-		InstanceManager.getInstance();
+	//	InstanceManager.getInstance();
 		MapRegionData.getInstance();
 		AnnouncementData.getInstance();
 		ServerMemoTable.getInstance();
@@ -286,7 +285,6 @@ public class GameServer
 
 		StringUtil.printSection("Custom");
 		TvTManager.getInstance();
-		InstanceManager.getInstance();
 		FakePlayerManager.getInstance().init();
 		HappyHourTask.getInstance();
 		ItemMarketTable.getInstance();
