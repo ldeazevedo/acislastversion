@@ -226,7 +226,7 @@ public class MultiSellChoose extends L2GameClientPacket
 			}
 			else if (e.getItemId() == PC_BANG_POINTS)
             {
-				final int amount = e.getItemCount() * _amount;
+				final int amount = e.getItemCount() * _amount * -1;
                 player.updatePcBangScore(amount);
                 player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.USING_S1_PCPOINT).addNumber(amount));
             }
