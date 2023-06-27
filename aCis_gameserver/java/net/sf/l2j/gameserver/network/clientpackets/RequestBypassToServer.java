@@ -15,6 +15,7 @@ import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.OlympiadManagerNpc;
+import net.sf.l2j.gameserver.model.events.EventHandlers;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
@@ -71,6 +72,10 @@ public final class RequestBypassToServer extends L2GameClientPacket
 				GMAUDIT_LOG.info(player.getName() + " [" + player.getObjectId() + "] used '" + _command + "' command on: " + ((player.getTarget() != null) ? player.getTarget().getName() : "none"));
 			
 			ach.useAdminCommand(_command, player);
+		}
+		else if (_command.startsWith("shift_"))
+		{
+			EventHandlers.bypass(player, _command);
 		}
 		else if (_command.startsWith("player_help "))
 		{

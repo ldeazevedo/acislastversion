@@ -65,7 +65,10 @@ public final class Action extends L2GameClientPacket
 			return;
 		}
 		
-		target.onAction(player, false, _isShiftAction);
+		if (_isShiftAction)
+			target.onActionShift(player);
+		else
+			target.onAction(player, false, _isShiftAction);
 	}
 	
 	@Override

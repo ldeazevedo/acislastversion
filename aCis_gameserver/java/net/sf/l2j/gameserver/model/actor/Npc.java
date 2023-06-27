@@ -2,6 +2,7 @@ package net.sf.l2j.gameserver.model.actor;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -34,10 +35,12 @@ import net.sf.l2j.gameserver.enums.actors.NpcRace;
 import net.sf.l2j.gameserver.enums.actors.NpcSkillType;
 import net.sf.l2j.gameserver.enums.actors.NpcTalkCond;
 import net.sf.l2j.gameserver.enums.items.ShotType;
+import net.sf.l2j.gameserver.enums.skills.ElementType;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.ai.type.NpcAI;
+import net.sf.l2j.gameserver.model.actor.instance.Merchant;
 import net.sf.l2j.gameserver.model.actor.status.NpcStatus;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.clanhall.ClanHall;
@@ -1885,5 +1888,121 @@ public class Npc extends Creature
 	public Location getMoveAroundPos()
 	{
 		return _spawnAroundPos;
+	}
+	
+	@Override
+	public void onActionShift(Player player)
+	{
+		if (player.isGM())
+		{
+			final NpcHtmlMessage html = new NpcHtmlMessage(getObjectId());
+			html.setFile("data/html/admin/npcinfo.htm");
+			html.replace("%class%", getClass().getSimpleName());
+			html.replace("%id%", getTemplate().getNpcId());
+			html.replace("%lvl%", getTemplate().getLevel());
+			html.replace("%name%", getTemplate().getName());
+			html.replace("%race%", getTemplate().getRace().toString());
+			html.replace("%tmplid%", getTemplate().getIdTemplate());
+			html.replace("%aggro%", getTemplate().getAggroRange());
+			html.replace("%corpse%", getTemplate().getCorpseTime());
+			html.replace("%enchant%", getTemplate().getEnchantEffect());
+			html.replace("%hp%", (int) getStatus().getHp());
+			html.replace("%hpmax%", getStatus().getMaxHp());
+			html.replace("%mp%", (int) getStatus().getMp());
+			html.replace("%mpmax%", getStatus().getMaxMp());
+			html.replace("%patk%", getStatus().getPAtk(null));
+			html.replace("%matk%", getStatus().getMAtk(null, null));
+			html.replace("%pdef%", getStatus().getPDef(null));
+			html.replace("%mdef%", getStatus().getMDef(null, null));
+			html.replace("%accu%", getStatus().getAccuracy());
+			html.replace("%evas%", getStatus().getEvasionRate(null));
+			html.replace("%crit%", getStatus().getCriticalHit(null, null));
+			html.replace("%rspd%", getStatus().getBaseRunSpeed());
+			html.replace("%aspd%", getStatus().getPAtkSpd());
+			html.replace("%cspd%", getStatus().getMAtkSpd());
+			html.replace("%str%", getStatus().getSTR());
+			html.replace("%dex%", getStatus().getDEX());
+			html.replace("%con%", getStatus().getCON());
+			html.replace("%int%", getStatus().getINT());
+			html.replace("%wit%", getStatus().getWIT());
+			html.replace("%men%", getStatus().getMEN());
+			html.replace("%loc%", getX() + " " + getY() + " " + getZ());
+			html.replace("%dist%", (int) Math.sqrt(player.distance2D(this)));
+			html.replace("%ele_fire%", getStatus().getDefenseElementValue(ElementType.FIRE));
+			html.replace("%ele_water%", getStatus().getDefenseElementValue(ElementType.WATER));
+			html.replace("%ele_wind%", getStatus().getDefenseElementValue(ElementType.WIND));
+			html.replace("%ele_earth%", getStatus().getDefenseElementValue(ElementType.EARTH));
+			html.replace("%ele_holy%", getStatus().getDefenseElementValue(ElementType.HOLY));
+			html.replace("%ele_dark%", getStatus().getDefenseElementValue(ElementType.DARK));
+
+			final ASpawn spawn = getSpawn();
+			if (spawn != null)
+			{
+				html.replace("%spawn%", spawn.toString());
+				if (spawn instanceof MultiSpawn)
+				{
+					final MultiSpawn ms = (MultiSpawn) spawn;
+					html.replace("%spawndesc%", "<a action=\"bypass -h admin_maker " + ms.getNpcMaker().getName() + "\">" + ms.getDescription() + "</a>");
+					
+					final int[][] coords = ms.getCoords();
+					if (coords == null)
+						html.replace("%spawninfo%", "loc: anywhere");
+					else if (coords.length == 1)
+						html.replace("%spawninfo%", "loc: fixed " + coords[0][0] + ", " + coords[0][1] + ", " + coords[0][2]);
+					else
+						html.replace("%spawninfo%", "loc: fixed random 1 of " + coords.length);
+				}
+				else
+				{
+					html.replace("%spawndesc%", spawn.getDescription());
+					html.replace("%spawninfo%", "loc: " + spawn.getSpawnLocation());
+				}
+				html.replace("%loc2d%", (int) distance2D(getSpawnLocation()));
+				html.replace("%loc3d%", (int) distance3D(getSpawnLocation()));
+				html.replace("%resp%", StringUtil.getTimeStamp(spawn.getRespawnDelay()));
+				html.replace("%rand_resp%", StringUtil.getTimeStamp(spawn.getRespawnRandom()));
+			}
+			else
+			{
+				html.replace("%spawn%", "<font color=FF0000>--</font>");
+				html.replace("%spawndesc%", "<font color=FF0000>--</font>");
+				html.replace("%spawninfo%", "<font color=FF0000>--</font>");
+				html.replace("%loc2d%", "<font color=FF0000>--</font>");
+				html.replace("%loc3d%", "<font color=FF0000>--</font>");
+				html.replace("%resp%", "<font color=FF0000>--</font>");
+				html.replace("%rand_resp%", "<font color=FF0000>--</font>");
+			}
+			
+			if (getAI() != null)
+			{
+				html.replace("%ai_intention%", "<font color=\"LEVEL\">Intention</font><table width=\"100%\"><tr><td><font color=\"LEVEL\">Intention:</font></td><td>" + getAI().getCurrentIntention().toString() + "</td></tr>");
+				html.replace("%ai%", "<tr><td><font color=\"LEVEL\">AI:</font></td><td>" + getAI().getClass().getSimpleName() + "</td></tr></table><br>");
+			}
+			else
+			{
+				html.replace("%ai_intention%", "");
+				html.replace("%ai%", "");
+			}
+
+			final StringBuilder sb = new StringBuilder(500);
+			
+			// Check Intentions.
+			StringUtil.append(sb, "<tr><td>", getAI().getPreviousIntention().getType(), " <> ", getAI().getCurrentIntention().getType(), " <> ", getAI().getNextIntention().getType(), "</td></tr>");
+			
+			html.replace("%ai_intention%", sb.toString());
+			
+			// Reset the StringBuilder.
+			sb.setLength(0);
+			
+			html.replace("%ai_type%", getAI().toString());
+			html.replace("%ai_clan%", (getTemplate().getClans() != null) ? "<tr><td width=100><font color=\"LEVEL\">Clan:</font></td><td align=right width=170>" + Arrays.toString(getTemplate().getClans()) + " " + getTemplate().getClanRange() + "</td></tr>" + ((getTemplate().getIgnoredIds() != null) ? "<tr><td width=100><font color=\"LEVEL\">Ignored ids:</font></td><td align=right width=170>" + Arrays.toString(getTemplate().getIgnoredIds()) + "</td></tr>" : "") : "");
+			html.replace("%ai_move%", String.valueOf(getTemplate().canMove()));
+			html.replace("%ai_seed%", String.valueOf(getTemplate().isSeedable()));
+			html.replace("%ai_ssinfo%", _currentSsCount + "[" + getTemplate().getSsCount() + "] - " + getTemplate().getSsRate() + "%");
+			html.replace("%ai_spsinfo%", _currentSpsCount + "[" + getTemplate().getSpsCount() + "] - " + getTemplate().getSpsRate() + "%");
+			html.replace("%butt%", ((this instanceof Merchant) ? "<button value=\"Shop\" action=\"bypass -h admin_show_shop " + getNpcId() + "\" width=65 height=19 back=\"L2UI_ch3.smallbutton2_over\" fore=\"L2UI_ch3.smallbutton2\">" : ""));
+			player.sendPacket(html);
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+		}
 	}
 }

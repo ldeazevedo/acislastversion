@@ -78,6 +78,9 @@ public class PlayableCast<T extends Playable> extends CreatureCast<T>
 			return false;
 		}
 		
+		if (player.getInstanceId() != target.getInstanceId())
+			return false;
+		
 		// Check item consumption validity.
 		if (itemObjectId != 0 && player.getInventory().getItemByObjectId(itemObjectId) == null)
 		{

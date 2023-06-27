@@ -9,12 +9,21 @@ import net.sf.l2j.gameserver.model.item.kind.Item;
 
 public class GMViewItemList extends L2GameServerPacket
 {
-	private final Set<ItemInstance> _items;
-	private final int _limit;
-	private final String _playerName;
+	private Set<ItemInstance> _items;
+	private int _limit;
+	private String _playerName;
+	private boolean noGM = false;
 	
 	public GMViewItemList(Player player)
 	{
+		_items = player.getInventory().getItems();
+		_playerName = player.getName();
+		_limit = player.getStatus().getInventoryLimit();
+	}
+	
+	public GMViewItemList(Player player, boolean noGM)
+	{
+		this.noGM = noGM;
 		_items = player.getInventory().getItems();
 		_playerName = player.getName();
 		_limit = player.getStatus().getInventoryLimit();
@@ -39,6 +48,10 @@ public class GMViewItemList extends L2GameServerPacket
 		for (ItemInstance temp : _items)
 		{
 			Item item = temp.getItem();
+			if (noGM)
+			if (!temp.isEquipped() || temp.getItemId() == 57)
+				continue;
+		//	_items.remove(temp);
 			
 			writeH(item.getType1());
 			writeD(temp.getObjectId());

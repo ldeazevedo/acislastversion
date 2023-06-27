@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.scripting.script.ai.boss;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -63,6 +64,7 @@ public class Frintezza extends AttackableAIScript
 	private final Map<Monster, Integer> portraits = new ConcurrentHashMap<>();
 	
 	private final boolean unconfirme = true;
+	private final boolean alternate_target = true;
 
 	// Skills
 	private static final int DEWDROP_OF_DESTRUCTION_SKILL_ID = 2276;
@@ -130,9 +132,7 @@ public class Frintezza extends AttackableAIScript
 	{
 		if (event.equalsIgnoreCase("start"))
 		{
-			for (Creature cha : FRINTEZZA_LAIR.getKnownTypeInside(Player.class))
-				if (cha instanceof Player)
-					cha.broadcastPacket(new Earthquake(cha, 45, 27, false));
+			broadcastPacket(new Earthquake(getKnownInside(), 45, 27, false));
 			clean(WAITING);
 			dropTimers();
 			startQuestTimer("beginning", null, null, 4000);
@@ -217,19 +217,21 @@ public class Frintezza extends AttackableAIScript
 		else if (event.equalsIgnoreCase("camera_06"))
 			broadcastPacket(new SocialAction(frintezza, 2));
 		else if (event.equalsIgnoreCase("camera_07"))
-			broadcastPacket(new SocialAction(demons.get(1), 1), new SocialAction(demons.get(3), 1)); // TODO: 1 y 3
+		{}//	broadcastPacket(new SocialAction(demons.get(1), 1), new SocialAction(demons.get(3), 1), new SocialAction(demons.get(0), 1), new SocialAction(demons.get(2), 1)); // TODO: 1 y 3
 		else if (event.equalsIgnoreCase("camera_08"))
 		{
-			broadcastPacket(new SocialAction(demons.get(0), 1), new SocialAction(demons.get(2), 1));
+			broadcastPacket(new SocialAction(demons.get(1), 1), new SocialAction(demons.get(3), 1), new SocialAction(demons.get(0), 1), new SocialAction(demons.get(2), 1)); // TODO: 1 y 3
 			_dummys.get(2).instantTeleportTo(172450, -87890, -5100, 0);
 			_dummys.get(3).instantTeleportTo(176012, -87890, -5100, 0);
-			for (Creature pc : FRINTEZZA_LAIR.getKnownTypeInside(Creature.class))
+			boolean pc = getKnownInside().getX() < 174232;
+			broadcastPacket(new SpecialCamera(_dummys.get(pc ? 2 : 3).getObjectId(), 1000, pc ? 118 : 62, 0, 0, 1000, 0, 0, 1, 0), new SpecialCamera(_dummys.get(pc ? 2 : 3).getObjectId(), 1000, pc ? 118 : 62, 0, 0, 10000, 0, 0, 1, 0));
+/*		//	for (Creature pc : FRINTEZZA_LAIR.getKnownTypeInside(Creature.class))
 				if (pc instanceof Player)
-					if (pc.getX() < 174232)
+					if (getKnownInside().getX() < 174232)
 						broadcastPacket(new SpecialCamera(_dummys.get(2).getObjectId(), 1000, 118, 0, 0, 1000, 0, 0, 1, 0), new SpecialCamera(_dummys.get(2).getObjectId(), 1000, 118, 0, 0, 10000, 0, 0, 1, 0));
 					else
 						broadcastPacket(new SpecialCamera(_dummys.get(3).getObjectId(), 1000, 62, 0, 0, 1000, 0, 0, 1, 0), new SpecialCamera(_dummys.get(3).getObjectId(), 1000, 62, 0, 0, 10000, 0, 0, 1, 0));
-	/*		for (Creature pc : cc)
+*/	/*		for (Creature pc : cc)
 				if (pc instanceof Player)
 				{
 					boolean loc = pc.getX() < 174232;
@@ -390,45 +392,14 @@ public class Frintezza extends AttackableAIScript
 		else if (event.equalsIgnoreCase("songs_play")) //TODO: play song
 			callSongAI();
 		else if (event.equalsIgnoreCase("skill_task")) //TODO: skill_task
-		{
-			if (npc.isInvul() || npc.getCast().isCastingNow() || npc.isDead() || frintezza.isInvul())
-				return super.onTimer(event, npc, player);
-			
-			final L2Skill skill = getRandomSkill();
-			int rnd = Rnd.get(10);
-			
-			if (_actualVictim == null || _actualVictim.isDead() || (!npc.isMoving() || npc.isMoving()) && rnd == 0)
-				_actualVictim = getRandomPlayer(npc);
-			if (_actualVictim == null)
-				return super.onTimer(event, npc, player);
-			
-			int range = skill.getCastRange();
-			if (_actualVictim.isMoving())
-	        	range = range * 80 / 100;
-			if (MathUtil.checkIfInRange((int) (range + npc.getCollisionRadius()), npc, _actualVictim, true))
-			{
-				npc.getAI().tryToIdle();
-				npc.getAI().tryToCast(_actualVictim, skill);
-				if (rnd < 0)
-					_actualVictim = null;
-			}
-			else
-			{
-				npc.forceRunStance();
-				npc.getAI().tryToMoveTo(new Location(_actualVictim.getX(), _actualVictim.getY(), _actualVictim.getZ()), null);//npc.getAI().setIntention(CtrlIntention.FOLLOW, _actualVictim, null);
-			}
-		}
+			callSkillAI(npc);
 		else if (event.equalsIgnoreCase("songs_effect"))
 		{
 			if (scarlet == null || frintezza == null || scarlet.isDead() || scarlet.isInvul() || frintezza.isDead() || frintezza.isInvul() || songEffect == null)
 				return super.onTimer(event, npc, player);
 			
 			if (frintezza.getScriptValue() == 1)
-			{
-				for (Creature pc : FRINTEZZA_LAIR.getKnownTypeInside(Creature.class))
-					if (pc instanceof Player)
-						scarlet.getCast().doCast(songEffect, songEffect.getLevel() < 4 ? scarlet : pc, null);
-			}
+				scarlet.getCast().doCast(songEffect, songEffect.getLevel() < 4 ? scarlet : getKnownInside(), null);
 			else
 				cancelQuestTimers("songs_effect");
 		}
@@ -443,9 +414,38 @@ public class Frintezza extends AttackableAIScript
 		return super.onTimer(event, npc, player);
 	}
 	
-	/**
-	 * 
-	 */
+	private void callSkillAI(Npc npc)
+	{
+		if (npc.isInvul() || npc.getCast().isCastingNow() || npc.isDead() || frintezza.isInvul())
+			return;
+		
+		final L2Skill skill = getRandomSkill();
+		int rnd = Rnd.get(10);
+		
+		if (_actualVictim == null || _actualVictim.isDead() || (_actualVictim != null && !npc.isMoving() || npc.isMoving() && rnd == 0))
+			_actualVictim = alternate_target ? getRandomTarget(npc) : getRandomPlayer(npc);
+		if (_actualVictim == null)
+			return;
+		
+		int range = skill.getCastRange();
+		if (_actualVictim.isMoving())
+        	range = range * 80 / 100;
+		if (MathUtil.checkIfInRange((int) (range + npc.getCollisionRadius()), npc, _actualVictim, true))
+		{
+			npc.getAI().tryToIdle();
+			npc.getAI().tryToCast(_actualVictim, skill);
+			if (rnd < 0)
+				_actualVictim = null;
+		}
+		else
+		{
+			npc.forceRunStance();
+			if (!unconfirme)
+				npc.getAI().tryToMoveTo(new Location(_actualVictim.getX(), _actualVictim.getY(), _actualVictim.getZ()), null);//npc.getAI().setIntention(CtrlIntention.FOLLOW, _actualVictim, null);
+			else npc.getAI().tryToFollow(_actualVictim, false);
+		}
+	}
+	
 	private void callSongAI()
 	{
 		if (frintezza == null || frintezza.isDead() || frintezza.isInvul() || frintezza.getScriptValue() == 1)
@@ -524,9 +524,9 @@ public class Frintezza extends AttackableAIScript
 					npc.setScriptValue(2);
 					npc.abortAll(true);
 					npc.getAI().tryToIdle();
-						for (Creature ch : FRINTEZZA_LAIR.getKnownTypeInside(Creature.class))
-							if (ch instanceof Player)
-								ch.stopSkillEffects(5008);
+					//	for (Creature ch : FRINTEZZA_LAIR.getKnownTypeInside(Creature.class))
+					//		if (ch instanceof Player)
+								/*ch*/getKnownInside().stopSkillEffects(5008);
 						if (scarlet != null)
 							scarlet.stopSkillEffects(5008);
 						broadcastPacket(new MagicSkillCanceled(frintezza.getObjectId()));
@@ -842,5 +842,26 @@ public class Frintezza extends AttackableAIScript
 			startQuestTimer("die_04", frintezza, null, 22500);
 			startQuestTimer("start_room", frintezza, null, 21500);
 		}
+	}
+	
+	private static Creature getKnownInside()
+	{
+		for (Creature ch : FRINTEZZA_LAIR.getKnownTypeInside(Creature.class))
+			if (ch instanceof Player)
+				return ch;
+		return null;
+	}
+	
+	protected Player getRandomTarget(Npc npc)
+	{
+		final List<Player> result = new ArrayList<>();
+		for (Player ch : FRINTEZZA_LAIR.getKnownTypeInside(Player.class))
+		{
+			if (ch.isDead() || (ch.isGM() && !ch.getAppearance().isVisible()))
+				continue;
+			if (MathUtil.checkIfInRange(2950, npc, ch, true))
+				result.add(ch);
+		}
+		return (result.isEmpty()) ? null : Rnd.get(result);
 	}
 }

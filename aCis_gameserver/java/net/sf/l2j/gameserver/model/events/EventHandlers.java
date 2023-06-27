@@ -27,12 +27,29 @@ import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.pledge.Clan;
+import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
+import net.sf.l2j.gameserver.network.serverpackets.GMHennaInfo;
+import net.sf.l2j.gameserver.network.serverpackets.GMViewItemList;
+import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 
 public class EventHandlers
 {
 	public static boolean check(String text, Player player)
 	{
+	//	final Player target = player.getTarget().getActingPlayer();
+		if (text.equalsIgnoreCase(".reg1") || text.equalsIgnoreCase(".unreg1") || text.equalsIgnoreCase(".ver1") || text.equalsIgnoreCase(".salir1"))
+		{
+			EventEngine.getInstance().checkEvents(text, player);
+			if (TeamsPlayers.containsPlayer(player))
+			{
+				player.sendMessage("Ya estas registrado en el evento.");
+				return true;
+			}
+			TeamsPlayers.addPlayer(player);
+			player.sendMessage("Te registraste al evento!");
+            return true;
+		}
 		if (!TvTEvent.isInactive())
 		{
 			if (text.equalsIgnoreCase(".register"))
@@ -48,7 +65,7 @@ public class EventHandlers
 		}
 		if (text.equalsIgnoreCase(".register") || text.equalsIgnoreCase(".unregister") || text.equalsIgnoreCase(".ver") || text.equalsIgnoreCase(".salir"))
 		{
-			EventManager.getInstance().checkEvents(text, player);
+		//	EventManager.getInstance().checkEvents(text, player);
             return true;
 		}
 		
@@ -220,13 +237,56 @@ public class EventHandlers
 				}
 				return true;
 			}
-			
 		}
-	
 		return false;
-		
 	}
 	
+	public static void bypass(Player client, String command)
+	{
+		final Player player = client.getActingPlayer();
+		if (player == null)
+			return;
+		NpcHtmlMessage html = new NpcHtmlMessage(player.getObjectId());
+		final Player shift = player.getShiftTarget();
+		if (command.equalsIgnoreCase("shift_clan"))
+			html.setFile("data/html/mods/shift/clan.htm");
+		else if (command.equalsIgnoreCase("shift_stats"))
+		{
+			html.setFile("data/html/mods/shift/stats.htm");
+			html.replace("%class%", shift.getClass().getSimpleName());
+			html.replace("%name%", shift.getName());
+			html.replace("%lvl%", shift.getStatus().getLevel());
+		}
+		else if (command.equalsIgnoreCase("shift_equipped"))
+		{
+			if (!player.isGM())
+			{
+				if (!shift.isGM())
+					player.sendPacket(new GMViewItemList(shift, true));
+				else
+					player.sendMessage("You can't use it on GMs!");
+			}
+			else
+				player.sendPacket(new GMViewItemList(shift));
+			player.sendPacket(new GMHennaInfo(shift));
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		else if (command.equalsIgnoreCase("home"))
+			html.setFile("data/html/mods/shift/initial.htm");
+		player.sendPacket(html);
+		player.sendPacket(ActionFailed.STATIC_PACKET);
+	}
+	
+	public static void showHtml(Player player, Player shift)
+	{
+		final NpcHtmlMessage html = new NpcHtmlMessage(player.getObjectId());
+		html.setFile("data/html/mods/shift/initial.htm");
+		pShift = shift;
+		player.sendPacket(html);
+		player.sendPacket(ActionFailed.STATIC_PACKET);
+	}
+
 	private static void add(Player activeChar, Player playerInstance)
 	{
 		if (TvTEvent.isPlayerParticipant(playerInstance.getObjectId()))
@@ -257,4 +317,11 @@ public class EventHandlers
 		
 		new TvTEventTeleporter(playerInstance, Config.TVT_EVENT_PARTICIPATION_NPC_COORDINATES, true, true);
 	}
+	
+	private static Player pShift;
+	
+    public static Player getShiftTarget()
+    {
+    	return pShift;
+    }
 }

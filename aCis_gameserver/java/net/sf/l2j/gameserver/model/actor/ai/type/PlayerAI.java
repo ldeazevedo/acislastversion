@@ -15,6 +15,7 @@ import net.sf.l2j.gameserver.handler.IItemHandler;
 import net.sf.l2j.gameserver.handler.ItemHandler;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
+import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Boat;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -199,7 +200,8 @@ public class PlayerAI extends PlayableAI<Player>
 		}
 		
 		boolean isShiftPressed = _currentIntention.isShiftPressed();
-		if (_actor.getMove().maybeMoveToPawn(target, _actor.getStatus().getPhysicalAttackRange(), isShiftPressed))
+		//if (_actor.getMove().maybeMoveToPawn(target, _actor.getStatus().getPhysicalAttackRange(), isShiftPressed))
+		if (_actor.getMove().maybeMoveToPawn(target, (target instanceof Attackable) ? Math.max(100, _actor.getStatus().getPhysicalAttackRange()) : 100, isShiftPressed))	
 		{
 			if (isShiftPressed)
 			{

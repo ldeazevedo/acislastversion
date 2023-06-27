@@ -27,7 +27,7 @@ import net.sf.l2j.gameserver.model.actor.container.npc.AbsorbInfo;
 import net.sf.l2j.gameserver.model.actor.container.npc.AggroInfo;
 import net.sf.l2j.gameserver.model.actor.container.npc.RewardInfo;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
-import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.ServerFeature;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
@@ -157,8 +157,8 @@ public class Monster extends Attackable
 					long exp = expSp[0];
 					int sp = expSp[1];
 
-					exp *= EventManager.getInstance().getRateVitalityRateXpSp(1);
-					sp *= EventManager.getInstance().getRateVitalityRateXpSp(2);
+					exp *= ServerFeature.getRateVitalityRateXpSp(1);
+					sp *= ServerFeature.getRateVitalityRateXpSp(2);
 					
 					exp *= 1 - penalty;
 					
@@ -180,7 +180,7 @@ public class Monster extends Attackable
 						points -= Rnd.get(1, 3);
 					else if (lvl >= (moblvl + 10))
 						points = 0;
-					EventManager.getInstance().onCalculateRewards(attacker, exp, sp, points);
+					ServerFeature.onCalculateRewards(attacker, exp, sp, points);
 				}
 			}
 			// Share with party members.
@@ -569,6 +569,7 @@ public class Monster extends Attackable
 			// Create the ItemInstance and add it in the world as a visible object.
 			final ItemInstance item = ItemInstance.create(holder.getId(), holder.getValue(), player, this);
 			item.setDropProtection(player.getObjectId(), isRaidBoss());
+			item.setInstanceId(getInstanceId());
 			item.dropMe(this, 70);
 			
 			// If stackable, end loop as entire count is included in 1 instance of item.

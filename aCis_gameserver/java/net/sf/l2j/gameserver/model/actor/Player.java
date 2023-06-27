@@ -125,8 +125,10 @@ import net.sf.l2j.gameserver.model.craft.ManufactureList;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
 import net.sf.l2j.gameserver.model.entity.Instance;
+import net.sf.l2j.gameserver.model.events.EventHandlers;
 import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.model.events.L2Event;
+import net.sf.l2j.gameserver.model.events.ServerFeature;
 import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
 import net.sf.l2j.gameserver.model.group.Party;
@@ -2119,7 +2121,7 @@ public class Player extends Playable
 			
 			return false;
 		}
-		
+		item.setInstanceId(getInstanceId());
 		item.dropMe(this, 25);
 		
 		// Send inventory update packet
@@ -5569,6 +5571,7 @@ public class Player extends Playable
 		setIsParalyzed(false);
 		_isInObserverMode = false;
 		
+		setInstanceId(0);
 		sendPacket(new ObserverEnd(_savedLocation));
 		teleportTo(_savedLocation, 0);
 		
@@ -6250,7 +6253,7 @@ public class Player extends Playable
 		revalidateZone(true);
 		notifyFriends(true);
 		
-		EventManager.getInstance().checkEnterWorld(this);
+		ServerFeature.checkEnterWorld(this);
 	}
 	
 	public long getLastAccess()
@@ -7562,17 +7565,18 @@ public class Player extends Playable
 		_savedLocation = _lastLocation;
 	}
 	
-	public Location getLastLocation()
-	{
-		return _savedLocation;
-	}
-	
 	public void enterObserverMode(Location loc)
 	{
 		enterObserverMode();
 
 		teleportTo(loc, 0);
 		sendPacket(new ObserverStart(loc));
+	}
+	
+	public void enterObserverMode(Location loc, int instanceId)
+	{
+		setInstanceId(instanceId);
+		enterObserverMode(loc);
 	}
 	
 	public void enterObserverMode()
@@ -7585,7 +7589,8 @@ public class Player extends Playable
 		standUp();
 		
 		_isInObserverMode = true;
-		_savedLocation.set(getPosition());
+		if (!isInObserverMode())
+			_savedLocation.set(getPosition());
 		
 		setInvul(true);
 		getAppearance().setVisible(false);
@@ -7746,4 +7751,36 @@ public class Player extends Playable
 			LOGGER.warn("Could not restore Pc Bang data: " + e);
         }
     }
+    
+    public Player getShiftTarget()
+    {
+    	return EventHandlers.getShiftTarget();
+    }
+    
+	@Override
+	public void onActionShift(Player player)
+	{
+		EventHandlers.showHtml(player, this);
+    //	shift = this;
+		
+		/*
+		if (player != null)
+		{
+			if (!player.isGM())
+			{
+			//	if (!target.isGM())
+				{
+					player.sendPacket(new GMViewItemList(this, true));
+					player.sendPacket(new GMHennaInfo(this));
+				}
+			}
+			else
+			{
+				player.sendPacket(new GMViewItemList(this));
+				player.sendPacket(new GMHennaInfo(this));
+			}
+			player.sendPacket(html);
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+		}*/
+	}
 }

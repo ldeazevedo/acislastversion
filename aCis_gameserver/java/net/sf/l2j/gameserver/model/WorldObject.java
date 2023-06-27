@@ -90,6 +90,11 @@ public abstract class WorldObject
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 	
+	public void onActionShift(Player player)
+	{
+		player.sendPacket(ActionFailed.STATIC_PACKET);
+	}
+	
 	public void onSpawn()
 	{
 	}
@@ -386,7 +391,7 @@ public abstract class WorldObject
 				// Update all objects.
 				for (WorldObject obj : region.getObjects())
 				{
-					if (obj == this || getInstanceId() == obj.getInstanceId())
+					if (obj == this || getInstanceId() != obj.getInstanceId())
 						continue;
 					
 					obj.removeKnownObject(this);

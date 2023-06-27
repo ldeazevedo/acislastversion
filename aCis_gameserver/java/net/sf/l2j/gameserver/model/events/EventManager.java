@@ -26,9 +26,7 @@ import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 
-import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
-import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
@@ -36,9 +34,7 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
-import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage;
-import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
 import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.StopMove;
@@ -103,10 +99,7 @@ public class EventManager
 	
 	public boolean containsPlayer(Player player)
 	{
-		synchronized (players)
-		{
-			return players.contains(player);
-		}
+		return players.contains(player);
 	}
 	
 	public static void getBuffs(Player killer)
@@ -255,8 +248,8 @@ public class EventManager
 		player.getStatus().setMaxCpHpMp();
 		player.broadcastUserInfo();
 		
-		if (player.getLastLocation() != null)
-			player.teleportTo(player.getLastLocation(), 0);
+		if (player.getSavedLocation() != null)
+			player.teleportTo(player.getSavedLocation(), 0);
 		else
 			player.teleportTo(82698, 148638, -3473, 0);
 		
@@ -400,7 +393,7 @@ public class EventManager
 		{
 			if (containsPlayer(pc) || pc.atEvent || pc.isInSurvival)
 			{
-				Location loc = pc.getLastLocation();
+				Location loc = pc.getSavedLocation();
 				if (loc != null)
 					pc.setXYZInvisible(loc.getX(), loc.getY(), loc.getZ());
 				else
@@ -910,70 +903,5 @@ public class EventManager
 		player.setIsImmobilized(false);
 		player.setInvul(false);
 		player.getStatus().setMaxCpHpMp();
-	}
-	
-	public static void saveExp(Player player)
-	{
-		try (Connection con = ConnectionPool.getConnection();
-			PreparedStatement ps = con.prepareStatement(""))
-		{
-			ps.setInt(1, player.getObjectId());
-			ps.setLong(2, player.getRestantVitalityExp());
-			ps.executeUpdate();
-
-		}
-		catch (Exception e)
-		{
-			_log.warning("Error: " + e);
-		}
-	}
-	
-	public void checkEnterWorld(Player player)
-	{
-		player.showPcBangWindow();
-		if (!player.getInVitality()) //Temporal arreglo para verlo en funcionamiento
-			player.setVitalityExp();
-		else
-			ThreadPool.schedule(new updateVitalityEffect(player), 15000);
-	}
-
-	public long getRateVitalityRateXpSp(int expsp)
-	{
-		return expsp == 1 ? 2 : 2;
-	}
-	
-	private class updateVitalityEffect implements Runnable
-	{
-		Player player = null;
-		updateVitalityEffect(Player p)
-		{
-			player = p;
-		}
-		
-		@Override
-		public void run()
-		{
-			player.updateVitalityEffect();
-		}
-	}
-
-	/**
-	 * @param attacker
-	 * @param exp
-	 * @param sp
-	 * @param pcbandpoints 
-	 */
-	public void onCalculateRewards(Player attacker, long exp, int sp, int pcbandpoints)
-	{
-		attacker.setReduceVitalityExp(exp);
-		if (pcbandpoints > 0)
-			attacker.updatePcBangScore(pcbandpoints);
-	}
-	
-	public void readChats(Player player, String text, L2GameServerPacket packet)
-	{
-		for (Player gm : AdminData.getInstance().getAllGms(true))
-			if (gm.getReadChat())
-				gm.sendPacket(new CreatureSay(player.getObjectId(), SayType.ALLIANCE, player.getName(), "[" + player.getClan().getName() + "]:" + text));
 	}
 }

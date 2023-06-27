@@ -37,7 +37,7 @@ public class EventsTask extends Quest
 		super(-1, "feature");
 		addFirstTalkId(MESSENGER);
 		addTalkId(MESSENGER);
-		setTask();
+	//	setTask();
 	}
 	
 	@Override

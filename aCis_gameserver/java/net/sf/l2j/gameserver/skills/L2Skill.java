@@ -1079,13 +1079,12 @@ public abstract class L2Skill implements IChanceSkillTrigger
 		if (preCondition == null || preCondition.isEmpty())
 			return true;
 		
-		if (activeChar.getInstanceId() != target.getInstanceId())
-			return false;
-		
 		for (Condition cond : preCondition)
 		{
 			if (!cond.test(activeChar, target, this))
 			{
+				if (activeChar.getInstanceId() != target.getInstanceId())
+					return false;
 				final int msgId = cond.getMessageId();
 				if (msgId != 0)
 				{
