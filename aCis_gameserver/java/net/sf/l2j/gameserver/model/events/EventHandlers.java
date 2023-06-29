@@ -15,6 +15,7 @@
 package net.sf.l2j.gameserver.model.events;
 
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 import net.sf.l2j.commons.lang.StringUtil;
 
@@ -35,6 +36,8 @@ import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 
 public class EventHandlers
 {
+	protected static final Logger _log = Logger.getLogger(EventHandlers.class.getName());
+	
 	public static boolean check(String text, Player player)
 	{
 	//	final Player target = player.getTarget().getActingPlayer();
@@ -241,7 +244,7 @@ public class EventHandlers
 		return false;
 	}
 	
-	public static void bypass(Player client, String command)
+	public void bypass(Player client, String command)
 	{
 		final Player player = client.getActingPlayer();
 		if (player == null)
@@ -249,13 +252,17 @@ public class EventHandlers
 		NpcHtmlMessage html = new NpcHtmlMessage(player.getObjectId());
 		final Player shift = player.getShiftTarget();
 		if (command.equalsIgnoreCase("shift_clan"))
+		{
 			html.setFile("data/html/mods/shift/clan.htm");
+			player.sendPacket(html);
+		}
 		else if (command.equalsIgnoreCase("shift_stats"))
 		{
 			html.setFile("data/html/mods/shift/stats.htm");
 			html.replace("%class%", shift.getClass().getSimpleName());
 			html.replace("%name%", shift.getName());
 			html.replace("%lvl%", shift.getStatus().getLevel());
+			player.sendPacket(html);
 		}
 		else if (command.equalsIgnoreCase("shift_equipped"))
 		{
@@ -273,8 +280,10 @@ public class EventHandlers
 			return;
 		}
 		else if (command.equalsIgnoreCase("home"))
+		{
 			html.setFile("data/html/mods/shift/initial.htm");
-		player.sendPacket(html);
+			player.sendPacket(html);
+		}
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 	
@@ -287,17 +296,17 @@ public class EventHandlers
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
 
-	private static void add(Player activeChar, Player playerInstance)
+	private static void add(Player player, Player playerInstance)
 	{
 		if (TvTEvent.isPlayerParticipant(playerInstance.getObjectId()))
 		{
-			activeChar.sendMessage("Player already participated in the event!");
+			player.sendMessage("Player already participated in the event!");
 			return;
 		}
 		
 		if (!TvTEvent.addParticipant(playerInstance))
 		{
-			activeChar.sendMessage("Player instance could not be added, it seems to be null!");
+			player.sendMessage("Player instance could not be added, it seems to be null!");
 			return;
 		}
 		
@@ -307,11 +316,11 @@ public class EventHandlers
 		}
 	}
 	
-	private static void remove(Player activeChar, Player playerInstance)
+	private static void remove(Player player, Player playerInstance)
 	{
 		if (!TvTEvent.removeParticipant(playerInstance.getObjectId()))
 		{
-			activeChar.sendMessage("Player is not part of the event!");
+			player.sendMessage("Player is not part of the event!");
 			return;
 		}
 		
@@ -324,4 +333,14 @@ public class EventHandlers
     {
     	return pShift;
     }
+    
+	public static final EventHandlers getInstance()
+	{
+		return SingletonHolder.INSTANCE;
+	}
+	
+	private static class SingletonHolder
+	{
+		protected static final EventHandlers INSTANCE = new EventHandlers();
+	}
 }

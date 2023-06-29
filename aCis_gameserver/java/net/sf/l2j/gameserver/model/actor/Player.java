@@ -89,6 +89,7 @@ import net.sf.l2j.gameserver.handler.IItemHandler;
 import net.sf.l2j.gameserver.handler.ItemHandler;
 import net.sf.l2j.gameserver.handler.skillhandlers.SummonFriend;
 import net.sf.l2j.gameserver.model.AccessLevel;
+import net.sf.l2j.gameserver.model.DressMe;
 import net.sf.l2j.gameserver.model.PetDataEntry;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
@@ -4334,7 +4335,10 @@ public class Player extends Playable
 					else
 						player.setClanPrivileges(Clan.CP_NOTHING);
 					
+                   // player.setDressMePurchased(rs.getString("dressme_purchased"));//TODO: DB dressme
+                   // player.setDressMeEquiped(rs.getInt("dressme_equiped"));
 					player.setDeleteTimer(rs.getLong("deletetime"));
+					
 					player.setTitle(rs.getString("title"));
 					player.setAccessLevel(rs.getInt("accesslevel"));
 					player.setUptime(System.currentTimeMillis());
@@ -7761,26 +7765,17 @@ public class Player extends Playable
 	public void onActionShift(Player player)
 	{
 		EventHandlers.showHtml(player, this);
-    //	shift = this;
-		
-		/*
-		if (player != null)
-		{
-			if (!player.isGM())
-			{
-			//	if (!target.isGM())
-				{
-					player.sendPacket(new GMViewItemList(this, true));
-					player.sendPacket(new GMHennaInfo(this));
-				}
-			}
-			else
-			{
-				player.sendPacket(new GMViewItemList(this));
-				player.sendPacket(new GMHennaInfo(this));
-			}
-			player.sendPacket(html);
-			player.sendPacket(ActionFailed.STATIC_PACKET);
-		}*/
+	}
+
+	private DressMe dress;
+	
+	public DressMe getDress()
+	{
+		return dress;
+	}
+	
+	public void setDress(DressMe dress)
+	{
+		this.dress = dress;
 	}
 }

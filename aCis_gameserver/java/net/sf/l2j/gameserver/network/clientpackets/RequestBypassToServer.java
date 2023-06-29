@@ -73,9 +73,9 @@ public final class RequestBypassToServer extends L2GameClientPacket
 			
 			ach.useAdminCommand(_command, player);
 		}
-		else if (_command.startsWith("shift_"))
+		else if (_command.startsWith("shift_") || _command.startsWith("dressme_"))
 		{
-			EventHandlers.bypass(player, _command);
+			EventHandlers.getInstance().bypass(player, _command);
 		}
 		else if (_command.startsWith("player_help "))
 		{

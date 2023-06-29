@@ -16,8 +16,8 @@ import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
 
 import net.sf.l2j.gameserver.enums.GeoType;
-import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.events.HappyHour;
+import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 
 /**
  * This class contains global server configuration.<br>
@@ -42,15 +42,15 @@ public final class Config
 	public static boolean FAKE_PLAYER_ENABLED;
 	
 	 /////////////////////////////////////////////////
-   // PC Bang Settings
-   /////////////////////////////////////////////////
-   public static boolean PC_BANG_ENABLED;
-   public static int MAX_PC_BANG_POINTS;
-   public static boolean ENABLE_DOUBLE_PC_BANG_POINTS;
-   public static int DOUBLE_PC_BANG_POINTS_CHANCE;
-   public static double PC_BANG_POINT_RATE;
-   public static boolean RANDOM_PC_BANG_POINT;
-
+	// PC Bang Settings
+	/////////////////////////////////////////////////
+	public static boolean PC_BANG_ENABLED;
+	public static int MAX_PC_BANG_POINTS;
+	public static boolean ENABLE_DOUBLE_PC_BANG_POINTS;
+	public static int DOUBLE_PC_BANG_POINTS_CHANCE;
+	public static double PC_BANG_POINT_RATE;
+	public static boolean RANDOM_PC_BANG_POINT;
+	
 	/** Happy Hour **/
 	public static boolean HAPPY_HOUR_ENABLED;
 	public static String HAPPY_HOUR_DAYS_AND_HOUR;

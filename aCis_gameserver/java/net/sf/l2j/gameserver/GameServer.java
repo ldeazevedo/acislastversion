@@ -51,6 +51,7 @@ import net.sf.l2j.gameserver.data.xml.AnnouncementData;
 import net.sf.l2j.gameserver.data.xml.ArmorSetData;
 import net.sf.l2j.gameserver.data.xml.AugmentationData;
 import net.sf.l2j.gameserver.data.xml.DoorData;
+import net.sf.l2j.gameserver.data.xml.DressMeData;
 import net.sf.l2j.gameserver.data.xml.FishData;
 import net.sf.l2j.gameserver.data.xml.HealSpsData;
 import net.sf.l2j.gameserver.data.xml.HennaData;
@@ -185,6 +186,7 @@ public class GameServer
 		PetitionManager.getInstance();
 		
 		StringUtil.printSection("Characters");
+		DressMeData.getInstance();
 		PlayerData.getInstance();
 		PlayerInfoTable.getInstance();
 		PlayerLevelData.getInstance();

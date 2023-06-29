@@ -103,7 +103,7 @@ public class CharSelectInfo extends L2GameServerPacket
 			writeD(0x00);
 			writeD(0x00);
 			writeD(0x00);
-			
+
 			writeD(slot.getPaperdollObjectId(Paperdoll.HAIRALL));
 			writeD(slot.getPaperdollObjectId(Paperdoll.REAR));
 			writeD(slot.getPaperdollObjectId(Paperdoll.LEAR));
