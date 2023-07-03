@@ -24,6 +24,7 @@ import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.enums.SayType;
+import net.sf.l2j.gameserver.enums.skills.AbnormalEffect;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -37,6 +38,8 @@ import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 public class EventHandlers
 {
 	protected static final Logger _log = Logger.getLogger(EventHandlers.class.getName());
+	
+	private static Player pShift;
 	
 	public static boolean check(String text, Player player)
 	{
@@ -66,6 +69,11 @@ public class EventHandlers
 				return true;
 			}
 		}
+		if (text.equalsIgnoreCase(".hair"))
+		{
+			player.setSwitchHair(player.getHair() ? false : true);
+			return true;
+		}
 		if (text.equalsIgnoreCase(".register") || text.equalsIgnoreCase(".unregister") || text.equalsIgnoreCase(".ver") || text.equalsIgnoreCase(".salir"))
 		{
 		//	EventManager.getInstance().checkEvents(text, player);
@@ -85,6 +93,11 @@ public class EventHandlers
 		
 		if (player.isGM())
 		{
+			if (text.equalsIgnoreCase(".stopvita"))
+			{
+				player.stopAbnormalEffect(AbnormalEffect.VITALITY);
+				return true;
+			}
 			if (text.startsWith(".setinstance"))
 			{
 				final StringTokenizer st = new StringTokenizer(text, " ");
@@ -102,8 +115,6 @@ public class EventHandlers
 				if (StringUtil.isDigit(param))
 				{
 					final int id = Integer.parseInt(param);
-						//	if (!(targetWorldObject instanceof Player))
-						//		return;
 					if (targetWorldObject != null)
 					{
 						targetWorldObject.setInstanceId(id);
@@ -311,9 +322,7 @@ public class EventHandlers
 		}
 		
 		if (TvTEvent.isStarted())
-		{
 			new TvTEventTeleporter(playerInstance, TvTEvent.getParticipantTeamCoordinates(playerInstance.getObjectId()), true, false);
-		}
 	}
 	
 	private static void remove(Player player, Player playerInstance)
@@ -323,11 +332,8 @@ public class EventHandlers
 			player.sendMessage("Player is not part of the event!");
 			return;
 		}
-		
 		new TvTEventTeleporter(playerInstance, Config.TVT_EVENT_PARTICIPATION_NPC_COORDINATES, true, true);
 	}
-	
-	private static Player pShift;
 	
     public static Player getShiftTarget()
     {

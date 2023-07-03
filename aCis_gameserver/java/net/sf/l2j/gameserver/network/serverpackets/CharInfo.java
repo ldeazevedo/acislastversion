@@ -53,7 +53,7 @@ public class CharInfo extends L2GameServerPacket
 		writeD(dress != null ? dress.getFeet() : _player.getInventory().getItemIdFrom(Paperdoll.FEET));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.CLOAK));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.RHAND));
-		writeD(dress != null ? dress.getHair() : _player.getInventory().getItemIdFrom(Paperdoll.HAIR));
+		writeD(dress != null ? _player.getHair() ? dress.getHair() : _player.getInventory().getItemIdFrom(Paperdoll.HAIR) : _player.getInventory().getItemIdFrom(Paperdoll.HAIR));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.FACE));
 		writeH(0x00);
 		writeH(0x00);

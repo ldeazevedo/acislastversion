@@ -48,6 +48,7 @@ public class CharSelectSlot
 	private int _y = 0;
 	private int _z = 0;
 	private int _accessLevel = 0;
+	private DressMe dress = null;
 	
 	public CharSelectSlot(int objectId, String name)
 	{
@@ -339,6 +340,16 @@ public class CharSelectSlot
 	public void setZ(int z)
 	{
 		_z = z;
+	}
+	
+	public DressMe getDressMe()
+	{
+		return dress;
+	}
+
+	public void setDressMe(DressMe dress)
+	{
+		this.dress = dress;
 	}
 	
 	private static int[][] restoreVisibleInventory(int objectId)

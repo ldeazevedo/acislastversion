@@ -2,6 +2,7 @@ package net.sf.l2j.gameserver.model.actor.status;
 
 import java.util.Map;
 
+import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.Config;
@@ -15,6 +16,7 @@ import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.enums.actors.WeightPenalty;
+import net.sf.l2j.gameserver.enums.skills.AbnormalEffect;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.model.PlayerLevel;
@@ -30,6 +32,7 @@ import net.sf.l2j.gameserver.model.clanhall.ClanHall;
 import net.sf.l2j.gameserver.model.clanhall.ClanHallFunction;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
 import net.sf.l2j.gameserver.model.entity.Siege;
+import net.sf.l2j.gameserver.model.events.ServerFeature;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadGameManager;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadGameTask;
@@ -51,6 +54,8 @@ import net.sf.l2j.gameserver.skills.L2Skill;
 
 public class PlayerStatus extends PlayableStatus<Player>
 {
+	public static final CLogger LOGGER = new CLogger(PlayerStatus.class.getName());
+	
 	private double _cp = .0;
 	
 	private double _cpUpdateIncCheck = .0;
@@ -64,6 +69,13 @@ public class PlayerStatus extends PlayableStatus<Player>
 	private int _oldMaxHp;
 	private int _oldMaxMp;
 	private int _oldMaxCp;
+	
+    private float _vitalityPoints = 1;
+    private byte _vitalityLevel = 0;
+
+    public static final int VITALITY_LEVELS[] = {240, 1800, 14600, 18200, 20000};
+    public static final int MAX_VITALITY_POINTS = VITALITY_LEVELS[4];
+    public static final int MIN_VITALITY_POINTS = 1;
 	
 	public PlayerStatus(Player actor)
 	{
@@ -540,6 +552,30 @@ public class PlayerStatus extends PlayableStatus<Player>
 	 */
 	public boolean addExpAndSp(long addToExp, int addToSp, Map<Creature, RewardInfo> rewards)
 	{
+		boolean isGM = _actor.isGM();
+		if (isGM)
+			LOGGER.info("addToExp " + addToExp +" Sin multiplicado. _vitalityLevel "+_vitalityLevel);
+		switch (_vitalityLevel)
+		{
+			case 1:
+				addToExp *= Config.RATE_VITALITY_LEVEL_1;
+				addToSp *= Config.RATE_VITALITY_LEVEL_1;
+				break;
+			case 2:
+				addToExp *= Config.RATE_VITALITY_LEVEL_2;
+				addToSp *= Config.RATE_VITALITY_LEVEL_2;
+				break;
+			case 3:
+				addToExp *= Config.RATE_VITALITY_LEVEL_3;
+				addToSp *= Config.RATE_VITALITY_LEVEL_3;
+				break;
+			case 4:
+				addToExp *= Config.RATE_VITALITY_LEVEL_4;
+				addToSp *= Config.RATE_VITALITY_LEVEL_4;
+				break;
+		}
+		if (isGM)
+			LOGGER.info("addToExp " + addToExp +" Multiplicado. _vitalityLevel "+_vitalityLevel);
 		// If this player has a pet, give the xp to the pet now (if any).
 		if (_actor.hasPet())
 		{
@@ -1157,4 +1193,114 @@ public class PlayerStatus extends PlayableStatus<Player>
 	{
 		return Config.COMMON_RECIPE_LIMIT + (int) calcStat(Stats.REC_C_LIM, 0, null, null);
 	}
+
+    private void updateVitalityLevel(boolean quiet)
+    {
+    	final byte level;
+
+    	if (_vitalityPoints <= VITALITY_LEVELS[0])
+    		level = 0;
+    	else if (_vitalityPoints <= VITALITY_LEVELS[1])
+    		level = 1;
+    	else if (_vitalityPoints <= VITALITY_LEVELS[2])
+    		level = 2;
+    	else if (_vitalityPoints <= VITALITY_LEVELS[3])
+    		level = 3;
+    	else 
+    		level = 4;
+    	if (!quiet && level != _vitalityLevel)
+    	{
+    		if (level < _vitalityLevel)
+    			ServerFeature.sendScreenMessage(_actor, "Vitality has decreased", 2500, true); //sendPacket(new SystemMessage(SystemMessageId.VITALITY_HAS_INCREASED));
+    		else
+    			ServerFeature.sendScreenMessage(_actor, "Vitality has increased", 2500, true); //sendPacket(new SystemMessage(SystemMessageId.VITALITY_HAS_INCREASED));
+    		if (level == 0)
+    		{
+    			ServerFeature.sendScreenMessage(_actor, "Vitality is exhausted", 3500, true); //sendPacket(new SystemMessage(SystemMessageId.VITALITY_IS_EXHAUSTED));
+    			_actor.stopAbnormalEffect(AbnormalEffect.VITALITY);
+    		}
+    		else if (level == 4)
+    			ServerFeature.sendScreenMessage(_actor, "Vitality is at maximum", 3500, true); //sendPacket(new SystemMessage(SystemMessageId.VITALITY_IS_AT_MAXIMUM));
+    	}
+
+    	_vitalityLevel = level;
+    }
+    
+    /*
+     * Return current vitality points in integer format
+     */
+    public int getVitalityPoints()
+    {
+    	return (int)_vitalityPoints;
+    }
+    
+    /*
+     * Set current vitality points to this value
+     * 
+     * if quiet = true - does not send system messages
+     */
+    public void setVitalityPoints(int points, boolean quiet)
+    {
+    	points = Math.min(Math.max(points, MIN_VITALITY_POINTS), MAX_VITALITY_POINTS);
+    	if (points == _vitalityPoints)
+    		return;
+
+    	_vitalityPoints = points;
+    	updateVitalityLevel(quiet);
+    	if (getVitaLevel() > 0/* points != 0*/)
+    		_actor.startAbnormalEffect(AbnormalEffect.VITALITY);
+    	else
+    		_actor.stopAbnormalEffect(AbnormalEffect.VITALITY);
+	//	sendPacket(new ExVitalityPointInfo(getVitalityPoints()));
+    }
+
+    public void updateVitalityPoints(float points, boolean useRates, boolean quiet)
+    {
+    	if (points == 0)
+    		return;
+
+    	if (useRates)
+    	{
+    		int level = getLevel();
+    		if (level < 10)
+    			return;
+
+    		if (points < 0) // vitality consumed
+    		{
+    			int stat = (int)calcStat(Stats.VITALITY_CONSUME_RATE, 1, _actor, null);
+
+    			if (stat == 0) // is vitality consumption stopped ?
+    				return;
+    			if (stat < 0) // is vitality gained ?
+    				points = -points;
+    		}
+
+    		if (level >= 79)
+        		points *= 2;
+        	else if (level >= 76)
+        		points += points / 2;
+
+        	if (points > 0)
+        		points *= Config.RATE_VITALITY_GAIN; // vitality increased
+        	else
+        		points *= Config.RATE_VITALITY_LOST; // vitality decreased
+    	}
+
+    	if (points > 0)
+        	points = Math.min(_vitalityPoints + points, MAX_VITALITY_POINTS);
+    	else
+        	points = Math.max(_vitalityPoints + points, MIN_VITALITY_POINTS);
+    	
+    	if (points == _vitalityPoints)
+    		return;
+
+    	_vitalityPoints = points;
+    	updateVitalityLevel(quiet);
+    //	LOGGER.info("updateVitalityPoints "+ points +  " . _vitalityPoints " +_vitalityPoints);
+    }
+    
+    public int getVitaLevel()
+    {
+    	return _vitalityLevel;
+    }
 }

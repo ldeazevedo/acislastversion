@@ -9,8 +9,12 @@ import java.util.List;
 import net.sf.l2j.commons.pool.ConnectionPool;
 
 import net.sf.l2j.gameserver.data.sql.ClanTable;
+import net.sf.l2j.gameserver.data.xml.DressMeData;
+import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.model.CharSelectSlot;
+import net.sf.l2j.gameserver.model.DressMe;
+import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.network.GameClient;
 
@@ -25,6 +29,7 @@ public class CharSelectInfo extends L2GameServerPacket
 	private final int _sessionId;
 	
 	private int _activeId;
+//	private static DressMe dressMe = null;
 	
 	public CharSelectInfo(String loginName, int sessionId)
 	{
@@ -104,6 +109,7 @@ public class CharSelectInfo extends L2GameServerPacket
 			writeD(0x00);
 			writeD(0x00);
 
+			boolean isDressMe = slot.getDressMe() != null;
 			writeD(slot.getPaperdollObjectId(Paperdoll.HAIRALL));
 			writeD(slot.getPaperdollObjectId(Paperdoll.REAR));
 			writeD(slot.getPaperdollObjectId(Paperdoll.LEAR));
@@ -113,13 +119,14 @@ public class CharSelectInfo extends L2GameServerPacket
 			writeD(slot.getPaperdollObjectId(Paperdoll.HEAD));
 			writeD(slot.getPaperdollObjectId(Paperdoll.RHAND));
 			writeD(slot.getPaperdollObjectId(Paperdoll.LHAND));
-			writeD(slot.getPaperdollObjectId(Paperdoll.GLOVES));
-			writeD(slot.getPaperdollObjectId(Paperdoll.CHEST));
-			writeD(slot.getPaperdollObjectId(Paperdoll.LEGS));
-			writeD(slot.getPaperdollObjectId(Paperdoll.FEET));
+			writeD(isDressMe ? slot.getDressMe().getGloves() : slot.getPaperdollObjectId(Paperdoll.GLOVES));
+			writeD(isDressMe ? slot.getDressMe().getChest() : slot.getPaperdollObjectId(Paperdoll.CHEST));
+			writeD(isDressMe ? slot.getDressMe().getLegs() : slot.getPaperdollObjectId(Paperdoll.LEGS));
+			writeD(isDressMe ? slot.getDressMe().getFeet() : slot.getPaperdollObjectId(Paperdoll.FEET));
 			writeD(slot.getPaperdollObjectId(Paperdoll.CLOAK));
 			writeD(slot.getPaperdollObjectId(Paperdoll.RHAND));
-			writeD(slot.getPaperdollObjectId(Paperdoll.HAIR));
+			int hair = slot.getPaperdollObjectId(Paperdoll.HAIR);
+			writeD(isDressMe ? slot.getDressMe().hairOn() ? slot.getDressMe().getHair() : hair : hair);
 			writeD(slot.getPaperdollObjectId(Paperdoll.FACE));
 			
 			writeD(slot.getPaperdollItemId(Paperdoll.HAIRALL));
@@ -131,13 +138,15 @@ public class CharSelectInfo extends L2GameServerPacket
 			writeD(slot.getPaperdollItemId(Paperdoll.HEAD));
 			writeD(slot.getPaperdollItemId(Paperdoll.RHAND));
 			writeD(slot.getPaperdollItemId(Paperdoll.LHAND));
-			writeD(slot.getPaperdollItemId(Paperdoll.GLOVES));
-			writeD(slot.getPaperdollItemId(Paperdoll.CHEST));
-			writeD(slot.getPaperdollItemId(Paperdoll.LEGS));
-			writeD(slot.getPaperdollItemId(Paperdoll.FEET));
+			writeD(isDressMe ? slot.getDressMe().getGloves() : slot.getPaperdollItemId(Paperdoll.GLOVES));
+			writeD(isDressMe ? slot.getDressMe().getChest() : slot.getPaperdollItemId(Paperdoll.CHEST));
+			writeD(isDressMe ? slot.getDressMe().getLegs() : slot.getPaperdollItemId(Paperdoll.LEGS));
+			writeD(isDressMe ? slot.getDressMe().getFeet() : slot.getPaperdollItemId(Paperdoll.FEET));
 			writeD(slot.getPaperdollItemId(Paperdoll.CLOAK));
 			writeD(slot.getPaperdollItemId(Paperdoll.RHAND));
-			writeD(slot.getPaperdollItemId(Paperdoll.HAIR));
+			int hair1 = slot.getPaperdollItemId(Paperdoll.HAIR);
+			writeD(isDressMe ? slot.getDressMe().hairOn() ? slot.getDressMe().getHair() : hair1 : hair1);
+			//writeD(isDressMe ? slot.getDressMe().getHair() : slot.getPaperdollItemId(Paperdoll.HAIR));
 			writeD(slot.getPaperdollItemId(Paperdoll.FACE));
 			
 			writeD(slot.getHairStyle());
@@ -235,6 +244,21 @@ public class CharSelectInfo extends L2GameServerPacket
 					}
 					
 					slot.setClassId(activeClassId);
+
+					final int underId = slot.getPaperdollItemId(Paperdoll.UNDER);
+					if (underId > 0)
+					{
+						Item item = ItemData.getInstance().getTemplate(underId);
+						{
+							DressMe dress = DressMeData.getInstance().getItemId(item.getItemId());
+							if (dress != null)
+								slot.setDressMe(dress);
+							//	dressMe = dress;
+						}
+					}
+					else
+						slot.setDressMe(null);
+						//dressMe = null;
 					
 					// Get the augmentation for equipped weapon.
 					final int weaponObjId = slot.getPaperdollObjectId(Paperdoll.RHAND);

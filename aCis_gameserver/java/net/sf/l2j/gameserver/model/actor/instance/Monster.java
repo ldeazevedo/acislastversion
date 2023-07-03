@@ -157,9 +157,9 @@ public class Monster extends Attackable
 					long exp = expSp[0];
 					int sp = expSp[1];
 
-					exp *= ServerFeature.getRateVitalityRateXpSp(1);
-					sp *= ServerFeature.getRateVitalityRateXpSp(2);
-					
+				//	exp *= ServerFeature.getRateVitalityRateXpSp(1);
+				//	sp *= ServerFeature.getRateVitalityRateXpSp(2);
+
 					exp *= 1 - penalty;
 					
 					// Test over-hit.
@@ -180,7 +180,7 @@ public class Monster extends Attackable
 						points -= Rnd.get(1, 3);
 					else if (lvl >= (moblvl + 10))
 						points = 0;
-					ServerFeature.onCalculateRewards(attacker, exp, sp, points);
+					ServerFeature.onCalculateRewards(attacker, exp, sp, points, damage, this);
 				}
 			}
 			// Share with party members.
@@ -250,7 +250,7 @@ public class Monster extends Attackable
 				
 				// Distribute Experience and SP rewards to Player Party members in the known area of the last attacker.
 				if (partyDmg > 0)
-					attackerParty.distributeXpAndSp(exp, sp, rewardedMembers, partyLvl, playersWithPets);
+					attackerParty.distributeXpAndSp(exp, sp, rewardedMembers, partyLvl, playersWithPets, damage, this);
 			}
 		}
 	}

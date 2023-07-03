@@ -38,6 +38,15 @@ public final class Config
 	public static final String SIEGE_FILE = "./config/siege.properties";
 
 	public static final boolean OLDBUFF = false;
+
+	public static double RATE_VITALITY_LEVEL_1 = 1.5;
+	public static float RATE_VITALITY_LEVEL_2 = 2;
+	public static double RATE_VITALITY_LEVEL_3 = 2.5;
+	public static float RATE_VITALITY_LEVEL_4 = 3;
+	public static float RATE_RECOVERY_VITALITY_PEACE_ZONE = 1;
+	public static float RATE_VITALITY_LOST = 1;
+	public static float RATE_VITALITY_GAIN = 1;
+	public static float RATE_RECOVERY_ON_RECONNECT = 4;
 	
 	public static boolean FAKE_PLAYER_ENABLED;
 	

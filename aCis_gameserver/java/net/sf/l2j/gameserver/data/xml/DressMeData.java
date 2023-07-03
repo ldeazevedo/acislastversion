@@ -65,8 +65,9 @@ public class DressMeData implements IXmlReader
 				final int hair = Integer.valueOf(attrs.getNamedItem("hair").getNodeValue());
 				final int gloves = Integer.valueOf(attrs.getNamedItem("gloves").getNodeValue());
 				final int feet = Integer.valueOf(attrs.getNamedItem("feet").getNodeValue());
+				final boolean hairOn = Boolean.valueOf(attrs.getNamedItem("hairon").getNodeValue());
 			
-				_entries.add(new DressMe(itemId, chest, legs, hair, gloves, feet));
+				_entries.add(new DressMe(itemId, chest, legs, hair, gloves, feet, hairOn));
 			});
 			
 		});

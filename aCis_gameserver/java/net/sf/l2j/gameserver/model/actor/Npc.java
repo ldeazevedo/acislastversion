@@ -2004,5 +2004,7 @@ public class Npc extends Creature
 			player.sendPacket(html);
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 		}
+		else
+			super.onAction(player, false, true);
 	}
 }

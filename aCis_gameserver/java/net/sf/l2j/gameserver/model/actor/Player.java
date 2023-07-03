@@ -81,6 +81,7 @@ import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.enums.items.ItemState;
 import net.sf.l2j.gameserver.enums.items.ShotType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
+import net.sf.l2j.gameserver.enums.skills.AbnormalEffect;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
@@ -521,6 +522,7 @@ public class Player extends Playable
 		getInventory().restore();
 		getWarehouse();
 		getFreight();
+		startVitalityTask();
 	}
 	
 	/**
@@ -4397,6 +4399,7 @@ public class Player extends Playable
 					player.restoreCharData();
 					player.giveSkills();
 					player.loadPcBangPoints();
+					player.restoreExpVitality();
 					
 					// buff and status icons
 					if (Config.STORE_SKILL_COOLTIME)
@@ -4432,7 +4435,6 @@ public class Player extends Playable
 					player.setStanding(true);
 					
 					World.getInstance().addPlayer(player);
-					player.saveExpVitality();
 					
 					// Retrieve the name and ID of the other characters assigned to this account.
 					try (PreparedStatement ps2 = con.prepareStatement("SELECT obj_Id, char_name FROM characters WHERE account_name=? AND obj_Id<>?"))
@@ -4536,6 +4538,7 @@ public class Player extends Playable
 		storeCharSub();
 		storeEffect(storeActiveEffects);
 		storeCharPcBangPoints();
+		storeExpVitality();
 	}
 	
     private void storeCharPcBangPoints()
@@ -6712,6 +6715,7 @@ public class Player extends Playable
 
 			EventManager.getInstance().onLogout(this);
 			TvTEvent.onLogout(this);
+			stopVitalityTask();
 
 			// remove player from instance and set spawn location if any
 			try
@@ -7603,11 +7607,15 @@ public class Player extends Playable
 		// Abort attack, cast and move.
 		abortAll(true);
 	}
-	
-	private boolean isReadChat;
-	private static long _exp;
+
+	private DressMe dress;
     private int pcBangPoint = 0;
+
+	private boolean isReadChat;
+	private boolean showHair = true;
     private boolean expOff = false;
+    
+	private ScheduledFuture<?> _vitalityTask;
 	
 	public void setReadChat(boolean a)
 	{
@@ -7624,14 +7632,7 @@ public class Player extends Playable
 		return atEvent || isInSurvival;
 	}
 	
-	public void setReduceVitalityExp(long exp)
-	{
-		_exp-=exp;
-		if (_exp > 0 && exp > 0)
-			updateVitalityEffect();
-	}
-	
-	public void setVitalityExp()
+/*	public void setVitalityExp()
 	{
 		long exp = getStatus().getExpForNextLevel() - getStatus().getExpForThisLevel();
 		final int lvl = getStatus().getLevel();
@@ -7648,64 +7649,53 @@ public class Player extends Playable
 		else if (lvl < 70)
 			exp*=2;
 		_exp = exp;
+	}*/
+	
+	public void restoreExpVitality()
+	{
+		try (Connection con = ConnectionPool.getConnection();
+			PreparedStatement statement = con.prepareStatement("SELECT points FROM character_vitality WHERE (objectId=?)"))
+		{
+			statement.setInt(1, getObjectId());
+            try (ResultSet rset = statement.executeQuery())
+            {
+            	while (rset.next())
+            		getStatus().setVitalityPoints(rset.getInt("points"), true);
+            }
+        }
+        catch (final Exception e)
+        {
+			LOGGER.warn("Could not restore Vitality data: " + e);
+        }
 	}
+	
+	public void storeExpVitality()
+	{
+        try (Connection con = ConnectionPool.getConnection();
+        	PreparedStatement statement = con.prepareStatement("DELETE FROM character_vitality WHERE (objectId=?)"))
+        {
+        	statement.setInt(1, getObjectId());
+        	statement.execute();
+        }
+        catch (final Exception e)
+        {
+        	LOGGER.warn("Could not store char Vitality data DELETE FROM: " + e);
+        }
+        
+        if (getStatus().getVitalityPoints() <= 0)
+            return;
 
-	public boolean getInVitality()
-	{
-		return _exp > 0;
-	}
-	
-	public long getRestantVitalityExp()
-	{
-		return _exp;
-	}
-	
-	//Creo que lo tenemos que sacar al effecto, aunque provare despues si se puede crear o usar algun paquete cliente o server
-	// para poder mostrar el efecto a otros y mantener actualizado sin reaplicar el efecto de nuevo
-	public void updateVitalityEffect()
-	{
-		final L2Skill skill = SkillTable.getInstance().getInfo(17001, 1);
-		if (skill == null)
-			return;
-		if (getInVitality())
-			getAI().tryToCast(this, skill);
-		else
-			stopSkillEffects(skill.getId());
-		broadcastUserInfo();
-		updateEffectIcons();
-	}
-	
-	public void saveExpVitality()
-	{/*
-		try (Connection con = ConnectionPool.getConnection())
-		{
-			try (PreparedStatement ps = con.prepareStatement("INSERT INTO character_vitality (char_id,exp,lock) VALUES (?,?,?)"))
-			{
-				ps.setInt(1, getObjectId());
-				ps.setLong(2, getRestantVitalityExp());
-				ps.setInt(3, getInVitality() ? 0 : 1);
-				ps.execute();
-			}
-			
-			try (PreparedStatement ps = con.prepareStatement("UPDATE character_vitality SET exp=?,lock=? WHERE char_id=?"))
-			{
-				ps.setInt(1, getObjectId());
-				ps.setLong(2, getRestantVitalityExp());
-				ps.setInt(3, getInVitality() ? 0 : 1);
-				ps.execute();
-			}
-			
-			try (PreparedStatement ps = con.prepareStatement("DELETE FROM character_vitality WHERE exp=? AND lock=?"))
-			{
-				ps.setLong(2, getRestantVitalityExp());
-				ps.setInt(3, getInVitality() ? 0 : 1);
-				ps.executeUpdate();
-			}
-		}
-		catch (final Exception e)
-		{
-			LOGGER.error("", e);
-		}*/
+        try (Connection con = ConnectionPool.getConnection();
+        	PreparedStatement statement = con.prepareStatement("INSERT INTO character_vitality VALUES(?,?);"))
+        {
+            statement.setInt(1, getObjectId());
+            statement.setInt(2, getStatus().getVitalityPoints());
+            statement.execute();
+        }
+        catch (Exception e)
+        {
+        	LOGGER.warn("Could not store char Vitality data INSERT INTO: " + e);
+        }
 	}
 	
     public boolean isExpOff()
@@ -7764,10 +7754,13 @@ public class Player extends Playable
 	@Override
 	public void onActionShift(Player player)
 	{
-		EventHandlers.showHtml(player, this);
+		if (isDead() && player.getTarget() != this)
+		{
+			player.setTarget(this);
+			return;
+		}
+			EventHandlers.showHtml(player, this);
 	}
-
-	private DressMe dress;
 	
 	public DressMe getDress()
 	{
@@ -7778,4 +7771,53 @@ public class Player extends Playable
 	{
 		this.dress = dress;
 	}
+	
+	public void setSwitchHair(boolean b)
+	{
+		showHair =  b;
+		broadcastUserInfo();
+	}
+	
+	public boolean getHair()
+	{
+		return showHair;
+	}
+
+    public void startVitalityTask()
+    {
+    	if (_vitalityTask == null)
+    		_vitalityTask = ThreadPool.scheduleAtFixedRate(new VitalityTask(), 1000, 60000);
+    }
+
+    public void stopVitalityTask()
+    {
+    	if (_vitalityTask != null)
+    	{
+    		_vitalityTask.cancel(false);
+    		_vitalityTask = null;
+    	}
+    }
+
+    private class VitalityTask implements Runnable
+    {
+    	protected VitalityTask()
+    	{
+    	}
+
+    	@Override
+		public void run()
+    	{
+    		if (!isInsideZone(ZoneId.PEACE))
+    			return;
+
+			if (getStatus().getVitalityPoints() >= PlayerStatus.MAX_VITALITY_POINTS)
+    			return;
+
+			getStatus().updateVitalityPoints(Config.RATE_RECOVERY_VITALITY_PEACE_ZONE * 2, false, false);
+    		if (/*getVitalityPoints() > 0*/getStatus().getVitaLevel() > 0) //sendPacket(new ExVitalityPointInfo(getVitalityPoints()));
+    			startAbnormalEffect(AbnormalEffect.VITALITY);
+    		else
+    			stopAbnormalEffect(AbnormalEffect.VITALITY);
+    	}
+    }
 }

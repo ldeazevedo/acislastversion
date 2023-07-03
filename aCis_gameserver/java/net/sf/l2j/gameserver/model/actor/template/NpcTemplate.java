@@ -68,6 +68,8 @@ public class NpcTemplate extends CreatureTemplate
 	private ClanHall _clanHall;
 	private SiegableHall _siegableHall;
 	
+	public float baseVitalityDivider;
+	
 	public NpcTemplate(StatSet set)
 	{
 		super(set);
@@ -146,6 +148,7 @@ public class NpcTemplate extends CreatureTemplate
 				break;
 			}
 		}
+		baseVitalityDivider = (float) (getLevel() > 0 && getRewardExp() > 0 ? getBaseHpMax(0) * 9 * getLevel() * getLevel() / (100 * getRewardExp()) : 0);
 	}
 	
 	public int getNpcId()

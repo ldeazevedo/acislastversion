@@ -158,6 +158,9 @@ public enum Stats
 	MAGICAL_MP_CONSUME_RATE("MagicalMpConsumeRate", false),
 	DANCE_MP_CONSUME_RATE("DanceMpConsumeRate", false),
 	
+	// vitality
+	VITALITY_CONSUME_RATE("vitalityConsumeRate", true),
+	
 	// Skill mastery
 	SKILL_MASTERY("skillMastery", false);
 	

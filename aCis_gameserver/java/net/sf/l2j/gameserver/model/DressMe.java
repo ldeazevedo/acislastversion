@@ -8,8 +8,9 @@ public class DressMe
 	private final int legs;
 	private final int gloves;
 	private final int feet;
+	private boolean hairOn;
 	
-	public DressMe(int itemId, int chest, int legs, int hair, int gloves, int feet)
+	public DressMe(int itemId, int chest, int legs, int hair, int gloves, int feet, boolean hairOn)
 	{
 		this.itemId = itemId;
 		this.chest = chest;
@@ -17,6 +18,7 @@ public class DressMe
 		this.hair = hair;
 		this.gloves = gloves;
 		this.feet = feet;
+		this.hairOn = hairOn;
 	}
 	
 	public final int getItemId()
@@ -47,5 +49,10 @@ public class DressMe
 	public int getFeet()
 	{
 		return feet;
+	}
+	
+	public boolean hairOn()
+	{
+		return hairOn;
 	}
 }

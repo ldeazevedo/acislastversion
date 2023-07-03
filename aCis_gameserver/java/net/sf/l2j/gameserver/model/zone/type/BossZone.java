@@ -5,8 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.sf.l2j.commons.pool.ConnectionPool;
 
@@ -32,8 +32,8 @@ public class BossZone extends ZoneType
 	private final Map<Integer, Long> _allowedPlayersEntryTime = new ConcurrentHashMap<>();
 	
 	// Track players admitted to the zone who should be allowed back in after reboot/server downtime, within 30min of server restart
-	private final /*Set*/List<Integer> _allowedPlayers = new CopyOnWriteArrayList<>();
-	
+	private final Set<Integer> _allowedPlayers = ConcurrentHashMap.newKeySet();
+
 	private final int[] _oustLoc = new int[3];
 	
 	private int _invadeTime;
@@ -232,7 +232,7 @@ public class BossZone extends ZoneType
 	/**
 	 * @return the list of all allowed {@link Player}s objectIds.
 	 */
-	public /*Set*/List<Integer> getAllowedPlayers()
+	public Set<Integer> getAllowedPlayers()
 	{
 		return _allowedPlayers;
 	}

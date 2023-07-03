@@ -73,7 +73,8 @@ public class UserInfo extends L2GameServerPacket
 		writeD(dress != null ? dress.getFeet() : _player.getInventory().getItemObjectIdFrom(Paperdoll.FEET));
 		writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.CLOAK));
 		writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.RHAND));
-		writeD(dress != null ? dress.getHair() : _player.getInventory().getItemObjectIdFrom(Paperdoll.HAIR));
+		writeD(dress != null ? _player.getHair() ? dress.getHair() : _player.getInventory().getItemObjectIdFrom(Paperdoll.HAIR) : _player.getInventory().getItemObjectIdFrom(Paperdoll.HAIR));
+		//writeD(dress != null ? dress.getHair() : _player.getInventory().getItemObjectIdFrom(Paperdoll.HAIR));
 		writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.FACE));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.HAIRALL));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.REAR));
@@ -92,7 +93,8 @@ public class UserInfo extends L2GameServerPacket
 		
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.CLOAK));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.RHAND));
-		writeD(dress != null ? dress.getHair() : _player.getInventory().getItemIdFrom(Paperdoll.HAIR));
+		writeD(dress != null ? _player.getHair() ? dress.getHair() : _player.getInventory().getItemIdFrom(Paperdoll.HAIR) : _player.getInventory().getItemIdFrom(Paperdoll.HAIR));
+		//writeD(dress != null ? dress.getHair() : _player.getInventory().getItemIdFrom(Paperdoll.HAIR));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.FACE));
 		writeH(0x00);
 		writeH(0x00);
