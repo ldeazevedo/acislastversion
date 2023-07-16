@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <list>
-<!-- Ropa de casamiento -->
-	<dressme itemId="40009" chest="6408" hair="0" legs="0" gloves="6408" feet="6408" />
+<!-- Formal Wear -->
+	<dressme itemId="40009" chest="6408" hair="0" legs="6408" gloves="6408" feet="0" hairon="true" />
+	<dressme itemId="40010" chest="7861" hair="0" legs="7861" gloves="7862" feet="7863" hairon="true" /> <!-- Apella Plate Armor Skin -->
+	<dressme itemId="40011" chest="7864" hair="0" legs="7864" gloves="7865" feet="7866" hairon="true" /> <!-- Apella Brigandine Skin -->
+	<dressme itemId="40012" chest="7867" hair="0" legs="7867" gloves="7868" feet="7869" hairon="true" /> <!-- Apella Doublet Skin -->
+	<dressme itemId="40018" chest="15024" hair="15025" legs="15024" gloves="0" feet="0" hairon="false" /> <!-- Anakim -->
+	<dressme itemId="40019" chest="15012" hair="15013" legs="15012" gloves="0" feet="0" hairon="true" /> <!-- Skin: Wizard -->
+	<dressme itemId="40020" chest="15014" hair="15015" legs="15014" gloves="0" feet="0" hairon="true" /> <!-- Skin: Warrior -->
+	<dressme itemId="40021" chest="15016" hair="15017" legs="15016" gloves="0" feet="0" hairon="true" /> <!-- Skin: Cat -->
+	<dressme itemId="40022" chest="15018" hair="15019" legs="15018" gloves="0" feet="0" hairon="true" /> <!-- Skin: King -->
+	<dressme itemId="40023" chest="15020" hair="15021" legs="15020" gloves="0" feet="0" hairon="true" /> <!-- Skin: White King -->
+	<dressme itemId="40024" chest="15022" hair="15023" legs="15022" gloves="0" feet="0" hairon="true" /> <!-- Skin: Valkyrie -->
+	<dressme itemId="40025" chest="15026" hair="15027" legs="15026" gloves="0" feet="0" hairon="true" /> <!-- Skin: Pirate -->
+	<dressme itemId="40026" chest="15028" hair="15029" legs="15028" gloves="0" feet="0" hairon="true" /> <!-- Skin: Pirate Blue -->
+	<dressme itemId="40027" chest="15030" hair="15031" legs="15030" gloves="0" feet="0" hairon="true" /> <!-- Skin: Ninja -->
+	<dressme itemId="40028" chest="15032" hair="15033" legs="15032" gloves="0" feet="0" hairon="true" /> <!-- Skin: Samurai -->
+	<dressme itemId="40029" chest="15034" hair="15035" legs="15034" gloves="0" feet="0" hairon="true" /> <!-- Skin: Dark Wizard -->
+	<dressme itemId="40030" chest="15036" hair="15037" legs="15036" gloves="0" feet="0" hairon="true" /> <!-- Skin: Vampire -->
+	<dressme itemId="40031" chest="15000" hair="15001" legs="15000" gloves="0" feet="0" hairon="true" /> <!-- Skin: Archer -->
+	<dressme itemId="40032" chest="15002" hair="15003" legs="15002" gloves="0" feet="0" hairon="true" /> <!-- Skin: Green Archer -->
+	<dressme itemId="40033" chest="15004" hair="15005" legs="15004" gloves="0" feet="0" hairon="true" /> <!-- Skin: Light Assassin -->
+	<dressme itemId="40034" chest="15006" hair="15007" legs="15006" gloves="0" feet="0" hairon="true" /> <!-- Skin: Dark Assassin -->
+	<dressme itemId="40035" chest="15008" hair="15009" legs="15008" gloves="0" feet="0" hairon="true" /> <!-- Skin: Red Musketeer -->
+	<dressme itemId="40036" chest="15010" hair="15011" legs="15010" gloves="0" feet="0" hairon="true" /> <!-- Skin: Muskeeter -->
+	<dressme itemId="40037" chest="15038" hair="15039" legs="15038" gloves="0" feet="0" hairon="true" /> <!-- Skin: Beleth -->
+	<dressme itemId="40038" chest="15040" hair="15041" legs="15040" gloves="0" feet="0" hairon="true" /> <!-- Skin: Cyborg -->
+	<dressme itemId="40039" chest="15042" hair="15043" legs="15042" gloves="0" feet="0" hairon="true" /> <!-- Skin: Cowboy -->
+	<dressme itemId="40040" chest="15044" hair="15045" legs="15044" gloves="0" feet="0" hairon="true" /> <!-- Skin: Barbarian -->
+	<dressme itemId="40041" chest="15046" hair="15047" legs="15046" gloves="0" feet="0" hairon="true" /> <!-- Skin: Dragon -->
+	<dressme itemId="40042" chest="15048" hair="15049" legs="15048" gloves="0" feet="0" hairon="true" /> <!-- Skin: White Knight -->
+	<dressme itemId="40043" chest="15050" hair="15051" legs="15050" gloves="0" feet="0" hairon="true" /> <!-- Skin: Red Santa -->
+	<dressme itemId="40044" chest="15052" hair="15053" legs="15052" gloves="0" feet="0" hairon="true" /> <!-- Skin: Blue Santa -->
+	<dressme itemId="40045" chest="15054" hair="15055" legs="15054" gloves="0" feet="0" hairon="true" /> <!-- Skin: Dark Knight -->
+	<dressme itemId="40046" chest="15056" hair="15057" legs="15046" gloves="0" feet="0" hairon="true" /> <!-- Skin: Healer -->
+	<dressme itemId="40047" chest="15058" hair="15059" legs="15058" gloves="0" feet="0" hairon="true" /> <!-- Skin: Lilith -->
 </list>
+

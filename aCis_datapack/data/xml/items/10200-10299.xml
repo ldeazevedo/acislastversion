@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<item id="10200" type="Armor" name="Imperial Crusader Shield">
+		<set name="default_action" val="equip" />
+		<set name="bodypart" val="lhand" />
+		<set name="crystal_type" val="S" />
+		<set name="crystal_count" val="188" />
+		<set name="material" val="BONE" />
+		<set name="weight" val="1170" />
+		<set name="price" val="3760000" />
+		<for>
+			<sub stat="rEvas" val="8" />
+			<set stat="rShld" val="20" />
+			<set stat="sDef" val="290" />
+			<enchant val="0" stat="sDef" />
+		</for>
+	</item>
+	<item id="10201" type="Armor" name="Nightmarish Tattoo">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="10204" type="Armor" name="Nightmarish Tattoo">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="10206" type="Armor" name="Nightmarish Tattoo">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+</list>

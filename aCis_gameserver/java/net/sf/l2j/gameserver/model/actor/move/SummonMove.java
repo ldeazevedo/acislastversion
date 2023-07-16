@@ -95,6 +95,7 @@ public class SummonMove extends CreatureMove<Summon>
 		_pawn = null;
 		_offset = 0;
 		
+		destination.addPositiveOffset(60);
 		moveToLocation(destination, true);
 	}
 }

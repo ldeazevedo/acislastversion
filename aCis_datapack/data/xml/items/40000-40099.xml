@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<item id="40000" type="Armor" name="Draconic Plate Armor">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="MAGIC" />
+		<set name="bodypart" val="fullarmor" />
+		<set name="crystal_type" val="S" />
+		<set name="crystal_count" val="870" />
+		<set name="material" val="CLOTH" />
+		<set name="weight" val="2300" />
+		<set name="price" val="17400000" />
+		<for>
+			<baseadd stat="pDef" val="166" />
+			<add stat="maxMp" val="866" />
+			<enchant stat="pDef" val="0" />
+		</for>
+	</item>
+	<item id="40001" type="Armor" name="Major Arcana Robe">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="MAGIC" />
+		<set name="bodypart" val="fullarmor" />
+		<set name="crystal_type" val="S" />
+		<set name="crystal_count" val="870" />
+		<set name="material" val="CLOTH" />
+		<set name="weight" val="2300" />
+		<set name="price" val="17400000" />
+		<for>
+			<baseadd stat="pDef" val="166" />
+			<add stat="maxMp" val="866" />
+			<enchant stat="pDef" val="0" />
+		</for>
+	</item>
+	<item id="40002" type="Armor" name="Draconic Leather Armor">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="LIGHT" />
+		<set name="bodypart" val="fullarmor" />
+		<set name="crystal_type" val="S" />
+		<set name="crystal_count" val="870" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="4950" />
+		<set name="price" val="17400000" />
+		<for>
+			<baseadd stat="pDef" val="249" />
+			<enchant stat="pDef" val="0" />
+		</for>
+	</item>
+	<item id="40003" type="Armor" name="Draconic Leather Boots">
+		<set name="default_action" val="equip" />
+		<set name="bodypart" val="feet" />
+		<set name="crystal_type" val="S" />
+		<set name="crystal_count" val="179" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="1110" />
+		<set name="price" val="3580000" />
+		<for>
+			<baseadd stat="pDef" val="55" />
+			<enchant stat="pDef" val="0" />
+		</for>
+	</item>
+	<item id="40004" type="Armor" name="Draconic Leather Gloves">
+		<set name="default_action" val="equip" />
+		<set name="bodypart" val="gloves" />
+		<set name="crystal_type" val="S" />
+		<set name="crystal_count" val="179" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="540" />
+		<set name="price" val="3580000" />
+		<for>
+			<baseadd stat="pDef" val="55" />
+			<enchant stat="pDef" val="0" />
+		</for>
+	</item>
+	<item id="40005" type="Armor" name="Draconic Leather Boots">
+		<set name="default_action" val="equip" />
+		<set name="bodypart" val="feet" />
+		<set name="crystal_type" val="S" />
+		<set name="crystal_count" val="179" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="1110" />
+		<set name="price" val="3580000" />
+		<for>
+			<baseadd stat="pDef" val="55" />
+			<enchant stat="pDef" val="0" />
+		</for>
+	</item>
+	<item id="40006" type="Armor" name="Draconic Leather Gloves">
+		<set name="default_action" val="equip" />
+		<set name="bodypart" val="gloves" />
+		<set name="crystal_type" val="S" />
+		<set name="crystal_count" val="179" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="540" />
+		<set name="price" val="3580000" />
+		<for>
+			<baseadd stat="pDef" val="55" />
+			<enchant stat="pDef" val="0" />
+		</for>
+	</item>
+	<item id="40007" type="Armor" name="Draconic Leather Gloves">
+		<set name="default_action" val="equip" />
+		<set name="bodypart" val="gloves" />
+		<set name="crystal_type" val="S" />
+		<set name="crystal_count" val="179" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="540" />
+		<set name="price" val="3580000" />
+		<for>
+			<baseadd stat="pDef" val="55" />
+			<enchant stat="pDef" val="0" />
+		</for>
+	</item>
+	<item id="40008" type="Armor" name="Draconic Leather Boots">
+		<set name="default_action" val="equip" />
+		<set name="bodypart" val="feet" />
+		<set name="crystal_type" val="S" />
+		<set name="crystal_count" val="179" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="1110" />
+		<set name="price" val="3580000" />
+		<for>
+			<baseadd stat="pDef" val="55" />
+			<enchant stat="pDef" val="0" />
+		</for>
+	</item>
+	<item id="40009" type="Armor" name="Tattoo of Doom">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="B" />
+		<set name="crystal_count" val="321" />
+		<set name="material" val="DYESTUFF" />
+		<set name="weight" val="4100" />
+		<set name="price" val="2410000" />
+	</item>
+	<item id="40010" type="Armor" name="Apella Plate Armor Skin">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="B" />
+		<set name="crystal_count" val="321" />
+		<set name="material" val="DYESTUFF" />
+		<set name="weight" val="4100" />
+		<set name="price" val="2410000" />
+	</item>
+	<item id="40011" type="Armor" name="Apella Brigandine Skin">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40012" type="Armor" name="Apella Doublet Skin">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40013" type="Armor" name="Nightmarish Tattoo">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40014" type="Armor" name="Nightmarish Tattoo">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40015" type="Armor" name="Nightmarish Tattoo">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40016" type="Armor" name="Nightmarish Tattoo">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40017" type="Armor" name="Nightmarish Tattoo">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40018" type="Armor" name="Skin: Anakim">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40019" type="Armor" name="Skin: Wizard">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40020" type="Armor" name="Skin: Warrior">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40021" type="Armor" name="Skin: Cat">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40022" type="Armor" name="Skin: White King">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40023" type="Armor" name="Skin: White King">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40024" type="Armor" name="Skin: Valkyri">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40025" type="Armor" name="Skin: Pirate">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40026" type="Armor" name="Skin: Pirate Blue">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40027" type="Armor" name="Skin: Ninja">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40028" type="Armor" name="Skin: Samurai">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40029" type="Armor" name="Skin: Dark Wizard">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40030" type="Armor" name="Skin: Vampire">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40031" type="Armor" name="Skin: Archer">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40032" type="Armor" name="Skin: Green Archer">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40033" type="Armor" name="Skin: Light Assassin">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40034" type="Armor" name="Skin: Dark Assassin">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40035" type="Armor" name="Skin: Red Musketeer">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40036" type="Armor" name="Skin: Muskeeter">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40037" type="Armor" name="Skin: Beleth">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40038" type="Armor" name="Skin: Cyborg">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40039" type="Armor" name="Skin: Cowboy">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40040" type="Armor" name="Skin: Barbarian">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40041" type="Armor" name="Skin: Dragon">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40042" type="Armor" name="Skin: White Knight">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40043" type="Armor" name="Skin: Red Santa">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40044" type="Armor" name="Skin: Blue Santa">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40045" type="Armor" name="Skin: Dark Knight">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40046" type="Armor" name="Skin: Healer">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40047" type="Armor" name="Skin: Lilith">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40048" type="Armor" name="Skin: Wedding dress">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+	<item id="40049" type="Armor" name="Skin: null">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="crystal_type" val="A" />
+		<set name="crystal_count" val="422" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="3600" />
+		<set name="price" val="5280000" />
+	</item>
+</list>

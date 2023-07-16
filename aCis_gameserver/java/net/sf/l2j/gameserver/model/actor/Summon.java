@@ -58,6 +58,7 @@ public abstract class Summon extends Playable
 		
 		// Set the Player owner.
 		_owner = owner;
+//		_summons.put(objectId, this);
 	}
 	
 	public abstract int getSummonType();

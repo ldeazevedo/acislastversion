@@ -3,6 +3,7 @@ package net.sf.l2j.gameserver.network.clientpackets;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.instance.Agathion;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
@@ -53,6 +54,12 @@ public final class Action extends L2GameClientPacket
 		if (targetPlayer != null && targetPlayer.getDuelState() == DuelState.DEAD)
 		{
 			player.sendPacket(SystemMessageId.OTHER_PARTY_IS_FROZEN);
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
+		if (target instanceof Agathion)
+		{
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
 		}

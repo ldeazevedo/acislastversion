@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<skill id="17000" levels="1" name="Vitality 0" >
+		<set name="magicLvl" val="-1"/>
+		<set name="target" val="SELF"/>
+		<set name="isPotion" val="true" />
+		<set name="hitTime" val="450"/>
+		<set name="skillType" val="BUFF"/>
+		<set name="operateType" val="ACTIVE"/>
+		<set name="aggroPoints" val="100"/>
+		<for>
+			<effect name="Buff" time="1" noicon="1" val="0" stackOrder="0" stackType="special">
+			</effect>
+		</for>
+	</skill>
+	<skill id="17001" levels="1" name="Vitality 1" >
+		<set name="magicLvl" val="-1"/>
+		<set name="target" val="SELF"/>
+		<set name="isPotion" val="true" />
+		<set name="hitTime" val="450"/>
+		<set name="skillType" val="BUFF"/>
+		<set name="operateType" val="ACTIVE"/>
+		<set name="aggroPoints" val="100"/>
+		<for>
+			<effect name="Buff" time="1" noicon="1" val="0" stackOrder="0" stackType="special">
+			</effect>
+		</for>
+	</skill>
+	<skill id="17002" levels="1" name="Vitality 2" >
+		<set name="magicLvl" val="-1"/>
+		<set name="target" val="SELF"/>
+		<set name="isPotion" val="true" />
+		<set name="hitTime" val="450"/>
+		<set name="skillType" val="BUFF"/>
+		<set name="operateType" val="ACTIVE"/>
+		<set name="aggroPoints" val="100"/>
+		<for>
+			<effect name="Buff" time="1" noicon="1" val="0" stackOrder="0" stackType="special">
+			</effect>
+		</for>
+	</skill>
+	<skill id="17003" levels="1" name="Vitality 3" >
+		<set name="magicLvl" val="-1"/>
+		<set name="target" val="SELF"/>
+		<set name="isPotion" val="true" />
+		<set name="hitTime" val="450"/>
+		<set name="skillType" val="BUFF"/>
+		<set name="operateType" val="ACTIVE"/>
+		<set name="aggroPoints" val="100"/>
+		<for>
+			<effect name="Buff" time="1" noicon="1" val="0" stackOrder="0" stackType="special">
+			</effect>
+		</for>
+	</skill>
+	<skill id="17004" levels="1" name="Vitality 4" >
+		<set name="magicLvl" val="-1"/>
+		<set name="target" val="SELF"/>
+		<set name="isPotion" val="true" />
+		<set name="hitTime" val="450"/>
+		<set name="skillType" val="BUFF"/>
+		<set name="operateType" val="ACTIVE"/>
+		<set name="aggroPoints" val="100"/>
+		<for>
+			<effect name="Buff" time="1" noicon="1" val="0" stackOrder="0" stackType="special">
+			</effect>
+		</for>
+	</skill>
+	<skill id="17005" levels="1" name="Greater Vitality" >
+		<set name="magicLvl" val="-1"/>
+		<set name="target" val="SELF"/>
+		<set name="isPotion" val="true" />
+		<set name="hitTime" val="420"/>
+		<set name="skillType" val="BUFF"/>
+		<set name="operateType" val="ACTIVE"/>
+		<set name="aggroPoints" val="100"/>
+		<for>
+			<effect name="Buff" time="1" noicon="1" val="0" stackOrder="0" stackType="special">
+			</effect>
+		</for>
+	</skill>
+	<skill id="17006" levels="1" name="Summon King Bugbear" >
+		<set name="magicLvl" val="1"/>
+		<set name="itemConsumeId" val="1458" />
+		<set name="mpConsume" val="0" />
+		<set name="itemConsumeSteps" val="0" />
+		<set name="summonTotalLifeTime" val="7200000" />
+		<set name="summonTimeLostIdle" val="500" />
+		<set name="summonTimeLostActive" val="1000" />
+		<set name="target" val="SELF" />
+		<set name="itemConsumeCount" val="1" />
+		<set name="reuseDelay" val="4500" />
+		<set name="hitTime" val="4000" />
+		<set name="skillType" val="SUMMON" />
+		<set name="isMagic" val="true" />
+		<set name="isAgathion" val="true" />
+		<set name="operateType" val="ACTIVE" />
+		<set name="npcId" val="20150" />
+	</skill>
+	<skill id="17007" levels="1" name="Summon Agathion" >
+		<set name="magicLvl" val="1"/>
+		<set name="itemConsumeId" val="1458" />
+		<set name="mpConsume" val="0" />
+		<set name="itemConsumeSteps" val="0" />
+		<set name="summonTotalLifeTime" val="7200000" />
+		<set name="summonTimeLostIdle" val="500" />
+		<set name="summonTimeLostActive" val="1000" />
+		<set name="target" val="SELF" />
+		<set name="itemConsumeCount" val="1" />
+		<set name="reuseDelay" val="4500" />
+		<set name="hitTime" val="4000" />
+		<set name="skillType" val="SUMMON" />
+		<set name="isMagic" val="true" />
+		<set name="isAgathion" val="true" />
+		<set name="operateType" val="ACTIVE" />
+		<set name="npcId" val="40090" />
+	</skill>
+	<skill id="17008" levels="1" name="Summon Agathion" >
+		<set name="magicLvl" val="1"/>
+		<set name="itemConsumeId" val="1458" />
+		<set name="mpConsume" val="0" />
+		<set name="itemConsumeSteps" val="0" />
+		<set name="summonTotalLifeTime" val="7200000" />
+		<set name="summonTimeLostIdle" val="500" />
+		<set name="summonTimeLostActive" val="1000" />
+		<set name="target" val="SELF" />
+		<set name="itemConsumeCount" val="1" />
+		<set name="reuseDelay" val="4500" />
+		<set name="hitTime" val="4000" />
+		<set name="skillType" val="SUMMON" />
+		<set name="isMagic" val="true" />
+		<set name="isAgathion" val="true" />
+		<set name="operateType" val="ACTIVE" />
+		<set name="npcId" val="40091" />
+	</skill>
+	<skill id="17009" levels="1" name="Summon Agathion" >
+		<set name="magicLvl" val="1"/>
+		<set name="itemConsumeId" val="1458" />
+		<set name="mpConsume" val="0" />
+		<set name="itemConsumeSteps" val="0" />
+		<set name="summonTotalLifeTime" val="7200000" />
+		<set name="summonTimeLostIdle" val="500" />
+		<set name="summonTimeLostActive" val="1000" />
+		<set name="target" val="SELF" />
+		<set name="itemConsumeCount" val="1" />
+		<set name="reuseDelay" val="4500" />
+		<set name="hitTime" val="4000" />
+		<set name="skillType" val="SUMMON" />
+		<set name="isMagic" val="true" />
+		<set name="isAgathion" val="true" />
+		<set name="operateType" val="ACTIVE" />
+		<set name="npcId" val="40092" />
+	</skill>
+	<skill id="17010" levels="1" name="Summon Agathion" >
+		<set name="magicLvl" val="1"/>
+		<set name="itemConsumeId" val="1458" />
+		<set name="mpConsume" val="0" />
+		<set name="itemConsumeSteps" val="0" />
+		<set name="summonTotalLifeTime" val="7200000" />
+		<set name="summonTimeLostIdle" val="500" />
+		<set name="summonTimeLostActive" val="1000" />
+		<set name="target" val="SELF" />
+		<set name="itemConsumeCount" val="1" />
+		<set name="reuseDelay" val="4500" />
+		<set name="hitTime" val="4000" />
+		<set name="skillType" val="SUMMON" />
+		<set name="isMagic" val="true" />
+		<set name="isAgathion" val="true" />
+		<set name="operateType" val="ACTIVE" />
+		<set name="npcId" val="40093" />
+	</skill>
+	<skill id="17011" levels="1" name="Summon Agathion" >
+		<set name="magicLvl" val="1"/>
+		<set name="itemConsumeId" val="1458" />
+		<set name="mpConsume" val="0" />
+		<set name="itemConsumeSteps" val="0" />
+		<set name="summonTotalLifeTime" val="7200000" />
+		<set name="summonTimeLostIdle" val="500" />
+		<set name="summonTimeLostActive" val="1000" />
+		<set name="target" val="SELF" />
+		<set name="itemConsumeCount" val="1" />
+		<set name="reuseDelay" val="4500" />
+		<set name="hitTime" val="4000" />
+		<set name="skillType" val="SUMMON" />
+		<set name="isMagic" val="true" />
+		<set name="isAgathion" val="true" />
+		<set name="operateType" val="ACTIVE" />
+		<set name="npcId" val="40094" />
+	</skill>
+	<skill id="17012" levels="1" name="Summon Agathion" >
+		<set name="magicLvl" val="1"/>
+		<set name="itemConsumeId" val="1458" />
+		<set name="mpConsume" val="0" />
+		<set name="itemConsumeSteps" val="0" />
+		<set name="summonTotalLifeTime" val="7200000" />
+		<set name="summonTimeLostIdle" val="500" />
+		<set name="summonTimeLostActive" val="1000" />
+		<set name="target" val="SELF" />
+		<set name="itemConsumeCount" val="1" />
+		<set name="reuseDelay" val="4500" />
+		<set name="hitTime" val="4000" />
+		<set name="skillType" val="SUMMON" />
+		<set name="isMagic" val="true" />
+		<set name="isAgathion" val="true" />
+		<set name="operateType" val="ACTIVE" />
+		<set name="npcId" val="40095" />
+	</skill>
+	<skill id="17013" levels="1" name="Summon Agathion" >
+		<set name="magicLvl" val="1"/>
+		<set name="itemConsumeId" val="1458" />
+		<set name="mpConsume" val="0" />
+		<set name="itemConsumeSteps" val="0" />
+		<set name="summonTotalLifeTime" val="7200000" />
+		<set name="summonTimeLostIdle" val="500" />
+		<set name="summonTimeLostActive" val="1000" />
+		<set name="target" val="SELF" />
+		<set name="itemConsumeCount" val="1" />
+		<set name="reuseDelay" val="4500" />
+		<set name="hitTime" val="4000" />
+		<set name="skillType" val="SUMMON" />
+		<set name="isMagic" val="true" />
+		<set name="isAgathion" val="true" />
+		<set name="operateType" val="ACTIVE" />
+		<set name="npcId" val="40096" />
+	</skill>
+	<skill id="17014" levels="1" name="Summon Agathion" >
+		<set name="magicLvl" val="1"/>
+		<set name="itemConsumeId" val="1458" />
+		<set name="mpConsume" val="0" />
+		<set name="itemConsumeSteps" val="0" />
+		<set name="summonTotalLifeTime" val="7200000" />
+		<set name="summonTimeLostIdle" val="500" />
+		<set name="summonTimeLostActive" val="1000" />
+		<set name="target" val="SELF" />
+		<set name="itemConsumeCount" val="1" />
+		<set name="reuseDelay" val="4500" />
+		<set name="hitTime" val="4000" />
+		<set name="skillType" val="SUMMON" />
+		<set name="isMagic" val="true" />
+		<set name="isAgathion" val="true" />
+		<set name="operateType" val="ACTIVE" />
+		<set name="npcId" val="40097" />
+	</skill>
+	<skill id="17015" levels="1" name="Summon Agathion" >
+		<set name="magicLvl" val="1"/>
+		<set name="target" val="SELF" />
+		<set name="hitTime" val="5000" />
+		<set name="staticHitTime" val="true" />
+		<set name="skillType" val="SUMMON_CREATURE" />
+		<set name="isMagic" val="true" />
+		<set name="operateType" val="ACTIVE" />
+	</skill>
+</list>

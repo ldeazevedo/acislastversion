@@ -93,11 +93,10 @@ public class PcInventory extends Inventory
 					return;
 			}
 		}
-		if (item.getItem().getBodyPart()  == Item.SLOT_UNDERWEAR)
+		if (item.getItem().getBodyPart() == Item.SLOT_UNDERWEAR)
 		{
 			final DressMe dress = DressMeData.getInstance().getItemId(item.getItemId());
-			if (dress != null)
-				getOwner().setDress(dress);
+			getOwner().setDress(dress != null ? dress : null);
 		}
 		
 		super.equipItem(item);

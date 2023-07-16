@@ -68,8 +68,8 @@ public class UserInfo extends L2GameServerPacket
 		writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.RHAND));
 		writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.LHAND));
 		writeD(dress != null ? dress.getGloves() : _player.getInventory().getItemObjectIdFrom(Paperdoll.GLOVES));
-		writeD(dress != null ? dress.getChest() : _player.getInventory().getItemObjectIdFrom(Paperdoll.CHEST));
-		writeD(dress != null ? dress.getLegs() : _player.getInventory().getItemObjectIdFrom(Paperdoll.LEGS));
+		writeD(dress != null && dress.getChest() != 0 ? dress.getChest() : _player.getInventory().getItemObjectIdFrom(Paperdoll.CHEST));
+		writeD(dress != null && dress.getLegs() != 0 ? dress.getLegs() : _player.getInventory().getItemObjectIdFrom(Paperdoll.LEGS));
 		writeD(dress != null ? dress.getFeet() : _player.getInventory().getItemObjectIdFrom(Paperdoll.FEET));
 		writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.CLOAK));
 		writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.RHAND));
@@ -85,12 +85,10 @@ public class UserInfo extends L2GameServerPacket
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.HEAD));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.RHAND));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.LHAND));
-
 		writeD(dress != null ? dress.getGloves() : _player.getInventory().getItemIdFrom(Paperdoll.GLOVES));
-		writeD(dress != null ? dress.getChest() : _player.getInventory().getItemIdFrom(Paperdoll.CHEST));
-		writeD(dress != null ? dress.getLegs() : _player.getInventory().getItemIdFrom(Paperdoll.LEGS));
+		writeD(dress != null && dress.getChest() != 0 ? dress.getChest() : _player.getInventory().getItemIdFrom(Paperdoll.CHEST));
+		writeD(dress != null && dress.getLegs() != 0 ? dress.getLegs() : _player.getInventory().getItemIdFrom(Paperdoll.LEGS));
 		writeD(dress != null ? dress.getFeet() : _player.getInventory().getItemIdFrom(Paperdoll.FEET));
-		
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.CLOAK));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.RHAND));
 		writeD(dress != null ? _player.getHair() ? dress.getHair() : _player.getInventory().getItemIdFrom(Paperdoll.HAIR) : _player.getInventory().getItemIdFrom(Paperdoll.HAIR));

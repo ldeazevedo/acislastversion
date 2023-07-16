@@ -17,7 +17,6 @@ import net.sf.l2j.gameserver.skills.effects.EffectTemplate;
 
 public class ItemSkills implements IItemHandler
 {
-	
 	private static final int[] HP_POTION_SKILL_IDS =
 	{
 		2031, // Lesser Healing Potion

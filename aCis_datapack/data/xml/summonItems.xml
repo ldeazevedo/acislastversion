@@ -13,4 +13,21 @@
 	<item id="6648" npcId="12780" summonType="1"/><!-- Baby Buffalo -->
 	<item id="6649" npcId="12782" summonType="1"/><!-- Baby Cougar -->
 	<item id="6650" npcId="12781" summonType="1"/><!-- Baby Kookaburra -->
+	<!-- Agathions -->
+	<item id="40070" npcId="9912" summonType="1"/><!-- test -->
+	<item id="40071" npcId="9913" summonType="1"/><!-- test -->
+	<item id="40072" npcId="9914" summonType="1"/><!-- test -->
+	<item id="40073" npcId="9915" summonType="1"/><!-- test -->
+	<item id="40090" npcId="40090" summonType="1"/><!-- test -->
+	<item id="40091" npcId="40091" summonType="1"/><!-- test -->
+	<item id="40092" npcId="40092" summonType="1"/><!-- test -->
+	<item id="40093" npcId="40093" summonType="1"/><!-- test -->
+	<item id="40094" npcId="40094" summonType="1"/><!-- test -->
+	<item id="40095" npcId="40095" summonType="1"/><!-- test -->
+	<item id="40096" npcId="40096" summonType="1"/><!-- test -->
+	<item id="40097" npcId="37006" summonType="1"/><!-- test -->
+	<item id="40098" npcId="40098" summonType="1"/><!-- test -->
+	<item id="40099" npcId="40099" summonType="1"/><!-- test -->
+	<item id="40100" npcId="37008" summonType="1"/><!-- test -->
+	<item id="40101" npcId="37013" summonType="1"/><!-- test -->
 </list>

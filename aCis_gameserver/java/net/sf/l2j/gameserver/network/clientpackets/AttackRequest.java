@@ -3,6 +3,7 @@ package net.sf.l2j.gameserver.network.clientpackets;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.instance.Agathion;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 
@@ -49,6 +50,12 @@ public final class AttackRequest extends L2GameClientPacket
 			target = World.getInstance().getObject(_objectId);
 		
 		if (target == null)
+		{
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
+		if (target instanceof Agathion)
 		{
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;

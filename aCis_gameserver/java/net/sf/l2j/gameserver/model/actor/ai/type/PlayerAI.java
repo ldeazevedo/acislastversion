@@ -200,8 +200,8 @@ public class PlayerAI extends PlayableAI<Player>
 		}
 		
 		boolean isShiftPressed = _currentIntention.isShiftPressed();
-		//if (_actor.getMove().maybeMoveToPawn(target, _actor.getStatus().getPhysicalAttackRange(), isShiftPressed))
-		if (_actor.getMove().maybeMoveToPawn(target, (target instanceof Attackable) ? Math.max(100, _actor.getStatus().getPhysicalAttackRange()) : 100, isShiftPressed))
+		if (_actor.getMove().maybeMoveToPawn(target, _actor.getStatus().getPhysicalAttackRange(), isShiftPressed))
+		//if (_actor.getMove().maybeMoveToPawn(target, (target instanceof Attackable) ? Math.max(100, _actor.getStatus().getPhysicalAttackRange()) : 100, isShiftPressed))
 		{
 			if (isShiftPressed)
 			{

@@ -25848,4 +25848,424 @@
 			</category>
 		</drops>
 	</npc>
+	<npc id="25616" idTemplate="25527" name="Uruka" title="Raid Boss">
+		<set name="level" val="86"/>
+		<set name="radius" val="30"/>
+		<set name="height" val="42.51"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="RaidBoss"/>
+		<set name="exp" val="3051180"/>
+		<set name="sp" val="952059"/>
+		<set name="hp" val="675862.82488359"/>
+		<set name="mp" val="203.52"/>
+		<set name="hpRegen" val="259.751563024682"/>
+		<set name="mpRegen" val="3.18"/>
+		<set name="pAtk" val="3068.49967024509"/>
+		<set name="pDef" val="1162.672236"/>
+		<set name="mAtk" val="1381.13520659718"/>
+		<set name="mDef" val="567.1848"/>
+		<set name="crit" val="1"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="60"/>
+		<set name="int" val="76"/>
+		<set name="dex" val="73"/>
+		<set name="wit" val="70"/>
+		<set name="con" val="57"/>
+		<set name="men" val="80"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="190"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4172" level="5"/>
+			<skill id="4173" level="4"/>
+			<skill id="4177" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4494" level="1"/>
+			<skill id="4721" level="5"/>
+			<skill id="5179" level="1"/>
+		</skills>
+		<drops>
+			<category type="DROP" chance="49.4563">
+				<drop itemid="6724" min="1" max="1" chance="5.9961"/>
+				<drop itemid="6725" min="1" max="1" chance="8.9942"/>
+				<drop itemid="6726" min="1" max="1" chance="4.4961"/>
+				<drop itemid="6698" min="81" max="243" chance="11.8869"/>
+				<drop itemid="6699" min="40" max="120" chance="26.71"/>
+				<drop itemid="6700" min="14" max="42" chance="41.9167"/>
+			</category>
+			<category type="DROP" chance="68.7123">
+				<drop itemid="6365" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6366" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6369" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6579" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6689" min="2" max="6" chance="42.0931"/>
+				<drop itemid="6690" min="11" max="31" chance="8.1873"/>
+				<drop itemid="6693" min="6" max="18" chance="14.5597"/>
+				<drop itemid="6697" min="3" max="7" chance="33.6747"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="25617" idTemplate="25527" name="Uruka" title="Raid Boss">
+		<set name="level" val="86"/>
+		<set name="radius" val="30"/>
+		<set name="height" val="42.51"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="RaidBoss"/>
+		<set name="exp" val="3051180"/>
+		<set name="sp" val="952059"/>
+		<set name="hp" val="675862.82488359"/>
+		<set name="mp" val="203.52"/>
+		<set name="hpRegen" val="259.751563024682"/>
+		<set name="mpRegen" val="3.18"/>
+		<set name="pAtk" val="3068.49967024509"/>
+		<set name="pDef" val="1162.672236"/>
+		<set name="mAtk" val="1381.13520659718"/>
+		<set name="mDef" val="567.1848"/>
+		<set name="crit" val="1"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="60"/>
+		<set name="int" val="76"/>
+		<set name="dex" val="73"/>
+		<set name="wit" val="70"/>
+		<set name="con" val="57"/>
+		<set name="men" val="80"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="190"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4172" level="5"/>
+			<skill id="4173" level="4"/>
+			<skill id="4177" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4494" level="1"/>
+			<skill id="4721" level="5"/>
+			<skill id="5179" level="1"/>
+		</skills>
+		<drops>
+			<category type="DROP" chance="49.4563">
+				<drop itemid="6724" min="1" max="1" chance="5.9961"/>
+				<drop itemid="6725" min="1" max="1" chance="8.9942"/>
+				<drop itemid="6726" min="1" max="1" chance="4.4961"/>
+				<drop itemid="6698" min="81" max="243" chance="11.8869"/>
+				<drop itemid="6699" min="40" max="120" chance="26.71"/>
+				<drop itemid="6700" min="14" max="42" chance="41.9167"/>
+			</category>
+			<category type="DROP" chance="68.7123">
+				<drop itemid="6365" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6366" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6369" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6579" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6689" min="2" max="6" chance="42.0931"/>
+				<drop itemid="6690" min="11" max="31" chance="8.1873"/>
+				<drop itemid="6693" min="6" max="18" chance="14.5597"/>
+				<drop itemid="6697" min="3" max="7" chance="33.6747"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="25618" idTemplate="25527" name="Uruka" title="Raid Boss">
+		<set name="level" val="86"/>
+		<set name="radius" val="30"/>
+		<set name="height" val="42.51"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="RaidBoss"/>
+		<set name="exp" val="3051180"/>
+		<set name="sp" val="952059"/>
+		<set name="hp" val="675862.82488359"/>
+		<set name="mp" val="203.52"/>
+		<set name="hpRegen" val="259.751563024682"/>
+		<set name="mpRegen" val="3.18"/>
+		<set name="pAtk" val="3068.49967024509"/>
+		<set name="pDef" val="1162.672236"/>
+		<set name="mAtk" val="1381.13520659718"/>
+		<set name="mDef" val="567.1848"/>
+		<set name="crit" val="1"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="60"/>
+		<set name="int" val="76"/>
+		<set name="dex" val="73"/>
+		<set name="wit" val="70"/>
+		<set name="con" val="57"/>
+		<set name="men" val="80"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="190"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4172" level="5"/>
+			<skill id="4173" level="4"/>
+			<skill id="4177" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4494" level="1"/>
+			<skill id="4721" level="5"/>
+			<skill id="5179" level="1"/>
+		</skills>
+		<drops>
+			<category type="DROP" chance="49.4563">
+				<drop itemid="6724" min="1" max="1" chance="5.9961"/>
+				<drop itemid="6725" min="1" max="1" chance="8.9942"/>
+				<drop itemid="6726" min="1" max="1" chance="4.4961"/>
+				<drop itemid="6698" min="81" max="243" chance="11.8869"/>
+				<drop itemid="6699" min="40" max="120" chance="26.71"/>
+				<drop itemid="6700" min="14" max="42" chance="41.9167"/>
+			</category>
+			<category type="DROP" chance="68.7123">
+				<drop itemid="6365" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6366" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6369" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6579" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6689" min="2" max="6" chance="42.0931"/>
+				<drop itemid="6690" min="11" max="31" chance="8.1873"/>
+				<drop itemid="6693" min="6" max="18" chance="14.5597"/>
+				<drop itemid="6697" min="3" max="7" chance="33.6747"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="25619" idTemplate="25527" name="Uruka" title="Raid Boss">
+		<set name="level" val="86"/>
+		<set name="radius" val="30"/>
+		<set name="height" val="42.51"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="RaidBoss"/>
+		<set name="exp" val="3051180"/>
+		<set name="sp" val="952059"/>
+		<set name="hp" val="675862.82488359"/>
+		<set name="mp" val="203.52"/>
+		<set name="hpRegen" val="259.751563024682"/>
+		<set name="mpRegen" val="3.18"/>
+		<set name="pAtk" val="3068.49967024509"/>
+		<set name="pDef" val="1162.672236"/>
+		<set name="mAtk" val="1381.13520659718"/>
+		<set name="mDef" val="567.1848"/>
+		<set name="crit" val="1"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="60"/>
+		<set name="int" val="76"/>
+		<set name="dex" val="73"/>
+		<set name="wit" val="70"/>
+		<set name="con" val="57"/>
+		<set name="men" val="80"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="190"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4172" level="5"/>
+			<skill id="4173" level="4"/>
+			<skill id="4177" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4494" level="1"/>
+			<skill id="4721" level="5"/>
+			<skill id="5179" level="1"/>
+		</skills>
+		<drops>
+			<category type="DROP" chance="49.4563">
+				<drop itemid="6724" min="1" max="1" chance="5.9961"/>
+				<drop itemid="6725" min="1" max="1" chance="8.9942"/>
+				<drop itemid="6726" min="1" max="1" chance="4.4961"/>
+				<drop itemid="6698" min="81" max="243" chance="11.8869"/>
+				<drop itemid="6699" min="40" max="120" chance="26.71"/>
+				<drop itemid="6700" min="14" max="42" chance="41.9167"/>
+			</category>
+			<category type="DROP" chance="68.7123">
+				<drop itemid="6365" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6366" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6369" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6579" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6689" min="2" max="6" chance="42.0931"/>
+				<drop itemid="6690" min="11" max="31" chance="8.1873"/>
+				<drop itemid="6693" min="6" max="18" chance="14.5597"/>
+				<drop itemid="6697" min="3" max="7" chance="33.6747"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="25620" idTemplate="25527" name="Uruka" title="Raid Boss">
+		<set name="level" val="86"/>
+		<set name="radius" val="30"/>
+		<set name="height" val="42.51"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="RaidBoss"/>
+		<set name="exp" val="3051180"/>
+		<set name="sp" val="952059"/>
+		<set name="hp" val="675862.82488359"/>
+		<set name="mp" val="203.52"/>
+		<set name="hpRegen" val="259.751563024682"/>
+		<set name="mpRegen" val="3.18"/>
+		<set name="pAtk" val="3068.49967024509"/>
+		<set name="pDef" val="1162.672236"/>
+		<set name="mAtk" val="1381.13520659718"/>
+		<set name="mDef" val="567.1848"/>
+		<set name="crit" val="1"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="60"/>
+		<set name="int" val="76"/>
+		<set name="dex" val="73"/>
+		<set name="wit" val="70"/>
+		<set name="con" val="57"/>
+		<set name="men" val="80"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="190"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4172" level="5"/>
+			<skill id="4173" level="4"/>
+			<skill id="4177" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4494" level="1"/>
+			<skill id="4721" level="5"/>
+			<skill id="5179" level="1"/>
+		</skills>
+		<drops>
+			<category type="DROP" chance="49.4563">
+				<drop itemid="6724" min="1" max="1" chance="5.9961"/>
+				<drop itemid="6725" min="1" max="1" chance="8.9942"/>
+				<drop itemid="6726" min="1" max="1" chance="4.4961"/>
+				<drop itemid="6698" min="81" max="243" chance="11.8869"/>
+				<drop itemid="6699" min="40" max="120" chance="26.71"/>
+				<drop itemid="6700" min="14" max="42" chance="41.9167"/>
+			</category>
+			<category type="DROP" chance="68.7123">
+				<drop itemid="6365" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6366" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6369" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6579" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6689" min="2" max="6" chance="42.0931"/>
+				<drop itemid="6690" min="11" max="31" chance="8.1873"/>
+				<drop itemid="6693" min="6" max="18" chance="14.5597"/>
+				<drop itemid="6697" min="3" max="7" chance="33.6747"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="25621" idTemplate="25527" name="Uruka" title="Raid Boss">
+		<set name="level" val="86"/>
+		<set name="radius" val="30"/>
+		<set name="height" val="42.51"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="RaidBoss"/>
+		<set name="exp" val="3051180"/>
+		<set name="sp" val="952059"/>
+		<set name="hp" val="675862.82488359"/>
+		<set name="mp" val="203.52"/>
+		<set name="hpRegen" val="259.751563024682"/>
+		<set name="mpRegen" val="3.18"/>
+		<set name="pAtk" val="3068.49967024509"/>
+		<set name="pDef" val="1162.672236"/>
+		<set name="mAtk" val="1381.13520659718"/>
+		<set name="mDef" val="567.1848"/>
+		<set name="crit" val="1"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="60"/>
+		<set name="int" val="76"/>
+		<set name="dex" val="73"/>
+		<set name="wit" val="70"/>
+		<set name="con" val="57"/>
+		<set name="men" val="80"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="190"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4172" level="5"/>
+			<skill id="4173" level="4"/>
+			<skill id="4177" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4494" level="1"/>
+			<skill id="4721" level="5"/>
+			<skill id="5179" level="1"/>
+		</skills>
+		<drops>
+			<category type="DROP" chance="49.4563">
+				<drop itemid="6724" min="1" max="1" chance="5.9961"/>
+				<drop itemid="6725" min="1" max="1" chance="8.9942"/>
+				<drop itemid="6726" min="1" max="1" chance="4.4961"/>
+				<drop itemid="6698" min="81" max="243" chance="11.8869"/>
+				<drop itemid="6699" min="40" max="120" chance="26.71"/>
+				<drop itemid="6700" min="14" max="42" chance="41.9167"/>
+			</category>
+			<category type="DROP" chance="68.7123">
+				<drop itemid="6365" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6366" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6369" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6579" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6689" min="2" max="6" chance="42.0931"/>
+				<drop itemid="6690" min="11" max="31" chance="8.1873"/>
+				<drop itemid="6693" min="6" max="18" chance="14.5597"/>
+				<drop itemid="6697" min="3" max="7" chance="33.6747"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="25622" idTemplate="25527" name="Uruka" title="Raid Boss">
+		<set name="level" val="86"/>
+		<set name="radius" val="30"/>
+		<set name="height" val="42.51"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="RaidBoss"/>
+		<set name="exp" val="3051180"/>
+		<set name="sp" val="952059"/>
+		<set name="hp" val="675862.82488359"/>
+		<set name="mp" val="203.52"/>
+		<set name="hpRegen" val="259.751563024682"/>
+		<set name="mpRegen" val="3.18"/>
+		<set name="pAtk" val="3068.49967024509"/>
+		<set name="pDef" val="1162.672236"/>
+		<set name="mAtk" val="1381.13520659718"/>
+		<set name="mDef" val="567.1848"/>
+		<set name="crit" val="1"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="60"/>
+		<set name="int" val="76"/>
+		<set name="dex" val="73"/>
+		<set name="wit" val="70"/>
+		<set name="con" val="57"/>
+		<set name="men" val="80"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="190"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4172" level="5"/>
+			<skill id="4173" level="4"/>
+			<skill id="4177" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4494" level="1"/>
+			<skill id="4721" level="5"/>
+			<skill id="5179" level="1"/>
+		</skills>
+		<drops>
+			<category type="DROP" chance="49.4563">
+				<drop itemid="6724" min="1" max="1" chance="5.9961"/>
+				<drop itemid="6725" min="1" max="1" chance="8.9942"/>
+				<drop itemid="6726" min="1" max="1" chance="4.4961"/>
+				<drop itemid="6698" min="81" max="243" chance="11.8869"/>
+				<drop itemid="6699" min="40" max="120" chance="26.71"/>
+				<drop itemid="6700" min="14" max="42" chance="41.9167"/>
+			</category>
+			<category type="DROP" chance="68.7123">
+				<drop itemid="6365" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6366" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6369" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6579" min="1" max="1" chance="0.3713"/>
+				<drop itemid="6689" min="2" max="6" chance="42.0931"/>
+				<drop itemid="6690" min="11" max="31" chance="8.1873"/>
+				<drop itemid="6693" min="6" max="18" chance="14.5597"/>
+				<drop itemid="6697" min="3" max="7" chance="33.6747"/>
+			</category>
+		</drops>
+	</npc>
 </list>

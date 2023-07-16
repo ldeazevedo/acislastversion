@@ -48,7 +48,7 @@ public final class RequestDropItem extends L2GameClientPacket
 		if (item.isQuestItem())
 			return;
 		
-		if (_count > item.getCount())
+		if (_count > item.getCount() || item.isAgathion())
 		{
 			player.sendPacket(SystemMessageId.CANNOT_DISCARD_THIS_ITEM);
 			return;

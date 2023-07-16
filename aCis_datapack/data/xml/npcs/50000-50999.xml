@@ -108,13 +108,13 @@
 			<skill id="4416" level="18"/>
 		</skills>
 	</npc>
-	<npc id="50009" idTemplate="31324" name="Andromeda" title="TvT Manager">
+	<npc id="50009" idTemplate="31324" name="Andromeda" title="Manager">
 		<set name="usingServerSideName" val="true"/>
 		<set name="usingServerSideTitle" val="true"/>
 		<set name="level" val="70"/>
-		<set name="radius" val="7"/>
-		<set name="height" val="18"/>
-		<set name="rHand" val="0"/>
+		<set name="radius" val="8"/>
+		<set name="height" val="23"/>
+		<set name="rHand" val="316"/>
 		<set name="lHand" val="0"/>
 		<set name="type" val="TvTEventNpc"/>
 		<set name="exp" val="0"/>
@@ -141,7 +141,7 @@
 		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
 		<skills>
 			<skill id="4045" level="1"/>
-			<skill id="4416" level="18"/>
+			<skill id="4416" level="16"/>
 		</skills>
 	</npc>
 	<npc id="50010" idTemplate="31324" name="Andromeda" title="Manager">
@@ -188,7 +188,197 @@
 		<set name="height" val="23"/>
 		<set name="rHand" val="316"/>
 		<set name="lHand" val="0"/>
+		<set name="type" val="ItemMarketer"/>
+		<set name="exp" val="0"/>
+		<set name="sp" val="0"/>
+		<set name="hp" val="2444.46819"/>
+		<set name="mp" val="1345.8"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="688.86373"/>
+		<set name="pDef" val="295.91597"/>
+		<set name="mAtk" val="470.40463"/>
+		<set name="mDef" val="216.53847"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="20"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="50"/>
+		<set name="runSpd" val="120"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4416" level="16"/>
+		</skills>
+	</npc>
+	<npc id="50012" idTemplate="31324" name="Andromeda" title="Manager">
+		<set name="usingServerSideName" val="true"/>
+		<set name="usingServerSideTitle" val="true"/>
+		<set name="level" val="70"/>
+		<set name="radius" val="8"/>
+		<set name="height" val="23"/>
+		<set name="rHand" val="316"/>
+		<set name="lHand" val="0"/>
 		<set name="type" val="BuffsMaster"/>
+		<set name="exp" val="0"/>
+		<set name="sp" val="0"/>
+		<set name="hp" val="2444.46819"/>
+		<set name="mp" val="1345.8"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="688.86373"/>
+		<set name="pDef" val="295.91597"/>
+		<set name="mAtk" val="470.40463"/>
+		<set name="mDef" val="216.53847"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="20"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="50"/>
+		<set name="runSpd" val="120"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4416" level="16"/>
+		</skills>
+	</npc>
+	<npc id="50090" idTemplate="35010" name="Mercenary" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="8"/>
+		<set name="height" val="24"/>
+		<set name="rHand" val="128"/>
+		<set name="lHand" val="628"/>
+		<set name="type" val="BabyPet"/>
+		<set name="exp" val="0"/>
+		<set name="sp" val="0"/>
+		<set name="hp" val="460.96247"/>
+		<set name="mp" val="259.2"/>
+		<set name="hpRegen" val="3.5"/>
+		<set name="mpRegen" val="1.5"/>
+		<set name="pAtk" val="64.83203"/>
+		<set name="pDef" val="101.83533"/>
+		<set name="mAtk" val="44.27187"/>
+		<set name="mDef" val="74.51868"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="25"/>
+		<set name="corpseTime" val="1200"/>
+		<set name="walkSpd" val="13"/>
+		<set name="runSpd" val="120"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4416" level="23"/>
+		</skills>
+		<petdata food1="0" food2="0" autoFeedLimit="0" hungryLimit="0" unsummonLimit="0">
+			<stat level="1" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="2" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="3" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="4" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="5" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="6" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="7" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="8" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="9" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="10" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="11" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="12" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="13" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="14" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="15" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="16" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="17" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="18" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="19" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="20" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="21" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="22" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="23" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="24" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="25" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="100000" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="26" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="27" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="28" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="29" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="30" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="31" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="32" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="33" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="34" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="35" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="36" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="37" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="38" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="39" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="40" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="41" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="42" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="42" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="43" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="44" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="45" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="46" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="47" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="48" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="49" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="50" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="51" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="52" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="53" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="54" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="55" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="56" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="57" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="58" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="59" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="60" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="61" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="62" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="63" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="64" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="65" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="66" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="67" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="68" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="69" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="70" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="71" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="72" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="73" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="74" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="75" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="76" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="77" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="78" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="79" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="80" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1" pDef="1" mAtk="1" mDef="1" hp="1" mp="1" hpRegen="1" mpRegen="1" ssCount="1" spsCount="1"/>
+			<stat level="81" maxMeal="1000" exp="1" expType="1" mealInBattle="1" mealInNormal="1" pAtk="1000" pDef="1000" mAtk="1000" mDef="1000" hp="10000" mp="10000" hpRegen="100" mpRegen="100" ssCount="1" spsCount="1"/>
+		</petdata>
+	</npc>
+	<npc id="50091" name="" title="">
+		<set name="usingServerSideName" val="true"/>
+		<set name="usingServerSideTitle" val="true"/>
+		<set name="level" val="70"/>
+		<set name="radius" val="8"/>
+		<set name="height" val="23"/>
+		<set name="rHand" val="316"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="WeddingManagerNpc"/>
 		<set name="exp" val="0"/>
 		<set name="sp" val="0"/>
 		<set name="hp" val="2444.46819"/>

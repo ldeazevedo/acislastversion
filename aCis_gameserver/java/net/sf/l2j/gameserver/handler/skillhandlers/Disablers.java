@@ -212,7 +212,6 @@ public class Disablers implements ISkillHandler
 							if (summonOwner != null)
 							{
 								((Summon) target).unSummon(summonOwner);
-								
 								summonOwner.sendPacket(SystemMessageId.YOUR_SERVITOR_HAS_VANISHED);
 							}
 						}

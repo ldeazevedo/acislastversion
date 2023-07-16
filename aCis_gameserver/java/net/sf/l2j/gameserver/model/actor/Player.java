@@ -111,6 +111,7 @@ import net.sf.l2j.gameserver.model.actor.container.player.RecipeBook;
 import net.sf.l2j.gameserver.model.actor.container.player.Request;
 import net.sf.l2j.gameserver.model.actor.container.player.ShortcutList;
 import net.sf.l2j.gameserver.model.actor.container.player.SubClass;
+import net.sf.l2j.gameserver.model.actor.instance.Agathion;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.FestivalMonster;
 import net.sf.l2j.gameserver.model.actor.instance.Folk;
@@ -387,6 +388,7 @@ public class Player extends Playable
 	private final QuestList _questList = new QuestList(this);
 	
 	private Summon _summon;
+	private Agathion aga;
 	private TamedBeast _tamedBeast;
 	
 	private int _partyRoom;
@@ -6408,7 +6410,7 @@ public class Player extends Playable
 		
 		// Modify the position of the pet if necessary
 		if (_summon != null)
-			_summon.teleportTo(getPosition(), 0);
+			_summon.teleportTo(getPosition(), 60);
 		
 		// If under shop mode, cancel it. Leave the Player sat down.
 		if (isInStoreMode())
@@ -6612,6 +6614,9 @@ public class Player extends Playable
 			// If the Player has a summon, unsummon it.
 			else if (_summon != null)
 				_summon.unSummon(this);
+			
+			if (getAgathion() != null)
+				aga.unSummon(this);
 			
 			// Stop all scheduled tasks.
 			stopChargeTask();
@@ -7614,6 +7619,7 @@ public class Player extends Playable
 	private boolean isReadChat;
 	private boolean showHair = true;
     private boolean expOff = false;
+	public boolean effectVita = true;
     
 	private ScheduledFuture<?> _vitalityTask;
 	
@@ -7759,7 +7765,7 @@ public class Player extends Playable
 			player.setTarget(this);
 			return;
 		}
-			EventHandlers.showHtml(player, this);
+		EventHandlers.showHtml(player, this);
 	}
 	
 	public DressMe getDress()
@@ -7815,9 +7821,27 @@ public class Player extends Playable
 
 			getStatus().updateVitalityPoints(Config.RATE_RECOVERY_VITALITY_PEACE_ZONE * 2, false, false);
     		if (/*getVitalityPoints() > 0*/getStatus().getVitaLevel() > 0) //sendPacket(new ExVitalityPointInfo(getVitalityPoints()));
-    			startAbnormalEffect(AbnormalEffect.VITALITY);
+    		{
+    			if (!effectVita)
+    				startAbnormalEffect(AbnormalEffect.VITALITY);
+    		}
     		else
     			stopAbnormalEffect(AbnormalEffect.VITALITY);
     	}
     }
+	
+	public void setAgathion(Agathion aga)
+	{
+		this.aga = aga;
+	}
+	
+	public Agathion getAgathion()
+	{
+		return aga;
+	}
+	
+	public void setEffectVita()
+	{
+		effectVita = effectVita ? false : true;
+	}
 }

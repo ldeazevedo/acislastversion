@@ -25,6 +25,7 @@ import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.enums.skills.AbnormalEffect;
+import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminEditChar;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -37,7 +38,7 @@ import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 
 public class EventHandlers
 {
-	protected static final Logger _log = Logger.getLogger(EventHandlers.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(EventHandlers.class.getName());
 	
 	private static Player pShift;
 	
@@ -95,7 +96,21 @@ public class EventHandlers
 		{
 			if (text.equalsIgnoreCase(".stopvita"))
 			{
+				player.setEffectVita();
 				player.stopAbnormalEffect(AbnormalEffect.VITALITY);
+				return true;
+			}
+			if (text.equalsIgnoreCase(".heading"))
+			{
+				player.sendMessage("GetHeading: "+player.getHeading());
+				return true;
+			}
+			if (text.equalsIgnoreCase(".test"))
+			{
+				int[] midpoint = calculateMidpoint(player.getPosition().toString(), player.getTarget().getPosition().toString());
+
+				player.sendMessage("Midpoint: (" + midpoint[0] + ", " + midpoint[1] + ", " + midpoint[2] + ")");
+		        LOGGER.info("Midpoint: (" + midpoint[0] + ", " + midpoint[1] + ", " + midpoint[2] + ")");
 				return true;
 			}
 			if (text.startsWith(".setinstance"))
@@ -301,6 +316,12 @@ public class EventHandlers
 	public static void showHtml(Player player, Player shift)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(player.getObjectId());
+		if (player.isGM())
+		{
+				AdminEditChar.gatherPlayerInfo(player, shift, html);
+				player.sendPacket(ActionFailed.STATIC_PACKET);
+				return;
+		}
 		html.setFile("data/html/mods/shift/initial.htm");
 		pShift = shift;
 		player.sendPacket(html);
@@ -349,4 +370,38 @@ public class EventHandlers
 	{
 		protected static final EventHandlers INSTANCE = new EventHandlers();
 	}
+	
+	public class midpointCalculator
+	{
+	    public void main(String[] args)
+	    {
+	        String object1 = "1, 2, 3";
+	        String object2 = "-1, 4, 5";
+
+	        int[] midpoint = calculateMidpoint(object1, object2);
+
+	        System.out.println("Midpoint: (" + midpoint[0] + ", " + midpoint[1] + ", " + midpoint[2] + ")");
+	    }
+
+	}
+	
+    public static int[] calculateMidpoint(String object1, String object2)
+    {
+        String[] coordinates1 = object1.split(", ");
+        String[] coordinates2 = object2.split(", ");
+
+        int x1 = Integer.parseInt(coordinates1[0]);
+        int y1 = Integer.parseInt(coordinates1[1]);
+        int z1 = Integer.parseInt(coordinates1[2]);
+
+        int x2 = Integer.parseInt(coordinates2[0]);
+        int y2 = Integer.parseInt(coordinates2[1]);
+        int z2 = Integer.parseInt(coordinates2[2]);
+
+        int midpointX = (x1 + x2) / 2;
+        int midpointY = (y1 + y2) / 2;
+        int midpointZ = (z1 + z2) / 2;
+
+        return new int[] { midpointX, midpointY, midpointZ };
+    }
 }

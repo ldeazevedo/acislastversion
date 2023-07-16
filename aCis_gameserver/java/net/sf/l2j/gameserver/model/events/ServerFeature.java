@@ -2,20 +2,18 @@ package net.sf.l2j.gameserver.model.events;
 
 import java.util.logging.Logger;
 
-import net.sf.l2j.commons.logging.CLogger;
-
 import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage;
-import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
+import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 
 public class ServerFeature
 {
-	protected static final Logger _log = Logger.getLogger(ServerFeature.class.getName());
+	protected static final Logger LOGGER = Logger.getLogger(ServerFeature.class.getName());
 
 	protected ServerFeature()
 	{
@@ -28,8 +26,6 @@ public class ServerFeature
 			player.getStatus().updateVitalityPoints(points, false, true);
 		player.showPcBangWindow();
 	}
-	
-	public static final CLogger LOGGER = new CLogger(ServerFeature.class.getName());
 	
 	public static void onCalculateRewards(Player attacker, long exp, int sp, int pcbandpoints, long damage, Npc npc)
 	{
@@ -80,6 +76,5 @@ public class ServerFeature
 		player.sendPacket(new ExShowScreenMessage(message, time, SMPOS.MIDDLE_LEFT, false));
 		if (sendMessage)
 			player.sendMessage(message);
-		
 	}
 }

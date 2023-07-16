@@ -57,6 +57,9 @@ public final class UseItem extends L2GameClientPacket
 		if (item == null)
 			return;
 		
+		if (player.isGM())
+			player.sendMessage(item.getItem().getName() + " , ID: " + item.getItem().getItemId());
+		
 		if (player.isItemDisabled(item))
 			return;
 		

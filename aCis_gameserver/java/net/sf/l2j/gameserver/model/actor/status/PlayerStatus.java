@@ -1217,7 +1217,7 @@ public class PlayerStatus extends PlayableStatus<Player>
     		if (level == 0)
     		{
     			ServerFeature.sendScreenMessage(_actor, "Vitality is exhausted", 3500, true); //sendPacket(new SystemMessage(SystemMessageId.VITALITY_IS_EXHAUSTED));
-    			_actor.stopAbnormalEffect(AbnormalEffect.VITALITY);
+        		_actor.stopAbnormalEffect(AbnormalEffect.VITALITY);
     		}
     		else if (level == 4)
     			ServerFeature.sendScreenMessage(_actor, "Vitality is at maximum", 3500, true); //sendPacket(new SystemMessage(SystemMessageId.VITALITY_IS_AT_MAXIMUM));
@@ -1248,7 +1248,10 @@ public class PlayerStatus extends PlayableStatus<Player>
     	_vitalityPoints = points;
     	updateVitalityLevel(quiet);
     	if (getVitaLevel() > 0/* points != 0*/)
-    		_actor.startAbnormalEffect(AbnormalEffect.VITALITY);
+    	{
+    		if (_actor.effectVita)
+    			_actor.startAbnormalEffect(AbnormalEffect.VITALITY);
+    	}
     	else
     		_actor.stopAbnormalEffect(AbnormalEffect.VITALITY);
 	//	sendPacket(new ExVitalityPointInfo(getVitalityPoints()));

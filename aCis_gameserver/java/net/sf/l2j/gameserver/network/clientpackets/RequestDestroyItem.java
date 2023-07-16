@@ -58,6 +58,12 @@ public final class RequestDestroyItem extends L2GameClientPacket
 			return;
 		}
 		
+		if (itemToRemove.isAgathion())
+		{
+			player.sendPacket(SystemMessageId.CANNOT_DISCARD_THIS_ITEM);
+			return;
+		}
+		
 		if (itemToRemove.isEquipped() && (!itemToRemove.isStackable() || (itemToRemove.isStackable() && _count >= itemToRemove.getCount())))
 		{
 			final ItemInstance[] unequipped = player.getInventory().unequipItemInSlotAndRecord(itemToRemove.getLocationSlot());

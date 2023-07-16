@@ -4205,4 +4205,2329 @@
 			<skill id="4423" level="1"/>
 		</skills>
 	</npc>
+	<npc id="29099" name="Fafurion" title="Water Dragon">
+		<set name="level" val="79"/>
+		<set name="radius" val="300"/>
+		<set name="height" val="300"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="GrandBoss"/>
+		<set name="exp" val="317892324"/>
+		<set name="sp" val="31824199"/>
+		<set name="hp" val="7500000"/>
+		<set name="mp" val="1800000"/>
+		<set name="hpRegen" val="1830"/>
+		<set name="mpRegen" val="1000"/>
+		<set name="pAtk" val="4900"/>
+		<set name="pDef" val="3456"/>
+		<set name="mAtk" val="2550"/>
+		<set name="mDef" val="862.5"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="60"/>
+		<set name="int" val="76"/>
+		<set name="dex" val="73"/>
+		<set name="wit" val="70"/>
+		<set name="con" val="57"/>
+		<set name="men" val="80"/>
+		<set name="corpseTime" val="14"/>
+		<set name="walkSpd" val="50"/>
+		<set name="runSpd" val="186"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4122" level="1"/>
+			<skill id="4416" level="10"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="9000000" max="13000000" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6579" min="1" max="1" chance="20.0"/>
+				<drop itemid="6371" min="1" max="1" chance="20.0"/>
+				<drop itemid="7575" min="1" max="1" chance="20.0"/>
+				<drop itemid="6367" min="1" max="1" chance="20.0"/>
+				<drop itemid="6366" min="1" max="1" chance="20.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="212" min="1" max="2" chance="25.0"/>
+				<drop itemid="150" min="1" max="2" chance="25.0"/>
+				<drop itemid="235" min="1" max="2" chance="25.0"/>
+				<drop itemid="288" min="1" max="2" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="270" min="1" max="2" chance="20.0"/>
+				<drop itemid="289" min="1" max="2" chance="20.0"/>
+				<drop itemid="305" min="1" max="2" chance="20.0"/>
+				<drop itemid="236" min="1" max="2" chance="20.0"/>
+				<drop itemid="213" min="1" max="2" chance="20.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="98" min="1" max="2" chance="25.0"/>
+				<drop itemid="2504" min="1" max="2" chance="25.0"/>
+				<drop itemid="269" min="1" max="2" chance="25.0"/>
+				<drop itemid="80" min="1" max="2" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6372" min="1" max="1" chance="16.0"/>
+				<drop itemid="6365" min="1" max="1" chance="17.0"/>
+				<drop itemid="6364" min="1" max="1" chance="17.0"/>
+				<drop itemid="6370" min="1" max="1" chance="17.0"/>
+				<drop itemid="6369" min="1" max="1" chance="17.0"/>
+				<drop itemid="6580" min="1" max="1" chance="16.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5287" min="1" max="3" chance="50.0"/>
+				<drop itemid="5297" min="1" max="3" chance="25.0"/>
+				<drop itemid="5304" min="1" max="3" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5290" min="1" max="3" chance="25.0"/>
+				<drop itemid="5295" min="1" max="3" chance="25.0"/>
+				<drop itemid="5313" min="1" max="3" chance="25.0"/>
+				<drop itemid="5318" min="1" max="3" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6681" min="1" max="1" chance="33.0"/>
+				<drop itemid="6685" min="1" max="1" chance="33.0"/>
+				<drop itemid="6676" min="1" max="1" chance="34.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6677" min="1" max="1" chance="34.0"/>
+				<drop itemid="6686" min="1" max="1" chance="33.0"/>
+				<drop itemid="6682" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6675" min="1" max="1" chance="15.0"/>
+				<drop itemid="6674" min="1" max="1" chance="15.0"/>
+				<drop itemid="6684" min="1" max="1" chance="35.0"/>
+				<drop itemid="6680" min="1" max="1" chance="35.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6679" min="1" max="1" chance="34.0"/>
+				<drop itemid="6683" min="1" max="1" chance="33.0"/>
+				<drop itemid="6687" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6678" min="1" max="1" chance="20.0"/>
+				<drop itemid="5315" min="1" max="3" chance="40.0"/>
+				<drop itemid="5292" min="1" max="3" chance="40.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5320" min="1" max="3" chance="35.0"/>
+				<drop itemid="5311" min="1" max="3" chance="35.0"/>
+				<drop itemid="5326" min="1" max="3" chance="30.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6328" min="1" max="5" chance="35.0"/>
+				<drop itemid="6327" min="1" max="5" chance="35.0"/>
+				<drop itemid="6326" min="1" max="5" chance="30.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6325" min="1" max="5" chance="35.0"/>
+				<drop itemid="6323" min="1" max="5" chance="30.0"/>
+				<drop itemid="6324" min="1" max="5" chance="35.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6724" min="1" max="1" chance="35.0"/>
+				<drop itemid="6726" min="1" max="1" chance="30.0"/>
+				<drop itemid="6725" min="1" max="1" chance="35.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5294" min="1" max="3" chance="25.0"/>
+				<drop itemid="5317" min="1" max="3" chance="25.0"/>
+				<drop itemid="5289" min="1" max="3" chance="25.0"/>
+				<drop itemid="5312" min="1" max="3" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5296" min="1" max="3" chance="25.0"/>
+				<drop itemid="5319" min="1" max="3" chance="25.0"/>
+				<drop itemid="5291" min="1" max="3" chance="25.0"/>
+				<drop itemid="5314" min="1" max="3" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5305" min="1" max="3" chance="30.0"/>
+				<drop itemid="5288" min="1" max="3" chance="35.0"/>
+				<drop itemid="5298" min="1" max="3" chance="35.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5293" min="1" max="3" chance="25.0"/>
+				<drop itemid="5308" min="1" max="3" chance="25.0"/>
+				<drop itemid="5329" min="1" max="3" chance="9.0"/>
+				<drop itemid="5301" min="1" max="3" chance="25.0"/>
+				<drop itemid="5323" min="1" max="3" chance="8.0"/>
+				<drop itemid="5316" min="1" max="3" chance="8.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="151" min="1" max="2" chance="25.0"/>
+				<drop itemid="164" min="1" max="2" chance="25.0"/>
+				<drop itemid="2500" min="1" max="2" chance="25.0"/>
+				<drop itemid="81" min="1" max="2" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="1538" min="1" max="59" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="3936" min="1" max="39" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6656" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="70.6666">
+				<drop itemid="8751" min="2" max="4" chance="23.5848"/>
+				<drop itemid="8752" min="3" max="4" chance="76.4152"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="729" min="1" max="19" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29100" name="Fafurion" title="Water Dragon">
+		<set name="level" val="79"/>
+		<set name="radius" val="300"/>
+		<set name="height" val="300"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="GrandBoss"/>
+		<set name="exp" val="317892324"/>
+		<set name="sp" val="31824199"/>
+		<set name="hp" val="7500000"/>
+		<set name="mp" val="1800000"/>
+		<set name="hpRegen" val="1830"/>
+		<set name="mpRegen" val="1000"/>
+		<set name="pAtk" val="4900"/>
+		<set name="pDef" val="3456"/>
+		<set name="mAtk" val="2550"/>
+		<set name="mDef" val="862.5"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="60"/>
+		<set name="int" val="76"/>
+		<set name="dex" val="73"/>
+		<set name="wit" val="70"/>
+		<set name="con" val="57"/>
+		<set name="men" val="80"/>
+		<set name="corpseTime" val="14"/>
+		<set name="walkSpd" val="50"/>
+		<set name="runSpd" val="186"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4122" level="1"/>
+			<skill id="4416" level="10"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="9000000" max="13000000" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6579" min="1" max="1" chance="20.0"/>
+				<drop itemid="6371" min="1" max="1" chance="20.0"/>
+				<drop itemid="7575" min="1" max="1" chance="20.0"/>
+				<drop itemid="6367" min="1" max="1" chance="20.0"/>
+				<drop itemid="6366" min="1" max="1" chance="20.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="212" min="1" max="2" chance="25.0"/>
+				<drop itemid="150" min="1" max="2" chance="25.0"/>
+				<drop itemid="235" min="1" max="2" chance="25.0"/>
+				<drop itemid="288" min="1" max="2" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="270" min="1" max="2" chance="20.0"/>
+				<drop itemid="289" min="1" max="2" chance="20.0"/>
+				<drop itemid="305" min="1" max="2" chance="20.0"/>
+				<drop itemid="236" min="1" max="2" chance="20.0"/>
+				<drop itemid="213" min="1" max="2" chance="20.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="98" min="1" max="2" chance="25.0"/>
+				<drop itemid="2504" min="1" max="2" chance="25.0"/>
+				<drop itemid="269" min="1" max="2" chance="25.0"/>
+				<drop itemid="80" min="1" max="2" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6372" min="1" max="1" chance="16.0"/>
+				<drop itemid="6365" min="1" max="1" chance="17.0"/>
+				<drop itemid="6364" min="1" max="1" chance="17.0"/>
+				<drop itemid="6370" min="1" max="1" chance="17.0"/>
+				<drop itemid="6369" min="1" max="1" chance="17.0"/>
+				<drop itemid="6580" min="1" max="1" chance="16.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5287" min="1" max="3" chance="50.0"/>
+				<drop itemid="5297" min="1" max="3" chance="25.0"/>
+				<drop itemid="5304" min="1" max="3" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5290" min="1" max="3" chance="25.0"/>
+				<drop itemid="5295" min="1" max="3" chance="25.0"/>
+				<drop itemid="5313" min="1" max="3" chance="25.0"/>
+				<drop itemid="5318" min="1" max="3" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6681" min="1" max="1" chance="33.0"/>
+				<drop itemid="6685" min="1" max="1" chance="33.0"/>
+				<drop itemid="6676" min="1" max="1" chance="34.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6677" min="1" max="1" chance="34.0"/>
+				<drop itemid="6686" min="1" max="1" chance="33.0"/>
+				<drop itemid="6682" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6675" min="1" max="1" chance="15.0"/>
+				<drop itemid="6674" min="1" max="1" chance="15.0"/>
+				<drop itemid="6684" min="1" max="1" chance="35.0"/>
+				<drop itemid="6680" min="1" max="1" chance="35.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6679" min="1" max="1" chance="34.0"/>
+				<drop itemid="6683" min="1" max="1" chance="33.0"/>
+				<drop itemid="6687" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6678" min="1" max="1" chance="20.0"/>
+				<drop itemid="5315" min="1" max="3" chance="40.0"/>
+				<drop itemid="5292" min="1" max="3" chance="40.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5320" min="1" max="3" chance="35.0"/>
+				<drop itemid="5311" min="1" max="3" chance="35.0"/>
+				<drop itemid="5326" min="1" max="3" chance="30.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6328" min="1" max="5" chance="35.0"/>
+				<drop itemid="6327" min="1" max="5" chance="35.0"/>
+				<drop itemid="6326" min="1" max="5" chance="30.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6325" min="1" max="5" chance="35.0"/>
+				<drop itemid="6323" min="1" max="5" chance="30.0"/>
+				<drop itemid="6324" min="1" max="5" chance="35.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6724" min="1" max="1" chance="35.0"/>
+				<drop itemid="6726" min="1" max="1" chance="30.0"/>
+				<drop itemid="6725" min="1" max="1" chance="35.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5294" min="1" max="3" chance="25.0"/>
+				<drop itemid="5317" min="1" max="3" chance="25.0"/>
+				<drop itemid="5289" min="1" max="3" chance="25.0"/>
+				<drop itemid="5312" min="1" max="3" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5296" min="1" max="3" chance="25.0"/>
+				<drop itemid="5319" min="1" max="3" chance="25.0"/>
+				<drop itemid="5291" min="1" max="3" chance="25.0"/>
+				<drop itemid="5314" min="1" max="3" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5305" min="1" max="3" chance="30.0"/>
+				<drop itemid="5288" min="1" max="3" chance="35.0"/>
+				<drop itemid="5298" min="1" max="3" chance="35.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5293" min="1" max="3" chance="25.0"/>
+				<drop itemid="5308" min="1" max="3" chance="25.0"/>
+				<drop itemid="5329" min="1" max="3" chance="9.0"/>
+				<drop itemid="5301" min="1" max="3" chance="25.0"/>
+				<drop itemid="5323" min="1" max="3" chance="8.0"/>
+				<drop itemid="5316" min="1" max="3" chance="8.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="151" min="1" max="2" chance="25.0"/>
+				<drop itemid="164" min="1" max="2" chance="25.0"/>
+				<drop itemid="2500" min="1" max="2" chance="25.0"/>
+				<drop itemid="81" min="1" max="2" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="1538" min="1" max="59" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="3936" min="1" max="39" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6656" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="70.6666">
+				<drop itemid="8751" min="2" max="4" chance="23.5848"/>
+				<drop itemid="8752" min="3" max="4" chance="76.4152"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="729" min="1" max="19" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29101" name="Lindvior" title="Wind Dragon">
+		<set name="level" val="79"/>
+		<set name="radius" val="300"/>
+		<set name="height" val="300"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="GrandBoss"/>
+		<set name="exp" val="317892324"/>
+		<set name="sp" val="31824199"/>
+		<set name="hp" val="7500000"/>
+		<set name="mp" val="1800000"/>
+		<set name="hpRegen" val="1830"/>
+		<set name="mpRegen" val="1000"/>
+		<set name="pAtk" val="4900"/>
+		<set name="pDef" val="3456"/>
+		<set name="mAtk" val="2550"/>
+		<set name="mDef" val="862.5"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="60"/>
+		<set name="int" val="76"/>
+		<set name="dex" val="73"/>
+		<set name="wit" val="70"/>
+		<set name="con" val="57"/>
+		<set name="men" val="80"/>
+		<set name="corpseTime" val="14"/>
+		<set name="walkSpd" val="50"/>
+		<set name="runSpd" val="186"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4122" level="1"/>
+			<skill id="4416" level="10"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="14000000" max="18000000" chance="100.0"/>
+			</category>
+			<category type="CURRENCY" chance="100.0">
+				<drop itemid="57" min="9000000" max="13000000" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6579" min="1" max="1" chance="20.0"/>
+				<drop itemid="6371" min="1" max="1" chance="20.0"/>
+				<drop itemid="7575" min="1" max="1" chance="20.0"/>
+				<drop itemid="6367" min="1" max="1" chance="20.0"/>
+				<drop itemid="6366" min="1" max="1" chance="20.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="212" min="1" max="2" chance="25.0"/>
+				<drop itemid="150" min="1" max="2" chance="25.0"/>
+				<drop itemid="235" min="1" max="2" chance="25.0"/>
+				<drop itemid="288" min="1" max="2" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="270" min="1" max="2" chance="20.0"/>
+				<drop itemid="289" min="1" max="2" chance="20.0"/>
+				<drop itemid="305" min="1" max="2" chance="20.0"/>
+				<drop itemid="236" min="1" max="2" chance="20.0"/>
+				<drop itemid="213" min="1" max="2" chance="20.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="98" min="1" max="2" chance="25.0"/>
+				<drop itemid="2504" min="1" max="2" chance="25.0"/>
+				<drop itemid="269" min="1" max="2" chance="25.0"/>
+				<drop itemid="80" min="1" max="2" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6372" min="1" max="1" chance="16.0"/>
+				<drop itemid="6365" min="1" max="1" chance="17.0"/>
+				<drop itemid="6364" min="1" max="1" chance="17.0"/>
+				<drop itemid="6370" min="1" max="1" chance="17.0"/>
+				<drop itemid="6369" min="1" max="1" chance="17.0"/>
+				<drop itemid="6580" min="1" max="1" chance="16.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5287" min="1" max="3" chance="50.0"/>
+				<drop itemid="5297" min="1" max="3" chance="25.0"/>
+				<drop itemid="5304" min="1" max="3" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5290" min="1" max="3" chance="25.0"/>
+				<drop itemid="5295" min="1" max="3" chance="25.0"/>
+				<drop itemid="5313" min="1" max="3" chance="25.0"/>
+				<drop itemid="5318" min="1" max="3" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6681" min="1" max="1" chance="33.0"/>
+				<drop itemid="6685" min="1" max="1" chance="33.0"/>
+				<drop itemid="6676" min="1" max="1" chance="34.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6677" min="1" max="1" chance="34.0"/>
+				<drop itemid="6686" min="1" max="1" chance="33.0"/>
+				<drop itemid="6682" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6675" min="1" max="1" chance="15.0"/>
+				<drop itemid="6674" min="1" max="1" chance="15.0"/>
+				<drop itemid="6684" min="1" max="1" chance="35.0"/>
+				<drop itemid="6680" min="1" max="1" chance="35.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6679" min="1" max="1" chance="34.0"/>
+				<drop itemid="6683" min="1" max="1" chance="33.0"/>
+				<drop itemid="6687" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6678" min="1" max="1" chance="20.0"/>
+				<drop itemid="5315" min="1" max="3" chance="40.0"/>
+				<drop itemid="5292" min="1" max="3" chance="40.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5320" min="1" max="3" chance="35.0"/>
+				<drop itemid="5311" min="1" max="3" chance="35.0"/>
+				<drop itemid="5326" min="1" max="3" chance="30.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6328" min="1" max="5" chance="35.0"/>
+				<drop itemid="6327" min="1" max="5" chance="35.0"/>
+				<drop itemid="6326" min="1" max="5" chance="30.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6325" min="1" max="5" chance="35.0"/>
+				<drop itemid="6323" min="1" max="5" chance="30.0"/>
+				<drop itemid="6324" min="1" max="5" chance="35.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6724" min="1" max="1" chance="35.0"/>
+				<drop itemid="6726" min="1" max="1" chance="30.0"/>
+				<drop itemid="6725" min="1" max="1" chance="35.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5294" min="1" max="3" chance="25.0"/>
+				<drop itemid="5317" min="1" max="3" chance="25.0"/>
+				<drop itemid="5289" min="1" max="3" chance="25.0"/>
+				<drop itemid="5312" min="1" max="3" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5296" min="1" max="3" chance="25.0"/>
+				<drop itemid="5319" min="1" max="3" chance="25.0"/>
+				<drop itemid="5291" min="1" max="3" chance="25.0"/>
+				<drop itemid="5314" min="1" max="3" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5305" min="1" max="3" chance="30.0"/>
+				<drop itemid="5288" min="1" max="3" chance="35.0"/>
+				<drop itemid="5298" min="1" max="3" chance="35.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="5293" min="1" max="3" chance="25.0"/>
+				<drop itemid="5308" min="1" max="3" chance="25.0"/>
+				<drop itemid="5329" min="1" max="3" chance="9.0"/>
+				<drop itemid="5301" min="1" max="3" chance="25.0"/>
+				<drop itemid="5323" min="1" max="3" chance="8.0"/>
+				<drop itemid="5316" min="1" max="3" chance="8.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="151" min="1" max="2" chance="25.0"/>
+				<drop itemid="164" min="1" max="2" chance="25.0"/>
+				<drop itemid="2500" min="1" max="2" chance="25.0"/>
+				<drop itemid="81" min="1" max="2" chance="25.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="1538" min="1" max="59" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="3936" min="1" max="39" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="6656" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="70.6666">
+				<drop itemid="8751" min="2" max="4" chance="23.5848"/>
+				<drop itemid="8752" min="3" max="4" chance="76.4152"/>
+			</category>
+			<category type="DROP" chance="100.0">
+				<drop itemid="729" min="1" max="19" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29102" name="Hera" title="">
+		<set name="level" val="87"/>
+		<set name="radius" val="9"/>
+		<set name="height" val="24"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Folk"/>
+		<set name="exp" val="372044"/>
+		<set name="sp" val="40000"/>
+		<set name="hp" val="115708.195"/>
+		<set name="mp" val="2051.19"/>
+		<set name="hpRegen" val="364.87"/>
+		<set name="mpRegen" val="3.21"/>
+		<set name="pAtk" val="3134.565"/>
+		<set name="pDef" val="3161.7216"/>
+		<set name="mAtk" val="1241.64405"/>
+		<set name="mDef" val="578.3992"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="60"/>
+		<set name="int" val="76"/>
+		<set name="dex" val="73"/>
+		<set name="wit" val="70"/>
+		<set name="con" val="57"/>
+		<set name="men" val="80"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="30"/>
+		<set name="runSpd" val="210"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="andreas_clan" clanRange="300" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4183" level="3"/>
+			<skill id="4189" level="3"/>
+			<skill id="4194" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4494" level="1"/>
+			<skill id="5033" level="1"/>
+		</skills>
+		<drops>
+			<category type="DROP" chance="32.0096">
+				<drop itemid="8921" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="24.403">
+				<drop itemid="7575" min="1" max="1" chance="4.3135"/>
+				<drop itemid="7579" min="12" max="36" chance="95.6865"/>
+			</category>
+			<category type="DROP" chance="32.3583">
+				<drop itemid="6684" min="1" max="1" chance="5.3281"/>
+				<drop itemid="6711" min="12" max="36" chance="94.6719"/>
+			</category>
+			<category type="DROP" chance="35.7699">
+				<drop itemid="959" min="1" max="1" chance="9.0181"/>
+				<drop itemid="960" min="1" max="1" chance="89.487"/>
+				<drop itemid="6577" min="1" max="1" chance="1.4949"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29129" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29130" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29131" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29132" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29133" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29134" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29135" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29136" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29137" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29138" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29139" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29140" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29141" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29142" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29143" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29144" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29145" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29146" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29147" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29148" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29149" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29150" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29151" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29152" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29153" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29154" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29155" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="29156" idTemplate="22201" name="Triol's Priest" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="7.7"/>
+		<set name="height" val="28.4"/>
+		<set name="rHand" val="8208"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="44462"/>
+		<set name="sp" val="5504"/>
+		<set name="hp" val="3163.0432152"/>
+		<set name="mp" val="1955.34"/>
+		<set name="hpRegen" val="9.027"/>
+		<set name="mpRegen" val="3.1824"/>
+		<set name="pAtk" val="1076.9313816"/>
+		<set name="pDef" val="410.87895"/>
+		<set name="mAtk" val="781.2613576908"/>
+		<set name="mDef" val="300.66338448"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="60"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="trioll_clan" clanRange="500" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4275" level="2"/>
+			<skill id="4408" level="12"/>
+			<skill id="4416" level="6"/>
+			<skill id="4422" level="3"/>
+			<skill id="4622" level="9"/>
+			<skill id="4665" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="6698" min="1" max="1" chance="12.5"/>
+				<drop itemid="6699" min="1" max="1" chance="12.5"/>
+				<drop itemid="6700" min="1" max="1" chance="12.5"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="6437" max="13190" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2375">
+				<drop itemid="5480" min="1" max="1" chance="16.6936"/>
+				<drop itemid="5481" min="1" max="1" chance="83.3064"/>
+			</category>
+			<category type="DROP" chance="38.6957">
+				<drop itemid="1867" min="13" max="36" chance="8.614"/>
+				<drop itemid="1869" min="2" max="6" chance="32.3036"/>
+				<drop itemid="1870" min="2" max="6" chance="23.4932"/>
+				<drop itemid="1871" min="3" max="9" chance="16.1515"/>
+				<drop itemid="1872" min="8" max="19" chance="15.2014"/>
+				<drop itemid="7910" min="1" max="1" chance="4.2363"/>
+			</category>
+		</drops>
+	</npc>
 </list>

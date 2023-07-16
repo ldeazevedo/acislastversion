@@ -273,7 +273,7 @@ public class PlayerCast extends PlayableCast<Player>
 		switch (skill.getSkillType())
 		{
 			case SUMMON:
-				if (!((L2SkillSummon) skill).isCubic() && (_actor.getSummon() != null || _actor.isMounted()))
+				if (!((L2SkillSummon) skill).isAgathion() && !((L2SkillSummon) skill).isCubic() && (_actor.getSummon() != null || _actor.isMounted()))
 				{
 					_actor.sendPacket(SystemMessageId.SUMMON_ONLY_ONE);
 					return false;

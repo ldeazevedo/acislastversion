@@ -46,6 +46,25 @@ public class SummonItems implements IItemHandler
 		
 		final IntIntHolder sitem = SummonItemData.getInstance().getSummonItem(item.getItemId());
 		
+		final NpcTemplate npcTemplate = NpcData.getInstance().getTemplate(sitem.getId());
+		if (npcTemplate == null)
+			return;
+		
+		if (npcTemplate.getType().equalsIgnoreCase("Agathion"))
+		{
+			if (player.getAgathion() != null)
+			{
+				player.getAgathion().unSummon(player);
+				item.setAgathion(player, false);
+				player.sendMessage("Agathion has been unsummoned");
+				return;
+			}
+			item.setAgathion(player, true);
+			item.checkProtected(player);
+			player.getAI().tryToCast(player, SkillTable.getInstance().getInfo(2046, 1), false, false, item.getObjectId());
+			return;
+		}
+		
 		if ((player.getSummon() != null || player.isMounted()) && sitem.getValue() > 0)
 		{
 			player.sendPacket(SystemMessageId.SUMMON_ONLY_ONE);
@@ -57,10 +76,6 @@ public class SummonItems implements IItemHandler
 			player.sendPacket(SystemMessageId.YOU_CANNOT_SUMMON_IN_COMBAT);
 			return;
 		}
-		
-		final NpcTemplate npcTemplate = NpcData.getInstance().getTemplate(sitem.getId());
-		if (npcTemplate == null)
-			return;
 		
 		switch (sitem.getValue())
 		{

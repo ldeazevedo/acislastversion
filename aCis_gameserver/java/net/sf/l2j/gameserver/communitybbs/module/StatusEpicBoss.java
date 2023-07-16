@@ -27,7 +27,6 @@ public class StatusEpicBoss
 	};
 	
 	public StatusEpicBoss()
-	
 	{
 		loadFromDB();
 	}
