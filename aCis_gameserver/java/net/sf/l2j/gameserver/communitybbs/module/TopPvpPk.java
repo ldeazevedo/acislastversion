@@ -34,7 +34,7 @@ public class TopPvpPk
 				
 				if(result.getInt("online") == 1)
 					status = true;
-				addTopPvpPkList(_posId, result.getString("char_name"), result.getString("clan_name"), result.getString("ally_name"), result.getInt("base_class"), result.getInt("level"), result.getInt("pvpkills"), result.getInt("pkkills"), status);
+				addTopPvpPkList(_posId, result.getString("char_name"), result.getString("clan_name") == null ? "No Clan" : result.getString("clan_name"), result.getString("ally_name") == null ? "No Ally" : result.getString("ally_name"), result.getInt("base_class"), result.getInt("level"), result.getInt("pvpkills"), result.getInt("pkkills"), status);
 			}
 		}
 		catch (Exception e)
