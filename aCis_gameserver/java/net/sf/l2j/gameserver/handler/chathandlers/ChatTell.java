@@ -51,10 +51,7 @@ public class ChatTell implements IChatHandler
 		}
 
 		if (!player.isGM())
-		{
-			String clanName = player.getClan() != null ? "[" + player.getClan().getName() + "]:" : "";
-			ServerFeature.readChats(player, text, new CreatureSay(player.getObjectId(), SayType.ALLIANCE, player.getName(), clanName + text));
-		}
+			ServerFeature.readChats(player, text);
 		
 		targetPlayer.sendPacket(new CreatureSay(player, type, text));
 		player.sendPacket(new CreatureSay(player.getObjectId(), type, "->" + targetPlayer.getName(), text));

@@ -719,7 +719,7 @@ public class Party extends AbstractGroup
 				member.addExpAndSp(member.isExpOff() ? 0 : xp, sp, rewards);
                 if (member.getStatus().getLevel() <= (getLevel() + 9))
             		points=0;
-                ServerFeature.onCalculateRewards(member, xp, sp, points, partyDmg, mob);
+                ServerFeature.onCalculateRewards(member, xp, points, partyDmg, mob);
 			}
 			else
 				member.addExpAndSp(0, 0);

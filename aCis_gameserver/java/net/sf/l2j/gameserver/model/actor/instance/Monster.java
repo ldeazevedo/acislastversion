@@ -180,7 +180,7 @@ public class Monster extends Attackable
 						points -= Rnd.get(1, 3);
 					else if (lvl >= (moblvl + 10))
 						points = 0;
-					ServerFeature.onCalculateRewards(attacker, exp, sp, points, damage, this);
+					ServerFeature.onCalculateRewards(attacker, exp, points, damage, this);
 				}
 			}
 			// Share with party members.

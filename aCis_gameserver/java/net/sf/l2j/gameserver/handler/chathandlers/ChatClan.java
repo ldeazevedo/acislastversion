@@ -22,7 +22,7 @@ public class ChatClan implements IChatHandler
 			return;
 		
 		if (!player.isGM())
-			ServerFeature.readChats(player, text, new CreatureSay(player.getObjectId(), SayType.ALLIANCE, player.getName(), "[" + player.getClan().getName() + "]:" + text));
+			ServerFeature.readChats(player, text);
 		
 		clan.broadcastToMembers(new CreatureSay(player, type, text));
 	}
