@@ -1,17 +1,3 @@
-/*
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <http://www.gnu.org/licenses/>.
- */
 package net.sf.l2j.gameserver.model.events;
 
 import java.util.StringTokenizer;
@@ -72,7 +58,7 @@ public class EventHandlers
 		}
 		if (text.equalsIgnoreCase(".hair"))
 		{
-			player.setSwitchHair(player.getHair() ? false : true);
+			player.setSwitchHair(!player.getHair());
 			return true;
 		}
 		if (text.equalsIgnoreCase(".register") || text.equalsIgnoreCase(".unregister") || text.equalsIgnoreCase(".ver") || text.equalsIgnoreCase(".salir"))
@@ -81,11 +67,6 @@ public class EventHandlers
             return true;
 		}
 		
-        if(text.equalsIgnoreCase(".expoff"))
-        {
-        	player.invertExpOff();
-            return true;
-        }
 		if (text.equalsIgnoreCase(".expoff"))
 		{
 			player.invertExpOff();
@@ -148,48 +129,38 @@ public class EventHandlers
 				return;
 			}
 			else */
-			if (text.equals(".tvt_add"))
-			{
-				if (!(player.getTarget() instanceof Player))
-				{
-					player.sendMessage("You should select a player!");
+			switch (text) {
+				case ".tvt_add":
+					if (!(player.getTarget() instanceof Player)) {
+						player.sendMessage("You should select a player!");
+						return true;
+					}
+
+					add(player, player.getTarget().getActingPlayer());
+					break;
+				case ".tvt_start":
+					TvTManager.getInstance().startTvT();
 					return true;
-				}
-				
-				add(player, player.getTarget().getActingPlayer());
-			}
-			else if (text.equals(".tvt_start"))
-			{
-				TvTManager.getInstance().startTvT();
-				return true;
-			}
-			else if (text.equals(".tvt_remove"))
-			{
-				if (!(player.getTarget() instanceof Player))
-				{
-					player.sendMessage("You should select a player!");
+				case ".tvt_remove":
+					if (!(player.getTarget() instanceof Player)) {
+						player.sendMessage("You should select a player!");
+						return true;
+					}
+
+					remove(player, player.getTarget().getActingPlayer());
+					break;
+				case ".tvt_advance":
+					TvTManager.getInstance().skipDelay();
 					return true;
-				}
-				
-				remove(player, player.getTarget().getActingPlayer());
+				case ".frintezza":
+					ScriptData.getInstance().getQuest("Frintezza").startQuestTimer("start", null, null, 1000);
+					return true;
+				case ".read":
+					player.setReadChat(!player.getReadChat());
+					player.sendMessage("Read chats " + (!player.getReadChat() ? "off" : "on"));
+					return true;
 			}
-			if (text.equalsIgnoreCase(".tvt_advance"))
-			{
-				TvTManager.getInstance().skipDelay();
-				return true;
-			}
-			if (text.equalsIgnoreCase(".frintezza"))
-			{
-				ScriptData.getInstance().getQuest("Frintezza").startQuestTimer("start", null, null, 1000);
-				return true;
-			}
-			if (text.equalsIgnoreCase(".read"))
-			{
-				player.setReadChat(!player.getReadChat() ? true : false);
-				player.sendMessage("Read chats "+ (!player.getReadChat() ? "off" : "on"));
-				return true;
-			}
-			
+
 			if (text.startsWith(".clanchat"))
 			{
 				StringTokenizer st = new StringTokenizer(text);
@@ -197,9 +168,9 @@ public class EventHandlers
 				try
 				{
 					final String clanName = st.nextToken();
-					String message = "";
+					StringBuilder message = new StringBuilder();
 					while (st.hasMoreTokens())
-						message += st.nextToken() + " ";
+						message.append(st.nextToken()).append(" ");
 					Clan receiverClan = null;
 					for (Clan clan : ClanTable.getInstance().getClans())
 						if (clan.getName().equalsIgnoreCase(clanName))
@@ -209,7 +180,7 @@ public class EventHandlers
 						}
 					if (receiverClan != null)
 					{
-						receiverClan.broadcastToMembers(new CreatureSay(player.getObjectId(), SayType.CLAN, player.getName(), message));
+						receiverClan.broadcastToMembers(new CreatureSay(player.getObjectId(), SayType.CLAN, player.getName(), message.toString()));
 						player.sendPacket(new CreatureSay(player.getObjectId(), SayType.ALLIANCE, player.getName(), "[" + receiverClan.getName() + "]:" + message));
 					}
 				}
@@ -229,33 +200,32 @@ public class EventHandlers
 				try
 				{
 					final String charName = st.nextToken();
-					String message = "";
+					StringBuilder message = new StringBuilder();
 					while (st.hasMoreTokens())
-						message += st.nextToken() + " ";
-					Player victima = null;
-					victima = World.getInstance().getPlayer(charName);
-					if (victima != null)
+						message.append(st.nextToken()).append(" ");
+					Player victim = World.getInstance().getPlayer(charName);
+					if (victim != null)
 					{
 						if (!clan)
 						{
-							final CreatureSay cs = new CreatureSay(victima.getObjectId(), !global ? SayType.ALL : SayType.TRADE, victima.getName(), message);
+							final CreatureSay cs = new CreatureSay(victim.getObjectId(), !global ? SayType.ALL : SayType.TRADE, victim.getName(), message.toString());
 							if (global)
 								for (Player p : World.getInstance().getPlayers())
 									p.sendPacket(cs);
 							else
-								for (Player p : victima.getKnownTypeInRadius(Player.class, 1250))
+								for (Player p : victim.getKnownTypeInRadius(Player.class, 1250))
 								{
 									if (p != null)
 									{
 										p.sendPacket(cs);
-										victima.sendPacket(cs);
+										victim.sendPacket(cs);
 									}
 								}
 						}
-						else if (victima.getClan() != null)
+						else if (victim.getClan() != null)
 						{
-							AdminData.getInstance().broadcastToGMs(new CreatureSay(victima.getObjectId(), SayType.ALLIANCE, victima.getName(), "[" + victima.getClan().getName() + "]:" + message));
-							victima.getClan().broadcastToMembers(new CreatureSay(victima.getObjectId(), SayType.CLAN, victima.getName(), message));
+							AdminData.getInstance().broadcastToGMs(new CreatureSay(victim.getObjectId(), SayType.ALLIANCE, victim.getName(), "[" + victim.getClan().getName() + "]:" + message));
+							victim.getClan().broadcastToMembers(new CreatureSay(victim.getObjectId(), SayType.CLAN, victim.getName(), message.toString()));
 						}
 					}
 				}
@@ -361,7 +331,7 @@ public class EventHandlers
     	return pShift;
     }
     
-	public static final EventHandlers getInstance()
+	public static EventHandlers getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
@@ -371,9 +341,9 @@ public class EventHandlers
 		protected static final EventHandlers INSTANCE = new EventHandlers();
 	}
 	
-	public class midpointCalculator
+	public static class MidPointCalculator
 	{
-	    public void main(String[] args)
+	    public static void main(String[] args)
 	    {
 	        String object1 = "1, 2, 3";
 	        String object2 = "-1, 4, 5";
@@ -382,7 +352,6 @@ public class EventHandlers
 
 	        System.out.println("Midpoint: (" + midpoint[0] + ", " + midpoint[1] + ", " + midpoint[2] + ")");
 	    }
-
 	}
 	
     public static int[] calculateMidpoint(String object1, String object2)
