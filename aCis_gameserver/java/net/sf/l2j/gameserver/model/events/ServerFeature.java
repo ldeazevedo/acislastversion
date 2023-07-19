@@ -33,8 +33,8 @@ public class ServerFeature
 			attacker.updatePcBangScore(pcbandpoints);
 		if (exp > 0)
 			attacker.getStatus().updateVitalityPoints(getVitalityPoints(npc, damage, attacker), true, false);
-		if (attacker.isGM())
-			LOGGER.info("onCalculateRewards() " + attacker.getName() +" - exp: "+exp+ " - Damage: "+damage +" - Name Npc: "+npc.getName());
+	//	if (attacker.isGM())
+	//		LOGGER.info("onCalculateRewards() " + attacker.getName() +" - exp: "+exp+ " - Damage: "+damage +" - Name Npc: "+npc.getName());
 	}
 	
 	/*

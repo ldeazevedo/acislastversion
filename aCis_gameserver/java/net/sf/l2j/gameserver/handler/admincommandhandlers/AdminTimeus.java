@@ -2,6 +2,8 @@ package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
 import java.util.StringTokenizer;
 
+import net.sf.l2j.commons.logging.CLogger;
+
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.handler.IAdminCommandHandler;
@@ -17,6 +19,8 @@ import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
 
 public class AdminTimeus implements IAdminCommandHandler
 {
+	final CLogger LOG = new CLogger(AdminTimeus.class.getName());
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_rf",
@@ -26,7 +30,8 @@ public class AdminTimeus implements IAdminCommandHandler
 		"admin_remove_player",
 		"admin_clear_players",
 		"admin_clear",
-		"admin_frintezza"
+		"admin_frintezza",
+		"admin_loc"
 	};
 	
 	@Override
@@ -35,6 +40,8 @@ public class AdminTimeus implements IAdminCommandHandler
 		final StringTokenizer st = new StringTokenizer(command);
 		command = st.nextToken();
 
+		if (command.equals("admin_loc"))
+			LOG.info(activeChar.getPosition());
 		if (command.equals("admin_add_player"))
 			addTargetPlayer(true, activeChar);
 		if (command.equals("admin_remove_player"))

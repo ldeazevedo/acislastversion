@@ -45,6 +45,8 @@ public enum EventHandler
 	 */
 	MY_DYING(true),
 	
+	ON_ARRIVED(true),
+	
 	/**
 	 * An event triggered when a NPC got nothing to do (peace mode).
 	 */

@@ -552,9 +552,9 @@ public class PlayerStatus extends PlayableStatus<Player>
 	 */
 	public boolean addExpAndSp(long addToExp, int addToSp, Map<Creature, RewardInfo> rewards)
 	{
-		boolean isGM = _actor.isGM();
-		if (isGM)
-			LOGGER.info("addToExp " + addToExp +" Sin multiplicado. _vitalityLevel "+_vitalityLevel);
+//		boolean isGM = _actor.isGM();
+//		if (isGM)
+//			LOGGER.info("addToExp " + addToExp +" Sin multiplicado. _vitalityLevel "+_vitalityLevel);
 		switch (_vitalityLevel)
 		{
 			case 1:
@@ -574,8 +574,8 @@ public class PlayerStatus extends PlayableStatus<Player>
 				addToSp *= Config.RATE_VITALITY_LEVEL_4;
 				break;
 		}
-		if (isGM)
-			LOGGER.info("addToExp " + addToExp +" Multiplicado. _vitalityLevel "+_vitalityLevel);
+//		if (isGM)
+//			LOGGER.info("addToExp " + addToExp +" Multiplicado. _vitalityLevel "+_vitalityLevel);
 		// If this player has a pet, give the xp to the pet now (if any).
 		if (_actor.hasPet())
 		{

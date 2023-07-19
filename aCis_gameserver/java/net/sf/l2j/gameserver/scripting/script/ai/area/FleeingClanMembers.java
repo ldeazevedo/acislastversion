@@ -14,6 +14,10 @@
  */
 package net.sf.l2j.gameserver.scripting.script.ai.area;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.gameserver.enums.EventHandler;
@@ -25,7 +29,8 @@ import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.model.location.Location;
-import net.sf.l2j.gameserver.network.serverpackets.NpcSay;
+import net.sf.l2j.gameserver.model.spawn.Spawn;
+import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
@@ -118,7 +123,40 @@ public final class FleeingClanMembers extends AttackableAIScript
 	@Override
 	protected void registerNpcs()
 	{
-		addEventIds(NPC, EventHandler.MY_DYING, EventHandler.CREATED, EventHandler.ATTACKED);
+		addEventIds(NPC, EventHandler.MY_DYING, EventHandler.ON_ARRIVED, EventHandler.ATTACKED);
+	}
+	
+	@Override
+	public String onArrived(Creature character)
+	{
+		Attackable myself = (Attackable)character;
+		switch (myself.getScriptValue())//switch (myself.getFleeingStatus())
+		{
+			case FLEEING_STARTED:
+				if (isAtClanLocation(myself.getX(), myself.getY(), myself.getZ()))
+				{
+					startQuestTimerAtFixedRate("fleeing", myself, null, 15000);
+					myself.setScriptValue(FLEEING_DONE_WAITING);
+					(myself.getAI()).setGlobalAggro(-30);
+					myself.forceWalkStance();
+					myself.getAI().tryToIdle();
+				}
+				else
+				{
+					myself.forceRunStance();//.setRunning();
+					myself.getAI().tryToMoveTo(new Location(getFleeToLocation(myself)), null);
+				}
+				break;
+			case FLEEING_DONE_RETURNING:
+				Spawn spawn = (Spawn) myself.getSpawn();
+				// currently no movement restrictions when isReturningToSpawnPoint()
+				if (myself.getX() == spawn.getLocX() && myself.getY() == spawn.getLocY())
+					myself.setScriptValue(FLEEING_NOT_STARTED);
+				else
+					myself.getAI().tryToMoveTo(new Location(spawn.getSpawnLocation()), null);
+				break;
+		}
+		return null;
 	}
 
 	private final static Location getFleeToLocation(Npc npc)
@@ -146,15 +184,11 @@ public final class FleeingClanMembers extends AttackableAIScript
 	private final static boolean isAtClanLocation(int x, int y, int z)
 	{
 		for (Location pos : CLAN_LOC)
-		{
-			if (pos.getX() == x && pos.getY() == y)// && pos.z == z)
+			if ((pos.getX() == x && pos.getY() == y) || (calculateDistanceSq(pos.getX(), pos.getY(), x, y) < MAX_GEO_PLAN_DIST))// && pos.z == z)
 				return true;
-			else if (calculateDistanceSq(pos.getX(), pos.getY(), x, y) < MAX_GEO_PLAN_DIST)
-				return true;
-		}
 		return false;
 	}
-
+	
 	@Override
 	public void onAttacked(Npc npc, Creature attacker, int damage, L2Skill skill)
 	{
@@ -171,52 +205,38 @@ public final class FleeingClanMembers extends AttackableAIScript
 						index = i5 / 7;
 					else if (i5 < 95)
 						index = (i5 - 77) / 2 + 11;
-					npc.broadcastPacket(new NpcSay(npc, SayType.ALL, ATTACKED[index]));
-					npc.setScriptValue(FLEEING_STARTED);
-					npc.disableCoreAi(true);
-					startQuestTimerAtFixedRate("help", npc, attacker.getActingPlayer(), 5000);
-					npc.getAI().tryToIdle();
-					npc.forceRunStance();
-					npc.getAI().tryToMoveTo(new Location(getFleeToLocation(npc)), null);
-					startQuestTimer("reset", npc, null, 120000);
+					npc.broadcastPacket(new CreatureSay(npc, SayType.ALL, ATTACKED[index]));
+					if (npc.getNpcId() != 20076 && npc.getNpcId() != 20495)
+					{
+						npc.setScriptValue(FLEEING_STARTED);
+						npc.disableCoreAi(true);
+						npc.getAttack().stop();
+						npc.forceRunStance();
+						npc.getAI().tryToMoveTo(new Location(getFleeToLocation(npc)), null);
+						List<Attackable> targets = npc.getKnownTypeInRadius(Monster.class, 2000).stream().filter(x -> !x.isDead() && x.getNpcId() == 20076 || x.getNpcId() == 20495).collect(Collectors.toList());
+						if (!targets.isEmpty())
+						{
+							Attackable target = targets.stream().min((a1, a2) -> (int) calculateDistanceSq(a1.getX(), a1.getY(), a2.getX(), a2.getY())).get();
+							
+							npc.setFactionHelp(target);
+							npc.setFactionEnemy(attacker);
+						}
+						startQuestTimerAtFixedRate("help", npc, attacker.getActingPlayer(), 2000);
+					}
 				}
 			}
-			else if (npc.isCoreAiDisabled() && npc.getMoveAroundPos() != null && !npc.isMoving())
-				npc.disableCoreAi(false);
+			else if (npc.getMoveAroundPos() != null && !npc.isMoving())
+				if (npc.isCoreAiDisabled())
+				{
+					for (Monster clan : npc.getKnownTypeInRadius(Monster.class, npc.getTemplate().getAggroRange()))
+						if (clan != null && npc.isIn3DRadius(attacker, 300))
+							clan.forceAttack(attacker, 1);
+					npc.disableCoreAi(false);
+				}
 		}
 		super.onAttacked(npc, attacker, damage, skill);
 	}
-
-	@Override
-	public void onCreated(Npc npc)
-	{
-		switch (npc.getScriptValue())
-		{
-			case FLEEING_STARTED:
-			if (isAtClanLocation(npc.getX(), npc.getY(), npc.getZ()))
-			{
-				startQuestTimerAtFixedRate("fleeing", npc, null, 15000);
-				npc.setScriptValue(FLEEING_DONE_WAITING);
-				((Attackable) npc).getAI().setGlobalAggro(-30);
-				npc.getAI().tryToIdle();
-			}
-			else
-			{
-				npc.setRunning(true);
-				npc.getAI().tryToMoveTo(new Location(getFleeToLocation(npc)), null);
-			}
-			break;
-			case FLEEING_DONE_RETURNING:
-				// currently no movement restrictions when isReturningToSpawnPoint()
-				if (npc.getX() == npc.getSpawnLocation().getX() && npc.getY() == npc.getSpawnLocation().getY()) //&& myself.getZ() == spawn.getLocz())
-					npc.setScriptValue(FLEEING_NOT_STARTED);
-				else
-					npc.getAI().tryToMoveTo(new Location(npc.getSpawnLocation()), null);
-				break;
-		}
-		super.onCreated(npc);
-	}
-
+	
 	@Override
 	public void onMyDying(Npc npc, Creature killer) //npc.setBeenAttacked(false);
 	{
@@ -233,54 +253,48 @@ public final class FleeingClanMembers extends AttackableAIScript
 			{
 				if (npc.getStatus().getHp() / npc.getStatus().getMaxHp() > 0.7 || ((Attackable) npc).getAggroList().getMostHated() == null)
 				{
-					cancelQuestTimers(name);
 					// let the next rnd walk take care of "returning"
 					//if (myself.getAI().getIntention() != CtrlIntention.AI_INTENTION_IDLE)
 					npc.setScriptValue(FLEEING_NOT_STARTED);
-					//else
-					//	myself.setFleeingStatus(L2Attackable.FLEEING_DONE_RETURNING);
+					npc.disableCoreAi(false);
+					cancelQuestTimers("fleeing");
 				}
-				else
-				{
-					if (!npc.isRunning() && !npc.isInCombat())
-						((Attackable) npc).getAI().setGlobalAggro(-30);
-				}
+				else if (!npc.isRunning() && !npc.isInCombat())
+					((Attackable) npc).getAI().setGlobalAggro(-30);
 			}
 			else
 			{
-				cancelQuestTimers(name);
+				cancelQuestTimers("fleeing");
 			}
 		}
 		else if (name.equalsIgnoreCase("help"))
 		{
 			if (npc.isCoreAiDisabled())
 			{
-				if (npc.isRunning() || npc.isMoving())
+				if (npc.isMoving())
 				{
-					for (Monster clan : npc.getKnownTypeInRadius(Monster.class, npc.getTemplate().getAggroRange()))
+					if ((MathUtil.checkIfInRange(npc.getTemplate().getAggroRange(), npc, npc.getFactionHelp(), false)))
 					{
-						if (clan != null && player != null && npc.isIn3DRadius(player, 300))
-							clan.forceAttack(player, 1);
+						npc.disableCoreAi(false);
+						for (Monster clan : npc.getKnownTypeInRadius(Monster.class, npc.getTemplate().getAggroRange()))
+							((Attackable) clan).forceAttack(npc.getFactionEnemy(), 1);
 					}
 				}
-				else 
-				{
+				else
 					npc.disableCoreAi(false);
-					for (Player pc : npc.getKnownTypeInRadius(Player.class, 450))
-						if (pc == player)
-						{
-							((Attackable) npc).forceAttack(pc, 200);
-							return null;
-						}
-				}
 			}
-			else if (name.equalsIgnoreCase("reset"))
+			else if (npc.getScriptValue() == FLEEING_NOT_STARTED)
 			{
-				if (!npc.isDead() && !npc.getAttack().isAttackingNow())
-				{
-					setReset(npc);
-					npc.teleportTo(npc.getSpawnLocation(), 20);
-				}
+				cancelQuestTimers("help");
+				startQuestTimer("reset", npc, null, 15000);
+			}
+		}
+		else if (name.equalsIgnoreCase("reset"))
+		{
+			if (!npc.isDead() && !npc.getAttack().isAttackingNow())
+			{
+				setReset(npc);
+				npc.getAI().tryToMoveTo(new Location(npc.getSpawnLocation()), null);
 			}
 		}
 		return super.onTimer(name, npc, player);
@@ -293,6 +307,7 @@ public final class FleeingClanMembers extends AttackableAIScript
 		npc.disableCoreAi(false);
 		cancelQuestTimers("fleeing");
 		cancelQuestTimers("reset");
+		cancelQuestTimers("help");
 	}
 	
 	public static long calculateDistanceSq(int x1, int y1, int x2, int y2)

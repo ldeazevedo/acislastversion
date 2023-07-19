@@ -1959,4 +1959,26 @@ public class Npc extends Creature
 		else
 			super.onAction(player, false, true);
 	}
+
+	private Creature _factionEnemy;
+	private Creature _factionHelp;
+	public final Creature getFactionEnemy()
+	{
+		return _factionEnemy;
+	}
+	
+	public final void setFactionEnemy(Creature value)
+	{
+		_factionEnemy = value;
+	}
+	
+	public final void setFactionHelp(Creature value)
+	{
+		_factionHelp = value;
+	}
+	
+	public final Creature getFactionHelp()
+	{
+		return _factionHelp;
+	}
 }

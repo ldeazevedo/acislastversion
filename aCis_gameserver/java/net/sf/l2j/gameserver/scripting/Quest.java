@@ -1801,6 +1801,16 @@ public class Quest
 		addEventIds(npcIds, EventHandler.FIRST_TALK);
 	}
 	
+	public final void addArrived(int... npcIds)
+	{
+		addEventIds(npcIds, EventHandler.ON_ARRIVED);
+	}
+	
+	public String onArrived(Creature character)
+	{
+		return null;
+	}
+	
 	/**
 	 * Register this {@link Quest} to the {@link Npc}, which will override initial dialog with this {@link Quest}.
 	 * @param npcIds : The ids of the {@link Npc}.
@@ -1833,6 +1843,22 @@ public class Quest
 			showResult(npc, player, res);
 		else
 			player.sendPacket(ActionFailed.STATIC_PACKET);
+	}
+
+	public final void notifyMoveFinished(Creature character)
+	{
+		String res = null;
+		try
+		{
+			res = onArrived(character);
+		}
+		catch (Exception e)
+		{
+			LOGGER.warn(toString(), e);
+			return;
+		}
+		if (character != null)
+			showResult(null, character, res);
 	}
 	
 	/**

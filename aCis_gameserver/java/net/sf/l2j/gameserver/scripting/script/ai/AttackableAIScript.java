@@ -71,6 +71,7 @@ public class AttackableAIScript extends Quest
 				template.addQuestEvent(EventHandler.OUT_OF_TERRITORY, this);
 				template.addQuestEvent(EventHandler.SEE_CREATURE, this);
 				template.addQuestEvent(EventHandler.SEE_SPELL, this);
+				template.addQuestEvent(EventHandler.ON_ARRIVED, this);
 				
 				// Feed CLAN EventHandlers.
 				if (template.getClans() != null)

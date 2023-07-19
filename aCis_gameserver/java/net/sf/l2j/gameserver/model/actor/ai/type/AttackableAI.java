@@ -174,6 +174,9 @@ public class AttackableAI<T extends Attackable> extends NpcAI<T> implements Runn
 			}
 			else
 				notifyEvent(AiEventType.THINK, null, null);
+			// Currently done for NPCs only
+			for (Quest quest : ((Npc)_actor).getTemplate().getEventQuests(EventHandler.ON_ARRIVED))
+				quest.notifyMoveFinished(_actor);
 		}
 		else
 			doIntention(_nextIntention);
