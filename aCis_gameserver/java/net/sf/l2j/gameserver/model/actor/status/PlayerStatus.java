@@ -54,7 +54,7 @@ import net.sf.l2j.gameserver.skills.L2Skill;
 
 public class PlayerStatus extends PlayableStatus<Player>
 {
-	public static final CLogger LOGGER = new CLogger(PlayerStatus.class.getName());
+	public static final CLogger log = new CLogger(PlayerStatus.class.getName());
 	
 	private double _cp = .0;
 	
@@ -1283,10 +1283,7 @@ public class PlayerStatus extends PlayableStatus<Player>
         	else if (level >= 76)
         		points += points / 2;
 
-        	if (points > 0)
-        		points *= Config.RATE_VITALITY_GAIN; // vitality increased
-        	else
-        		points *= Config.RATE_VITALITY_LOST; // vitality decreased
+			points *= points > 0 ? Config.RATE_VITALITY_GAIN : Config.RATE_VITALITY_LOST;
     	}
 
     	if (points > 0)
@@ -1299,7 +1296,7 @@ public class PlayerStatus extends PlayableStatus<Player>
 
     	_vitalityPoints = points;
     	updateVitalityLevel(quiet);
-    //	LOGGER.info("updateVitalityPoints "+ points +  " . _vitalityPoints " +_vitalityPoints);
+		log.info("updateVitalityPoints " + points + " . _vitalityPoints " + _vitalityPoints);
     }
     
     public int getVitaLevel()

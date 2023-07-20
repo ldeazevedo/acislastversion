@@ -11,7 +11,7 @@ import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
 import java.util.logging.Logger;
 
 public class ServerFeature {
-	protected static final Logger LOGGER = Logger.getLogger(ServerFeature.class.getName());
+	protected static final Logger log = Logger.getLogger(ServerFeature.class.getName());
 
 	private ServerFeature() {
 	}
@@ -24,12 +24,14 @@ public class ServerFeature {
 	}
 
 	public static void onCalculateRewards(Player attacker, long exp, int pcBangPoints, long damage, Npc npc) {
+		log.info("ServerFeature::onCalculateRewards() " + attacker.getName() + " - exp: " + exp + " - Damage: " + damage + " - Name Npc: " + npc.getName());
+
 		if (pcBangPoints > 0)
 			attacker.updatePcBangScore(pcBangPoints);
 		if (exp > 0)
 			attacker.getStatus().updateVitalityPoints(getVitalityPoints(npc, damage, attacker), true, false);
+
 		//	if (attacker.isGM())
-		//		LOGGER.info("onCalculateRewards() " + attacker.getName() +" - exp: "+exp+ " - Damage: "+damage +" - Name Npc: "+npc.getName());
 	}
 
 	/*
