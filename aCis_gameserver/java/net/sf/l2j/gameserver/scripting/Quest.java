@@ -70,7 +70,7 @@ import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 
 public class Quest
 {
-	protected static final CLogger LOGGER = new CLogger(Quest.class.getName());
+	protected static final CLogger log = new CLogger(Quest.class.getName());
 	
 	private static final String HTML_NONE_AVAILABLE = "<html><body>You are either not on a quest that involves this NPC, or you don't meet this NPC's minimum quest requirements.</body></html>";
 	private static final String HTML_ALREADY_COMPLETED = "<html><body>This quest has already been completed.</body></html>";
@@ -693,7 +693,7 @@ public class Quest
 		// Name must exist.
 		if (name == null)
 		{
-			LOGGER.warn("Script {} adding timer without name.", toString());
+			log.warn("Script {} adding timer without name.", toString());
 			return false;
 		}
 		
@@ -926,7 +926,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
+			log.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
 			return null;
 		}
 	}
@@ -963,7 +963,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
+			log.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
 			return null;
 		}
 	}
@@ -1005,7 +1005,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
+			log.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
 			return null;
 		}
 	}
@@ -1597,7 +1597,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.warn(toString(), e);
+			log.warn(toString(), e);
 			return;
 		}
 		showResult(npc, player, res);
@@ -1834,7 +1834,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.warn(toString(), e);
+			log.warn(toString(), e);
 			return;
 		}
 		
@@ -1854,7 +1854,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.warn(toString(), e);
+			log.warn(toString(), e);
 			return;
 		}
 		if (character != null)
@@ -2206,7 +2206,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.warn(toString(), e);
+			log.warn(toString(), e);
 			return;
 		}
 		showResult(npc, player, res);
@@ -2238,7 +2238,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.warn(toString(), e);
+			log.warn(toString(), e);
 			return;
 		}
 		showResult(npc, player, res);

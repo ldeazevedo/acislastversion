@@ -95,7 +95,7 @@ public abstract class ScheduledQuest extends Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Error loading schedule data for {}.", e, toString());
+			log.error("Error loading schedule data for {}.", e, toString());
 			
 			_type = null;
 			_start = null;
@@ -234,7 +234,7 @@ public abstract class ScheduledQuest extends Quest
 			}
 			catch (Exception e)
 			{
-				LOGGER.error("Error starting {}.", e, toString());
+				log.error("Error starting {}.", e, toString());
 			}
 			
 			return;
@@ -255,7 +255,7 @@ public abstract class ScheduledQuest extends Quest
 			}
 			catch (Exception e)
 			{
-				LOGGER.error("Error ending {}.", e, toString());
+				log.error("Error ending {}.", e, toString());
 			}
 		}
 		else
@@ -272,7 +272,7 @@ public abstract class ScheduledQuest extends Quest
 			}
 			catch (Exception e)
 			{
-				LOGGER.error("Error starting {}.", e, toString());
+				log.error("Error starting {}.", e, toString());
 			}
 		}
 	}
@@ -336,13 +336,13 @@ public abstract class ScheduledQuest extends Quest
 		else if (day.equals("SUN"))
 			return Calendar.SUNDAY;
 		
-		LOGGER.error("Error parsing day of week {}, MONDAY will be used for {}.", day, toString());
+		log.error("Error parsing day of week {}, MONDAY will be used for {}.", day, toString());
 		return Calendar.MONDAY;
 	}
 	
 	private final void print(Calendar c)
 	{
-		LOGGER.debug("{}: {} = {}.", toString(), ((c == _start) ? "Next start" : "Next end"), String.format("%d.%d.%d %d:%02d:%02d", c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH) + 1, c.get(Calendar.YEAR), c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)));
+		log.debug("{}: {} = {}.", toString(), ((c == _start) ? "Next start" : "Next end"), String.format("%d.%d.%d %d:%02d:%02d", c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH) + 1, c.get(Calendar.YEAR), c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)));
 	}
 	
 	public final void setTask(ScheduledFuture<?> task)

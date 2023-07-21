@@ -91,7 +91,7 @@ public class AttackableAIScript extends Quest
 			}
 			catch (final ClassNotFoundException e)
 			{
-				LOGGER.error("An unknown template type {} has been found on {}.", e, template.getType(), toString());
+				log.error("An unknown template type {} has been found on {}.", e, template.getType(), toString());
 			}
 		}
 		

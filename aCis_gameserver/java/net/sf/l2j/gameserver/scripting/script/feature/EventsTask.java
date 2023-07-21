@@ -123,7 +123,7 @@ public class EventsTask extends Quest
 			cancelQuestTimers("RF03");
 			cancelQuestTimers("RF04");
 			cancelQuestTimers("RF05");
-			LOGGER.info("EventsTask: cancelQuestTimers");
+			log.info("EventsTask: cancelQuestTimers");
 		}
 		
 		else if (event.equalsIgnoreCase("DM"))
@@ -199,7 +199,7 @@ public class EventsTask extends Quest
 		time.schedule(new setTimerTask(1000), calendar.getTime());
 		time.schedule(new setTimerTask(1800000), calendar.getTime());
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		LOGGER.info("EventsTask: " + String.valueOf(format.format(calendar.getTime())));
+		log.info("EventsTask: " + String.valueOf(format.format(calendar.getTime())));
 	}
 	
 	private class setTimerTask extends TimerTask

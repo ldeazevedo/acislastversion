@@ -14,17 +14,8 @@
  */
 package net.sf.l2j.gameserver.model.events;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
-import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
@@ -36,12 +27,24 @@ import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
 import net.sf.l2j.gameserver.network.serverpackets.StopMove;
 import net.sf.l2j.gameserver.scripting.Quest;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 public class EventEngine extends Quest
 {
 	protected static final Logger _log = Logger.getLogger(EventEngine.class.getName());
-	
-	private State state = State.INACTIVE;
-	
+
+	private State currentState = State.INACTIVE;
+
+	private List<PlayerTuple> playerTuple;
+
 	private final Location loc1 = new Location(179621, 54371, -3093);
 	private final Location loc2 = new Location(178167, 54851, -3093);
 
@@ -54,12 +57,12 @@ public class EventEngine extends Quest
 		FIGHT,			// 4
 		ENDING			// 5
 	}
-	
+
 	protected EventEngine()
 	{
 		super(-1, "events");
 	}
-	
+
 	public static void getBuffs(Player killer)
 	{
 		killer.getSkill(1204, 2); // Wind Walk
@@ -68,39 +71,39 @@ public class EventEngine extends Quest
 		else
 			killer.getSkill(1086, 2); // haste
 	}
-	
+
 	private static class DataBaseQuery
 	{
 		public static final String QUERY_EVENT_INFO = "select * from rf where char_name=?";
 		public static final String UPDATE_EVENT_INFO = "update rf set count=count+1 where char_name=?";
 		public static final String INSERT_EVENT_INFO = "insert rf set count=1,char_name=?";
 	}
-	
+
 	public boolean isInEvent(Player pc)
 	{
-		return state == State.FIGHT && TeamsPlayers.containsPlayer(pc);
+		return currentState == State.FIGHT && TeamsPlayers.containsPlayer(pc);
 	}
-	
+
 	public static void announce(String msg)
 	{
 		World.announceToOnlinePlayers(msg);
 	}
-	
+
 	public boolean isInProgress()
 	{
-		return state != State.INACTIVE;
+		return currentState != State.INACTIVE;
 	}
-	
+
 	public void checkEvents(String text, Player player)
 	{
 		if (/*!isInProgress() || */
-			player == null || 
-			player.isInObserverMode() || 
-			player.isInOlympiadMode() || 
-			player.isFestivalParticipant() || 
-			player.isInJail() || 
-			player.isCursedWeaponEquipped() || 
-			player.getKarma() > 0 || 
+			player == null ||
+			player.isInObserverMode() ||
+			player.isInOlympiadMode() ||
+			player.isFestivalParticipant() ||
+			player.isInJail() ||
+			player.isCursedWeaponEquipped() ||
+			player.getKarma() > 0 ||
 			/*player.isInSameActiveSiegeSide(player) || */
 			TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(player.getObjectId()))
 		{
@@ -132,7 +135,7 @@ public class EventEngine extends Quest
 			}
 			if (text.equalsIgnoreCase(".salir") && isInProgress())
 			{
-				if (!TeamsPlayers.containsPlayer(player) || state != State.FIGHT)
+				if (!TeamsPlayers.containsPlayer(player) || currentState != State.FIGHT)
 					return;
 				if (player.isDead())
 				{
@@ -145,7 +148,7 @@ public class EventEngine extends Quest
 			{
 				if (TeamsPlayers.containsPlayer(player) || player.isInObserverMode())
 					return;
-				
+
 				player.enterObserverMode(new Location(179747, 54696, -2805));
 				return;
 			}
@@ -163,7 +166,7 @@ public class EventEngine extends Quest
 					player.sendMessage("Ya estas registrado en el evento.");
 					return;
 				}
-				if (state != State.REGISTER)
+				if (currentState != State.REGISTER)
 				{
 					player.sendMessage("El evento ya comenzo.");
 					return;
@@ -179,7 +182,7 @@ public class EventEngine extends Quest
 					player.sendMessage("No te registraste al evento.");
 					return;
 				}
-				if (state != State.REGISTER)
+				if (currentState != State.REGISTER)
 				{
 					player.sendMessage("El evento ya comenzo.");
 					return;
@@ -189,7 +192,7 @@ public class EventEngine extends Quest
 		}
 		}
 	}
-	
+
 	public void revertPlayer(Player player)
 	{
 		if (player.atEvent)
@@ -200,88 +203,100 @@ public class EventEngine extends Quest
 			player.doRevive();
 		player.getStatus().setMaxCpHpMp();
 		player.broadcastUserInfo();
-		
+
 		if (player.getSavedLocation() != null)
 			player.teleportTo(player.getSavedLocation(), 0);
 		else
 			player.teleportTo(82698, 148638, -3473, 0);
-		
+
 		if (player.getKarma() > 0)
 			player.setKarma(0);
-		
+
 		player.setPvpFlag(0);
 		player.setTeam(TeamType.NONE);
 	}
-	
+
 	private class RevertTask implements Runnable
 	{
-		RevertTask()
+		private Player killer = null;
+		RevertTask(Player killer)
 		{
+			this.killer = killer;
 		}
-		
+
+		public RevertTask() {
+		}
+
 		@Override
 		public void run()
 		{
+			//TODO: find tuple
+			Optional<PlayerTuple> pt = playerTuple.stream().filter(p -> p.getInstanceId() == killer.getInstanceId()).findFirst();
+			if (pt.isPresent() && (currentState == State.FIGHT || currentState == State.ENDING)) {
+				revertPlayer(pt.get().getFighterOne());
+				revertPlayer(pt.get().getFighterTwo());
+
+				setPlayerStats(pt.get().getFighterOne(), null);
+				setPlayerStats(pt.get().getFighterTwo(), null);
+			}
+
+/*
 			if (!getPlayers().isEmpty())
 				for (Player p : getPlayers())
 				{
 					if (p == null)
 						continue;
-					
-					if (state == State.FIGHT || state == State.ENDING)
+
+					if (currentState == State.FIGHT || currentState == State.ENDING)
 					{
 						revertPlayer(p);
 						for (Player player : getPlayers())
 							setPlayerStats(player, null);
 					}
 				}
+*/
 			clean();
 		}
 	}
-	
+
 	public boolean onKill(Player killer)
 	{
 	//	boolean isInEvent = false;
-		if (isInProgress() && state == State.FIGHT)
+		if (isInProgress() && currentState == State.FIGHT)
 		{
-			if (state != State.ENDING)
+			currentState = State.ENDING;
+			if (killer != null)
 			{
-				state = State.ENDING;
-				if (killer != null)
+				killer.sendMessage("Sos el ganador!");
+				announce("Resultado Random Fight: " + killer.getName() + " es el ganador.");
+				announce("Evento finalizado");
+				// pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
+
+				// Guardar en la base de datos
+				try (Connection con = ConnectionPool.getConnection();
+					 PreparedStatement statement = con.prepareStatement(DataBaseQuery.QUERY_EVENT_INFO))
 				{
-					killer.sendMessage("Sos el ganador!");
-					announce("Resultado Random Fight: " + killer.getName() + " es el ganador.");
-					announce("Evento finalizado");
-					// pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
-					
-					// Guardar en la base de datos
-					try (Connection con = ConnectionPool.getConnection();
-						 PreparedStatement statement = con.prepareStatement(DataBaseQuery.QUERY_EVENT_INFO))
+					statement.setString(1, killer.getName());
+					boolean existsRow = statement.executeQuery().first();
+					String sql = existsRow ? DataBaseQuery.UPDATE_EVENT_INFO : DataBaseQuery.INSERT_EVENT_INFO;
+					try (PreparedStatement statement2 = con.prepareStatement(sql))
 					{
-						statement.setString(1, killer.getName());
-						@SuppressWarnings("resource")
-						boolean existsRow = statement.executeQuery().first();
-						String sql = existsRow ? DataBaseQuery.UPDATE_EVENT_INFO : DataBaseQuery.INSERT_EVENT_INFO;
-						try (PreparedStatement statement2 = con.prepareStatement(sql))
-						{
-							statement2.setString(1, killer.getName());
-							statement2.execute();
-						}
-					}
-					catch (Exception e)
-					{
-						_log.warning("Error en RF Ranking: " + e);
+						statement2.setString(1, killer.getName());
+						statement2.execute();
 					}
 				}
-				ThreadPool.schedule(new RevertTask(), 15000);
-				
-				return true;
+				catch (Exception e)
+				{
+					_log.warning("Error en RF Ranking: " + e);
+				}
 			}
+			ThreadPool.schedule(new RevertTask(killer), 15000);
+			return true;
 		}
 		return false;
 	}
-	
-	
+
+
 	public void onLogout(Player pc)
 	{
 		Player pk = null;
@@ -298,7 +313,7 @@ public class EventEngine extends Quest
 			}
 			if (TeamsPlayers.containsPlayer(pc))
 				TeamsPlayers.removePlayer(pc);
-			
+
 			pc.atEvent = false;
 			pc.isInSurvival = false;
 		}
@@ -310,61 +325,58 @@ public class EventEngine extends Quest
 					alive++;
 					pk = player;
 				}
-			
+
 			if (alive == 1)
 				onKill(pk);
 		}
 	}
-	
+
 	public boolean reqPlayers()
 	{
 		return getPlayers().isEmpty() || getPlayers().size() < 2;
 	}
-	
+
 	public void clean()
 	{
-		if (state == State.FIGHT)
+		if (currentState == State.FIGHT)
 			for (Player p : getPlayers())
 				p.setTeam(TeamType.NONE);
-			
+
 		for (Player pc : World.getInstance().getPlayers())
 		{
 			pc.isInSurvival = false;
 			pc.atEvent = false;
 		}
-		
+
 		getPlayers().clear();
-		state = State.INACTIVE;
+		playerTuple.clear();
+		currentState = State.INACTIVE;
 		ScriptData.getInstance().getQuest("EventsEngineTask").startQuestTimer("cancelQuestTimers", null, null, 1000);
 	}
-	
+
 	public void clear()
 	{
 		clean();
 		ScriptData.getInstance().getQuest("EventsEngineTask").startQuestTimer("clear", null, null, 1000);
 	}
-	
-	
-	
-	
-	
-	public void setRandomFight(int st)
+
+	public void setRandomFight(State newState)
 	{
 		if (TvTEvent.isInProgress()/* || event == Events.SURVIVAL || event == Events.DM*/)
 		{
 			ThreadPool.schedule(new RevertTask(), 15000);
 			return;
 		}
-		
-		switch (st)
+
+		switch (newState)
 		{
-			case 0:
+			case INACTIVE:
 				announce("REGISTER");
-				state = State.REGISTER;
+				this.currentState = State.REGISTER;
 				announce("set REGISTER.");
 				break;
-			case 1:
-				if (state == State.REGISTER)
+			case REGISTER:
+				if (this.currentState == State.REGISTER)
 				{
 					if (reqPlayers())
 					{
@@ -372,15 +384,15 @@ public class EventEngine extends Quest
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
-					
+
 					announce("Cantidad de registrados: " + getPlayers().size());
 					announce("2 personajes al azar seran elegidos en 10 segundos!");
 					announce("set LOADING.");
-					state = State.LOADING;
+					this.currentState = State.LOADING;
 				}
 				break;
-			case 2:
-				if (state == State.LOADING)
+			case LOADING:
+				if (this.currentState == State.LOADING)
 				{
 					try
 					{
@@ -390,22 +402,33 @@ public class EventEngine extends Quest
 							ThreadPool.schedule(new RevertTask(), 1000);
 							return;
 						}
-					
+
 						checkRequirements();
-					
+
+						var sortedPlayers = getPlayers().stream()
+								.sorted(Comparator.comparingInt(p -> p.getStatus().getLevel()))
+								.collect(Collectors.toList());
+
+						if (sortedPlayers.size() % 2 == 1)
+							sortedPlayers.remove(sortedPlayers.size() - 1);
+
+						playerTuple = new ArrayList<>();
+
+						for (int i = 0; i < sortedPlayers.size(); i += 2)
+							playerTuple.add(new PlayerTuple(sortedPlayers.get(i), sortedPlayers.get(i + 1)));
+
+						/*
 						int rnd1 = Rnd.get(getPlayers().size());
 						int rnd2 = Rnd.get(getPlayers().size());
-					
+
 						while (rnd2 == rnd1)
 							rnd2 = Rnd.get(getPlayers().size());
-					
-						int finalRnd = rnd2;
-						getPlayers().stream().filter(p -> p.getName().equalsIgnoreCase(getPlayers().get(rnd1).getName()) || p.getName().equalsIgnoreCase(getPlayers().get(finalRnd).getName())).collect(Collectors.toList());
-					
+
 						announce("Personajes elegidos: " + getPlayers().get(0).getName() + " || " + getPlayers().get(getPlayers().size() - 1).getName());
+						*/
 						announce("Los personajes seran teleportados en 15 segundos.");
 						announce("set PREPARING.");
-						state = State.PREPARING;
+						this.currentState = State.PREPARING;
 					}
 					catch (Exception ex)
 					{
@@ -413,8 +436,8 @@ public class EventEngine extends Quest
 					}
 				}
 				break;
-			case 3:
-				if (state == State.PREPARING)
+			case PREPARING:
+				if (this.currentState == State.PREPARING)
 				{
 					if (reqPlayers())
 					{
@@ -422,23 +445,36 @@ public class EventEngine extends Quest
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
-					
+
+					playerTuple.forEach(playerTuple -> {
+						preparePlayer(playerTuple.getFighterOne(), playerTuple.getInstanceId());
+						preparePlayer(playerTuple.getFighterTwo(), playerTuple.getInstanceId());
+
+						playerTuple.getFighterOne().teleportTo(loc1, 0);
+						playerTuple.getFighterTwo().teleportTo(loc2, 0);
+						playerTuple.getFighterOne().setTeam(TeamType.BLUE);
+						playerTuple.getFighterTwo().setTeam(TeamType.RED);
+						announce("get PREPARING.");
+					});
+
+/*
 					Player player1 = getPlayers().get(0);
 					Player player2 = getPlayers().get(getPlayers().size() - 1);
-					
-					setPcPrepare(player1);
-					setPcPrepare(player2);
-					
+
+					preparePlayer(player1);
+					preparePlayer(player2);
+
 					// Arriba de GC
 					player1.teleportTo(loc1, 0);
 					player2.teleportTo(loc2, 0);
 					player1.setTeam(TeamType.BLUE);
 					player2.setTeam(TeamType.RED);
 					announce("get PREPARING.");
+*/
 				}
 				break;
-			case 4:
-				if (state == State.PREPARING)
+			case FIGHT:
+				if (this.currentState == State.PREPARING)
 				{
 					if (reqPlayers())
 					{
@@ -446,38 +482,46 @@ public class EventEngine extends Quest
 						ThreadPool.schedule(new RevertTask(), 15000);
 						return;
 					}
-					for (Player player : getPlayers())
-						setPlayerStats(player, "Pelea!");
-					state = State.FIGHT;
+
+					playerTuple.forEach(playerTuple -> {
+						setPlayerStats(playerTuple.getFighterOne(), "Pelea!");
+						setPlayerStats(playerTuple.getFighterTwo(), "Pelea!");
+					});
+
+					this.currentState = State.FIGHT;
 					announce("State.PREPARING.");
 				}
 				break;
-			case 5:
-				if (state == State.FIGHT)
+			case ENDING:
+				if (this.currentState == State.FIGHT)
 				{
 					if (reqPlayers())
 					{
 						ThreadPool.schedule(new RevertTask(), 15000);
 						return;
 					}
-					int alive = 0;
-					for (Player player : getPlayers())
-						if (!player.isDead())
+
+					playerTuple.forEach(playerTuple -> {
+						int alive = 0;
+
+						if (!playerTuple.getFighterOne().isDead())
+							alive++;
+						if (!playerTuple.getFighterTwo().isDead())
 							alive++;
 
-					state = State.ENDING;
-					if (alive == 2)
-					{
-						_log.info("ENDING");
-						announce("[RandomFight] Termino en empate!");
-						ThreadPool.schedule(new RevertTask(), 15000);
-					}
+						this.currentState = State.ENDING;
+						if (alive == 2) {
+							_log.info("ENDING RF[" + playerTuple.getInstanceId() + "]");
+							announce("[RandomFight] Termino en empate!");
+							ThreadPool.schedule(new RevertTask(), 15000);
+						}
+					});
 					announce("set ENDING.");
 				}
 				break;
 		}
 	}
-	
+
 	private static void checkRequirements()
 	{
 		for (Player p : getPlayers())
@@ -487,18 +531,18 @@ public class EventEngine extends Quest
 				p.sendMessage("No cumples los requisitos para participar en el evento.");
 			}
 	}
-	
+
 	public static EventEngine getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-	
+
 	private static class SingletonHolder
 	{
 		protected static final EventEngine _instance = new EventEngine();
 	}
-	
-	private static void setPcPrepare(Player player)
+
+	private static void preparePlayer(Player player)
 	{
 		player.setLastLocation(new Location(player.getX(), player.getY(), player.getZ()));
 		player.atEvent = true;
@@ -514,7 +558,12 @@ public class EventEngine extends Quest
 		player.sendMessage(message);
 		player.sendPacket(new ExShowScreenMessage(message, 3500, SMPOS.MIDDLE_RIGHT, false));
 	}
-	
+
+	private static void preparePlayer(Player player, Integer instanceId) {
+		preparePlayer(player);
+		player.setInstanceId(instanceId);
+	}
+
 	private static void setPlayerStats(Player player, String message)
 	{
 		if (message != null)
@@ -524,7 +573,7 @@ public class EventEngine extends Quest
 		player.setInvul(false);
 		player.getStatus().setMaxCpHpMp();
 	}
-	
+
 	private static List<Player> getPlayers()
 	{
 		return TeamsPlayers.registersPlayers();

@@ -1553,7 +1553,7 @@ public final class Kamaloka extends Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.error(Level.WARNING, "", e);
+			log.error(Level.WARNING, "", e);
 		}
 		return "";
 	}

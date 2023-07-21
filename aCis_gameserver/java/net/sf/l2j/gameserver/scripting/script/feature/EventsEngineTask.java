@@ -25,7 +25,7 @@ import net.sf.l2j.gameserver.model.events.EventEngine;
 
 public class EventsEngineTask extends EventEngine
 {
-	private Timer time = new Timer();
+	private final Timer timer = new Timer();
 	
 	public EventsEngineTask()
 	{
@@ -38,41 +38,29 @@ public class EventsEngineTask extends EventEngine
 	{
 		if (event.equalsIgnoreCase("clear"))
 		{
-			if (time != null)
-				time.cancel();
+			timer.cancel();
 			setTask();
 			EventEngine.getInstance().clean();
 		}
 		else if (event.equalsIgnoreCase("RF"))
 		{
 			startQuestTimer("RF", 3600000, null, null, true);
-			setRandomFight(0);
-			
-			startQuestTimer("RF01", 60000, null, null, false); // checkRegist
-			startQuestTimer("RF02", 70000, null, null, false);
-			startQuestTimer("RF03", 85000, null, null, false);
-			startQuestTimer("RF04", 115000, null, null, false);
-			startQuestTimer("RF05", 295000, null, null, false);
+			randomFightInactive();
 		}
 		else if (event.equalsIgnoreCase("doItJustOnceRF"))
 		{
-			setRandomFight(0);
-			startQuestTimer("RF01", 60000, null, null, false);
-			startQuestTimer("RF02", 70000, null, null, false);
-			startQuestTimer("RF03", 85000, null, null, false);
-			startQuestTimer("RF04", 115000, null, null, false);
-			startQuestTimer("RF05", 295000, null, null, false);
+			randomFightInactive();
 		}
 		else if (event.equalsIgnoreCase("RF01"))
-			setRandomFight(1);
+			setRandomFight(State.REGISTER);
 		else if (event.equalsIgnoreCase("RF02"))
-			setRandomFight(2);
+			setRandomFight(State.LOADING);
 		else if (event.equalsIgnoreCase("RF03"))
-			setRandomFight(3);
+			setRandomFight(State.PREPARING);
 		else if (event.equalsIgnoreCase("RF04"))
-			setRandomFight(4);
+			setRandomFight(State.FIGHT);
 		else if (event.equalsIgnoreCase("RF05"))
-			setRandomFight(5);
+			setRandomFight(State.ENDING);
 		else if (event.equalsIgnoreCase("cancelQuestTimers"))
 		{
 			cancelQuestTimers("RF01");
@@ -80,11 +68,20 @@ public class EventsEngineTask extends EventEngine
 			cancelQuestTimers("RF03");
 			cancelQuestTimers("RF04");
 			cancelQuestTimers("RF05");
-			LOGGER.info("EventsEngineTask: cancelQuestTimers");
+			log.info("EventsEngineTask: cancelQuestTimers");
 		}
 		return null;
 	}
-	
+
+	private void randomFightInactive() {
+		setRandomFight(State.INACTIVE);
+		startQuestTimer("RF01", 60000, null, null, false);
+		startQuestTimer("RF02", 70000, null, null, false);
+		startQuestTimer("RF03", 85000, null, null, false);
+		startQuestTimer("RF04", 115000, null, null, false);
+		startQuestTimer("RF05", 295000, null, null, false);
+	}
+
 	private void setTask()
 	{
 		int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -106,15 +103,15 @@ public class EventsEngineTask extends EventEngine
 			calendar.set(Calendar.HOUR_OF_DAY, 21);
 		else if (hour > 21 && hour <= 0)
 			calendar.set(Calendar.HOUR_OF_DAY, 0);
-		
+
 		calendar.set(Calendar.MINUTE, 30);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		
-		time.schedule(new setTimerTask(1000), calendar.getTime());
-		time.schedule(new setTimerTask(1800000), calendar.getTime());
+		timer.schedule(new setTimerTask(1000), calendar.getTime());
+		timer.schedule(new setTimerTask(1800000), calendar.getTime());
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		LOGGER.info("EventsEngineTask: " + String.valueOf(format.format(calendar.getTime())));
+		log.info("EventsEngineTask: " + format.format(calendar.getTime()));
 	}
 	
 	private class setTimerTask extends TimerTask

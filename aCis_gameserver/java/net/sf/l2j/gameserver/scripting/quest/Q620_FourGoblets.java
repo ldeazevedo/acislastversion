@@ -625,7 +625,7 @@ public class Q620_FourGoblets extends ScheduledQuest
 		
 		startQuestTimerAtFixedRate("passed", null, null, PASSED_PERIOD);
 		
-		LOGGER.info(getName() + ": Four Sepulchers started.");
+		log.info(getName() + ": Four Sepulchers started.");
 	}
 	
 	@Override
@@ -637,7 +637,7 @@ public class Q620_FourGoblets extends ScheduledQuest
 		
 		startQuestTimer("entry", null, null, (getStartTime() - System.currentTimeMillis()) - ENTRY_TO_START);
 		
-		LOGGER.info(getName() + ": Four Sepulchers ended.");
+		log.info(getName() + ": Four Sepulchers ended.");
 	}
 	
 	@Override

@@ -95,7 +95,7 @@ public final class RecommendationUpdate extends ScheduledQuest
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Couldn't clear players recommendations.", e);
+			log.error("Couldn't clear players recommendations.", e);
 		}
 	}
 	
