@@ -1294,9 +1294,10 @@ public class PlayerStatus extends PlayableStatus<Player>
     	if (points == _vitalityPoints)
     		return;
 
-    	_vitalityPoints = points;
-    	updateVitalityLevel(quiet);
-		log.info("updateVitalityPoints " + points + " . _vitalityPoints " + _vitalityPoints);
+		var newVitPoints = _vitalityPoints - points;
+		log.info("[" + _actor.getName() + "] currentVitPoints: " + _vitalityPoints + " | newVitPoints: " + points + " | removed: " + newVitPoints);
+		_vitalityPoints = points;
+		updateVitalityLevel(quiet);
     }
     
     public int getVitaLevel()
