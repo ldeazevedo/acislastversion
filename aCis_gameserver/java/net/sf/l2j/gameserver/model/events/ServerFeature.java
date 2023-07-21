@@ -40,26 +40,35 @@ public class ServerFeature {
 	 * Maximum for damage = maxHp.
 	 */
 	public static float getVitalityPoints(Npc npc, long damage, Player player) {
-		int level = player.getStatus().getLevel();
-		// sanity check
-		if (damage <= 0)
-			return 0;
-
-		float divider = npc.getTemplate().getBaseVitalityDivider();
-		if (divider == 0 || npc.isRaidRelated() && npc.hasMaster())
-			return 0;
-
-		if (level < 70)
-			divider *= 2;
-		else if (level < 76 && level > 70)
-			divider += divider / 3;
-		// negative value - vitality will be consumed
-		float ret = npc.isRaidBoss() ? Math.min(damage, npc.getStatus().getMaxHp()) / 100f : Math.min(damage, npc.getStatus().getMaxHp()) / divider;
-		if (ret > 150)
-			ret = 150;
-		return -ret;/*(npc.isRaidBoss() ? Math.min(damage, npc.getStatus().getMaxHp()) / 100 : Math.min(damage, npc.getStatus().getMaxHp()) / divider /2)*/
+	    int level = player.getStatus().getLevel();
+	    
+	    // Sanity check
+	    if (damage <= 0)
+	        return 0;
+	    
+	    float divider = npc.getTemplate().getBaseVitalityDivider();
+	    if (divider == 0 || (npc.isRaidRelated() && npc.hasMaster()))
+	        return 0;
+	    
+	    if (level >= 70 && level < 76)
+	        divider += divider / 3;
+	    else if (level < 70)
+	        divider *= 2;
+	    
+	    long maxHp = npc.getStatus().getMaxHp();
+	    
+	    // Calculate vitality points
+	    float ret = npc.isRaidBoss() ? Math.min(damage, maxHp) / 100f : Math.min(damage, maxHp) / divider;
+	    
+	    // Limit addition of 50% after 100
+	    if (ret > 100) {
+	        float excess = ret - 100;
+	        ret = 100 + (excess * 0.5f);
+	    }
+	    
+	    return -ret;
 	}
-
+	
 	public static void readChats(Player player, String text) {
 		for (Player gm : AdminData.getInstance().getAllGms(true))
 			if (gm.getReadChat()) {
