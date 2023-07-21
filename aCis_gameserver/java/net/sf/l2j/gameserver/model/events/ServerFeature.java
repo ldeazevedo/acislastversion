@@ -40,7 +40,7 @@ public class ServerFeature {
 	 * Maximum for damage = maxHp.
 	 */
 	public static float getVitalityPoints(Npc npc, long damage, Player player) {
-	    int level = player.getStatus().getLevel();
+		int level = player.getStatus().getLevel();
 	    
 	    // Sanity check
 	    if (damage <= 0)
