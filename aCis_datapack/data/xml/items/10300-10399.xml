@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<item id="10300" type="Armor" name="Leviathan Robe Hair">
+		<set name="default_action" val="equip" />
+		<set name="bodypart" val="hair" />
+		<set name="material" val="WOOD" />
+		<set name="weight" val="10" />
+		<set name="price" val="500000" />
+	</item>
+</list>

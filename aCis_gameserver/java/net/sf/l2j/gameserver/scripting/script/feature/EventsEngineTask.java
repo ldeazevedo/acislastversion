@@ -73,7 +73,8 @@ public class EventsEngineTask extends EventEngine
 		return null;
 	}
 
-	private void randomFightInactive() {
+	private void randomFightInactive()
+	{
 		setRandomFight(State.INACTIVE);
 		startQuestTimer("RF01", 60000, null, null, false);
 		startQuestTimer("RF02", 70000, null, null, false);

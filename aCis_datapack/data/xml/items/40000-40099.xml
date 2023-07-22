@@ -510,24 +510,168 @@
 		<set name="weight" val="3600" />
 		<set name="price" val="5280000" />
 	</item>
-	<item id="40048" type="Armor" name="Skin: Wedding dress">
+	<item id="40048" type="Armor" name="Skin: Devil Hair">
 		<set name="default_action" val="equip" />
 		<set name="armor_type" val="NONE" />
 		<set name="bodypart" val="underwear" />
-		<set name="crystal_type" val="A" />
-		<set name="crystal_count" val="422" />
-		<set name="material" val="LEATHER" />
-		<set name="weight" val="3600" />
-		<set name="price" val="5280000" />
+		<set name="material" val="WOOD" />
+		<set name="weight" val="170" />
+		<set name="price" val="304" />
 	</item>
-	<item id="40049" type="Armor" name="Skin: null">
+	<item id="40049" type="Armor" name="Skin: Devil">
 		<set name="default_action" val="equip" />
 		<set name="armor_type" val="NONE" />
 		<set name="bodypart" val="underwear" />
-		<set name="crystal_type" val="A" />
-		<set name="crystal_count" val="422" />
-		<set name="material" val="LEATHER" />
-		<set name="weight" val="3600" />
-		<set name="price" val="5280000" />
+		<set name="material" val="WOOD" />
+		<set name="weight" val="170" />
+		<set name="price" val="304" />
+	</item>
+	<item id="40050" type="Armor" name="Skin: Chaos Agent">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="WOOD" />
+		<set name="weight" val="170" />
+		<set name="price" val="304" />
+	</item>
+	<item id="40051" type="Armor" name="Skin: Rabbit">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="WOOD" />
+		<set name="weight" val="170" />
+		<set name="price" val="304" />
+	</item>
+	<item id="40052" type="Armor" name="Skin: Agent Peely">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="WOOD" />
+		<set name="weight" val="170" />
+		<set name="price" val="304" />
+	</item>
+	<item id="40053" type="Armor" name="Skin: Agent Peely Green">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="WOOD" />
+		<set name="weight" val="170" />
+		<set name="price" val="304" />
+	</item>
+	<item id="40054" type="Armor" name="Skin: Atlantis">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="WOOD" />
+		<set name="weight" val="170" />
+		<set name="price" val="304" />
+	</item>
+	<item id="40055" type="Armor" name="Skin: Aegis Style">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="WOOD" />
+		<set name="weight" val="170" />
+		<set name="price" val="304" />
+	</item>
+	<item id="40090" type="EtcItem" name="Agathion">
+		<set name="default_action" val="skill_maintain" />
+		<set name="etcitem_type" val="PET_COLLAR" />
+		<set name="material" val="STEEL" />
+		<set name="weight" val="20" />
+		<set name="is_oly_restricted" val="true" />
+		<set name="handler" val="SummonItems" />
+		<set name="item_skill" val="2046-1" />
+		<set name="use_condition" val="{{uc_transmode_exclude;{tt_flying;tt_pure_stat}}}" />
+	</item>
+	<item id="40091" type="EtcItem" name="Agathion">
+		<set name="default_action" val="skill_maintain" />
+		<set name="etcitem_type" val="PET_COLLAR" />
+		<set name="material" val="STEEL" />
+		<set name="weight" val="20" />
+		<set name="is_oly_restricted" val="true" />
+		<set name="handler" val="SummonItems" />
+		<set name="item_skill" val="2046-1" />
+		<set name="use_condition" val="{{uc_transmode_exclude;{tt_flying;tt_pure_stat}}}" />
+	</item>
+	<item id="40092" type="EtcItem" name="Agathion">
+		<set name="default_action" val="skill_maintain" />
+		<set name="etcitem_type" val="PET_COLLAR" />
+		<set name="material" val="STEEL" />
+		<set name="weight" val="20" />
+		<set name="is_oly_restricted" val="true" />
+		<set name="handler" val="SummonItems" />
+		<set name="item_skill" val="2046-1" />
+		<set name="use_condition" val="{{uc_transmode_exclude;{tt_flying;tt_pure_stat}}}" />
+	</item>
+	<item id="40093" type="EtcItem" name="Agathion">
+		<set name="default_action" val="skill_maintain" />
+		<set name="etcitem_type" val="PET_COLLAR" />
+		<set name="material" val="STEEL" />
+		<set name="weight" val="20" />
+		<set name="is_oly_restricted" val="true" />
+		<set name="handler" val="SummonItems" />
+		<set name="item_skill" val="2046-1" />
+		<set name="use_condition" val="{{uc_transmode_exclude;{tt_flying;tt_pure_stat}}}" />
+	</item>
+	<item id="40094" type="EtcItem" name="Agathion">
+		<set name="default_action" val="skill_maintain" />
+		<set name="etcitem_type" val="PET_COLLAR" />
+		<set name="material" val="STEEL" />
+		<set name="weight" val="20" />
+		<set name="is_oly_restricted" val="true" />
+		<set name="handler" val="SummonItems" />
+		<set name="item_skill" val="2046-1" />
+		<set name="use_condition" val="{{uc_transmode_exclude;{tt_flying;tt_pure_stat}}}" />
+	</item>
+	<item id="40095" type="EtcItem" name="Agathion">
+		<set name="default_action" val="skill_maintain" />
+		<set name="etcitem_type" val="PET_COLLAR" />
+		<set name="material" val="STEEL" />
+		<set name="weight" val="20" />
+		<set name="is_oly_restricted" val="true" />
+		<set name="handler" val="SummonItems" />
+		<set name="item_skill" val="2046-1" />
+		<set name="use_condition" val="{{uc_transmode_exclude;{tt_flying;tt_pure_stat}}}" />
+	</item>
+	<item id="40096" type="EtcItem" name="Agathion">
+		<set name="default_action" val="skill_maintain" />
+		<set name="etcitem_type" val="PET_COLLAR" />
+		<set name="material" val="STEEL" />
+		<set name="weight" val="20" />
+		<set name="is_oly_restricted" val="true" />
+		<set name="handler" val="SummonItems" />
+		<set name="item_skill" val="2046-1" />
+		<set name="use_condition" val="{{uc_transmode_exclude;{tt_flying;tt_pure_stat}}}" />
+	</item>
+	<item id="40097" type="EtcItem" name="Agathion">
+		<set name="default_action" val="skill_maintain" />
+		<set name="etcitem_type" val="PET_COLLAR" />
+		<set name="material" val="STEEL" />
+		<set name="weight" val="20" />
+		<set name="is_oly_restricted" val="true" />
+		<set name="handler" val="SummonItems" />
+		<set name="item_skill" val="2046-1" />
+		<set name="use_condition" val="{{uc_transmode_exclude;{tt_flying;tt_pure_stat}}}" />
+	</item>
+	<item id="40098" type="EtcItem" name="Agathion">
+		<set name="default_action" val="skill_maintain" />
+		<set name="etcitem_type" val="PET_COLLAR" />
+		<set name="material" val="STEEL" />
+		<set name="weight" val="20" />
+		<set name="is_oly_restricted" val="true" />
+		<set name="handler" val="SummonItems" />
+		<set name="item_skill" val="2046-1" />
+		<set name="use_condition" val="{{uc_transmode_exclude;{tt_flying;tt_pure_stat}}}" />
+	</item>
+	<item id="40099" type="EtcItem" name="Agathion">
+		<set name="default_action" val="skill_maintain" />
+		<set name="etcitem_type" val="PET_COLLAR" />
+		<set name="material" val="STEEL" />
+		<set name="weight" val="20" />
+		<set name="is_oly_restricted" val="true" />
+		<set name="handler" val="SummonItems" />
+		<set name="item_skill" val="2046-1" />
+		<set name="use_condition" val="{{uc_transmode_exclude;{tt_flying;tt_pure_stat}}}" />
 	</item>
 </list>
