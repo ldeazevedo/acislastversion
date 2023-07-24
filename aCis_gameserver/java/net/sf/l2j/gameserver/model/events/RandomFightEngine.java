@@ -437,8 +437,8 @@ public class RandomFightEngine
 					announce("State.FIGHT");
 				}
 				break;
-			case ENDING:
-			//	if (this.currentState == State.FIGHT)
+			case FIGHT:
+				if (newState == State.ENDING)
 				{
 					if (reqPlayers())
 					{

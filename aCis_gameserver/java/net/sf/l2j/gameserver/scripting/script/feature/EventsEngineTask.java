@@ -54,9 +54,9 @@ public class EventsEngineTask extends Quest
 			startRandomFight();
 		}
 		else if (event.equalsIgnoreCase("RF01"))
-			RandomFightEngine.getInstance().setRandomFight(State.REGISTER);
-		else if (event.equalsIgnoreCase("RF02"))
 			RandomFightEngine.getInstance().setRandomFight(State.LOADING);
+		else if (event.equalsIgnoreCase("RF02"))
+			RandomFightEngine.getInstance().setRandomFight(State.PREPARING);
 		else if (event.equalsIgnoreCase("RF03"))
 			RandomFightEngine.getInstance().setRandomFight(State.PREPARING);
 		else if (event.equalsIgnoreCase("RF04"))
@@ -78,11 +78,11 @@ public class EventsEngineTask extends Quest
 	private void startRandomFight()
 	{
 		RandomFightEngine.getInstance().setRandomFight(State.REGISTER);
-		startQuestTimer("RF01", 60000, null, null, false);
-		startQuestTimer("RF02", 70000, null, null, false);
-		startQuestTimer("RF03", 85000, null, null, false);
-		startQuestTimer("RF04", 115000, null, null, false);
-		startQuestTimer("RF05", 295000, null, null, false);
+		startQuestTimer("RF01", 60000, null, null, false);  //1min			LOADING
+		startQuestTimer("RF02", 70000, null, null, false);  //1min 10s		PREPARING
+		startQuestTimer("RF03", 85000, null, null, false);  //1min 25s		PREPARING
+		startQuestTimer("RF04", 115000, null, null, false); //1min 55s		FIGHT
+		startQuestTimer("RF05", 295000, null, null, false); //4min 55s		ENDING
 	}
 
 	private void setTask()
