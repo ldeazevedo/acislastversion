@@ -21,9 +21,9 @@ import java.util.TimerTask;
 
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.events.EventEngine;
+import net.sf.l2j.gameserver.model.events.RandomFightEngine;
 
-public class EventsEngineTask extends EventEngine
+public class EventsEngineTask extends RandomFightEngine
 {
 	private final Timer timer = new Timer();
 	
@@ -40,7 +40,7 @@ public class EventsEngineTask extends EventEngine
 		{
 			timer.cancel();
 			setTask();
-			EventEngine.getInstance().clean();
+			RandomFightEngine.getInstance().clean();
 		}
 		else if (event.equalsIgnoreCase("RF"))
 		{

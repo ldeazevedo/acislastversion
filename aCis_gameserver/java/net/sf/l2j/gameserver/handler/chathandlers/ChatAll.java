@@ -4,7 +4,7 @@ import net.sf.l2j.gameserver.enums.FloodProtector;
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.handler.IChatHandler;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.events.EventHandlers;
+import net.sf.l2j.gameserver.model.events.TextCommandHandler;
 import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
 
 public class ChatAll implements IChatHandler
@@ -20,7 +20,7 @@ public class ChatAll implements IChatHandler
 		if (!player.getClient().performAction(FloodProtector.GLOBAL_CHAT))
 			return;
 		
-		if (EventHandlers.check(text, player))
+		if (TextCommandHandler.process(text, player))
 			return;
 		
 		final CreatureSay cs = new CreatureSay(player, type, text);

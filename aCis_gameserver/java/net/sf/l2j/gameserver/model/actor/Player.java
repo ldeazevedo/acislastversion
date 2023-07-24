@@ -128,7 +128,7 @@ import net.sf.l2j.gameserver.model.craft.ManufactureList;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
 import net.sf.l2j.gameserver.model.entity.Instance;
-import net.sf.l2j.gameserver.model.events.EventHandlers;
+import net.sf.l2j.gameserver.model.events.TextCommandHandler;
 import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.model.events.L2Event;
 import net.sf.l2j.gameserver.model.events.ServerFeature;
@@ -7754,7 +7754,7 @@ public class Player extends Playable
     
     public Player getShiftTarget()
     {
-    	return EventHandlers.getShiftTarget();
+    	return TextCommandHandler.getShiftTarget();
     }
     
 	@Override
@@ -7765,7 +7765,7 @@ public class Player extends Playable
 			player.setTarget(this);
 			return;
 		}
-		EventHandlers.showHtml(player, this);
+		TextCommandHandler.showHtml(player, this);
 	}
 	
 	public DressMe getDress()
