@@ -32,11 +32,13 @@ public class TextCommandHandler
 	{
 	//	final Player target = player.getTarget().getActingPlayer();
 		switch (text.toLowerCase()){
-			case EventConstants.WATCH:
-			case EventConstants.UNREGISTER:
-			case EventConstants.EXIT:
 			case EventConstants.REGISTER:
+			case EventConstants.UNREGISTER:
+			case EventConstants.WATCH:
+			case EventConstants.EXIT:
+				log.info("Event command is being processed");
 				RandomFightEngine.getInstance().processCommand(text, player);
+				return true;
 		}
 
 		if (!TvTEvent.isInactive())

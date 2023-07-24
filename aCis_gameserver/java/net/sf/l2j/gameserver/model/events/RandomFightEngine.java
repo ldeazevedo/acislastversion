@@ -89,8 +89,10 @@ public class RandomFightEngine extends Quest
 	
 	public void processCommand(String text, Player player)
 	{
+		log.info("inside processCommand(): text = " + text);
 		if (isInProgress())
 		{
+			log.info("Event is in progress");
 			if (player.isInObserverMode() || player.isInOlympiadMode() || player.isFestivalParticipant() || player.isInJail() || player.isCursedWeaponEquipped() || player.getKarma() > 0 || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(player.getObjectId()))
 			{
 				player.sendMessage("You do not meet the conditions to participate.");
