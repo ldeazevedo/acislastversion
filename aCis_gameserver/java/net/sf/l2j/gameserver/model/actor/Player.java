@@ -131,6 +131,7 @@ import net.sf.l2j.gameserver.model.entity.Instance;
 import net.sf.l2j.gameserver.model.events.TextCommandHandler;
 import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.model.events.L2Event;
+import net.sf.l2j.gameserver.model.events.RandomFightEngine;
 import net.sf.l2j.gameserver.model.events.ServerFeature;
 import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
@@ -2768,7 +2769,7 @@ public class Player extends Playable
 			if (atEvent && pk != null)
 				pk.kills.add(getName());
 			
-			if (isInEvent(this) && isInEvent(pk) && EventManager.getInstance().onKill(this, pk))
+			if (isInEvent(this) && isInEvent(pk) && EventManager.getInstance().onKill(this, pk) || RandomFightEngine.getInstance().onKill(this))
 				return true;
 			// Clear resurrect xp calculation
 			setExpBeforeDeath(0);

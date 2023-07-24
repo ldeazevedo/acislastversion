@@ -23,6 +23,7 @@ import net.sf.l2j.gameserver.model.entity.Duel;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
 import net.sf.l2j.gameserver.model.entity.Siege;
 import net.sf.l2j.gameserver.model.events.EventManager;
+import net.sf.l2j.gameserver.model.events.RandomFightEngine;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
@@ -287,7 +288,7 @@ public abstract class Playable extends Creature
 	 */
 	public static boolean isInEvent(Player pc)
 	{
-		return EventManager.getInstance().isInEvent(pc);
+		return EventManager.getInstance().isInEvent(pc) || RandomFightEngine.getInstance().isInEvent(pc);
 	}
 	
 	public void addItemSkillTimeStamp(L2Skill itemSkill, ItemInstance itemInstance)

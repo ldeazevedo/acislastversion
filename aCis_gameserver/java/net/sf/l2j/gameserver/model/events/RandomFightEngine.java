@@ -381,20 +381,14 @@ public class RandomFightEngine
 				}
 				break;
 			case PREPARING:
-				if (reqPlayers())
-				{
-					announce("Uno de los personajes no esta Online, se cancela el evento.");
-					ThreadPool.schedule(new RevertTask(), 15000);
-					return;
-				}
 				if (newState == State.PREPARING)
 				{
-					/*if (reqPlayers())
+					if (reqPlayers())
 					{
 						announce("Random Fight no comenzara por que faltan participantes.");
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
-					}*/
+					}
 					
 					playerTuple.forEach(playerTuple ->
 					{
@@ -414,12 +408,12 @@ public class RandomFightEngine
 				}
 				else if (newState == State.FIGHT)
 				{
-				/*	if (reqPlayers())
+					if (reqPlayers())
 					{
 						announce("Uno de los personajes no esta Online, se cancela el evento.");
 						ThreadPool.schedule(new RevertTask(), 15000);
 						return;
-					}*/
+					}
 					
 					playerTuple.forEach(playerTuple ->
 					{
