@@ -29,10 +29,7 @@ import net.sf.l2j.gameserver.scripting.Quest;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -50,12 +47,7 @@ public class EventEngine extends Quest
 	
 	public enum State
 	{
-		INACTIVE,	// 0
-		REGISTER,	// 1
-		LOADING,	// 2
-		PREPARING,	// 3
-		FIGHT,		// 4
-		ENDING		// 5
+		INACTIVE, REGISTER, LOADING, PREPARING, FIGHT, ENDING
 	}
 	
 	protected EventEngine()
@@ -170,10 +162,7 @@ public class EventEngine extends Quest
 	
 	public void revertPlayers(Player... players)
 	{
-		for (Player player : players)
-		{
-			revertPlayer(player);
-		}
+		Arrays.stream(players).forEach(this::revertPlayer);
 	}
 	
 	public void revertPlayer(Player player)
@@ -215,14 +204,12 @@ public class EventEngine extends Quest
 		@Override
 		public void run()
 		{
-			// TODO: find tuple
-			if (playerTuple == null)
+			if (playerTuple == null || killer == null)
 				return;
+
 			Optional<PlayerTuple> pt = playerTuple.stream().filter(p -> p.getInstanceId() == killer.getInstanceId()).findFirst();
-			if (pt.isPresent() && (currentState == State.FIGHT || currentState == State.ENDING))
-			{
+			if (pt.isPresent() && (currentState == State.FIGHT || currentState == State.ENDING)) {
 				revertPlayers(pt.get().getFighterOne(), pt.get().getFighterTwo());
-				
 				setPlayersStats(null, pt.get().getFighterTwo(), pt.get().getFighterOne());
 			}
 			
@@ -251,7 +238,6 @@ public class EventEngine extends Quest
 					PreparedStatement statement = con.prepareStatement(DataBaseQuery.QUERY_EVENT_INFO))
 				{
 					statement.setString(1, killer.getName());
-					@SuppressWarnings("resource")
 					boolean existsRow = statement.executeQuery().first();
 					String sql = existsRow ? DataBaseQuery.UPDATE_EVENT_INFO : DataBaseQuery.INSERT_EVENT_INFO;
 					try (PreparedStatement statement2 = con.prepareStatement(sql))
@@ -516,27 +502,25 @@ public class EventEngine extends Quest
 		player.sendMessage(message);
 		player.sendPacket(new ExShowScreenMessage(message, 3500, SMPOS.MIDDLE_RIGHT, false));
 	}
-	
+
 	private static void preparePlayer(Integer instanceId, Player... players)
 	{
-		for (Player player : players)
-		{
+		Arrays.stream(players).forEach(player -> {
 			player.setInstanceId(instanceId);
 			preparePlayer(player);
-		}
+		});
 	}
 	
 	private static void setPlayersStats(String message, Player... players)
 	{
-		for (Player player : players)
-		{
+		Arrays.stream(players).forEach(player -> {
 			if (message != null)
 				player.sendMessage(message);
 			player.stopAbnormalEffect(0x0200);
 			player.setIsImmobilized(false);
 			player.setInvul(false);
 			player.getStatus().setMaxCpHpMp();
-		}
+		});
 	}
 	
 	private static List<Player> getPlayers()
