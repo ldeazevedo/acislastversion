@@ -163,7 +163,8 @@ public class RandomFightEngine extends Quest
 				registeredPlayers.remove(player);
 				player.sendMessage("Saliste del evento.");
 			}
-		}
+		} else
+			log.info("The event is inactive");
 	}
 	
 	public void revertPlayers(Player... players)
@@ -332,12 +333,14 @@ public class RandomFightEngine extends Quest
 			ThreadPool.schedule(new RevertTask(), 15000);
 			return;
 		}
+
+		log.info("New state: " + newState);
 		
 		switch (newState)
 		{
 			case INACTIVE:
 				this.currentState = State.REGISTER;
-				announce("State.REGISTER");
+				announce("State." + currentState);
 				break;
 			case REGISTER:
 				if (this.currentState == State.REGISTER)

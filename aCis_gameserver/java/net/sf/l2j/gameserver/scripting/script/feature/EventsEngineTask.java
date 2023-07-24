@@ -45,11 +45,11 @@ public class EventsEngineTask extends RandomFightEngine
 		else if (event.equalsIgnoreCase("RF"))
 		{
 			startQuestTimer("RF", 3600000, null, null, true);
-			randomFightInactive();
+			startRandomFight();
 		}
 		else if (event.equalsIgnoreCase("doItJustOnceRF"))
 		{
-			randomFightInactive();
+			startRandomFight();
 		}
 		else if (event.equalsIgnoreCase("RF01"))
 			setRandomFight(State.REGISTER);
@@ -73,7 +73,7 @@ public class EventsEngineTask extends RandomFightEngine
 		return null;
 	}
 
-	private void randomFightInactive()
+	private void startRandomFight()
 	{
 		setRandomFight(State.INACTIVE);
 		startQuestTimer("RF01", 60000, null, null, false);
