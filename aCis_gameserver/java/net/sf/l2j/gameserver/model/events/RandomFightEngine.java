@@ -334,17 +334,19 @@ public class RandomFightEngine extends Quest
 			return;
 		}
 
+		log.info("State: " + currentState);
 		log.info("New state: " + newState);
 		
-		switch (newState)
+		switch (currentState)
 		{
 			case INACTIVE:
-				this.currentState = State.REGISTER;
+				this.currentState = newState;
 				announce("State." + currentState);
 				break;
 			case REGISTER:
 				if (this.currentState == State.REGISTER)
 				{
+					log.info("New state: " + currentState);
 					if (reqPlayers())
 					{
 						announce("Random Fight no comenzara por que faltan participantes.");
@@ -354,7 +356,7 @@ public class RandomFightEngine extends Quest
 					
 					announce("Cantidad de registrados: " + registeredPlayers.size());
 					announce("2 personajes al azar seran elegidos en 10 segundos!");
-					this.currentState = State.LOADING;
+					this.currentState = newState;
 					announce("State.LOADING");
 				}
 				break;
@@ -386,7 +388,7 @@ public class RandomFightEngine extends Quest
 						 * int rnd1 = Rnd.get(getPlayers().size()); int rnd2 = Rnd.get(getPlayers().size()); while (rnd2 == rnd1) rnd2 = Rnd.get(getPlayers().size()); announce("Personajes elegidos: " + getPlayers().get(0).getName() + " || " + getPlayers().get(getPlayers().size() - 1).getName());
 						 */
 						announce("Los personajes seran teleportados en 15 segundos.");
-						this.currentState = State.PREPARING;
+						this.currentState = newState;
 						announce("State.PREPARING;");
 					}
 					catch (Exception ex)
@@ -396,7 +398,7 @@ public class RandomFightEngine extends Quest
 				}
 				break;
 			case PREPARING:
-				if (this.currentState == State.PREPARING)
+				if (newState == State.PREPARING)
 				{
 					if (reqPlayers())
 					{
@@ -421,9 +423,7 @@ public class RandomFightEngine extends Quest
 					 * player2.setTeam(TeamType.RED); announce("get PREPARING.");
 					 */
 				}
-				break;
-			case FIGHT:
-				if (this.currentState == State.PREPARING)
+				else if (newState == State.FIGHT)
 				{
 					if (reqPlayers())
 					{
@@ -437,7 +437,7 @@ public class RandomFightEngine extends Quest
 						setPlayersStats("Pelea!", playerTuple.getFighterTwo(), playerTuple.getFighterOne());
 					});
 					
-					this.currentState = State.FIGHT;
+					this.currentState = newState;
 					announce("State.FIGHT");
 				}
 				break;
@@ -459,7 +459,7 @@ public class RandomFightEngine extends Quest
 						if (!playerTuple.getFighterTwo().isDead())
 							alive++;
 						
-						this.currentState = State.ENDING;
+						this.currentState = newState;
 						announce("State.ENDING");
 						if (alive == 2)
 						{
