@@ -40,7 +40,7 @@ public class RandomFightEngine
 	
 	private State currentState = State.INACTIVE;
 	
-	private List<PlayerTuple> playerTuple;
+	private final List<PlayerTuple> playerTuple = Collections.synchronizedList(new ArrayList<>());
 	
 	private final Location loc1 = new Location(179621, 54371, -3093);
 	private final Location loc2 = new Location(178167, 54851, -3093);
@@ -204,10 +204,11 @@ public class RandomFightEngine
 		@Override
 		public void run()
 		{
-			if (playerTuple == null || killer == null)
+			if (killer == null)
 				return;
 
 			Optional<PlayerTuple> pt = playerTuple.stream().filter(p -> p.getInstanceId() == killer.getInstanceId()).findFirst();
+			log.info("RevertTask::PlayerTuple found? " + pt.isPresent());
 			if (pt.isPresent() && (currentState == State.FIGHT || currentState == State.ENDING)) {
 				revertPlayers(pt.get().getFighterOne(), pt.get().getFighterTwo());
 				setPlayersStats(null, pt.get().getFighterTwo(), pt.get().getFighterOne());
@@ -297,9 +298,9 @@ public class RandomFightEngine
 	public void clean()
 	{
 		if (currentState == State.FIGHT)
-			for (Player p : registeredPlayers)
-				p.setTeam(TeamType.NONE);
-			
+			registeredPlayers.forEach(p -> p.setTeam(TeamType.NONE));
+
+		//TODO: por que a todos los personajes que estan en el servidor?
 		for (Player pc : World.getInstance().getPlayers())
 		{
 			pc.isInSurvival = false;
@@ -311,13 +312,7 @@ public class RandomFightEngine
 		currentState = State.INACTIVE;
 		ScriptData.getInstance().getQuest("EventsEngineTask").startQuestTimer("cancelQuestTimers", null, null, 1000);
 	}
-	
-	public void clear()
-	{
-		clean();
-		ScriptData.getInstance().getQuest("EventsEngineTask").startQuestTimer("clear", null, null, 1000);
-	}
-	
+
 	public void setRandomFight(State newState)
 	{
 		if (TvTEvent.isInProgress()/* || event == Events.SURVIVAL || event == Events.DM */)
@@ -369,9 +364,7 @@ public class RandomFightEngine
 						
 					if (sortedPlayers.size() % 2 == 1)
 						sortedPlayers.remove(sortedPlayers.size() - 1);
-						
-					playerTuple = new ArrayList<>();
-						
+
 					for (int i = 0; i < sortedPlayers.size(); i += 2)
 						playerTuple.add(new PlayerTuple(sortedPlayers.get(i), sortedPlayers.get(i + 1)));
 						

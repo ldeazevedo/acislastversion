@@ -55,9 +55,7 @@ public class EventsEngineTask extends Quest
 		}
 		else if (event.equalsIgnoreCase("RF01"))
 			RandomFightEngine.getInstance().setRandomFight(State.LOADING);
-		else if (event.equalsIgnoreCase("RF02"))
-			RandomFightEngine.getInstance().setRandomFight(State.PREPARING);
-		else if (event.equalsIgnoreCase("RF03"))
+		else if (event.equalsIgnoreCase("RF02") || event.equalsIgnoreCase("RF03"))
 			RandomFightEngine.getInstance().setRandomFight(State.PREPARING);
 		else if (event.equalsIgnoreCase("RF04"))
 			RandomFightEngine.getInstance().setRandomFight(State.FIGHT);
