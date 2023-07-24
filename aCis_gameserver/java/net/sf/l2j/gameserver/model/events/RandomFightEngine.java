@@ -25,7 +25,6 @@ import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
 import net.sf.l2j.gameserver.network.serverpackets.StopMove;
-import net.sf.l2j.gameserver.scripting.Quest;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,9 +33,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class RandomFightEngine extends Quest
+public class RandomFightEngine
 {
-	protected static final Logger _log = Logger.getLogger(RandomFightEngine.class.getName());
+	protected static final Logger log = Logger.getLogger(RandomFightEngine.class.getName());
 	private final List<Player> registeredPlayers = new ArrayList<>();
 	
 	private State currentState = State.INACTIVE;
@@ -46,14 +45,8 @@ public class RandomFightEngine extends Quest
 	private final Location loc1 = new Location(179621, 54371, -3093);
 	private final Location loc2 = new Location(178167, 54851, -3093);
 	
-	public enum State
-	{
-		INACTIVE, REGISTER, LOADING, PREPARING, FIGHT, ENDING
-	}
-	
 	protected RandomFightEngine()
 	{
-		super(-1, "events");
 	}
 	
 	public static void getBuffs(Player killer)
@@ -255,7 +248,7 @@ public class RandomFightEngine extends Quest
 				}
 				catch (Exception e)
 				{
-					_log.warning("Error en RF Ranking: " + e);
+					log.warning("Error en RF Ranking: " + e);
 				}
 			}
 			ThreadPool.schedule(new RevertTask(killer), 15000);
@@ -361,44 +354,7 @@ public class RandomFightEngine extends Quest
 				}
 				break;
 			case LOADING:
-				if (this.currentState == State.LOADING)
-				{
-					try
-					{
-						if (reqPlayers())
-						{
-							announce("Random Fight no comenzara por que faltan participantes.");
-							ThreadPool.schedule(new RevertTask(), 1000);
-							return;
-						}
-						
-						checkRequirements();
-						
-						var sortedPlayers = registeredPlayers.stream().sorted(Comparator.comparingInt(p -> p.getStatus().getLevel())).collect(Collectors.toList());
-						
-						if (sortedPlayers.size() % 2 == 1)
-							sortedPlayers.remove(sortedPlayers.size() - 1);
-						
-						playerTuple = new ArrayList<>();
-						
-						for (int i = 0; i < sortedPlayers.size(); i += 2)
-							playerTuple.add(new PlayerTuple(sortedPlayers.get(i), sortedPlayers.get(i + 1)));
-						
-						/*
-						 * int rnd1 = Rnd.get(getPlayers().size()); int rnd2 = Rnd.get(getPlayers().size()); while (rnd2 == rnd1) rnd2 = Rnd.get(getPlayers().size()); announce("Personajes elegidos: " + getPlayers().get(0).getName() + " || " + getPlayers().get(getPlayers().size() - 1).getName());
-						 */
-						announce("Los personajes seran teleportados en 15 segundos.");
-						this.currentState = newState;
-						announce("State.PREPARING;");
-					}
-					catch (Exception ex)
-					{
-						_log.log(Level.SEVERE, ex.getMessage(), ex);
-					}
-				}
-				break;
-			case PREPARING:
-				if (newState == State.PREPARING)
+				try
 				{
 					if (reqPlayers())
 					{
@@ -406,6 +362,46 @@ public class RandomFightEngine extends Quest
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
+						
+					checkRequirements();
+						
+					var sortedPlayers = registeredPlayers.stream().sorted(Comparator.comparingInt(p -> p.getStatus().getLevel())).collect(Collectors.toList());
+						
+					if (sortedPlayers.size() % 2 == 1)
+						sortedPlayers.remove(sortedPlayers.size() - 1);
+						
+					playerTuple = new ArrayList<>();
+						
+					for (int i = 0; i < sortedPlayers.size(); i += 2)
+						playerTuple.add(new PlayerTuple(sortedPlayers.get(i), sortedPlayers.get(i + 1)));
+						
+					/*
+					 * int rnd1 = Rnd.get(getPlayers().size()); int rnd2 = Rnd.get(getPlayers().size()); while (rnd2 == rnd1) rnd2 = Rnd.get(getPlayers().size()); announce("Personajes elegidos: " + getPlayers().get(0).getName() + " || " + getPlayers().get(getPlayers().size() - 1).getName());
+					 */
+					announce("Los personajes seran teleportados en 15 segundos.");
+					this.currentState = newState;
+					announce("State.PREPARING;");
+				}
+				catch (Exception ex)
+				{
+					log.log(Level.SEVERE, ex.getMessage(), ex);
+				}
+				break;
+			case PREPARING:
+				if (reqPlayers())
+				{
+					announce("Uno de los personajes no esta Online, se cancela el evento.");
+					ThreadPool.schedule(new RevertTask(), 15000);
+					return;
+				}
+				if (newState == State.PREPARING)
+				{
+					/*if (reqPlayers())
+					{
+						announce("Random Fight no comenzara por que faltan participantes.");
+						ThreadPool.schedule(new RevertTask(), 1000);
+						return;
+					}*/
 					
 					playerTuple.forEach(playerTuple ->
 					{
@@ -425,12 +421,12 @@ public class RandomFightEngine extends Quest
 				}
 				else if (newState == State.FIGHT)
 				{
-					if (reqPlayers())
+				/*	if (reqPlayers())
 					{
 						announce("Uno de los personajes no esta Online, se cancela el evento.");
 						ThreadPool.schedule(new RevertTask(), 15000);
 						return;
-					}
+					}*/
 					
 					playerTuple.forEach(playerTuple ->
 					{
@@ -442,7 +438,7 @@ public class RandomFightEngine extends Quest
 				}
 				break;
 			case ENDING:
-				if (this.currentState == State.FIGHT)
+			//	if (this.currentState == State.FIGHT)
 				{
 					if (reqPlayers())
 					{
@@ -463,7 +459,7 @@ public class RandomFightEngine extends Quest
 						announce("State.ENDING");
 						if (alive == 2)
 						{
-							_log.info("ENDING RF[" + playerTuple.getInstanceId() + "]");
+							log.info("ENDING RF[" + playerTuple.getInstanceId() + "]");
 							announce("[RandomFight] Termino en empate!");
 							ThreadPool.schedule(new RevertTask(), 15000);
 						}

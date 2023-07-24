@@ -22,14 +22,16 @@ import java.util.TimerTask;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.events.RandomFightEngine;
+import net.sf.l2j.gameserver.model.events.State;
+import net.sf.l2j.gameserver.scripting.Quest;
 
-public class EventsEngineTask extends RandomFightEngine
+public class EventsEngineTask extends Quest
 {
 	private final Timer timer = new Timer();
 	
 	public EventsEngineTask()
 	{
-		super();
+		super(-1, "feature");
 	//	setTask();
 	}
 	
@@ -52,15 +54,15 @@ public class EventsEngineTask extends RandomFightEngine
 			startRandomFight();
 		}
 		else if (event.equalsIgnoreCase("RF01"))
-			setRandomFight(State.REGISTER);
+			RandomFightEngine.getInstance().setRandomFight(State.REGISTER);
 		else if (event.equalsIgnoreCase("RF02"))
-			setRandomFight(State.LOADING);
+			RandomFightEngine.getInstance().setRandomFight(State.LOADING);
 		else if (event.equalsIgnoreCase("RF03"))
-			setRandomFight(State.PREPARING);
+			RandomFightEngine.getInstance().setRandomFight(State.PREPARING);
 		else if (event.equalsIgnoreCase("RF04"))
-			setRandomFight(State.FIGHT);
+			RandomFightEngine.getInstance().setRandomFight(State.FIGHT);
 		else if (event.equalsIgnoreCase("RF05"))
-			setRandomFight(State.ENDING);
+			RandomFightEngine.getInstance().setRandomFight(State.ENDING);
 		else if (event.equalsIgnoreCase("cancelQuestTimers"))
 		{
 			cancelQuestTimers("RF01");
@@ -75,7 +77,7 @@ public class EventsEngineTask extends RandomFightEngine
 
 	private void startRandomFight()
 	{
-		setRandomFight(State.INACTIVE);
+		RandomFightEngine.getInstance().setRandomFight(State.REGISTER);
 		startQuestTimer("RF01", 60000, null, null, false);
 		startQuestTimer("RF02", 70000, null, null, false);
 		startQuestTimer("RF03", 85000, null, null, false);
