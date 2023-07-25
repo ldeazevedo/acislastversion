@@ -21,6 +21,7 @@ import java.util.TimerTask;
 
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.EventConstants;
 import net.sf.l2j.gameserver.model.events.RandomFightEngine;
 import net.sf.l2j.gameserver.model.events.State;
 import net.sf.l2j.gameserver.scripting.Quest;
@@ -53,21 +54,17 @@ public class EventsEngineTask extends Quest
 		{
 			startRandomFight();
 		}
-		else if (event.equalsIgnoreCase("RF01"))
+		else if (event.equalsIgnoreCase(EventConstants.STAGE_1))
 			RandomFightEngine.getInstance().setRandomFight(State.LOADING);
-		else if (event.equalsIgnoreCase("RF02") || event.equalsIgnoreCase("RF03"))
+		else if (event.equalsIgnoreCase(EventConstants.STAGE_2) || event.equalsIgnoreCase(EventConstants.STAGE_3))
 			RandomFightEngine.getInstance().setRandomFight(State.PREPARING);
-		else if (event.equalsIgnoreCase("RF04"))
+		else if (event.equalsIgnoreCase(EventConstants.STAGE_4))
 			RandomFightEngine.getInstance().setRandomFight(State.FIGHT);
-		else if (event.equalsIgnoreCase("RF05"))
+		else if (event.equalsIgnoreCase(EventConstants.STAGE_5))
 			RandomFightEngine.getInstance().setRandomFight(State.ENDING);
 		else if (event.equalsIgnoreCase("cancelQuestTimers"))
 		{
-			cancelQuestTimers("RF01");
-			cancelQuestTimers("RF02");
-			cancelQuestTimers("RF03");
-			cancelQuestTimers("RF04");
-			cancelQuestTimers("RF05");
+			EventConstants.RANDOM_FIGHT_TIMER_CONFIG.forEach(tuple -> cancelQuestTimers(tuple.left()));
 			log.info("EventsEngineTask: cancelQuestTimers");
 		}
 		return null;
@@ -76,11 +73,7 @@ public class EventsEngineTask extends Quest
 	private void startRandomFight()
 	{
 		RandomFightEngine.getInstance().setRandomFight(State.REGISTER);
-		startQuestTimer("RF01", 60000, null, null, false);  //1min			LOADING
-		startQuestTimer("RF02", 70000, null, null, false);  //1min 10s		PREPARING
-		startQuestTimer("RF03", 85000, null, null, false);  //1min 25s		PREPARING
-		startQuestTimer("RF04", 115000, null, null, false); //1min 55s		FIGHT
-		startQuestTimer("RF05", 295000, null, null, false); //4min 55s		ENDING
+		EventConstants.RANDOM_FIGHT_TIMER_CONFIG.forEach(tuple -> startQuestTimer(tuple.left(), tuple.right(), null, null, false));
 	}
 
 	private void setTask()
@@ -102,8 +95,6 @@ public class EventsEngineTask extends Quest
 			calendar.set(Calendar.HOUR_OF_DAY, 18);
 		else if (hour > 18 && hour <= 21)
 			calendar.set(Calendar.HOUR_OF_DAY, 21);
-		else if (hour > 21 && hour <= 0)
-			calendar.set(Calendar.HOUR_OF_DAY, 0);
 
 		calendar.set(Calendar.MINUTE, 30);
 		calendar.set(Calendar.SECOND, 0);

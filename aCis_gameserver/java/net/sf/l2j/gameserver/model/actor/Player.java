@@ -2768,8 +2768,8 @@ public class Player extends Playable
 			
 			if (atEvent && pk != null)
 				pk.kills.add(getName());
-			
-			if (isInEvent(this) && isInEvent(pk) && EventManager.getInstance().onKill(this, pk) || RandomFightEngine.getInstance().onKill(this))
+
+			if (isInEvent(this) && isInEvent(pk) && EventManager.getInstance().onKill(this, pk) || RandomFightEngine.getInstance().onKill(killer.getActingPlayer()))
 				return true;
 			// Clear resurrect xp calculation
 			setExpBeforeDeath(0);

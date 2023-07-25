@@ -37,18 +37,18 @@ public class RandomFightEngine
 {
 	protected static final Logger log = Logger.getLogger(RandomFightEngine.class.getName());
 	private final List<Player> registeredPlayers = new ArrayList<>();
-	
+
 	private State currentState = State.INACTIVE;
-	
-	private final List<PlayerTuple> playerTuple = Collections.synchronizedList(new ArrayList<>());
-	
+
+	private final List<Tuple<Player, Player>> tuple = Collections.synchronizedList(new ArrayList<>());
+
 	private final Location loc1 = new Location(179621, 54371, -3093);
 	private final Location loc2 = new Location(178167, 54851, -3093);
-	
+
 	protected RandomFightEngine()
 	{
 	}
-	
+
 	public static void getBuffs(Player killer)
 	{
 		killer.getSkill(1204, 2); // Wind Walk
@@ -57,29 +57,29 @@ public class RandomFightEngine
 		else
 			killer.getSkill(1086, 2); // haste
 	}
-	
+
 	private static class DataBaseQuery
 	{
 		public static final String QUERY_EVENT_INFO = "select * from rf where char_name=?";
 		public static final String UPDATE_EVENT_INFO = "update rf set count=count+1 where char_name=?";
 		public static final String INSERT_EVENT_INFO = "insert rf set count=1,char_name=?";
 	}
-	
+
 	public boolean isInEvent(Player player)
 	{
 		return currentState == State.FIGHT && registeredPlayers.contains(player);
 	}
-	
+
 	public static void announce(String msg)
 	{
 		World.announceToOnlinePlayers(msg);
 	}
-	
+
 	public boolean isInProgress()
 	{
 		return currentState != State.INACTIVE;
 	}
-	
+
 	public void processCommand(String text, Player player)
 	{
 		log.info("inside processCommand(): text = " + text);
@@ -114,7 +114,7 @@ public class RandomFightEngine
 				//TODO: mostrar un html para elegir que pelea ver
 				if (isPlayerRegistered || player.isInObserverMode())
 					return;
-				
+
 				player.enterObserverMode(new Location(179747, 54696, -2805));
 				return;
 			}
@@ -159,12 +159,12 @@ public class RandomFightEngine
 		} else
 			log.info("The event is inactive");
 	}
-	
+
 	public void revertPlayers(Player... players)
 	{
 		Arrays.stream(players).forEach(this::revertPlayer);
 	}
-	
+
 	public void revertPlayer(Player player)
 	{
 		if (player.atEvent)
@@ -175,52 +175,54 @@ public class RandomFightEngine
 			player.doRevive();
 		player.getStatus().setMaxCpHpMp();
 		player.broadcastUserInfo();
-		
+
 		if (player.getSavedLocation() != null)
 			player.teleportTo(player.getSavedLocation(), 0);
 		else
 			player.teleportTo(82698, 148638, -3473, 0);
-		
+
 		if (player.getKarma() > 0)
 			player.setKarma(0);
-		
+
 		player.setPvpFlag(0);
 		player.setTeam(TeamType.NONE);
 	}
-	
+
 	private class RevertTask implements Runnable
 	{
 		private Player killer = null;
-		
-		RevertTask(Player killer)
-		{
+
+		RevertTask(Player killer) {
 			this.killer = killer;
 		}
-		
-		public RevertTask()
-		{
+
+		public RevertTask() {
 		}
-		
+
 		@Override
 		public void run()
 		{
-			if (killer == null)
-				return;
-
-			Optional<PlayerTuple> pt = playerTuple.stream().filter(p -> p.getInstanceId() == killer.getInstanceId()).findFirst();
-			log.info("RevertTask::PlayerTuple found? " + pt.isPresent());
-			if (pt.isPresent() && (currentState == State.FIGHT || currentState == State.ENDING)) {
-				revertPlayers(pt.get().getFighterOne(), pt.get().getFighterTwo());
-				setPlayersStats(null, pt.get().getFighterTwo(), pt.get().getFighterOne());
+			if (killer == null) {
+				tuple.forEach(t -> {
+					revertPlayers(t.left(), t.right());
+					setPlayersStats(null, t.left(), t.right());
+				});
+			} else {
+				Optional<Tuple<Player, Player>> pt = tuple.stream().filter(p -> p.getInstanceId() == killer.getInstanceId()).findFirst();
+				log.info("RevertTask::PlayerTuple found? " + pt.isPresent());
+				if (pt.isPresent() && (currentState == State.FIGHT || currentState == State.ENDING)) {
+					revertPlayers(pt.get().left(), pt.get().right());
+					setPlayersStats(null, pt.get().right(), pt.get().left());
+				}
 			}
-			
+			clean();
+
 			/*
 			 * if (!getPlayers().isEmpty()) for (Player p : getPlayers()) { if (p == null) continue; if (currentState == State.FIGHT || currentState == State.ENDING) { revertPlayer(p); for (Player player : getPlayers()) setPlayerStats(player, null); } }
 			 */
-			clean();
 		}
 	}
-	
+
 	public boolean onKill(Player killer)
 	{
 		// boolean isInEvent = false;
@@ -233,7 +235,7 @@ public class RandomFightEngine
 				announce("Resultado Random Fight: " + killer.getName() + " es el ganador.");
 				announce("Evento finalizado");
 				// pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
-				
+
 				// Guardar en la base de datos
 				try (Connection con = ConnectionPool.getConnection();
 					PreparedStatement statement = con.prepareStatement(DataBaseQuery.QUERY_EVENT_INFO))
@@ -257,7 +259,7 @@ public class RandomFightEngine
 		}
 		return false;
 	}
-	
+
 	public void onLogout(Player pc)
 	{
 		Player pk = null;
@@ -275,7 +277,7 @@ public class RandomFightEngine
 			}
 			if (isPlayerRegistered)
 				registeredPlayers.remove(pc);
-			
+
 			pc.atEvent = false;
 			pc.isInSurvival = false;
 		}
@@ -289,12 +291,12 @@ public class RandomFightEngine
 		if (alive == 1)
 			onKill(pk);
 	}
-	
+
 	public boolean reqPlayers()
 	{
 		return registeredPlayers.isEmpty() || registeredPlayers.size() < 2;
 	}
-	
+
 	public void clean()
 	{
 		if (currentState == State.FIGHT)
@@ -308,7 +310,7 @@ public class RandomFightEngine
 		}
 
 		registeredPlayers.clear();
-		playerTuple.clear();
+		tuple.clear();
 		currentState = State.INACTIVE;
 		ScriptData.getInstance().getQuest("EventsEngineTask").startQuestTimer("cancelQuestTimers", null, null, 1000);
 	}
@@ -324,7 +326,7 @@ public class RandomFightEngine
 
 		log.info("State: " + currentState);
 		log.info("New state: " + newState);
-		
+
 		switch (currentState)
 		{
 			case INACTIVE:
@@ -341,7 +343,7 @@ public class RandomFightEngine
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
-					
+
 					announce("Cantidad de registrados: " + registeredPlayers.size());
 					announce("2 personajes al azar seran elegidos en 10 segundos!");
 					this.currentState = newState;
@@ -357,17 +359,17 @@ public class RandomFightEngine
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
-						
+
 					checkRequirements();
-						
+
 					var sortedPlayers = registeredPlayers.stream().sorted(Comparator.comparingInt(p -> p.getStatus().getLevel())).collect(Collectors.toList());
-						
+
 					if (sortedPlayers.size() % 2 == 1)
 						sortedPlayers.remove(sortedPlayers.size() - 1);
 
 					for (int i = 0; i < sortedPlayers.size(); i += 2)
-						playerTuple.add(new PlayerTuple(sortedPlayers.get(i), sortedPlayers.get(i + 1)));
-						
+						tuple.add(new Tuple<>(sortedPlayers.get(i), sortedPlayers.get(i + 1)));
+
 					/*
 					 * int rnd1 = Rnd.get(getPlayers().size()); int rnd2 = Rnd.get(getPlayers().size()); while (rnd2 == rnd1) rnd2 = Rnd.get(getPlayers().size()); announce("Personajes elegidos: " + getPlayers().get(0).getName() + " || " + getPlayers().get(getPlayers().size() - 1).getName());
 					 */
@@ -389,18 +391,18 @@ public class RandomFightEngine
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
-					
-					playerTuple.forEach(playerTuple ->
+
+					tuple.forEach(tuple ->
 					{
-						preparePlayer(playerTuple.getInstanceId(), playerTuple.getFighterOne(), playerTuple.getFighterTwo());
-						
-						playerTuple.getFighterOne().teleportTo(loc1, 0);
-						playerTuple.getFighterTwo().teleportTo(loc2, 0);
-						playerTuple.getFighterOne().setTeam(TeamType.BLUE);
-						playerTuple.getFighterTwo().setTeam(TeamType.RED);
+						preparePlayer(tuple.getInstanceId(), tuple.left(), tuple.right());
+
+						tuple.left().teleportTo(loc1, 0);
+						tuple.right().teleportTo(loc2, 0);
+						tuple.left().setTeam(TeamType.BLUE);
+						tuple.right().setTeam(TeamType.RED);
 					});
 					announce("State.PREPARING stage2");
-					
+
 					/*
 					 * Player player1 = getPlayers().get(0); Player player2 = getPlayers().get(getPlayers().size() - 1); preparePlayer(player1); preparePlayer(player2); // Arriba de GC player1.teleportTo(loc1, 0); player2.teleportTo(loc2, 0); player1.setTeam(TeamType.BLUE);
 					 * player2.setTeam(TeamType.RED); announce("get PREPARING.");
@@ -414,12 +416,12 @@ public class RandomFightEngine
 						ThreadPool.schedule(new RevertTask(), 15000);
 						return;
 					}
-					
-					playerTuple.forEach(playerTuple ->
+
+					tuple.forEach(tuple ->
 					{
-						setPlayersStats("Pelea!", playerTuple.getFighterTwo(), playerTuple.getFighterOne());
+						setPlayersStats("Pelea!", tuple.right(), tuple.left());
 					});
-					
+
 					this.currentState = newState;
 					announce("State.FIGHT");
 				}
@@ -427,26 +429,13 @@ public class RandomFightEngine
 			case FIGHT:
 				if (newState == State.ENDING)
 				{
-					if (reqPlayers())
+					tuple.forEach(tuple ->
 					{
-						ThreadPool.schedule(new RevertTask(), 15000);
-						return;
-					}
-					
-					playerTuple.forEach(playerTuple ->
-					{
-						int alive = 0;
-						
-						if (!playerTuple.getFighterOne().isDead())
-							alive++;
-						if (!playerTuple.getFighterTwo().isDead())
-							alive++;
-						
 						this.currentState = newState;
 						announce("State.ENDING");
-						if (alive == 2)
+						if (!tuple.left().isDead() && !tuple.right().isDead())
 						{
-							log.info("ENDING RF[" + playerTuple.getInstanceId() + "]");
+							log.info("ENDING RF[" + tuple.getInstanceId() + "]");
 							announce("[RandomFight] Termino en empate!");
 							ThreadPool.schedule(new RevertTask(), 15000);
 						}
@@ -455,7 +444,7 @@ public class RandomFightEngine
 				break;
 		}
 	}
-	
+
 	private void checkRequirements()
 	{
 		for (Player p : registeredPlayers)
@@ -465,17 +454,17 @@ public class RandomFightEngine
 				p.sendMessage("No cumples los requisitos para participar en el evento.");
 			}
 	}
-	
+
 	public static RandomFightEngine getInstance()
 	{
 		return SingletonHolder._instance;
 	}
-	
+
 	private static class SingletonHolder
 	{
 		protected static final RandomFightEngine _instance = new RandomFightEngine();
 	}
-	
+
 	private static void preparePlayer(Player player)
 	{
 		player.setLastLocation(new Location(player.getX(), player.getY(), player.getZ()));
@@ -500,7 +489,7 @@ public class RandomFightEngine
 			preparePlayer(player);
 		});
 	}
-	
+
 	private static void setPlayersStats(String message, Player... players)
 	{
 		Arrays.stream(players).forEach(player -> {
