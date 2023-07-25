@@ -203,12 +203,14 @@ public class RandomFightEngine
 		public void run()
 		{
 			if (killer == null) {
+				log.info("Running RevertTask for every tuple because there's no winner.");
 				tuple.forEach(t -> {
+					log.info("Doing " +t.getInstanceId() + " ...");
 					revertPlayers(t.left(), t.right());
 					setPlayersStats(null, t.left(), t.right());
 				});
 			} else {
-				Optional<Tuple<Player, Player>> pt = tuple.stream().filter(p -> p.getInstanceId() == killer.getInstanceId()).findFirst();
+				var pt = tuple.stream().filter(p -> p.getInstanceId() == killer.getInstanceId()).findFirst();
 				log.info("RevertTask::PlayerTuple found? " + pt.isPresent());
 				if (pt.isPresent() && (currentState == State.FIGHT || currentState == State.ENDING)) {
 					revertPlayers(pt.get().left(), pt.get().right());
@@ -237,13 +239,13 @@ public class RandomFightEngine
 				// pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
 
 				// Guardar en la base de datos
-				try (Connection con = ConnectionPool.getConnection();
-					PreparedStatement statement = con.prepareStatement(DataBaseQuery.QUERY_EVENT_INFO))
+				try (var con = ConnectionPool.getConnection();
+					var statement = con.prepareStatement(DataBaseQuery.QUERY_EVENT_INFO))
 				{
 					statement.setString(1, killer.getName());
 					boolean existsRow = statement.executeQuery().first();
 					String sql = existsRow ? DataBaseQuery.UPDATE_EVENT_INFO : DataBaseQuery.INSERT_EVENT_INFO;
-					try (PreparedStatement statement2 = con.prepareStatement(sql))
+					try (var statement2 = con.prepareStatement(sql))
 					{
 						statement2.setString(1, killer.getName());
 						statement2.execute();
@@ -302,12 +304,12 @@ public class RandomFightEngine
 		if (currentState == State.FIGHT)
 			registeredPlayers.forEach(p -> p.setTeam(TeamType.NONE));
 
-		//TODO: por que a todos los personajes que estan en el servidor?
-		for (Player pc : World.getInstance().getPlayers())
-		{
-			pc.isInSurvival = false;
-			pc.atEvent = false;
-		}
+		tuple.forEach(t -> {
+			t.left().isInSurvival = false;
+			t.left().atEvent = false;
+			t.right().isInSurvival = false;
+			t.right().atEvent = false;
+		});
 
 		registeredPlayers.clear();
 		tuple.clear();
@@ -330,25 +332,21 @@ public class RandomFightEngine
 		switch (currentState)
 		{
 			case INACTIVE:
-				this.currentState = newState;
+				currentState = newState;
 				announce("State." + currentState);
 				break;
 			case REGISTER:
-				if (this.currentState == State.REGISTER)
-				{
-					log.info("New state: " + currentState);
-					if (reqPlayers())
-					{
-						announce("Random Fight no comenzara por que faltan participantes.");
-						ThreadPool.schedule(new RevertTask(), 1000);
-						return;
-					}
-
-					announce("Cantidad de registrados: " + registeredPlayers.size());
-					announce("2 personajes al azar seran elegidos en 10 segundos!");
-					this.currentState = newState;
-					announce("State.LOADING");
+				log.info("New state: " + currentState);
+				if (reqPlayers()) {
+					announce("Random Fight no comenzara por que faltan participantes.");
+					ThreadPool.schedule(new RevertTask(), 1000);
+					return;
 				}
+
+				announce("Cantidad de registrados: " + registeredPlayers.size());
+				announce("2 personajes al azar seran elegidos en 10 segundos!");
+				currentState = newState;
+				announce("State.LOADING");
 				break;
 			case LOADING:
 				try
@@ -374,7 +372,7 @@ public class RandomFightEngine
 					 * int rnd1 = Rnd.get(getPlayers().size()); int rnd2 = Rnd.get(getPlayers().size()); while (rnd2 == rnd1) rnd2 = Rnd.get(getPlayers().size()); announce("Personajes elegidos: " + getPlayers().get(0).getName() + " || " + getPlayers().get(getPlayers().size() - 1).getName());
 					 */
 					announce("Los personajes seran teleportados en 15 segundos.");
-					this.currentState = newState;
+					currentState = newState;
 					announce("State.PREPARING;");
 				}
 				catch (Exception ex)
@@ -417,29 +415,25 @@ public class RandomFightEngine
 						return;
 					}
 
-					tuple.forEach(tuple ->
-					{
-						setPlayersStats("Pelea!", tuple.right(), tuple.left());
-					});
+					tuple.forEach(tuple -> setPlayersStats("Pelea!", tuple.right(), tuple.left()));
 
-					this.currentState = newState;
+					currentState = newState;
 					announce("State.FIGHT");
 				}
 				break;
 			case FIGHT:
 				if (newState == State.ENDING)
 				{
-					tuple.forEach(tuple ->
-					{
-						this.currentState = newState;
+					currentState = newState;
+					tuple.forEach(tuple -> {
 						announce("State.ENDING");
 						if (!tuple.left().isDead() && !tuple.right().isDead())
 						{
 							log.info("ENDING RF[" + tuple.getInstanceId() + "]");
 							announce("[RandomFight] Termino en empate!");
-							ThreadPool.schedule(new RevertTask(), 15000);
 						}
 					});
+					ThreadPool.schedule(new RevertTask(), 15000);
 				}
 				break;
 		}
@@ -447,7 +441,7 @@ public class RandomFightEngine
 
 	private void checkRequirements()
 	{
-		for (Player p : registeredPlayers)
+		for (var p : registeredPlayers)
 			if (p.isInOlympiadMode() || p.isInObserverMode() || OlympiadManager.getInstance().isRegistered(p) && p.getKarma() > 0 || p.isCursedWeaponEquipped() || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(p.getObjectId()))
 			{
 				registeredPlayers.remove(p);

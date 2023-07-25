@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
+import java.util.Optional;
 import java.util.StringTokenizer;
 
 import net.sf.l2j.commons.logging.CLogger;
@@ -86,14 +87,12 @@ public class AdminTimeus implements IAdminCommandHandler
 				StringBuilder message = new StringBuilder();
 				while (st.hasMoreTokens())
 					message.append(st.nextToken()).append(" ");
-				
-				for (Clan clan : ClanTable.getInstance().getClans())
-					if (clan.getName().equalsIgnoreCase(clanName))
-					{
-						activeChar.sendMessage("[" + clan.getName() + "]->" + message);
-						clan.broadcastToMembers(new ExShowScreenMessage(message.toString(), 3500, SMPOS.MIDDLE_RIGHT, false));
-						break;
-					}
+
+				Optional<Clan> clan = ClanTable.getInstance().getClans().stream().filter(c -> c.getName().equalsIgnoreCase(clanName)).findFirst();
+				if (clan.isPresent()){
+					activeChar.sendMessage("[" + clan.get().getName() + "]->" + message);
+					clan.get().broadcastToMembers(new ExShowScreenMessage(message.toString(), 3500, SMPOS.MIDDLE_RIGHT, false));
+				}
 			}
 			catch (Exception e)
 			{
