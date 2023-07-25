@@ -31,6 +31,7 @@ import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
+import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.network.serverpackets.MagicSkillUse;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -91,12 +92,12 @@ public class L2Event
 					}
 					catch (Exception e)
 					{
+						e.printStackTrace();
 					}
 				}
 			}
 			killersTemp.add(playerTemp);
 		}
-		
 		for (int i = 0; i < N; i++)
 		{
 			kills = 0;
@@ -114,6 +115,7 @@ public class L2Event
 				}
 				catch (Exception e)
 				{
+					e.printStackTrace();
 				}
 			}
 			killers[i] = playerTemp;
@@ -124,12 +126,9 @@ public class L2Event
 	
 	public static void showEventHtml(Player player, String objectid)
 	{
-		try
+		NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
+		try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream("data/events/" + eventName))))
 		{
-			NpcHtmlMessage adminReply = new NpcHtmlMessage(5);
-			
-			DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream("data/events/" + eventName)));
-			@SuppressWarnings("resource")
 			BufferedReader inbr = new BufferedReader(new InputStreamReader(in));
 			
 			final StringBuilder replyMSG = new StringBuilder();
@@ -154,40 +153,25 @@ public class L2Event
 		NpcTemplate template1 = NpcData.getInstance().getTemplate(npcid);
 		try
 		{
-			// L2MonsterInstance mob = new L2MonsterInstance(template1);
-			
 			Spawn spawn = new Spawn(template1);
-			
 			spawn.setLoc(target.getX() + 50, target.getY() + 50, target.getZ(), target.getHeading());
 			spawn.setRespawnDelay(1);
-			
-			// Spawn NPC.
-		//	final Npc npc = spawn.doSpawn(isSummonSpawn);
-		//	if (despawnDelay > 0)
-		//		npc.scheduleDespawn(despawnDelay);
-			
 			
 			SpawnManager.getInstance().addSpawn(spawn);
 			
 			spawn.doSpawn(true);
-//			spawn.getNpc().setCurrentHp(999999999);
 			spawn.getNpc().setName("event inscriptor");
 			spawn.getNpc().setTitle(L2Event.eventName);
-//			spawn.getNpc().isEventMob = true;
 			spawn.getNpc().isAggressive();
 			spawn.getNpc().decayMe();
 			spawn.getNpc().spawnMe(spawn.getNpc().getX(), spawn.getNpc().getY(), spawn.getNpc().getZ());
-			
 			spawn.getNpc().broadcastPacket(new MagicSkillUse(spawn.getNpc(), spawn.getNpc(), 1034, 1, 1, 1));
-			
 			npcs.add(String.valueOf(spawn.getNpc().getObjectId()));
-			
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public static void announceAllPlayers(String text)
@@ -197,37 +181,27 @@ public class L2Event
 	
 	public static boolean isOnEvent(Player player)
 	{
-		
 		for (int k = 0; k < L2Event.teamsNumber; k++)
 		{
 			Iterator<String> it = L2Event.players.get(k + 1).iterator();
-			boolean temp = false;
 			while (it.hasNext())
-			{
-				temp = player.getName().equalsIgnoreCase(it.next());
-				if (temp)
-					return true;
-			}
+				return player.getName().equalsIgnoreCase(it.next());
 		}
 		return false;
-		
 	}
 	
 	public static void inscribePlayer(Player player)
 	{
-		
 		try
 		{
 			L2Event.participatingPlayers.add(player.getName());
 			player.eventkarma = player.getKarma();
-			player.eventX = player.getX();
-			player.eventY = player.getY();
-			player.eventZ = player.getZ();
+			player.setLastLocation(new Location(player.getX(), player.getY(), player.getZ()));
 			player.eventpkkills = player.getPkKills();
 			player.eventpvpkills = player.getPvpKills();
 			player.eventTitle = player.getTitle();
 			player.kills.clear();
-			player.atEvent = true;
+			player.setIsInEvent(true);
 		}
 		catch (Exception e)
 		{
@@ -239,25 +213,23 @@ public class L2Event
 	{
 		try
 		{
-			player.eventX = connectionLossData.get(player.getName()).eventX;
-			player.eventY = connectionLossData.get(player.getName()).eventY;
-			player.eventZ = connectionLossData.get(player.getName()).eventZ;
+			player.setLastLocation(connectionLossData.get(player.getName()).savedLocation);
 			player.eventkarma = connectionLossData.get(player.getName()).eventKarma;
 			player.eventpvpkills = connectionLossData.get(player.getName()).eventPvpKills;
 			player.eventpkkills = connectionLossData.get(player.getName()).eventPkKills;
 			player.eventTitle = connectionLossData.get(player.getName()).eventTitle;
 			player.kills = connectionLossData.get(player.getName()).kills;
 			player.eventSitForced = connectionLossData.get(player.getName()).eventSitForced;
-			player.atEvent = true;
+			player.setIsInEvent(true);
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 		}
 	}
 	
 	public static void restoreAndTeleChar(Player target)
 	{
-		
 		try
 		{
 			restoreChar(target);
@@ -265,22 +237,24 @@ public class L2Event
 			target.setKarma(target.eventkarma);
 			target.setPvpKills(target.eventpvpkills);
 			target.setPkKills(target.eventpkkills);
-	//		target.teleToLocation(target.eventX, target.eventY, target.eventZ, 30);
-			target.instantTeleportTo(target.eventX, target.eventY, target.eventZ, 30);
+			Location loc = target.getSavedLocation();
+			if (loc != null)
+				target.teleportTo(loc.getX(), loc.getY(), loc.getZ(), 30);
+			else
+				target.teleportTo(82698, 148638, -3473, 30);
 			target.kills.clear();
 			target.eventSitForced = false;
-			target.atEvent = false;
+			target.setIsInEvent(false);
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 		}
 	}
 	
 	class EventData
 	{
-		public int eventX;
-		public int eventY;
-		public int eventZ;
+		public Location savedLocation;
 		public int eventKarma;
 		public int eventPvpKills;
 		public int eventPkKills;
@@ -288,11 +262,9 @@ public class L2Event
 		public LinkedList<String> kills = new LinkedList<>();
 		public boolean eventSitForced = false;
 		
-		public EventData(int pEventX, int pEventY, int pEventZ, int pEventkarma, int pEventpvpkills, int pEventpkkills, String pEventTitle, LinkedList<String> pKills, boolean pEventSitForced)
+		public EventData(Location loc, int pEventkarma, int pEventpvpkills, int pEventpkkills, String pEventTitle, LinkedList<String> pKills, boolean pEventSitForced)
 		{
-			eventX = pEventX;
-			eventY = pEventY;
-			eventZ = pEventZ;
+			savedLocation = loc;
 			eventKarma = pEventkarma;
 			eventPvpKills = pEventpvpkills;
 			eventPkKills = pEventpkkills;

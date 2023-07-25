@@ -239,10 +239,8 @@ public class EventManager
 	
 	public void revertPlayer(Player player)
 	{
-		if (player.atEvent)
-			player.atEvent = false;
-		if (player.isInSurvival)
-			player.isInSurvival = false;
+		if (player.getInEvent())
+			player.setIsInEvent(false);
 		if (player.isDead())
 			player.doRevive();
 		player.getStatus().setMaxCpHpMp();
@@ -300,7 +298,7 @@ public class EventManager
 						setReward(pk, "Survival", 25000);
 					if (!stopAnn)
 						pc.sendPacket(new ExShowScreenMessage("Para regresar escribir .salir o esperar a que termine el evento", 5000, SMPOS.MIDDLE_RIGHT, false));
-					pc.isInSurvival = false;
+					pc.setIsInEvent(false);
 				}
 				boolean allDead = true;
 				synchronized (players)
@@ -309,7 +307,7 @@ public class EventManager
 					{
 						if (pk.equals(player))
 							continue;
-						if (player.isInSurvival)
+						if (player.getInEvent())
 						{
 							allDead = false;
 							break;
@@ -375,7 +373,7 @@ public class EventManager
 			{
 				if (pc != null && pk != null)
 				{
-					if (pc.atEvent && pk.atEvent)
+					if (pc.getInEvent() && pk.getInEvent())
 						if (pc != pk) // pk.addAncientAdena("DM", 25000, pk, true);
 							pk.countDMkills++;
 				}
@@ -392,7 +390,7 @@ public class EventManager
 		int alive = 0;
 		if (pc != null)
 		{
-			if (containsPlayer(pc) || pc.atEvent || pc.isInSurvival)
+			if (containsPlayer(pc) || pc.getInEvent())
 			{
 				Location loc = pc.getSavedLocation();
 				if (loc != null)
@@ -403,13 +401,12 @@ public class EventManager
 			if (containsPlayer(pc))
 				removePlayer(pc);
 			
-			pc.atEvent = false;
-			pc.isInSurvival = false;
+			pc.setIsInEvent(false);
 		}
 		synchronized (players) // cuando un player se desconecta se redirecciona a onkill si solo queda un pj vivo en el evento
 		{
 			for (Player player : players)
-				if (!player.isDead() || player.isInSurvival)
+				if (!player.isDead() || player.getInEvent())
 				{
 					alive++;
 					pk = player;
@@ -432,10 +429,7 @@ public class EventManager
 				p.setTeam(TeamType.NONE);
 			
 		for (Player pc : World.getInstance().getPlayers())
-		{
-			pc.isInSurvival = false;
-			pc.atEvent = false;
-		}
+			pc.setIsInEvent(false);
 		
 		players.clear();
 		state = State.INACTIVE;
@@ -522,7 +516,7 @@ public class EventManager
 					for (Player player : players)
 					{
 						setPlayerStats(player, "Pelea! Tenes 5 minutos para matar!");
-						player.isInSurvival = true;
+						player.setIsInEvent(true);
 					}
 					stateEvent = 4;
 				}
@@ -538,7 +532,7 @@ public class EventManager
 					
 					int alive = 0;
 					for (Player player : players)
-						if (player.isInSurvival)
+						if (player.getInEvent())
 							alive++;
 						
 					if (alive >= 2)
@@ -719,7 +713,7 @@ public class EventManager
 	private void setPcPrepare(Player player)
 	{
 		player.setLastLocation(new Location(player.getX(), player.getY(), player.getZ()));
-		player.atEvent = true;
+		player.setIsInEvent(true);
 		if (state == State.LOADING && event == Events.SURVIVAL && stateEvent == 2)
 		{
 			player.setInvul(true);
@@ -819,7 +813,7 @@ public class EventManager
 					for (Player player : players)
 					{
 						setPlayerStats(player, "Pelea! Tenes 5 minutos para matar!");
-						player.isInSurvival = true;
+						player.setIsInEvent(true);
 					}
 					stateEvent = 4;
 				}

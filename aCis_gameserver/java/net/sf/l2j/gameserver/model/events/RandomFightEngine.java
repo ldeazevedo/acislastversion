@@ -159,10 +159,8 @@ public class RandomFightEngine
 
 	public void revertPlayer(Player player)
 	{
-		if (player.atEvent)
-			player.atEvent = false;
-		if (player.isInSurvival)
-			player.isInSurvival = false;
+		if (player.getInEvent())
+			player.setIsInEvent(false);
 		if (player.isDead())
 			player.doRevive();
 		player.getStatus().setMaxCpHpMp();
@@ -231,14 +229,13 @@ public class RandomFightEngine
 			announce("Evento finalizado");
 			// pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
 
-			// Guardar en la base de datos
+			// Guardar en la base de datos - chau warning de mierda :D
 			try (var con = ConnectionPool.getConnection();
-				 var statement = con.prepareStatement(EventConstants.QUERY_EVENT_INFO))
+				var statement = con.prepareStatement(EventConstants.QUERY_EVENT_INFO);
+				var rs = statement.executeQuery())
 			{
 				statement.setString(1, killer.getName());
-				boolean existsRow = statement.executeQuery().first();
-				String sql = existsRow ? EventConstants.UPDATE_EVENT_INFO : EventConstants.INSERT_EVENT_INFO;
-				try (var statement2 = con.prepareStatement(sql))
+				try (var statement2 = con.prepareStatement(rs.first() ? EventConstants.UPDATE_EVENT_INFO : EventConstants.INSERT_EVENT_INFO))
 				{
 					statement2.setString(1, killer.getName());
 					statement2.execute();
@@ -260,7 +257,7 @@ public class RandomFightEngine
 		if (pc != null)
 		{
 			var isPlayerRegistered = registeredPlayers.contains(pc);
-			if (isPlayerRegistered || pc.atEvent || pc.isInSurvival)
+			if (isPlayerRegistered || pc.getInEvent())
 			{
 				Location loc = pc.getSavedLocation();
 				if (loc != null)
@@ -271,11 +268,10 @@ public class RandomFightEngine
 			if (isPlayerRegistered)
 				registeredPlayers.remove(pc);
 
-			pc.atEvent = false;
-			pc.isInSurvival = false;
+			pc.setIsInEvent(false);
 		}
 		for (Player player : registeredPlayers)
-			if (!player.isDead() || player.isInSurvival)
+			if (!player.isDead() || player.getInEvent())
 			{
 				alive++;
 				pk = player;
@@ -296,10 +292,8 @@ public class RandomFightEngine
 			registeredPlayers.forEach(p -> p.setTeam(TeamType.NONE));
 
 		tuple.forEach(t -> {
-			t.left().isInSurvival = false;
-			t.left().atEvent = false;
-			t.right().isInSurvival = false;
-			t.right().atEvent = false;
+			t.left().setIsInEvent(false);
+			t.right().setIsInEvent(false);
 		});
 
 		registeredPlayers.clear();
@@ -448,7 +442,7 @@ public class RandomFightEngine
 	private static void preparePlayer(Player player)
 	{
 		player.setLastLocation(new Location(player.getX(), player.getY(), player.getZ()));
-		player.atEvent = true;
+		player.setIsInEvent(true);
 		player.stopAllEffectsExceptThoseThatLastThroughDeath();
 		if (player.getSummon() != null)
 			player.getSummon().stopAllEffectsExceptThoseThatLastThroughDeath();
