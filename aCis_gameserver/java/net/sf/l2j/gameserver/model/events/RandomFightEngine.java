@@ -209,6 +209,7 @@ public class RandomFightEngine
 					revertPlayers(t.left(), t.right());
 					setPlayersStats(null, t.left(), t.right());
 				});
+				clean();
 			} else {
 				var pt = tuple.stream().filter(p -> p.getInstanceId() == killer.getInstanceId()).findFirst();
 				log.info("RevertTask::PlayerTuple found? " + pt.isPresent());
@@ -217,7 +218,6 @@ public class RandomFightEngine
 					setPlayersStats(null, pt.get().right(), pt.get().left());
 				}
 			}
-			clean();
 
 			/*
 			 * if (!getPlayers().isEmpty()) for (Player p : getPlayers()) { if (p == null) continue; if (currentState == State.FIGHT || currentState == State.ENDING) { revertPlayer(p); for (Player player : getPlayers()) setPlayerStats(player, null); } }
