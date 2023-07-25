@@ -4,6 +4,8 @@ import java.util.Objects;
 
 import net.sf.l2j.commons.data.StatSet;
 
+import net.sf.l2j.gameserver.model.actor.Player;
+
 /**
  * A datatype used to retain a 3D (x/y/z) point. It got the capability to be set and cleaned.
  */
@@ -21,6 +23,11 @@ public class Location extends Point2D
 	}
 	
 	public Location(Location loc)
+	{
+		this(loc.getX(), loc.getY(), loc.getZ());
+	}
+	
+	public Location(Player loc)
 	{
 		this(loc.getX(), loc.getY(), loc.getZ());
 	}

@@ -41,7 +41,7 @@ public class TargetPartyOther implements ITargetHandler
 			return false;
 		}
 		
-		if (!(target instanceof Player) || target.isDead())
+		if (!(target instanceof Player) || target.isDead() || caster.getInstanceId() != target.getInstanceId())
 		{
 			caster.sendPacket(SystemMessageId.INVALID_TARGET);
 			return false;

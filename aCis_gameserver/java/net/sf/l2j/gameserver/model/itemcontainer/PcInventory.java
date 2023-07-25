@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import net.sf.l2j.gameserver.data.manager.HeroManager;
+import net.sf.l2j.gameserver.data.xml.DressMeData;
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.enums.ShortcutType;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.items.EtcItemType;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
+import net.sf.l2j.gameserver.model.DressMe;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
@@ -90,6 +92,11 @@ public class PcInventory extends Inventory
 				case Item.SLOT_HEAD:
 					return;
 			}
+		}
+		if (item.getItem().getBodyPart() == Item.SLOT_UNDERWEAR)
+		{
+			final DressMe dress = DressMeData.getInstance().getItemId(item.getItemId());
+			getOwner().setDress(dress != null ? dress : null);
 		}
 		
 		super.equipItem(item);

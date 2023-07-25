@@ -51,11 +51,14 @@ public abstract class Summon extends Playable
 		for (L2Skill skill : template.getSkills(NpcSkillType.PASSIVE))
 			addStatFuncs(skill.getStatFuncs(this));
 		
+        setInstanceId(owner.getInstanceId()); // set instance to same as owner
+		
 		// Set the magical circle animation.
 		setShowSummonAnimation(true);
 		
 		// Set the Player owner.
 		_owner = owner;
+//		_summons.put(objectId, this);
 	}
 	
 	public abstract int getSummonType();

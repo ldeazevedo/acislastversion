@@ -70,7 +70,7 @@ import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 
 public class Quest
 {
-	protected static final CLogger LOGGER = new CLogger(Quest.class.getName());
+	protected static final CLogger log = new CLogger(Quest.class.getName());
 	
 	private static final String HTML_NONE_AVAILABLE = "<html><body>You are either not on a quest that involves this NPC, or you don't meet this NPC's minimum quest requirements.</body></html>";
 	private static final String HTML_ALREADY_COMPLETED = "<html><body>This quest has already been completed.</body></html>";
@@ -169,6 +169,18 @@ public class Quest
 	{
 		return _descr;
 	}
+
+	public Set<QuestTimer> getAllQuestTimers()
+	{
+		return _timers;
+	}
+	
+	public boolean isQuests()
+	{
+		final int questId = _id;
+		return questId > 0 && questId < 20000;
+	}
+	//-------------------------------------------------------
 	
 	/**
 	 * @return An array of registered quest items ids. Those items are automatically destroyed in case a {@link Player} aborts or finishes this {@link Quest}.
@@ -681,7 +693,7 @@ public class Quest
 		// Name must exist.
 		if (name == null)
 		{
-			LOGGER.warn("Script {} adding timer without name.", toString());
+			log.warn("Script {} adding timer without name.", toString());
 			return false;
 		}
 		
@@ -845,7 +857,6 @@ public class Quest
 	{
 		return addSpawn(npcId, loc.getX(), loc.getY(), loc.getZ(), loc.getHeading(), randomOffset, despawnDelay, isSummonSpawn);
 	}
-	
 	/**
 	 * Spawns temporary (quest) {@link Npc} on the coordinates.
 	 * @param npcId : The {@link Npc} template to spawn.
@@ -859,6 +870,24 @@ public class Quest
 	 * @return The spawned {@link Npc}, null if some problem occurs.
 	 */
 	public Npc addSpawn(int npcId, int x, int y, int z, int heading, boolean randomOffset, long despawnDelay, boolean isSummonSpawn)
+	{
+		return addSpawn(npcId, x, y, z, heading, randomOffset, despawnDelay, isSummonSpawn, 0);
+	}
+	
+	/**
+	 * Spawns temporary (quest) {@link Npc} on the coordinates.
+	 * @param npcId : The {@link Npc} template to spawn.
+	 * @param x : The X coordinate.
+	 * @param y : The Y coordinate.
+	 * @param z : The Z coordinate.
+	 * @param heading : The heading.
+	 * @param randomOffset : Allow random offset coordinates.
+	 * @param despawnDelay : Define despawn delay in milliseconds, 0 for none.
+	 * @param isSummonSpawn : If true, spawn with animation (if any exists).
+	 * @param instance 
+	 * @return The spawned {@link Npc}, null if some problem occurs.
+	 */
+	public Npc addSpawn(int npcId, int x, int y, int z, int heading, boolean randomOffset, long despawnDelay, boolean isSummonSpawn, int instance)
 	{
 		try
 		{
@@ -886,6 +915,7 @@ public class Quest
 			// Create spawn.
 			final Spawn spawn = new Spawn(template);
 			spawn.setLoc(x, y, z + 20, heading);
+			spawn.setInstanceId(instance);
 			
 			// Spawn NPC.
 			final Npc npc = spawn.doSpawn(isSummonSpawn);
@@ -896,7 +926,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
+			log.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
 			return null;
 		}
 	}
@@ -933,7 +963,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
+			log.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
 			return null;
 		}
 	}
@@ -975,7 +1005,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
+			log.error("Couldn't spawn npcId {} for {}.", e, npcId, toString());
 			return null;
 		}
 	}
@@ -1567,7 +1597,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.warn(toString(), e);
+			log.warn(toString(), e);
 			return;
 		}
 		showResult(npc, player, res);
@@ -1771,6 +1801,16 @@ public class Quest
 		addEventIds(npcIds, EventHandler.FIRST_TALK);
 	}
 	
+	public final void addArrived(int... npcIds)
+	{
+		addEventIds(npcIds, EventHandler.ON_ARRIVED);
+	}
+	
+	public String onArrived(Creature character)
+	{
+		return null;
+	}
+	
 	/**
 	 * Register this {@link Quest} to the {@link Npc}, which will override initial dialog with this {@link Quest}.
 	 * @param npcIds : The ids of the {@link Npc}.
@@ -1794,7 +1834,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.warn(toString(), e);
+			log.warn(toString(), e);
 			return;
 		}
 		
@@ -1803,6 +1843,22 @@ public class Quest
 			showResult(npc, player, res);
 		else
 			player.sendPacket(ActionFailed.STATIC_PACKET);
+	}
+
+	public final void notifyMoveFinished(Creature character)
+	{
+		String res = null;
+		try
+		{
+			res = onArrived(character);
+		}
+		catch (Exception e)
+		{
+			log.warn(toString(), e);
+			return;
+		}
+		if (character != null)
+			showResult(null, character, res);
 	}
 	
 	/**
@@ -2150,7 +2206,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.warn(toString(), e);
+			log.warn(toString(), e);
 			return;
 		}
 		showResult(npc, player, res);
@@ -2182,7 +2238,7 @@ public class Quest
 		}
 		catch (Exception e)
 		{
-			LOGGER.warn(toString(), e);
+			log.warn(toString(), e);
 			return;
 		}
 		showResult(npc, player, res);
@@ -2263,5 +2319,29 @@ public class Quest
 	 */
 	public void onZoneExit(Creature creature, ZoneType zone)
 	{
+	}
+	
+	/**
+	 * Teleport a player into/out of an instance.
+	 * @param player the player to teleport
+	 * @param loc the {@link Location} object containing the destination coordinates
+	 * @param instanceId the ID of the instance to teleport the player to (0 to teleport out of an instance)
+	 */
+	public void teleportPlayer(Player player, Location loc, int instanceId)
+	{
+		teleportPlayer(player, loc, instanceId, true);
+	}
+	
+	/**
+	 * Teleport a player into/out of an instance.
+	 * @param player the player to teleport
+	 * @param loc the {@link Location} object containing the destination coordinates
+	 * @param instanceId the ID of the instance to teleport the player to (0 to teleport out of an instance)
+	 * @param allowRandomOffset if {@code true}, will randomize the teleport coordinates by +/- MaxOffsetOnTeleport
+	 */
+	public void teleportPlayer(Player player, Location loc, int instanceId, boolean allowRandomOffset)
+	{
+		player.setInstanceId(instanceId);
+		player.teleportTo(loc, allowRandomOffset ? 20 : 0);
 	}
 }

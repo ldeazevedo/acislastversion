@@ -22,7 +22,9 @@ import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.container.npc.RewardInfo;
+import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
+import net.sf.l2j.gameserver.model.events.ServerFeature;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.rift.DimensionalRift;
@@ -633,8 +635,10 @@ public class Party extends AbstractGroup
 	 * @param rewardedMembers : The {@link Player}s' {@link List} to reward.
 	 * @param topLvl : The maximum level.
 	 * @param rewards : The {@link Map} of {@link Creature}s and {@link RewardInfo}.
+	 * @param partyDmg 
+	 * @param mob 
 	 */
-	public void distributeXpAndSp(long xpReward, int spReward, List<Player> rewardedMembers, int topLvl, Map<Creature, RewardInfo> rewards)
+	public void distributeXpAndSp(long xpReward, int spReward, List<Player> rewardedMembers, int topLvl, Map<Creature, RewardInfo> rewards, int partyDmg, Monster mob)
 	{
 		final List<Player> validMembers = new ArrayList<>();
 		
@@ -681,11 +685,11 @@ public class Party extends AbstractGroup
 		
 		xpReward *= partyRate * Config.RATE_PARTY_XP;
 		spReward *= partyRate * Config.RATE_PARTY_SP;
-		
+        
 		int sqLevelSum = 0;
 		for (Player member : validMembers)
 			sqLevelSum += member.getStatus().getLevel() * member.getStatus().getLevel();
-		
+        
 		// Go through the players that must be rewarded.
 		for (Player member : rewardedMembers)
 		{
@@ -701,14 +705,21 @@ public class Party extends AbstractGroup
 				final double sqLevel = member.getStatus().getLevel() * member.getStatus().getLevel();
 				final double preCalculation = (sqLevel / sqLevelSum) * (1 - penalty);
 				
-				final long xp = Math.round(xpReward * preCalculation);
-				final int sp = (int) (spReward * preCalculation);
+				long xp = (Math.round(xpReward * preCalculation));
+				int sp = (int) (spReward * preCalculation);
+				
+				//xp *= ServerFeature.getRateVitalityRateXpSp(1);
+				//sp *= ServerFeature.getRateVitalityRateXpSp(2);
 				
 				// Set new karma.
 				member.updateKarmaLoss(xp);
 				
+				int points = Rnd.get(1, 3);
 				// Add the XP/SP points to the requested party member.
-				member.addExpAndSp(xp, sp, rewards);
+				member.addExpAndSp(member.isExpOff() ? 0 : xp, sp, rewards);
+                if (member.getStatus().getLevel() <= (getLevel() + 9))
+            		points=0;
+                ServerFeature.onCalculateRewards(member, xp, points, partyDmg, mob);
 			}
 			else
 				member.addExpAndSp(0, 0);

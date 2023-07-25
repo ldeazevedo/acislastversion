@@ -22,6 +22,7 @@ import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.buffer.SchemeBufferManager;
 import net.sf.l2j.gameserver.model.olympiad.Olympiad;
 import net.sf.l2j.gameserver.network.GameClient;
 import net.sf.l2j.gameserver.network.SystemMessageId;
@@ -123,6 +124,10 @@ public class Shutdown extends Thread
 			// Save allowed Players on BossZone.
 			ZoneManager.getInstance().save();
 			LOGGER.info("ZoneManager has been saved.");
+
+			// Save buffer schemes
+			SchemeBufferManager.getInstance().cleanUp();
+			LOGGER.info("SchemeBufferManager has been cleanUp.");
 			
 			// Save grandbosses.
 			GrandBossManager.getInstance().cleanUp();

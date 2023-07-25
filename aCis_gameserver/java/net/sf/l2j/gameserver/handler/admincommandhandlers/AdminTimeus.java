@@ -1,6 +1,9 @@
 package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
+import java.util.Optional;
 import java.util.StringTokenizer;
+
+import net.sf.l2j.commons.logging.CLogger;
 
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
@@ -17,6 +20,8 @@ import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
 
 public class AdminTimeus implements IAdminCommandHandler
 {
+	final CLogger LOG = new CLogger(AdminTimeus.class.getName());
+	
 	private static final String[] ADMIN_COMMANDS =
 	{
 		"admin_rf",
@@ -26,7 +31,8 @@ public class AdminTimeus implements IAdminCommandHandler
 		"admin_remove_player",
 		"admin_clear_players",
 		"admin_clear",
-		"admin_frintezza"
+		"admin_frintezza",
+		"admin_loc"
 	};
 	
 	@Override
@@ -35,6 +41,8 @@ public class AdminTimeus implements IAdminCommandHandler
 		final StringTokenizer st = new StringTokenizer(command);
 		command = st.nextToken();
 
+		if (command.equals("admin_loc"))
+			LOG.info(activeChar.getPosition());
 		if (command.equals("admin_add_player"))
 			addTargetPlayer(true, activeChar);
 		if (command.equals("admin_remove_player"))
@@ -55,18 +63,18 @@ public class AdminTimeus implements IAdminCommandHandler
 			if (st.countTokens() > 1)
 			{
 				st.nextToken();
-				String player = st.nextToken();
-				Player plyr = World.getInstance().getPlayer(player);
-				if (plyr != null)
-					register(false, plyr, activeChar);
+				Player player = World.getInstance().getPlayer(st.nextToken());
+				if (player != null)
+					register(false, player, activeChar);
 			}
 		}
 		else if (command.startsWith("admin_clear_players"))
-			EventManager.getInstance().players.clear();
+			EventManager.getInstance().getPlayers().clear();
 		else if (command.startsWith("admin_clear"))
 			EventManager.getInstance().clear();
 		else if (command.equals("admin_rf"))
-			ScriptData.getInstance().getQuest("EventsTask").startQuestTimer("doItJustOnceRF", null, null, 1000);
+			ScriptData.getInstance().getQuest("EventsEngineTask").startQuestTimer("doItJustOnceRF", null, null, 1000);
+			//ScriptData.getInstance().getQuest("EventsTask").startQuestTimer("doItJustOnceRF", null, null, 1000);
 			//EventManager.getInstance().doItJustOnceRF();
 		else if (command.equals("admin_survival"))
 			ScriptData.getInstance().getQuest("EventsTask").startQuestTimer("doItJustOnceSurvivalbeginning", null, null, 1000);
@@ -76,21 +84,14 @@ public class AdminTimeus implements IAdminCommandHandler
 			try
 			{
 				final String clanName = st.nextToken();
-				String message = "";
+				StringBuilder message = new StringBuilder();
 				while (st.hasMoreTokens())
-					message += st.nextToken() + " ";
-				
-				Clan receiverClan = null;
-				for (Clan clan : ClanTable.getInstance().getClans())
-					if (clan.getName().equalsIgnoreCase(clanName))
-					{
-						receiverClan = clan;
-						break;
-					}
-				if (receiverClan != null)
-				{
-					activeChar.sendMessage("[" + receiverClan.getName() + "]->" + message);
-					receiverClan.broadcastToMembers(new ExShowScreenMessage(message, 3500, SMPOS.MIDDLE_RIGHT, false));
+					message.append(st.nextToken()).append(" ");
+
+				Optional<Clan> clan = ClanTable.getInstance().getClans().stream().filter(c -> c.getName().equalsIgnoreCase(clanName)).findFirst();
+				if (clan.isPresent()){
+					activeChar.sendMessage("[" + clan.get().getName() + "]->" + message);
+					clan.get().broadcastToMembers(new ExShowScreenMessage(message.toString(), 3500, SMPOS.MIDDLE_RIGHT, false));
 				}
 			}
 			catch (Exception e)
@@ -104,11 +105,9 @@ public class AdminTimeus implements IAdminCommandHandler
 	private static void addTargetPlayer(boolean register, Player activeChar)
 	{
 		WorldObject target = activeChar.getTarget();
-		Player player = null;
-		
 		if (target instanceof Player)
 		{
-			player = (Player) target;
+			Player player = (Player) target;
 			if (player != activeChar)
 				register(register, player, activeChar);
 		}
@@ -149,7 +148,6 @@ public class AdminTimeus implements IAdminCommandHandler
 			EventManager.getInstance().removePlayer(player);
 			activeChar.sendMessage("Player removido del evento.");
 		}
-		return;
 	}
 	
 	@Override

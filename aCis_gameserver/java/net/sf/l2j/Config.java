@@ -16,6 +16,7 @@ import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
 
 import net.sf.l2j.gameserver.enums.GeoType;
+import net.sf.l2j.gameserver.model.events.HappyHour;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 
 /**
@@ -36,6 +37,36 @@ public final class Config
 	public static final String SERVER_FILE = "./config/server.properties";
 	public static final String SIEGE_FILE = "./config/siege.properties";
 
+	public static final boolean OLDBUFF = false;
+
+	public static double RATE_VITALITY_LEVEL_1 = 1.5;
+	public static float RATE_VITALITY_LEVEL_2 = 2;
+	public static double RATE_VITALITY_LEVEL_3 = 2.5;
+	public static float RATE_VITALITY_LEVEL_4 = 3;
+	public static float RATE_RECOVERY_VITALITY_PEACE_ZONE = 1;
+	public static float RATE_VITALITY_LOST = 1;
+	public static float RATE_VITALITY_GAIN = 1;
+	public static float RATE_RECOVERY_ON_RECONNECT = 4;
+	
+	public static boolean FAKE_PLAYER_ENABLED;
+	
+	 /////////////////////////////////////////////////
+	// PC Bang Settings
+	/////////////////////////////////////////////////
+	public static boolean PC_BANG_ENABLED;
+	public static int MAX_PC_BANG_POINTS;
+	public static boolean ENABLE_DOUBLE_PC_BANG_POINTS;
+	public static int DOUBLE_PC_BANG_POINTS_CHANCE;
+	public static double PC_BANG_POINT_RATE;
+	public static boolean RANDOM_PC_BANG_POINT;
+	
+	/** Happy Hour **/
+	public static boolean HAPPY_HOUR_ENABLED;
+	public static String HAPPY_HOUR_DAYS_AND_HOUR;
+	public static double HAPPY_HOUR_EXP;
+	public static double HAPPY_HOUR_SP;
+	public static List<HappyHour> HAPPY_HOUR_LIST = new ArrayList<>();
+	
 	/** TvT */
 	public static boolean TVT_EVENT_ENABLED;
 	public static String[] TVT_EVENT_INTERVAL;
@@ -65,7 +96,22 @@ public final class Config
 	public static int TVT_EVENT_EFFECTS_REMOVAL;
 	public static Map<Integer, Integer> TVT_EVENT_FIGHTER_BUFFS;
 	public static Map<Integer, Integer> TVT_EVENT_MAGE_BUFFS;
-	
+
+	/** Buffer Manager Settings */
+	public static int BUFFS_MASTER_MAX_SKILLS_PER_SCHEME;
+	public static int BUFFS_MASTER_STATIC_COST_PER_BUFF;
+	public static int BUFFS_MASTER_PAYMENT_ITEM;
+	public static String BUFFS_MASTER_PAYMENT_ITEM_NAME;
+	public static int[] BUFFS_MASTER_WARRIOR_SCHEME;
+	public static int[] BUFFS_MASTER_MYSTIC_SCHEME;
+	public static int[] BUFFS_MASTER_HEALER_SCHEME;
+	public static int[] BUFFS_MASTER_TANKER_SCHEME;
+	public static int BUFFS_MASTER_CP_RESTORE_PRICE;
+	public static int BUFFS_MASTER_HP_RESTORE_PRICE;
+	public static int BUFFS_MASTER_MP_RESTORE_PRICE;
+	public static boolean BUFFS_MASTER_CAN_USE_KARMA;
+	public static boolean BUFFS_MASTER_CAN_USE_OUTSIDE_TOWN;
+	public static boolean BUFFS_MASTER_CAN_USE_IN_COMBAT;
 	// --------------------------------------------------
 	// Clans settings
 	// --------------------------------------------------
@@ -812,6 +858,8 @@ public final class Config
 		LOTTERY_4_NUMBER_RATE = events.getProperty("Lottery4NumberRate", 0.2);
 		LOTTERY_3_NUMBER_RATE = events.getProperty("Lottery3NumberRate", 0.2);
 		LOTTERY_2_AND_1_NUMBER_PRIZE = events.getProperty("Lottery2and1NumberPrize", 200);
+
+		FAKE_PLAYER_ENABLED = events.getProperty("FakePlayerEnabled", false);
 		
 		ALLOW_FISH_CHAMPIONSHIP = events.getProperty("AllowFishChampionship", true);
 		FISH_CHAMPIONSHIP_REWARD_ITEM = events.getProperty("FishChampionshipRewardItemId", 57);
@@ -820,8 +868,38 @@ public final class Config
 		FISH_CHAMPIONSHIP_REWARD_3 = events.getProperty("FishChampionshipReward3", 300000);
 		FISH_CHAMPIONSHIP_REWARD_4 = events.getProperty("FishChampionshipReward4", 200000);
 		FISH_CHAMPIONSHIP_REWARD_5 = events.getProperty("FishChampionshipReward5", 100000);
+
+		/** HAPPY HOUR */
+		HAPPY_HOUR_ENABLED = events.getProperty("HappyHourEnabled", false);
+		HAPPY_HOUR_DAYS_AND_HOUR = events.getProperty("HappyHourDaysAndHours");
+		for (String happyHour : HAPPY_HOUR_DAYS_AND_HOUR.split(";"))
+		{
+			String[] parsed = happyHour.split(",");
+			int day = Integer.parseInt(parsed[0]);
+			int startHour = Integer.parseInt(parsed[1]);
+			int endHour = Integer.parseInt(parsed[2]);
+			LOGGER.info("HappyHour[" + day + "|" + startHour + "|" + endHour + "]");
+			HAPPY_HOUR_LIST.add(new HappyHour(day, startHour, endHour));
+		}
+		HAPPY_HOUR_EXP = events.getProperty("HappyHourExp", 7.0);
+		HAPPY_HOUR_SP = events.getProperty("HappyHourSP", 7.0);
 		
-		TVT_EVENT_ENABLED = Boolean.parseBoolean(events.getProperty("TvTEventEnabled", "false"));
+		
+		PC_BANG_ENABLED = events.getProperty("Enabled", false);
+        MAX_PC_BANG_POINTS = Integer.parseInt(events.getProperty("MaxPcBangPoints", "200000"));
+        if (MAX_PC_BANG_POINTS < 0)
+            MAX_PC_BANG_POINTS = 0;
+        ENABLE_DOUBLE_PC_BANG_POINTS = Boolean.parseBoolean(events.getProperty("DoublingAcquisitionPoints", "false"));
+        DOUBLE_PC_BANG_POINTS_CHANCE = Integer.parseInt(events.getProperty("DoublingAcquisitionPointsChance", "1"));
+        if (DOUBLE_PC_BANG_POINTS_CHANCE < 0 || DOUBLE_PC_BANG_POINTS_CHANCE > 100)
+            DOUBLE_PC_BANG_POINTS_CHANCE = 1;
+        PC_BANG_POINT_RATE = Double.parseDouble(events.getProperty("AcquisitionPointsRate", "1.0"));
+        if (PC_BANG_POINT_RATE < 0)
+            PC_BANG_POINT_RATE = 1;
+        RANDOM_PC_BANG_POINT = Boolean.parseBoolean(events.getProperty("AcquisitionPointsRandom", "false"));
+		
+        
+		TVT_EVENT_ENABLED = events.getProperty("TvTEventEnabled", false);
 		TVT_EVENT_INTERVAL = events.getProperty("TvTEventInterval", "20:00").split(",");
 		TVT_EVENT_PARTICIPATION_TIME = Integer.parseInt(events.getProperty("TvTEventParticipationTime", "3600"));
 		TVT_EVENT_RUNNING_TIME = Integer.parseInt(events.getProperty("TvTEventRunningTime", "1800"));
@@ -1163,6 +1241,50 @@ public final class Config
 		MAX_NPC_ANIMATION = npcs.getProperty("MaxNPCAnimation", 40);
 		MIN_MONSTER_ANIMATION = npcs.getProperty("MinMonsterAnimation", 10);
 		MAX_MONSTER_ANIMATION = npcs.getProperty("MaxMonsterAnimation", 40);
+		
+		//-------------------- Buffs Master NPC -------------------
+
+		BUFFS_MASTER_MAX_SKILLS_PER_SCHEME = npcs.getProperty("MaxSkillsPerScheme", 24);
+		BUFFS_MASTER_STATIC_COST_PER_BUFF = npcs.getProperty("BufferStaticCostPerBuff", 0);
+		BUFFS_MASTER_PAYMENT_ITEM = npcs.getProperty("BufferPaymentItem",57);
+		BUFFS_MASTER_PAYMENT_ITEM_NAME = npcs.getProperty("PaymentItemName", "");
+		
+		
+		BUFFS_MASTER_CP_RESTORE_PRICE = npcs.getProperty("CPRestorePrice",0);
+		BUFFS_MASTER_HP_RESTORE_PRICE = npcs.getProperty("HPRestorePrice",0);
+		BUFFS_MASTER_MP_RESTORE_PRICE = npcs.getProperty("MPRestorePrice",0);
+		
+		BUFFS_MASTER_CAN_USE_KARMA  = npcs.getProperty("CanUseWithKarma", false);
+		BUFFS_MASTER_CAN_USE_OUTSIDE_TOWN  = npcs.getProperty("CanUseOutsideTown", false);
+		BUFFS_MASTER_CAN_USE_IN_COMBAT = npcs.getProperty("CanUseInCombat", false);
+		
+		
+		String warScheme = npcs.getProperty("WarriorScheme");
+		String[] array = warScheme.split(";");
+		BUFFS_MASTER_WARRIOR_SCHEME = new int[array.length];
+		for (int i = 0; i < array.length; i++)
+			BUFFS_MASTER_WARRIOR_SCHEME[i] = Integer.parseInt(array[i]);
+				
+		String mystScheme = npcs.getProperty("MysticScheme");
+		String[] array2 = mystScheme.split(";");
+		BUFFS_MASTER_MYSTIC_SCHEME = new int[array2.length];
+		for (int i = 0; i < array2.length; i++)
+			BUFFS_MASTER_MYSTIC_SCHEME[i] = Integer.parseInt(array2[i]);
+		
+		String healerScheme = npcs.getProperty("HealerScheme");
+		String[] array3 = healerScheme.split(";");
+		BUFFS_MASTER_HEALER_SCHEME = new int[array3.length];
+		for (int i = 0; i < array3.length; i++)
+			BUFFS_MASTER_HEALER_SCHEME[i] = Integer.parseInt(array3[i]);
+		
+		String tankerScheme = npcs.getProperty("TankerScheme");
+		String[] array4 = tankerScheme.split(";");
+		BUFFS_MASTER_TANKER_SCHEME = new int[array4.length];
+		for (int i = 0; i < array4.length; i++)
+			BUFFS_MASTER_TANKER_SCHEME[i] = Integer.parseInt(array4[i]);
+		
+		//----------------------------------------------------------
+				
 	}
 	
 	/**

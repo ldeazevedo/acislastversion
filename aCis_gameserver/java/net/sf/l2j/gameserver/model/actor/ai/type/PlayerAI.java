@@ -15,6 +15,7 @@ import net.sf.l2j.gameserver.handler.IItemHandler;
 import net.sf.l2j.gameserver.handler.ItemHandler;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
+import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Boat;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -147,7 +148,9 @@ public class PlayerAI extends PlayableAI<Player>
 		
 		if (_actor.isSitting())
 			doStandIntention();
-		
+
+		if (_actor.getInstanceId() != attacker.getInstanceId())
+			return;
 		super.onEvtAttacked(attacker);
 	}
 	
@@ -198,6 +201,7 @@ public class PlayerAI extends PlayableAI<Player>
 		
 		boolean isShiftPressed = _currentIntention.isShiftPressed();
 		if (_actor.getMove().maybeMoveToPawn(target, _actor.getStatus().getPhysicalAttackRange(), isShiftPressed))
+		//if (_actor.getMove().maybeMoveToPawn(target, (target instanceof Attackable) ? Math.max(100, _actor.getStatus().getPhysicalAttackRange()) : 100, isShiftPressed))
 		{
 			if (isShiftPressed)
 			{
@@ -440,7 +444,8 @@ public class PlayerAI extends PlayableAI<Player>
 		}
 		
 		final boolean isShiftPressed = _currentIntention.isShiftPressed();
-		if (_actor.getMove().maybeMoveToPawn(target, 100, isShiftPressed))
+		//if (_actor.getMove().maybeMoveToPawn(target, 100, isShiftPressed))
+		if (_actor.getMove().maybeMoveToPawn(target, (target instanceof Attackable) ? Math.max(100, _actor.getStatus().getPhysicalAttackRange()) : 100, isShiftPressed))
 		{
 			if (isShiftPressed)
 				doIdleIntention();
@@ -556,7 +561,6 @@ public class PlayerAI extends PlayableAI<Player>
 			
 			_actor.broadcastPacket(new AutoAttackStart(_actor.getObjectId()));
 		}
-		
 		AttackStanceTaskManager.getInstance().add(_actor);
 	}
 	

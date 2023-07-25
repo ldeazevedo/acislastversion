@@ -14669,4 +14669,3438 @@
 			</category>
 		</drops>
 	</npc>
+	<npc id="18501" idTemplate="18001" name="Blood Queen" title="">
+		<set name="level" val="60"/>
+		<set name="radius" val="14"/>
+		<set name="height" val="40"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="4536"/>
+		<set name="sp" val="394"/>
+		<set name="hp" val="1933.24044"/>
+		<set name="mp" val="1036.8"/>
+		<set name="hpRegen" val="6.5"/>
+		<set name="mpRegen" val="2.4"/>
+		<set name="pAtk" val="481.34551"/>
+		<set name="pDef" val="247.65008"/>
+		<set name="mAtk" val="328.69659"/>
+		<set name="mDef" val="150.021245531891"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="160"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="cave_servant_clan" clanRange="400" ignoredIds="20237;20273;20238;20274;20239;20275;20240;20276;20246;20277;20134;20287" canMove="true" seedable="true"/>
+		<skills>
+			<skill id="4002" level="6"/>
+			<skill id="4035" level="6"/>
+			<skill id="4039" level="6"/>
+			<skill id="4278" level="1"/>
+			<skill id="4333" level="5"/>
+			<skill id="4416" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="1806" min="1" max="1" chance="1.0868"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="765" max="1528" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="0.6947">
+				<drop itemid="4071" min="1" max="1" chance="23.2459"/>
+				<drop itemid="4070" min="1" max="1" chance="45.9444"/>
+				<drop itemid="4069" min="1" max="1" chance="30.2552"/>
+				<drop itemid="2406" min="1" max="1" chance="0.1137"/>
+				<drop itemid="2402" min="1" max="1" chance="0.2701"/>
+				<drop itemid="2397" min="1" max="1" chance="0.1707"/>
+			</category>
+			<category type="DROP" chance="48.6915">
+				<drop itemid="1889" min="1" max="1" chance="1.2209"/>
+				<drop itemid="1885" min="1" max="1" chance="1.5263"/>
+				<drop itemid="1878" min="1" max="1" chance="7.3256"/>
+				<drop itemid="1866" min="1" max="1" chance="12.2095"/>
+				<drop itemid="1864" min="1" max="1" chance="36.6284"/>
+				<drop itemid="1419" min="1" max="1" chance="41.0755"/>
+				<drop itemid="4197" min="1" max="1" chance="0.0138"/>
+			</category>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18502" idTemplate="18001" name="Blood Queen" title="">
+		<set name="level" val="60"/>
+		<set name="radius" val="14"/>
+		<set name="height" val="40"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="4320"/>
+		<set name="sp" val="375"/>
+		<set name="hp" val="1933.2"/>
+		<set name="mp" val="1036.8"/>
+		<set name="hpRegen" val="6.5"/>
+		<set name="mpRegen" val="2.4"/>
+		<set name="pAtk" val="529.48"/>
+		<set name="pDef" val="247.65"/>
+		<set name="mAtk" val="328.7"/>
+		<set name="mDef" val="150.021593197344"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="160"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="cave_servant_clan" clanRange="300" ignoredIds="20237;20273;20238;20274;20239;20275;20240;20276;20246;20277;20134;20287" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4002" level="6"/>
+			<skill id="4035" level="6"/>
+			<skill id="4039" level="6"/>
+			<skill id="4278" level="1"/>
+			<skill id="4333" level="5"/>
+			<skill id="4416" level="9"/>
+		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18503" idTemplate="18001" name="Bearded Keltir" title="">
+		<set name="level" val="1"/>
+		<set name="radius" val="13"/>
+		<set name="height" val="9.5"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="29"/>
+		<set name="sp" val="2"/>
+		<set name="hp" val="39.7"/>
+		<set name="mp" val="40"/>
+		<set name="hpRegen" val="2"/>
+		<set name="mpRegen" val="0.9"/>
+		<set name="pAtk" val="4"/>
+		<set name="pDef" val="44.44"/>
+		<set name="mAtk" val="5.79"/>
+		<set name="mDef" val="26.9214336743691"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="23"/>
+		<set name="runSpd" val="110"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4416" level="4"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="1871" min="1" max="1" chance="0.9797"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="8" max="12" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="3.2603">
+				<drop itemid="426" min="1" max="1" chance="37.4045"/>
+				<drop itemid="462" min="1" max="1" chance="62.5955"/>
+			</category>
+			<category type="DROP" chance="3.6113">
+				<drop itemid="17" min="10" max="30" chance="60.1974"/>
+				<drop itemid="1786" min="1" max="1" chance="8.4678"/>
+				<drop itemid="1868" min="1" max="1" chance="25.4062"/>
+				<drop itemid="1873" min="1" max="1" chance="5.9286"/>
+			</category>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18504" idTemplate="18001" name="Susceptor Prime" title="">
+		<set name="level" val="49"/>
+		<set name="radius" val="45"/>
+		<set name="height" val="72"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="0"/>
+		<set name="sp" val="1"/>
+		<set name="hp" val="1372.2"/>
+		<set name="mp" val="720"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="290.45"/>
+		<set name="pDef" val="195.66"/>
+		<set name="mAtk" val="198.34"/>
+		<set name="mDef" val="118.530469702895"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="78"/>
+		<set name="runSpd" val="170"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="2"/>
+			<skill id="4444" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18505" idTemplate="18001" name="Mimic" title="">
+		<set name="level" val="52"/>
+		<set name="radius" val="8.5"/>
+		<set name="height" val="8.5"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="3244"/>
+		<set name="sp" val="251"/>
+		<set name="hp" val="1569.5"/>
+		<set name="mp" val="804"/>
+		<set name="hpRegen" val="6.5"/>
+		<set name="mpRegen" val="2.4"/>
+		<set name="pAtk" val="348.07"/>
+		<set name="pDef" val="216.26"/>
+		<set name="mAtk" val="230.26"/>
+		<set name="mDef" val="126.908234441282"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="156"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4045" level="1"/>
+			<skill id="4416" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18506" idTemplate="18001" name="Maruk Lord" title="">
+		<set name="level" val="68"/>
+		<set name="radius" val="15"/>
+		<set name="height" val="45"/>
+		<set name="rHand" val="1472"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="6057"/>
+		<set name="sp" val="586"/>
+		<set name="hp" val="2421.5"/>
+		<set name="mp" val="1282.4"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="667.04"/>
+		<set name="pDef" val="295.61"/>
+		<set name="mAtk" val="441.26"/>
+		<set name="mDef" val="173.47436733457"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="100"/>
+		<set name="runSpd" val="170"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="malruk_clan" clanRange="300" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4002" level="6"/>
+			<skill id="4046" level="6"/>
+			<skill id="4094" level="6"/>
+			<skill id="4098" level="6"/>
+			<skill id="4275" level="2"/>
+			<skill id="4278" level="1"/>
+			<skill id="4416" level="1"/>
+		</skills>
+		<drops>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18507" idTemplate="18001" name="Limal Karinness" title="">
+		<set name="level" val="69"/>
+		<set name="radius" val="14"/>
+		<set name="height" val="40"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="5951"/>
+		<set name="sp" val="582"/>
+		<set name="hp" val="2395.5"/>
+		<set name="mp" val="1314"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="734.25"/>
+		<set name="pDef" val="291.15"/>
+		<set name="mAtk" val="501.4"/>
+		<set name="mDef" val="176.371815672636"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="140"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" clan="malruk_clan" clanRange="300" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4002" level="6"/>
+			<skill id="4047" level="6"/>
+			<skill id="4118" level="6"/>
+			<skill id="4278" level="1"/>
+			<skill id="4333" level="5"/>
+			<skill id="4416" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="1807" min="1" max="1" chance="1.2195"/>
+				<drop itemid="1895" min="1" max="5" chance="87.0"/>
+				<drop itemid="5479" min="1" max="1" chance="5.2632"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="3680" max="7472" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="1.2117">
+				<drop itemid="5305" min="1" max="1" chance="0.6848"/>
+				<drop itemid="5489" min="1" max="1" chance="47.9822"/>
+				<drop itemid="5486" min="1" max="1" chance="21.21"/>
+				<drop itemid="5485" min="1" max="1" chance="30.123"/>
+			</category>
+			<category type="DROP" chance="9.7791">
+				<drop itemid="8730" min="1" max="1" chance="0.2147"/>
+				<drop itemid="4988" min="1" max="1" chance="1.8232"/>
+				<drop itemid="4401" min="1" max="1" chance="0.5512"/>
+				<drop itemid="4043" min="1" max="1" chance="8.5927"/>
+				<drop itemid="4042" min="1" max="1" chance="5.0372"/>
+				<drop itemid="4040" min="1" max="1" chance="4.8235"/>
+				<drop itemid="1895" min="1" max="1" chance="78.6611"/>
+				<drop itemid="8740" min="1" max="1" chance="0.2964"/>
+			</category>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18508" idTemplate="18001" name="Karik" title="">
+		<set name="level" val="70"/>
+		<set name="radius" val="25"/>
+		<set name="height" val="90"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="6370"/>
+		<set name="sp" val="632"/>
+		<set name="hp" val="2444.5"/>
+		<set name="mp" val="1345.8"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="757.75"/>
+		<set name="pDef" val="295.92"/>
+		<set name="mAtk" val="517.45"/>
+		<set name="mDef" val="179.260985460277"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="37"/>
+		<set name="runSpd" val="200"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="500" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4047" level="7"/>
+			<skill id="4071" level="5"/>
+			<skill id="4085" level="1"/>
+			<skill id="4086" level="1"/>
+			<skill id="4278" level="1"/>
+			<skill id="4333" level="5"/>
+			<skill id="4412" level="14"/>
+			<skill id="4416" level="9"/>
+		</skills>
+		<drops>
+			<category type="SPOIL" chance="100.0">
+				<drop itemid="3035" min="1" max="1" chance="1.4286"/>
+				<drop itemid="4077" min="1" max="2" chance="50.0"/>
+				<drop itemid="4078" min="1" max="1" chance="16.6667"/>
+			</category>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="4318" max="8784" chance="100.0"/>
+			</category>
+			<category type="DROP" chance="2.7759">
+				<drop itemid="5292" min="1" max="1" chance="0.4607"/>
+				<drop itemid="5289" min="1" max="1" chance="0.1545"/>
+				<drop itemid="5526" min="1" max="1" chance="30.7901"/>
+				<drop itemid="5525" min="1" max="1" chance="31.0569"/>
+				<drop itemid="5494" min="1" max="1" chance="37.5378"/>
+			</category>
+			<category type="DROP" chance="37.6963">
+				<drop itemid="1876" min="1" max="1" chance="16.5798"/>
+				<drop itemid="8730" min="1" max="1" chance="0.0679"/>
+				<drop itemid="1868" min="3" max="9" chance="26.5278"/>
+				<drop itemid="1873" min="1" max="1" chance="33.1602"/>
+				<drop itemid="5006" min="1" max="1" chance="0.0567"/>
+				<drop itemid="4042" min="1" max="1" chance="1.4988"/>
+				<drop itemid="1895" min="1" max="1" chance="22.0976"/>
+				<drop itemid="8740" min="1" max="1" chance="0.0112"/>
+			</category>
+			<category type="HERB" chance="42.0">
+				<drop itemid="8600" min="1" max="1" chance="55.0"/>
+				<drop itemid="8601" min="1" max="1" chance="38.0"/>
+				<drop itemid="8602" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8607" min="1" max="1" chance="50.0"/>
+				<drop itemid="8609" min="1" max="1" chance="50.0"/>
+			</category>
+			<category type="HERB" chance="11.0">
+				<drop itemid="8603" min="1" max="1" chance="55.0"/>
+				<drop itemid="8604" min="1" max="1" chance="38.0"/>
+				<drop itemid="8605" min="1" max="1" chance="7.0"/>
+			</category>
+			<category type="HERB" chance="25.0">
+				<drop itemid="8606" min="1" max="1" chance="34.0"/>
+				<drop itemid="8608" min="1" max="1" chance="33.0"/>
+				<drop itemid="8610" min="1" max="1" chance="33.0"/>
+			</category>
+			<category type="HERB" chance="10.0">
+				<drop itemid="8611" min="1" max="1" chance="100.0"/>
+			</category>
+			<category type="HERB" chance="1.0">
+				<drop itemid="8612" min="1" max="1" chance="33.0"/>
+				<drop itemid="8613" min="1" max="1" chance="33.0"/>
+				<drop itemid="8614" min="1" max="1" chance="34.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18509" idTemplate="18001" name="Offering of Branded Elder" title="">
+		<set name="level" val="34"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="26.4"/>
+		<set name="rHand" val="127"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1754"/>
+		<set name="sp" val="102"/>
+		<set name="hp" val="736.96177"/>
+		<set name="mp" val="387.72"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="121.20802"/>
+		<set name="pDef" val="132.9486"/>
+		<set name="mAtk" val="82.76936"/>
+		<set name="mDef" val="80.537480497082"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" clan="door_clan;mercenary_siege_clan" clanRange="500" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4078" level="3"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18510" idTemplate="18001" name="Offering of the Branded" title="">
+		<set name="level" val="32"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="21"/>
+		<set name="rHand" val="218"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1523"/>
+		<set name="sp" val="86"/>
+		<set name="hp" val="668.47132"/>
+		<set name="mp" val="358.32"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="92.89459375"/>
+		<set name="pDef" val="106.7406795"/>
+		<set name="mAtk" val="72.49711"/>
+		<set name="mDef" val="76.0720822329578"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="173" max="347" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18511" idTemplate="18001" name="Offering of Branded Archer" title="">
+		<set name="level" val="28"/>
+		<set name="radius" val="14"/>
+		<set name="height" val="25"/>
+		<set name="rHand" val="14"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1001"/>
+		<set name="sp" val="53"/>
+		<set name="hp" val="543.79576"/>
+		<set name="mp" val="300.96"/>
+		<set name="hpRegen" val="3.5"/>
+		<set name="mpRegen" val="1.5"/>
+		<set name="pAtk" val="178.96112432"/>
+		<set name="pDef" val="94.871628"/>
+		<set name="mAtk" val="54.99876"/>
+		<set name="mDef" val="67.6132386264202"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="60"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18512" idTemplate="18001" name="Offering of Branded Warrior" title="">
+		<set name="level" val="29"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="23"/>
+		<set name="rHand" val="125"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1026"/>
+		<set name="sp" val="55"/>
+		<set name="hp" val="573.42917"/>
+		<set name="mp" val="315.12"/>
+		<set name="hpRegen" val="3.5"/>
+		<set name="mpRegen" val="1.5"/>
+		<set name="pAtk" val="86.42002"/>
+		<set name="pDef" val="115.00598"/>
+		<set name="mAtk" val="59.01367"/>
+		<set name="mDef" val="69.6682165612003"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="110"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4087" level="3"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="148" max="293" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18513" idTemplate="18001" name="Offering of Branded Follower" title="">
+		<set name="level" val="29"/>
+		<set name="radius" val="9"/>
+		<set name="height" val="22"/>
+		<set name="rHand" val="316"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1227"/>
+		<set name="sp" val="66"/>
+		<set name="hp" val="573.42917"/>
+		<set name="mp" val="315.12"/>
+		<set name="hpRegen" val="3.5"/>
+		<set name="mpRegen" val="1.5"/>
+		<set name="pAtk" val="75.6175175"/>
+		<set name="pDef" val="97.755083"/>
+		<set name="mAtk" val="59.01367"/>
+		<set name="mDef" val="69.6682165612003"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="150"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4151" level="2"/>
+			<skill id="4160" level="2"/>
+			<skill id="4225" level="5"/>
+			<skill id="4413" level="15"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="148" max="293" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18514" idTemplate="18001" name="Offering of Branded Berserker" title="">
+		<set name="level" val="37"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="23"/>
+		<set name="rHand" val="292"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2276"/>
+		<set name="sp" val="140"/>
+		<set name="hp" val="847.31754"/>
+		<set name="mp" val="432.72"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="146.82587"/>
+		<set name="pDef" val="144.47758"/>
+		<set name="mAtk" val="100.26304"/>
+		<set name="mDef" val="87.5215063731059"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="43"/>
+		<set name="runSpd" val="115"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4244" level="3"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4413" level="15"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="228" max="455" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18515" idTemplate="18001" name="Offering of Branded Zealot" title="">
+		<set name="level" val="34"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="26.4"/>
+		<set name="rHand" val="158"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1650"/>
+		<set name="sp" val="96"/>
+		<set name="hp" val="736.96177"/>
+		<set name="mp" val="387.72"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="106.0570175"/>
+		<set name="pDef" val="113.00631"/>
+		<set name="mAtk" val="82.76936"/>
+		<set name="mDef" val="80.537480497082"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="155"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="3"/>
+			<skill id="4225" level="5"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="194" max="387" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18516" idTemplate="18001" name="Offering of Branded Marksman" title="">
+		<set name="level" val="32"/>
+		<set name="radius" val="16"/>
+		<set name="height" val="30"/>
+		<set name="rHand" val="273"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1265"/>
+		<set name="sp" val="71"/>
+		<set name="hp" val="668.47132"/>
+		<set name="mp" val="358.32"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="235.8991855"/>
+		<set name="pDef" val="106.7406795"/>
+		<set name="mAtk" val="72.49711"/>
+		<set name="mDef" val="76.0720822329578"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="130"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18517" idTemplate="18001" name="Offering of Branded Disciple" title="">
+		<set name="level" val="34"/>
+		<set name="radius" val="9"/>
+		<set name="height" val="21.5"/>
+		<set name="rHand" val="129"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1650"/>
+		<set name="sp" val="96"/>
+		<set name="hp" val="736.96177"/>
+		<set name="mp" val="387.72"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="121.20802"/>
+		<set name="pDef" val="132.9486"/>
+		<set name="mAtk" val="82.76936"/>
+		<set name="mDef" val="80.537480497082"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="165"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="4"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="194" max="387" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18518" idTemplate="18001" name="Offering of Branded Saint" title="">
+		<set name="level" val="39"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="25.3"/>
+		<set name="rHand" val="72"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2171"/>
+		<set name="sp" val="138"/>
+		<set name="hp" val="925.85879"/>
+		<set name="mp" val="463.32"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="166.06476"/>
+		<set name="pDef" val="152.46752"/>
+		<set name="mAtk" val="113.4007"/>
+		<set name="mDef" val="92.3616440657883"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="165"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4073" level="4"/>
+			<skill id="4273" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="253" max="504" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18519" idTemplate="18001" name="Apostate's Offering Elder" title="">
+		<set name="level" val="45"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="27.6"/>
+		<set name="rHand" val="72"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="3013"/>
+		<set name="sp" val="210"/>
+		<set name="hp" val="1183.80594"/>
+		<set name="mp" val="610.8"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="234.89829"/>
+		<set name="pDef" val="177.78746"/>
+		<set name="mAtk" val="160.40508"/>
+		<set name="mDef" val="107.69993220446"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4078" level="4"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18520" idTemplate="18001" name="Apostate's Offering" title="">
+		<set name="level" val="43"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="22"/>
+		<set name="rHand" val="223"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2751"/>
+		<set name="sp" val="186"/>
+		<set name="hp" val="1094.28943"/>
+		<set name="mp" val="557.4"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="183.79228"/>
+		<set name="pDef" val="143.7640445"/>
+		<set name="mAtk" val="143.43577"/>
+		<set name="mDef" val="102.457951526758"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="305" max="611" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18521" idTemplate="18001" name="Apostate's Offering Archer" title="">
+		<set name="level" val="39"/>
+		<set name="radius" val="11"/>
+		<set name="height" val="21.5"/>
+		<set name="rHand" val="275"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1879"/>
+		<set name="sp" val="119"/>
+		<set name="hp" val="925.85879"/>
+		<set name="mp" val="463.32"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="368.99589672"/>
+		<set name="pDef" val="129.597392"/>
+		<set name="mAtk" val="113.4007"/>
+		<set name="mDef" val="92.3616440657883"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="60"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18522" idTemplate="18001" name="Apostate's Offering Warrior" title="">
+		<set name="level" val="40"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="20"/>
+		<set name="rHand" val="127"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1920"/>
+		<set name="sp" val="124"/>
+		<set name="hp" val="966.57792"/>
+		<set name="mp" val="478.8"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="176.36077"/>
+		<set name="pDef" val="156.55035"/>
+		<set name="mAtk" val="120.43155"/>
+		<set name="mDef" val="94.8349307253096"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="115"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4087" level="4"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="265" max="529" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18523" idTemplate="18001" name="Apostate's Offering Follower" title="">
+		<set name="level" val="40"/>
+		<set name="radius" val="11"/>
+		<set name="height" val="16"/>
+		<set name="rHand" val="316"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2296"/>
+		<set name="sp" val="148"/>
+		<set name="hp" val="966.57792"/>
+		<set name="mp" val="478.8"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="154.31567375"/>
+		<set name="pDef" val="133.0677975"/>
+		<set name="mAtk" val="120.43155"/>
+		<set name="mDef" val="94.8349307253096"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="50"/>
+		<set name="runSpd" val="155"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4151" level="4"/>
+			<skill id="4160" level="4"/>
+			<skill id="4225" level="5"/>
+			<skill id="4413" level="15"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="265" max="529" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18524" idTemplate="18001" name="Apostate's Offering Berserker" title="">
+		<set name="level" val="48"/>
+		<set name="radius" val="11"/>
+		<set name="height" val="32"/>
+		<set name="rHand" val="297"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="3832"/>
+		<set name="sp" val="280"/>
+		<set name="hp" val="1324.01623"/>
+		<set name="mp" val="692.4"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="275.82705"/>
+		<set name="pDef" val="191.12803"/>
+		<set name="mAtk" val="188.35412"/>
+		<set name="mDef" val="115.781370786559"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="37"/>
+		<set name="runSpd" val="120"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4244" level="4"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4413" level="15"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="381" max="761" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18525" idTemplate="18001" name="Apostate's Offering Zealot" title="">
+		<set name="level" val="45"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="25.3"/>
+		<set name="rHand" val="172"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2891"/>
+		<set name="sp" val="201"/>
+		<set name="hp" val="1183.80594"/>
+		<set name="mp" val="610.8"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="205.53600375"/>
+		<set name="pDef" val="151.119341"/>
+		<set name="mAtk" val="160.40508"/>
+		<set name="mDef" val="107.69993220446"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="160"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="4"/>
+			<skill id="4225" level="5"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="335" max="669" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18526" idTemplate="18001" name="Apostate's Offering Marksman" title="">
+		<set name="level" val="43"/>
+		<set name="radius" val="13"/>
+		<set name="height" val="25.3"/>
+		<set name="rHand" val="277"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2285"/>
+		<set name="sp" val="154"/>
+		<set name="hp" val="1094.28943"/>
+		<set name="mp" val="557.4"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="466.72736704"/>
+		<set name="pDef" val="143.7640445"/>
+		<set name="mAtk" val="143.43577"/>
+		<set name="mDef" val="102.457951526758"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="135"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18527" idTemplate="18001" name="Apostate's Offering Disciple" title="">
+		<set name="level" val="45"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="24"/>
+		<set name="rHand" val="74"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2891"/>
+		<set name="sp" val="201"/>
+		<set name="hp" val="1183.80594"/>
+		<set name="mp" val="610.8"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="234.89829"/>
+		<set name="pDef" val="177.78746"/>
+		<set name="mAtk" val="160.40508"/>
+		<set name="mDef" val="107.69993220446"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="170"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="5"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="335" max="669" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18528" idTemplate="18001" name="Apostate's Offering Saint" title="">
+		<set name="level" val="50"/>
+		<set name="radius" val="14"/>
+		<set name="height" val="28.8"/>
+		<set name="rHand" val="133"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="3570"/>
+		<set name="sp" val="269"/>
+		<set name="hp" val="1421.00103"/>
+		<set name="mp" val="747.8"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="305.54906"/>
+		<set name="pDef" val="200.23844"/>
+		<set name="mAtk" val="208.6504"/>
+		<set name="mDef" val="121.300264676839"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="170"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4073" level="5"/>
+			<skill id="4273" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="414" max="829" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18529" idTemplate="18001" name="Witch's Offering Elder" title="">
+		<set name="level" val="56"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="24"/>
+		<set name="rHand" val="133"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="4666"/>
+		<set name="sp" val="383"/>
+		<set name="hp" val="1724.6831"/>
+		<set name="mp" val="918.8"/>
+		<set name="hpRegen" val="6.5"/>
+		<set name="mpRegen" val="2.4"/>
+		<set name="pAtk" val="405.96455"/>
+		<set name="pDef" val="228.40135"/>
+		<set name="mAtk" val="277.22116"/>
+		<set name="mDef" val="138.360771274535"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4078" level="5"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18530" idTemplate="18001" name="Witch's Offering" title="">
+		<set name="level" val="54"/>
+		<set name="radius" val="9"/>
+		<set name="height" val="21.5"/>
+		<set name="rHand" val="226"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="4339"/>
+		<set name="sp" val="346"/>
+		<set name="hp" val="1621.75618"/>
+		<set name="mp" val="861"/>
+		<set name="hpRegen" val="6.5"/>
+		<set name="mpRegen" val="2.4"/>
+		<set name="pAtk" val="324.35291"/>
+		<set name="pDef" val="186.0615065"/>
+		<set name="mAtk" val="253.13256"/>
+		<set name="mDef" val="132.602556351723"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="486" max="972" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18531" idTemplate="18001" name="Witch's Offering Archer" title="">
+		<set name="level" val="50"/>
+		<set name="radius" val="11"/>
+		<set name="height" val="21.5"/>
+		<set name="rHand" val="278"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="3090"/>
+		<set name="sp" val="233"/>
+		<set name="hp" val="1421.00103"/>
+		<set name="mp" val="747.8"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="678.93001132"/>
+		<set name="pDef" val="170.202674"/>
+		<set name="mAtk" val="208.6504"/>
+		<set name="mDef" val="121.300264676839"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="70"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18532" idTemplate="18001" name="Witch's Offering Warrior" title="">
+		<set name="level" val="51"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="20"/>
+		<set name="rHand" val="72"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="3121"/>
+		<set name="sp" val="238"/>
+		<set name="hp" val="1470.41596"/>
+		<set name="mp" val="775.8"/>
+		<set name="hpRegen" val="6.5"/>
+		<set name="mpRegen" val="2.4"/>
+		<set name="pAtk" val="321.13207"/>
+		<set name="pDef" val="204.85194"/>
+		<set name="mAtk" val="219.29157"/>
+		<set name="mDef" val="124.095027325766"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="120"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4087" level="5"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="431" max="863" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18533" idTemplate="18001" name="Witch's Offering Follower" title="">
+		<set name="level" val="51"/>
+		<set name="radius" val="11"/>
+		<set name="height" val="16"/>
+		<set name="rHand" val="316"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="3732"/>
+		<set name="sp" val="285"/>
+		<set name="hp" val="1470.41596"/>
+		<set name="mp" val="775.8"/>
+		<set name="hpRegen" val="6.5"/>
+		<set name="mpRegen" val="2.4"/>
+		<set name="pAtk" val="280.99056125"/>
+		<set name="pDef" val="174.124149"/>
+		<set name="mAtk" val="219.29157"/>
+		<set name="mDef" val="124.095027325766"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="50"/>
+		<set name="runSpd" val="160"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4151" level="5"/>
+			<skill id="4160" level="5"/>
+			<skill id="4225" level="5"/>
+			<skill id="4413" level="15"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="431" max="863" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18534" idTemplate="18001" name="Witch's Offering Berserker" title="">
+		<set name="level" val="59"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="30"/>
+		<set name="rHand" val="301"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="5789"/>
+		<set name="sp" val="495"/>
+		<set name="hp" val="1880.92519"/>
+		<set name="mp" val="1007"/>
+		<set name="hpRegen" val="6.5"/>
+		<set name="mpRegen" val="2.4"/>
+		<set name="pAtk" val="461.94387"/>
+		<set name="pDef" val="242.81593"/>
+		<set name="mAtk" val="315.44778"/>
+		<set name="mDef" val="147.092819392229"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="52"/>
+		<set name="runSpd" val="125"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4244" level="5"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4413" level="15"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="585" max="1171" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18535" idTemplate="18001" name="Witch's Offering Zealot" title="">
+		<set name="level" val="56"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="25.3"/>
+		<set name="rHand" val="91"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="4478"/>
+		<set name="sp" val="368"/>
+		<set name="hp" val="1724.6831"/>
+		<set name="mp" val="918.8"/>
+		<set name="hpRegen" val="6.5"/>
+		<set name="mpRegen" val="2.4"/>
+		<set name="pAtk" val="355.21898125"/>
+		<set name="pDef" val="194.1411475"/>
+		<set name="mAtk" val="277.22116"/>
+		<set name="mDef" val="138.360771274535"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="165"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="5"/>
+			<skill id="4225" level="5"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="525" max="1049" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18536" idTemplate="18001" name="Witch's Offering Marksman" title="">
+		<set name="level" val="54"/>
+		<set name="radius" val="13"/>
+		<set name="height" val="25.3"/>
+		<set name="rHand" val="282"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="3604"/>
+		<set name="sp" val="287"/>
+		<set name="hp" val="1621.75618"/>
+		<set name="mp" val="861"/>
+		<set name="hpRegen" val="6.5"/>
+		<set name="mpRegen" val="2.4"/>
+		<set name="pAtk" val="823.67104688"/>
+		<set name="pDef" val="186.0615065"/>
+		<set name="mAtk" val="253.13256"/>
+		<set name="mDef" val="132.602556351723"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="140"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18537" idTemplate="18001" name="Witch's Offering Disciple" title="">
+		<set name="level" val="56"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="24"/>
+		<set name="rHand" val="135"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="4478"/>
+		<set name="sp" val="368"/>
+		<set name="hp" val="1724.6831"/>
+		<set name="mp" val="918.8"/>
+		<set name="hpRegen" val="6.5"/>
+		<set name="mpRegen" val="2.4"/>
+		<set name="pAtk" val="405.96455"/>
+		<set name="pDef" val="228.40135"/>
+		<set name="mAtk" val="277.22116"/>
+		<set name="mDef" val="138.360771274535"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="175"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="6"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="525" max="1049" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18538" idTemplate="18001" name="Witch's Offering Saint" title="">
+		<set name="level" val="61"/>
+		<set name="radius" val="14"/>
+		<set name="height" val="28.8"/>
+		<set name="rHand" val="79"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="5313"/>
+		<set name="sp" val="468"/>
+		<set name="hp" val="1985.55926"/>
+		<set name="mp" val="1066.8"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="501.08068"/>
+		<set name="pDef" val="252.49346"/>
+		<set name="mAtk" val="342.17315"/>
+		<set name="mDef" val="152.955267893392"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="175"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4073" level="6"/>
+			<skill id="4273" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="629" max="1257" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18539" idTemplate="18001" name="Dark Omen Offering Elder" title="">
+		<set name="level" val="67"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="24"/>
+		<set name="rHand" val="79"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="6679"/>
+		<set name="sp" val="636"/>
+		<set name="hp" val="2295.48154"/>
+		<set name="mp" val="1251"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="624.93199"/>
+		<set name="pDef" val="281.55251"/>
+		<set name="mAtk" val="426.74754"/>
+		<set name="mDef" val="170.55863203028"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4078" level="6"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18540" idTemplate="18001" name="Dark Omen Offering" title="">
+		<set name="level" val="65"/>
+		<set name="radius" val="9"/>
+		<set name="height" val="21.5"/>
+		<set name="rHand" val="234"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="6286"/>
+		<set name="sp" val="584"/>
+		<set name="hp" val="2193.43142"/>
+		<set name="mp" val="1188.8"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="509.96539125"/>
+		<set name="pDef" val="231.1067805"/>
+		<set name="mAtk" val="397.98887"/>
+		<set name="mDef" val="164.705480236154"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="721" max="1443" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18541" idTemplate="18001" name="Dark Omen Offering Archer" title="">
+		<set name="level" val="61"/>
+		<set name="radius" val="11"/>
+		<set name="height" val="21.5"/>
+		<set name="rHand" val="283"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="4599"/>
+		<set name="sp" val="405"/>
+		<set name="hp" val="1985.55926"/>
+		<set name="mp" val="1066.8"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="1113.40127096"/>
+		<set name="pDef" val="214.619441"/>
+		<set name="mAtk" val="342.17315"/>
+		<set name="mDef" val="152.955267893392"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="70"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18542" idTemplate="18001" name="Dark Omen Offering Warrior" title="">
+		<set name="level" val="62"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="20"/>
+		<set name="rHand" val="133"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="4612"/>
+		<set name="sp" val="411"/>
+		<set name="hp" val="2037.81082"/>
+		<set name="mp" val="1097"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="521.12391"/>
+		<set name="pDef" val="257.34267"/>
+		<set name="mAtk" val="355.86007"/>
+		<set name="mDef" val="155.892816770884"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="125"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4087" level="6"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="651" max="1302" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18543" idTemplate="18001" name="Dark Omen Offering Follower" title="">
+		<set name="level" val="62"/>
+		<set name="radius" val="11"/>
+		<set name="height" val="16"/>
+		<set name="rHand" val="316"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="5516"/>
+		<set name="sp" val="492"/>
+		<set name="hp" val="2037.81082"/>
+		<set name="mp" val="1097"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="455.98342125"/>
+		<set name="pDef" val="218.7412695"/>
+		<set name="mAtk" val="355.86007"/>
+		<set name="mDef" val="155.892816770884"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="50"/>
+		<set name="runSpd" val="165"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4151" level="6"/>
+			<skill id="4160" level="6"/>
+			<skill id="4225" level="5"/>
+			<skill id="4413" level="15"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="651" max="1302" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18544" idTemplate="18001" name="Dark Omen Offering Berserker" title="">
+		<set name="level" val="70"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="30"/>
+		<set name="rHand" val="97"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="8149"/>
+		<set name="sp" val="808"/>
+		<set name="hp" val="2444.46819"/>
+		<set name="mp" val="1345.8"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="688.86373"/>
+		<set name="pDef" val="295.91597"/>
+		<set name="mAtk" val="470.40463"/>
+		<set name="mDef" val="179.259718906208"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="52"/>
+		<set name="runSpd" val="130"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4244" level="6"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4413" level="15"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="848" max="1697" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18545" idTemplate="18001" name="Dark Omen Offering Zealot" title="">
+		<set name="level" val="67"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="25.3"/>
+		<set name="rHand" val="2503"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="6410"/>
+		<set name="sp" val="610"/>
+		<set name="hp" val="2295.48154"/>
+		<set name="mp" val="1251"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="546.81549125"/>
+		<set name="pDef" val="239.3196335"/>
+		<set name="mAtk" val="426.74754"/>
+		<set name="mDef" val="170.55863203028"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="170"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="6"/>
+			<skill id="4225" level="5"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="770" max="1541" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18546" idTemplate="18001" name="Dark Omen Offering Marksman" title="">
+		<set name="level" val="65"/>
+		<set name="radius" val="13"/>
+		<set name="height" val="25.3"/>
+		<set name="rHand" val="286"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="5222"/>
+		<set name="sp" val="485"/>
+		<set name="hp" val="2193.43142"/>
+		<set name="mp" val="1188.8"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="1295.02068498"/>
+		<set name="pDef" val="231.1067805"/>
+		<set name="mAtk" val="397.98887"/>
+		<set name="mDef" val="164.705480236154"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="145"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18547" idTemplate="18001" name="Dark Omen Offering Disciple" title="">
+		<set name="level" val="67"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="24"/>
+		<set name="rHand" val="142"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="6410"/>
+		<set name="sp" val="610"/>
+		<set name="hp" val="2295.48154"/>
+		<set name="mp" val="1251"/>
+		<set name="hpRegen" val="7.5"/>
+		<set name="mpRegen" val="2.7"/>
+		<set name="pAtk" val="624.93199"/>
+		<set name="pDef" val="281.55251"/>
+		<set name="mAtk" val="426.74754"/>
+		<set name="mDef" val="170.55863203028"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="7"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="770" max="1541" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18548" idTemplate="18001" name="Dark Omen Offering Saint" title="">
+		<set name="level" val="72"/>
+		<set name="radius" val="14"/>
+		<set name="height" val="28.8"/>
+		<set name="rHand" val="2500"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="7402"/>
+		<set name="sp" val="752"/>
+		<set name="hp" val="2540.15331"/>
+		<set name="mp" val="1410"/>
+		<set name="hpRegen" val="8.5"/>
+		<set name="mpRegen" val="3"/>
+		<set name="pAtk" val="731.52506"/>
+		<set name="pDef" val="305.35947"/>
+		<set name="mAtk" val="499.53679"/>
+		<set name="mDef" val="184.980391055502"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4073" level="7"/>
+			<skill id="4273" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="902" max="1804" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18549" idTemplate="18001" name="Offering of Forbidden Path Elder" title="">
+		<set name="level" val="78"/>
+		<set name="radius" val="14"/>
+		<set name="height" val="28.8"/>
+		<set name="rHand" val="2500"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="9052"/>
+		<set name="sp" val="991"/>
+		<set name="hp" val="2802.89989"/>
+		<set name="mp" val="1607.4"/>
+		<set name="hpRegen" val="8.5"/>
+		<set name="mpRegen" val="3"/>
+		<set name="pAtk" val="855.81387"/>
+		<set name="pDef" val="332.70061"/>
+		<set name="mAtk" val="584.40994"/>
+		<set name="mDef" val="201.543082943943"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4078" level="7"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18550" idTemplate="18001" name="Offering of Forbidden Path" title="">
+		<set name="level" val="76"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="20"/>
+		<set name="rHand" val="236"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="8594"/>
+		<set name="sp" val="919"/>
+		<set name="hp" val="2719.97952"/>
+		<set name="mp" val="1540.8"/>
+		<set name="hpRegen" val="8.5"/>
+		<set name="mpRegen" val="3"/>
+		<set name="pAtk" val="713.45001875"/>
+		<set name="pDef" val="275.2168675"/>
+		<set name="mAtk" val="556.793"/>
+		<set name="mDef" val="196.141924808093"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="902" max="1804" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18551" idTemplate="18001" name="Offering of Forbidden Path Archer" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="27"/>
+		<set name="rHand" val="287"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="7899"/>
+		<set name="sp" val="955"/>
+		<set name="hp" val="3010.8929976"/>
+		<set name="mp" val="1777.86"/>
+		<set name="hpRegen" val="8.772"/>
+		<set name="mpRegen" val="3.0906"/>
+		<set name="pAtk" val="2225.9562"/>
+		<set name="pDef" val="314.4751494"/>
+		<set name="mAtk" val="705.7121259456"/>
+		<set name="mDef" val="224.12052"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="70"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18552" idTemplate="18001" name="Offering of Forbidden Path Warrior" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="24"/>
+		<set name="rHand" val="79"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="7301"/>
+		<set name="sp" val="862"/>
+		<set name="hp" val="2937.9838056"/>
+		<set name="mp" val="1708.296"/>
+		<set name="hpRegen" val="8.67"/>
+		<set name="mpRegen" val="3.06"/>
+		<set name="pAtk" val="912.6537108"/>
+		<set name="pDef" val="348.2025"/>
+		<set name="mAtk" val="635.688655236"/>
+		<set name="mDef" val="210.933802353999"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="36"/>
+		<set name="runSpd" val="130"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4087" level="7"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="902" max="1804" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18553" idTemplate="18001" name="Offering of Forbidden Path Follower" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="23"/>
+		<set name="rHand" val="316"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="8732"/>
+		<set name="sp" val="1031"/>
+		<set name="hp" val="2937.9838056"/>
+		<set name="mp" val="1708.296"/>
+		<set name="hpRegen" val="8.67"/>
+		<set name="mpRegen" val="3.06"/>
+		<set name="pAtk" val="798.57199695"/>
+		<set name="pDef" val="295.972125"/>
+		<set name="mAtk" val="635.688655236"/>
+		<set name="mDef" val="210.933802353999"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="10"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4151" level="7"/>
+			<skill id="4160" level="7"/>
+			<skill id="4225" level="5"/>
+			<skill id="4413" level="15"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="902" max="1804" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18554" idTemplate="18001" name="Offering of Forbidden Path Berserker" title="">
+		<set name="level" val="81"/>
+		<set name="radius" val="13"/>
+		<set name="height" val="35"/>
+		<set name="rHand" val="305"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="10119"/>
+		<set name="sp" val="1239"/>
+		<set name="hp" val="2975.2369188"/>
+		<set name="mp" val="1742.976"/>
+		<set name="hpRegen" val="8.721"/>
+		<set name="mpRegen" val="3.0702"/>
+		<set name="pAtk" val="957.910356"/>
+		<set name="pDef" val="359.2214376"/>
+		<set name="mAtk" val="670.4563793364"/>
+		<set name="mDef" val="217.60884"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="40"/>
+		<set name="runSpd" val="135"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4244" level="7"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4413" level="15"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="902" max="1804" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18555" idTemplate="18001" name="Offering of Forbidden Path Zealot" title="">
+		<set name="level" val="78"/>
+		<set name="radius" val="14"/>
+		<set name="height" val="34.8"/>
+		<set name="rHand" val="175"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="8687"/>
+		<set name="sp" val="951"/>
+		<set name="hp" val="2802.89989"/>
+		<set name="mp" val="1607.4"/>
+		<set name="hpRegen" val="8.5"/>
+		<set name="mpRegen" val="3"/>
+		<set name="pAtk" val="748.83713625"/>
+		<set name="pDef" val="282.7955185"/>
+		<set name="mAtk" val="584.40994"/>
+		<set name="mDef" val="201.543082943943"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="195"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="7"/>
+			<skill id="4225" level="5"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="902" max="1804" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18556" idTemplate="18001" name="Offering of Forbidden Path Marksman" title="">
+		<set name="level" val="76"/>
+		<set name="radius" val="14"/>
+		<set name="height" val="32.4"/>
+		<set name="rHand" val="289"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="7139"/>
+		<set name="sp" val="763"/>
+		<set name="hp" val="2719.97952"/>
+		<set name="mp" val="1540.8"/>
+		<set name="hpRegen" val="8.5"/>
+		<set name="mpRegen" val="3"/>
+		<set name="pAtk" val="1811.7553619"/>
+		<set name="pDef" val="275.2168675"/>
+		<set name="mAtk" val="556.793"/>
+		<set name="mDef" val="196.141924808093"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="150"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18557" idTemplate="18001" name="Offering of Forbidden Path Disciple" title="">
+		<set name="level" val="78"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="24"/>
+		<set name="rHand" val="151"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="8687"/>
+		<set name="sp" val="951"/>
+		<set name="hp" val="2802.89989"/>
+		<set name="mp" val="1607.4"/>
+		<set name="hpRegen" val="8.5"/>
+		<set name="mpRegen" val="3"/>
+		<set name="pAtk" val="855.81387"/>
+		<set name="pDef" val="332.70061"/>
+		<set name="mAtk" val="584.40994"/>
+		<set name="mDef" val="201.543082943943"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="33"/>
+		<set name="runSpd" val="195"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="7"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="902" max="1804" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18558" idTemplate="18001" name="Offering of Forbidden Path Saint" title="">
+		<set name="level" val="80"/>
+		<set name="radius" val="14"/>
+		<set name="height" val="28.8"/>
+		<set name="rHand" val="2500"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="9351"/>
+		<set name="sp" val="1144"/>
+		<set name="hp" val="3044.88717"/>
+		<set name="mp" val="1812.948"/>
+		<set name="hpRegen" val="8.823"/>
+		<set name="mpRegen" val="3.111"/>
+		<set name="pAtk" val="1045.99572"/>
+		<set name="pDef" val="380.7902964"/>
+		<set name="mAtk" val="742.0569674364"/>
+		<set name="mDef" val="230.674836"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="33"/>
+		<set name="runSpd" val="195"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4073" level="7"/>
+			<skill id="4273" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="902" max="1804" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18559" idTemplate="18001" name="Offering of Branded Elder" title="">
+		<set name="level" val="34"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="26.4"/>
+		<set name="rHand" val="127"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1720"/>
+		<set name="sp" val="100"/>
+		<set name="hp" val="736.96177"/>
+		<set name="mp" val="387.72"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="121.20802"/>
+		<set name="pDef" val="132.9486"/>
+		<set name="mAtk" val="82.76936"/>
+		<set name="mDef" val="80.537480497082"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4078" level="3"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18560" idTemplate="18001" name="Offering of the Branded" title="">
+		<set name="level" val="32"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="21"/>
+		<set name="rHand" val="218"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1523"/>
+		<set name="sp" val="86"/>
+		<set name="hp" val="668.47132"/>
+		<set name="mp" val="358.32"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="92.89459375"/>
+		<set name="pDef" val="106.7406795"/>
+		<set name="mAtk" val="72.49711"/>
+		<set name="mDef" val="76.0720822329578"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="173" max="347" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18561" idTemplate="18001" name="Offering of Branded Archer" title="">
+		<set name="level" val="28"/>
+		<set name="radius" val="14"/>
+		<set name="height" val="25"/>
+		<set name="rHand" val="14"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1001"/>
+		<set name="sp" val="53"/>
+		<set name="hp" val="543.79576"/>
+		<set name="mp" val="300.96"/>
+		<set name="hpRegen" val="3.5"/>
+		<set name="mpRegen" val="1.5"/>
+		<set name="pAtk" val="178.96112432"/>
+		<set name="pDef" val="94.871628"/>
+		<set name="mAtk" val="54.99876"/>
+		<set name="mDef" val="67.6132386264202"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="60"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18562" idTemplate="18001" name="Offering of Branded Warrior" title="">
+		<set name="level" val="29"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="23"/>
+		<set name="rHand" val="125"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1026"/>
+		<set name="sp" val="55"/>
+		<set name="hp" val="573.42917"/>
+		<set name="mp" val="315.12"/>
+		<set name="hpRegen" val="3.5"/>
+		<set name="mpRegen" val="1.5"/>
+		<set name="pAtk" val="86.42002"/>
+		<set name="pDef" val="115.00598"/>
+		<set name="mAtk" val="59.01367"/>
+		<set name="mDef" val="69.6682165612003"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="110"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4087" level="3"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="148" max="293" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18563" idTemplate="18001" name="Offering of Branded Follower" title="">
+		<set name="level" val="29"/>
+		<set name="radius" val="9"/>
+		<set name="height" val="22"/>
+		<set name="rHand" val="316"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1227"/>
+		<set name="sp" val="66"/>
+		<set name="hp" val="573.42917"/>
+		<set name="mp" val="315.12"/>
+		<set name="hpRegen" val="3.5"/>
+		<set name="mpRegen" val="1.5"/>
+		<set name="pAtk" val="75.6175175"/>
+		<set name="pDef" val="97.755083"/>
+		<set name="mAtk" val="59.01367"/>
+		<set name="mDef" val="69.6682165612003"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="150"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4151" level="2"/>
+			<skill id="4160" level="2"/>
+			<skill id="4225" level="5"/>
+			<skill id="4413" level="15"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="148" max="293" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18564" idTemplate="18001" name="Offering of Branded Berserker" title="">
+		<set name="level" val="37"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="23"/>
+		<set name="rHand" val="292"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2276"/>
+		<set name="sp" val="140"/>
+		<set name="hp" val="847.31754"/>
+		<set name="mp" val="432.72"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="146.82587"/>
+		<set name="pDef" val="144.47758"/>
+		<set name="mAtk" val="100.26304"/>
+		<set name="mDef" val="87.5215063731059"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="43"/>
+		<set name="runSpd" val="115"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4244" level="3"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4413" level="15"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="228" max="455" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18565" idTemplate="18001" name="Offering of Branded Zealot" title="">
+		<set name="level" val="34"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="26.4"/>
+		<set name="rHand" val="158"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1650"/>
+		<set name="sp" val="96"/>
+		<set name="hp" val="736.96177"/>
+		<set name="mp" val="387.72"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="106.0570175"/>
+		<set name="pDef" val="113.00631"/>
+		<set name="mAtk" val="82.76936"/>
+		<set name="mDef" val="80.537480497082"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="155"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="3"/>
+			<skill id="4225" level="5"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="194" max="387" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18566" idTemplate="18001" name="Offering of Branded Marksman" title="">
+		<set name="level" val="32"/>
+		<set name="radius" val="16"/>
+		<set name="height" val="30"/>
+		<set name="rHand" val="273"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1265"/>
+		<set name="sp" val="71"/>
+		<set name="hp" val="668.47132"/>
+		<set name="mp" val="358.32"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="235.8991855"/>
+		<set name="pDef" val="106.7406795"/>
+		<set name="mAtk" val="72.49711"/>
+		<set name="mDef" val="76.0720822329578"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="130"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18567" idTemplate="18001" name="Offering of Branded Disciple" title="">
+		<set name="level" val="34"/>
+		<set name="radius" val="9"/>
+		<set name="height" val="21.5"/>
+		<set name="rHand" val="129"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1650"/>
+		<set name="sp" val="96"/>
+		<set name="hp" val="736.96177"/>
+		<set name="mp" val="387.72"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="121.20802"/>
+		<set name="pDef" val="132.9486"/>
+		<set name="mAtk" val="82.76936"/>
+		<set name="mDef" val="80.537480497082"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="165"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="4"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="194" max="387" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18568" idTemplate="18001" name="Offering of Branded Saint" title="">
+		<set name="level" val="39"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="25.3"/>
+		<set name="rHand" val="72"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2171"/>
+		<set name="sp" val="138"/>
+		<set name="hp" val="925.85879"/>
+		<set name="mp" val="463.32"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="166.06476"/>
+		<set name="pDef" val="152.46752"/>
+		<set name="mAtk" val="113.4007"/>
+		<set name="mDef" val="92.3616440657883"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="165"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4073" level="4"/>
+			<skill id="4273" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="253" max="504" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18569" idTemplate="18001" name="Apostate's Offering Elder" title="">
+		<set name="level" val="45"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="27.6"/>
+		<set name="rHand" val="72"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="3013"/>
+		<set name="sp" val="210"/>
+		<set name="hp" val="1183.80594"/>
+		<set name="mp" val="610.8"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="234.89829"/>
+		<set name="pDef" val="177.78746"/>
+		<set name="mAtk" val="160.40508"/>
+		<set name="mDef" val="107.69993220446"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4078" level="4"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18570" idTemplate="18001" name="Apostate's Offering" title="">
+		<set name="level" val="43"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="22"/>
+		<set name="rHand" val="223"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2751"/>
+		<set name="sp" val="186"/>
+		<set name="hp" val="1094.28943"/>
+		<set name="mp" val="557.4"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="183.79228"/>
+		<set name="pDef" val="143.7640445"/>
+		<set name="mAtk" val="143.43577"/>
+		<set name="mDef" val="102.457951526758"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="30"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4444" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="305" max="611" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18571" idTemplate="18001" name="Apostate's Offering Archer" title="">
+		<set name="level" val="39"/>
+		<set name="radius" val="11"/>
+		<set name="height" val="21.5"/>
+		<set name="rHand" val="275"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1879"/>
+		<set name="sp" val="119"/>
+		<set name="hp" val="925.85879"/>
+		<set name="mp" val="463.32"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="368.99589672"/>
+		<set name="pDef" val="129.597392"/>
+		<set name="mAtk" val="113.4007"/>
+		<set name="mDef" val="92.3616440657883"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="60"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18572" idTemplate="18001" name="Apostate's Offering Warrior" title="">
+		<set name="level" val="40"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="20"/>
+		<set name="rHand" val="127"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="1920"/>
+		<set name="sp" val="124"/>
+		<set name="hp" val="966.57792"/>
+		<set name="mp" val="478.8"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="176.36077"/>
+		<set name="pDef" val="156.55035"/>
+		<set name="mAtk" val="120.43155"/>
+		<set name="mDef" val="94.8349307253096"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="115"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4087" level="4"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="265" max="529" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18573" idTemplate="18001" name="Apostate's Offering Follower" title="">
+		<set name="level" val="40"/>
+		<set name="radius" val="11"/>
+		<set name="height" val="16"/>
+		<set name="rHand" val="316"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2296"/>
+		<set name="sp" val="148"/>
+		<set name="hp" val="966.57792"/>
+		<set name="mp" val="478.8"/>
+		<set name="hpRegen" val="4.5"/>
+		<set name="mpRegen" val="1.8"/>
+		<set name="pAtk" val="154.31567375"/>
+		<set name="pDef" val="133.0677975"/>
+		<set name="mAtk" val="120.43155"/>
+		<set name="mDef" val="94.8349307253096"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="50"/>
+		<set name="runSpd" val="155"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4151" level="4"/>
+			<skill id="4160" level="4"/>
+			<skill id="4225" level="5"/>
+			<skill id="4413" level="15"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="265" max="529" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18574" idTemplate="18001" name="Apostate's Offering Berserker" title="">
+		<set name="level" val="48"/>
+		<set name="radius" val="11"/>
+		<set name="height" val="32"/>
+		<set name="rHand" val="297"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="3832"/>
+		<set name="sp" val="280"/>
+		<set name="hp" val="1324.01623"/>
+		<set name="mp" val="692.4"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="275.82705"/>
+		<set name="pDef" val="191.12803"/>
+		<set name="mAtk" val="188.35412"/>
+		<set name="mDef" val="115.781370786559"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="37"/>
+		<set name="runSpd" val="120"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4071" level="5"/>
+			<skill id="4244" level="4"/>
+			<skill id="4273" level="3"/>
+			<skill id="4274" level="1"/>
+			<skill id="4413" level="15"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="381" max="761" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18575" idTemplate="18001" name="Apostate's Offering Zealot" title="">
+		<set name="level" val="45"/>
+		<set name="radius" val="10"/>
+		<set name="height" val="25.3"/>
+		<set name="rHand" val="172"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2891"/>
+		<set name="sp" val="201"/>
+		<set name="hp" val="1183.80594"/>
+		<set name="mp" val="610.8"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="205.53600375"/>
+		<set name="pDef" val="151.119341"/>
+		<set name="mAtk" val="160.40508"/>
+		<set name="mDef" val="107.69993220446"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="160"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="4"/>
+			<skill id="4225" level="5"/>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+			<skill id="4445" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="335" max="669" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="18576" idTemplate="18001" name="Apostate's Offering Marksman" title="">
+		<set name="level" val="43"/>
+		<set name="radius" val="13"/>
+		<set name="height" val="25.3"/>
+		<set name="rHand" val="277"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2285"/>
+		<set name="sp" val="154"/>
+		<set name="hp" val="1094.28943"/>
+		<set name="mp" val="557.4"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="466.72736704"/>
+		<set name="pDef" val="143.7640445"/>
+		<set name="mAtk" val="143.43577"/>
+		<set name="mDef" val="102.457951526758"/>
+		<set name="crit" val="8"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="45"/>
+		<set name="runSpd" val="135"/>
+		<ai type="ARCHER" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4414" level="3"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+	</npc>
+	<npc id="18577" idTemplate="18001" name="Apostate's Offering Disciple" title="">
+		<set name="level" val="45"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="24"/>
+		<set name="rHand" val="74"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="2891"/>
+		<set name="sp" val="201"/>
+		<set name="hp" val="1183.80594"/>
+		<set name="mp" val="610.8"/>
+		<set name="hpRegen" val="5.5"/>
+		<set name="mpRegen" val="2.1"/>
+		<set name="pAtk" val="234.89829"/>
+		<set name="pDef" val="177.78746"/>
+		<set name="mAtk" val="160.40508"/>
+		<set name="mDef" val="107.69993220446"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="3"/>
+		<set name="walkSpd" val="80"/>
+		<set name="runSpd" val="170"/>
+		<ai type="DEFAULT" ssCount="0" ssRate="0" spsCount="0" spsRate="0" aggro="0" canMove="true" seedable="false"/>
+		<skills>
+			<skill id="4032" level="5"/>
+			<skill id="4416" level="6"/>
+			<skill id="4438" level="2"/>
+			<skill id="4439" level="2"/>
+		</skills>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="57" min="335" max="669" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
 </list>

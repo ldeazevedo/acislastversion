@@ -33,7 +33,7 @@ public class TargetAreaCorpseMob implements ITargetHandler
 		
 		for (Creature creature : target.getKnownTypeInRadius(Creature.class, skill.getSkillRadius()))
 		{
-			if (creature == caster || !GeoEngine.getInstance().canSeeTarget(target, creature))
+			if (creature == caster || !GeoEngine.getInstance().canSeeTarget(target, creature) || caster.getInstanceId() != target.getInstanceId())
 				continue;
 			
 			if (skill.getId() == 444)

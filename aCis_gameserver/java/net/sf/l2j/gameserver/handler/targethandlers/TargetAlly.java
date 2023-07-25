@@ -38,7 +38,7 @@ public class TargetAlly implements ITargetHandler
 			if (playable != player.getSummon())
 			{
 				// Target isn't a clan or alliance member, ignore it.
-				if (!playable.isInSameClan(player) && !playable.isInSameAlly(player))
+				if (!playable.isInSameClan(player) && !playable.isInSameAlly(player) || player.getInstanceId() != target.getInstanceId())
 					continue;
 				
 				// Target isn't sharing same Duel team, ignore it.

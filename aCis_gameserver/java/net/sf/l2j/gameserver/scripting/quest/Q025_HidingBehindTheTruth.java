@@ -55,7 +55,7 @@ public class Q025_HidingBehindTheTruth extends Quest
 	
 	// Sound
 	private static final String SOUND_HORROR_1 = "SkillSound5.horror_01";
-	private static final String SOUND_HORROR_2 = "AmdSound.dd_horror_02";
+	private static final String SOUND_HORROR_2 = "ambsound.dd_horror_02";//"AmdSound.dd_horror_02";
 	private static final String SOUND_CRY = "ChrSound.FDElf_Cry";
 	
 	private final Map<Npc, Attackable> _triolPawns = new ConcurrentHashMap<>(3);

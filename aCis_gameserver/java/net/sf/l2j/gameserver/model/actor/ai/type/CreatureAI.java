@@ -105,7 +105,7 @@ public class CreatureAI<T extends Creature> extends AbstractAI<T>
 		}
 		
 		final Creature target = _currentIntention.getFinalTarget();
-		if (isTargetLost(target))
+		if (isTargetLost(target) || _actor.getInstanceId() != target.getInstanceId())
 		{
 			doActiveIntention();
 			return;

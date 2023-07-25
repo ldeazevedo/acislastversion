@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<item id="50000" type="Armor" name="Skin: Dark Guard">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50001" type="Armor" name="Skin: Dragon">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50002" type="Armor" name="Skin: White Guard">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50003" type="Armor" name="Skin: Blue Assasin's">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50004" type="Armor" name="Skin: Zarizhe">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50005" type="Armor" name="Skin: Akamanah">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50006" type="Armor" name="Skin: Helloween">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50007" type="Armor" name="Skin: Devil">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50008" type="Armor" name="Skin: Jester">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50009" type="Armor" name="Skin: Pirate">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50010" type="Armor" name="Skin: Admiral White">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50011" type="Armor" name="Skin: Admiral Black">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50012" type="Armor" name="Skin: Red Assasin's">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50013" type="Armor" name="Skin: Red Robin Hood">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50014" type="Armor" name="Skin: Green Robin Hood">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50015" type="Armor" name="Skin: White Assassin">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50016" type="Armor" name="Skin: Black Assassin">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50017" type="Armor" name="Skin: Red Musketeer">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50018" type="Armor" name="Skin: Blue Musketeer">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50019" type="Armor" name="Skin: Wizard">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50020" type="Armor" name="Skin: Warrior">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50021" type="Armor" name="Skin: Cat">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50022" type="Armor" name="Skin: Red Noblees">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50023" type="Armor" name="Skin: White Noblees">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50024" type="Armor" name="Skin: Valkyrie">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50025" type="Armor" name="Skin: Anakim">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50026" type="Armor" name="Skin: Red Zaken">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50027" type="Armor" name="Skin: Blue Zaken">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50028" type="Armor" name="Skin: Ninja">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50029" type="Armor" name="Skin: Samurai">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50030" type="Armor" name="Skin: Red Wizard">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50031" type="Armor" name="Skin: Vampire">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50032" type="Armor" name="Skin: Madness">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50033" type="Armor" name="Skin: Robin Gove">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50034" type="Armor" name="Skin: Steampunk">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50035" type="Armor" name="Skin: Festive">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50036" type="Armor" name="Skin: Skull">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50037" type="Armor" name="Skin: Wolf">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50038" type="Armor" name="Skin: Beleth">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50039" type="Armor" name="Skin: Han">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50040" type="Armor" name="Skin: Cowboy">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50041" type="Armor" name="Skin: Deer">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50042" type="Armor" name="Skin: Bear">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50043" type="Armor" name="Skin: Cat">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50044" type="Armor" name="Skin: Blue Santa">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50045" type="Armor" name="Skin: Healer">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50046" type="Armor" name="Skin: Dark Healer">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50047" type="Armor" name="Skin: Gentle Valentine's">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50048" type="Armor" name="Skin: Leviathan Heavy">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50049" type="Armor" name="Skin: Leviathan Light">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50050" type="Armor" name="Skin: Leviathan Robe">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50051" type="Armor" name="Skin: School Uniform">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50052" type="Armor" name="Skin: School Uniform">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50053" type="Armor" name="Skin: Zaken Swords">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50054" type="Armor" name="Skin: Tauti">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50055" type="Armor" name="Skin: Kelbim">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+	<item id="50056" type="Armor" name="Skin: Freya">
+		<set name="default_action" val="equip" />
+		<set name="armor_type" val="NONE" />
+		<set name="bodypart" val="underwear" />
+		<set name="material" val="LEATHER" />
+		<set name="weight" val="500" />
+		<set name="price" val="100" />
+	</item>
+</list>

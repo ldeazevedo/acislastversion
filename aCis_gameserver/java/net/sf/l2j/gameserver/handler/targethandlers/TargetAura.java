@@ -27,7 +27,7 @@ public class TargetAura implements ITargetHandler
 		final List<Creature> list = new ArrayList<>();
 		for (Creature creature : caster.getKnownTypeInRadius(Creature.class, skill.getSkillRadius()))
 		{
-			if (creature.isDead() || !GeoEngine.getInstance().canSeeTarget(caster, creature))
+			if (creature.isDead() || !GeoEngine.getInstance().canSeeTarget(caster, creature) || caster.getInstanceId() != target.getInstanceId())
 				continue;
 			
 			if (caster instanceof Playable && (creature instanceof Attackable || creature instanceof Playable))

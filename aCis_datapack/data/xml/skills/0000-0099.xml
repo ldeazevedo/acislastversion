@@ -434,7 +434,7 @@
 		<set name="SSBoost" val="2.0"/>
 		<set name="reuseDelay" val="25000"/>
 		<set name="hitTime" val="3000"/>
-		<set name="coolTime" val="1000" />
+		<set name="coolTime" val="10000" />
 		<set name="skillType" val="PDAM"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>

@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import net.sf.l2j.commons.pool.ConnectionPool;
 
 import net.sf.l2j.gameserver.data.manager.HeroManager;
+import net.sf.l2j.gameserver.data.xml.DressMeData;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
 import net.sf.l2j.gameserver.enums.items.EtcItemType;
@@ -19,6 +20,7 @@ import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.enums.items.ItemState;
 import net.sf.l2j.gameserver.enums.items.ItemType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
+import net.sf.l2j.gameserver.model.DressMe;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -674,6 +676,15 @@ public abstract class Inventory extends ItemContainer
 		try
 		{
 			unequipItemInBodySlot(getSlotFromItem(item));
+			if (getOwner() instanceof Player)
+			{
+				if (item.getItem().getBodyPart() == Item.SLOT_UNDERWEAR)
+				{
+					final DressMe dress = DressMeData.getInstance().getItemId(item.getItemId());
+					if (dress != null)
+						((Player) getOwner()).setDress(null);
+				}
+			}
 		}
 		finally
 		{

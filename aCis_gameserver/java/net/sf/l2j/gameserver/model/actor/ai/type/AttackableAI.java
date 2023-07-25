@@ -174,6 +174,9 @@ public class AttackableAI<T extends Attackable> extends NpcAI<T> implements Runn
 			}
 			else
 				notifyEvent(AiEventType.THINK, null, null);
+			// Currently done for NPCs only
+			for (Quest quest : ((Npc)_actor).getTemplate().getEventQuests(EventHandler.ON_ARRIVED))
+				quest.notifyMoveFinished(_actor);
 		}
 		else
 			doIntention(_nextIntention);
@@ -182,10 +185,12 @@ public class AttackableAI<T extends Attackable> extends NpcAI<T> implements Runn
 	@Override
 	protected void onEvtAttacked(Creature attacker)
 	{
+		if (_actor.getInstanceId() != attacker.getInstanceId())
+			return;
 		_actor.addAttacker(attacker);
 		
 		onEvtAggression(attacker, 10);
-		
+
 		super.onEvtAttacked(attacker);
 	}
 	
@@ -1013,6 +1018,8 @@ public class AttackableAI<T extends Attackable> extends NpcAI<T> implements Runn
 			// Can't see the target, continue.
 			if (!GeoEngine.getInstance().canSeeTarget(_actor, target))
 				continue;
+			if  (_actor.getInstanceId() != target.getInstanceId())
+				continue;
 			
 			// Faction doesn't match, continue.
 			if (!ArraysUtil.contains(actorClans, target.getTemplate().getClans()))
@@ -1031,6 +1038,8 @@ public class AttackableAI<T extends Attackable> extends NpcAI<T> implements Runn
 		{
 			for (final WorldObject target : _actor.getKnownTypeInRadius(Creature.class, sk.getSkillRadius()))
 			{
+				if  (_actor.getInstanceId() != target.getInstanceId())
+					continue;
 				if (target == originalTarget)
 					return true;
 			}
@@ -1053,6 +1062,9 @@ public class AttackableAI<T extends Attackable> extends NpcAI<T> implements Runn
 					if (target instanceof Attackable && !_actor.isConfused())
 						continue;
 					
+					if  (_actor.getInstanceId() != target.getInstanceId())
+						continue;
+					
 					if (target.getFirstEffect(sk) != null)
 						cancast = false;
 				}
@@ -1069,6 +1081,8 @@ public class AttackableAI<T extends Attackable> extends NpcAI<T> implements Runn
 						continue;
 					
 					if (target instanceof Attackable && !_actor.isConfused())
+						continue;
+					if  (_actor.getInstanceId() != target.getInstanceId())
 						continue;
 					
 					final AbstractEffect[] effects = target.getAllEffects();
@@ -1091,6 +1105,8 @@ public class AttackableAI<T extends Attackable> extends NpcAI<T> implements Runn
 					
 					if (target instanceof Attackable && !_actor.isConfused())
 						continue;
+					if  (_actor.getInstanceId() != target.getInstanceId())
+						continue;
 					
 					final AbstractEffect[] effects = target.getAllEffects();
 					if (effects.length > 0)
@@ -1108,6 +1124,8 @@ public class AttackableAI<T extends Attackable> extends NpcAI<T> implements Runn
 						continue;
 					
 					if (target instanceof Attackable && !_actor.isConfused())
+						continue;
+					if  (_actor.getInstanceId() != target.getInstanceId())
 						continue;
 					
 					if (target.getFirstEffect(sk) != null)

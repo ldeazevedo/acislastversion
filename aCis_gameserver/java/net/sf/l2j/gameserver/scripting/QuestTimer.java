@@ -14,6 +14,7 @@ public class QuestTimer
 	private final String _name;
 	private final Npc _npc;
 	private final Player _player;
+	private int _instanceId;
 	
 	private ScheduledFuture<?> _schedular;
 	
@@ -23,6 +24,11 @@ public class QuestTimer
 		_name = name;
 		_npc = npc;
 		_player = player;
+		
+		if (npc != null)
+			_instanceId = npc.getInstanceId();
+		else if (player != null)
+			_instanceId = player.getInstanceId();
 		
 		if (period > 0)
 			_schedular = ThreadPool.scheduleAtFixedRate(this::runTick, initial, period);
@@ -109,5 +115,10 @@ public class QuestTimer
 		}
 		
 		_quest.removeQuestTimer(this);
+	}
+	
+	public final int getInstanceId()
+	{
+		return _instanceId;
 	}
 }

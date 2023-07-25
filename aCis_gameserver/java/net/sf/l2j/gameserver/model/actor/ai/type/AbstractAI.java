@@ -341,7 +341,7 @@ abstract class AbstractAI<T extends Creature>
 	
 	public synchronized void tryToAttack(Creature target, boolean isCtrlPressed, boolean isShiftPressed)
 	{
-		if (_actor.denyAiAction())
+		if (_actor.denyAiAction() || target.getInstanceId() != _actor.getInstanceId())
 		{
 			clientActionFailed();
 			return;
@@ -372,7 +372,7 @@ abstract class AbstractAI<T extends Creature>
 		}
 		
 		final Creature finalTarget = skill.getFinalTarget(_actor, target);
-		if (finalTarget == null || !_actor.getCast().canAttemptCast(finalTarget, skill))
+		if (finalTarget == null || !_actor.getCast().canAttemptCast(finalTarget, skill) || finalTarget.getInstanceId() != _actor.getInstanceId())
 		{
 			clientActionFailed();
 			return;

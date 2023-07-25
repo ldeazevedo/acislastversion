@@ -33,7 +33,7 @@ public class BossZone extends ZoneType
 	
 	// Track players admitted to the zone who should be allowed back in after reboot/server downtime, within 30min of server restart
 	private final Set<Integer> _allowedPlayers = ConcurrentHashMap.newKeySet();
-	
+
 	private final int[] _oustLoc = new int[3];
 	
 	private int _invadeTime;

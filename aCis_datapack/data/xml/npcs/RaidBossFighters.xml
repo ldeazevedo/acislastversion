@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<list>
+	<npc id="62322" idTemplate="62322" name="Antharas" title="Mortal Form">
+		<set name="usingServerSideName" val="true"/>
+		<set name="usingServerSideTitle" val="true"/>
+		<set name="level" val="80"/>
+		<set name="radius" val="16"/>
+		<set name="height" val="27"/>
+		<set name="rHand" val="8682"/>
+		<set name="lHand" val="8682"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="13836"/>
+		<set name="sp" val="1116"/>
+		<set name="hp" val="5673.05473"/>
+		<set name="mp" val="889.8"/>
+		<set name="hpRegen" val="6.5"/>
+		<set name="mpRegen" val="2.4"/>
+		<set name="pAtk" val="388.11142"/>
+		<set name="pDef" val="223.6362"/>
+		<set name="mAtk" val="265.02979"/>
+		<set name="mDef" val="148.899508363765"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="100"/>
+		<set name="runSpd" val="170"/>
+		<ai type="DEFAULT" ssCount="100" ssRate="50" spsCount="100" spsRate="5" clan="dungeon" clanRange="300" aggro="0" canMove="true" seedable="true"/>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="6392" min="1" max="1" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	
+		<npc id="62323" idTemplate="62323" name="Valakas" title="Mortal Form">
+		<set name="usingServerSideName" val="true"/>
+		<set name="usingServerSideTitle" val="true"/>
+		<set name="level" val="80"/>
+		<set name="radius" val="13"/>
+		<set name="height" val="27"/>
+		<set name="rHand" val="0"/>
+		<set name="lHand" val="0"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="33899"/>
+		<set name="sp" val="3444"/>
+		<set name="hp" val="2540.15331"/>
+		<set name="mp" val="1410"/>
+		<set name="hpRegen" val="8.5"/>
+		<set name="mpRegen" val="3"/>
+		<set name="pAtk" val="731.52506"/>
+		<set name="pDef" val="305.35947"/>
+		<set name="mAtk" val="499.53679"/>
+		<set name="mDef" val="203.311781207645"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="65"/>
+		<set name="runSpd" val="190"/>
+		<ai type="DEFAULT" ssCount="100" ssRate="50" spsCount="100" spsRate="5" clan="dungeon" clanRange="300" aggro="0" canMove="true" seedable="true"/>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="6392" min="1" max="1" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+	<npc id="62324" idTemplate="62324" name="Lindvior" title="Mortal Form">
+		<set name="usingServerSideName" val="true"/>
+		<set name="usingServerSideTitle" val="true"/>
+		<set name="level" val="80"/>
+		<set name="radius" val="12"/>
+		<set name="height" val="27"/>
+		<set name="rHand" val="8211"/>
+		<set name="lHand" val="8210"/>
+		<set name="type" val="Monster"/>
+		<set name="exp" val="42352"/>
+		<set name="sp" val="5240"/>
+		<set name="hp" val="3077.1572058"/>
+		<set name="mp" val="1848.24"/>
+		<set name="hpRegen" val="8.874"/>
+		<set name="mpRegen" val="3.1314"/>
+		<set name="pAtk" val="1009.3950039"/>
+		<set name="pDef" val="373.969485"/>
+		<set name="mAtk" val="719.599557852"/>
+		<set name="mDef" val="273.65463924"/>
+		<set name="crit" val="4"/>
+		<set name="atkSpd" val="253"/>
+		<set name="str" val="40"/>
+		<set name="int" val="21"/>
+		<set name="dex" val="30"/>
+		<set name="wit" val="20"/>
+		<set name="con" val="43"/>
+		<set name="men" val="10"/>
+		<set name="corpseTime" val="7"/>
+		<set name="walkSpd" val="53"/>
+		<set name="runSpd" val="180"/>
+		<ai type="DEFAULT" ssCount="100" ssRate="50" spsCount="100" spsRate="5" clan="dungeon" clanRange="300" aggro="0" canMove="true" seedable="true"/>
+		<drops>
+			<category type="CURRENCY" chance="70.0">
+				<drop itemid="6392" min="1" max="1" chance="100.0"/>
+			</category>
+		</drops>
+	</npc>
+
+</list>

@@ -37,7 +37,7 @@ public class EventsTask extends Quest
 		super(-1, "feature");
 		addFirstTalkId(MESSENGER);
 		addTalkId(MESSENGER);
-		setTask();
+	//	setTask();
 	}
 	
 	@Override
@@ -123,7 +123,7 @@ public class EventsTask extends Quest
 			cancelQuestTimers("RF03");
 			cancelQuestTimers("RF04");
 			cancelQuestTimers("RF05");
-			LOGGER.info("EventsTask: cancelQuestTimers");
+			log.info("EventsTask: cancelQuestTimers");
 		}
 		
 		else if (event.equalsIgnoreCase("DM"))
@@ -199,7 +199,7 @@ public class EventsTask extends Quest
 		time.schedule(new setTimerTask(1000), calendar.getTime());
 		time.schedule(new setTimerTask(1800000), calendar.getTime());
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		LOGGER.info("EventsTask: " + String.valueOf(format.format(calendar.getTime())));
+		log.info("EventsTask: " + String.valueOf(format.format(calendar.getTime())));
 	}
 	
 	private class setTimerTask extends TimerTask
@@ -236,7 +236,7 @@ public class EventsTask extends Quest
 			html = getHtmlText(html).replace("%fee%", TvTEvent.getParticipationFee());
 			html = (!isParticipant ? getHtmlText("TvTEventParticipation.htm").replace("%playercount%", String.valueOf(teamsPlayerCounts[0] + teamsPlayerCounts[1])) : "RemoveParticipation.htm");
 		}
-		else if (TvTEvent.isStarting() || TvTEvent.isStarted() || player.isGM() && player.inTest())
+		else if (TvTEvent.isStarting() || TvTEvent.isStarted())
 			html = getHtmlText("Status.htm").replace("%team1name%", Config.TVT_EVENT_TEAM_1_NAME).replace("%team2name%", Config.TVT_EVENT_TEAM_2_NAME).replace("%playercount%", String.valueOf(teamsPlayerCounts[0] + teamsPlayerCounts[1]).replace("%team1points%", String.valueOf(teamsPointsCounts[0])).replace("%team2points%", String.valueOf(teamsPointsCounts[1])).replace("%team1playercount%", String.valueOf(teamsPlayerCounts[0]).replace("%team2playercount%", String.valueOf(teamsPlayerCounts[1]))));
 		if (!isParticipant)
 			html = getHtmlText(html).replace("%fee%", TvTEvent.getParticipationFee());

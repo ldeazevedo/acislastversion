@@ -5,6 +5,7 @@ import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.enums.skills.AbnormalEffect;
+import net.sf.l2j.gameserver.model.DressMe;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
 import net.sf.l2j.gameserver.model.actor.instance.Cubic;
@@ -40,20 +41,23 @@ public class CharInfo extends L2GameServerPacket
 		writeD(_player.getRace().ordinal());
 		writeD(_player.getAppearance().getSex().ordinal());
 		writeD((_player.getClassIndex() == 0) ? _player.getClassId().getId() : _player.getBaseClass());
-		
+
+		final DressMe dress = _player.getDress();
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.HAIRALL));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.HEAD));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.RHAND));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.LHAND));
-		writeD(_player.getInventory().getItemIdFrom(Paperdoll.GLOVES));
-		writeD(_player.getInventory().getItemIdFrom(Paperdoll.CHEST));
-		writeD(_player.getInventory().getItemIdFrom(Paperdoll.LEGS));
-		writeD(_player.getInventory().getItemIdFrom(Paperdoll.FEET));
+		writeD(dress != null ? dress.getGloves() : _player.getInventory().getItemIdFrom(Paperdoll.GLOVES));
+		var chest = _player.getInventory().getItemIdFrom(Paperdoll.CHEST);
+		var legs = _player.getInventory().getItemIdFrom(Paperdoll.CHEST);
+		writeD(dress != null ? dress.getChest() != 0 ? dress.getChest() : chest : chest);
+		writeD(dress != null ? dress.getLegs() != 0 ? dress.getLegs() : legs : legs);
+		writeD(dress != null ? dress.getFeet() : _player.getInventory().getItemIdFrom(Paperdoll.FEET));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.CLOAK));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.RHAND));
-		writeD(_player.getInventory().getItemIdFrom(Paperdoll.HAIR));
+		writeD(dress != null && dress.getHair() != 0 && _player.getHair() ? dress.getHair() : _player.getInventory().getItemIdFrom(Paperdoll.HAIR));
 		writeD(_player.getInventory().getItemIdFrom(Paperdoll.FACE));
-		
+
 		writeH(0x00);
 		writeH(0x00);
 		writeH(0x00);
@@ -111,9 +115,10 @@ public class CharInfo extends L2GameServerPacket
 			writeF(_player.getCollisionRadius());
 			writeF(_player.getCollisionHeight());
 		}
-		
+
 		writeD(_player.getAppearance().getHairStyle());
 		writeD(_player.getAppearance().getHairColor());
+		
 		writeD(_player.getAppearance().getFace());
 		
 		writeS((canSeeInvis) ? "Invisible" : _player.getTitle());

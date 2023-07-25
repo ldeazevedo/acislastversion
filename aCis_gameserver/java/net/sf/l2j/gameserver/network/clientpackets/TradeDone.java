@@ -73,6 +73,12 @@ public final class TradeDone extends L2GameClientPacket
 			partner.sendPacket(SystemMessageId.ENCHANT_SCROLL_CANCELLED);
 		}
 		
+		if (player.getInstanceId() != trade.getPartner().getInstanceId())
+		{
+			player.cancelActiveTrade();
+			return;
+		}
+		
 		trade.confirm();
 	}
 }

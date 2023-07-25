@@ -1,0 +1,20 @@
+<html>
+<title>Item Broker</title>
+<body>
+<br><br1>
+<table width="260" border="0">
+	<tr>
+		<td>Enter Quantity: <br1><font color="B09878">(Max of %aval%)</font></td>
+		<td><edit var="count" width=120></td>
+	</tr>
+	<tr>
+		<td>Enter Price: <br1><font color="B09878">(for each item)</font></td>
+		<td><edit var="price" width=120></td>
+	</tr>
+	<tr>
+		<td><button value="Enter" action="bypass -h npc_%objectId%_ComfirmAdd %itemObjId% $count $price" width=80 height=27 back="L2UI_CT1.Button_DF_Down" fore="L2UI_ct1.button_df"></td>
+		<td><button value="Cancel" action="bypass -h npc_%objectId%_Link marketer/deal.htm" width=80 height=27 back="L2UI_CT1.Button_DF_Down" fore="L2UI_ct1.button_df"></td>
+	</tr>
+</table>
+</body>
+</html>

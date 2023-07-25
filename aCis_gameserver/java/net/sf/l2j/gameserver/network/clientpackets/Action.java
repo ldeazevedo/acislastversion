@@ -3,6 +3,7 @@ package net.sf.l2j.gameserver.network.clientpackets;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.instance.Agathion;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
@@ -57,7 +58,24 @@ public final class Action extends L2GameClientPacket
 			return;
 		}
 		
-		target.onAction(player, false, _isShiftAction);
+		if (target instanceof Agathion)
+		{
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
+		// Players can't interact with objects in the other instances
+		// except from multiverse
+		if (target.getInstanceId() != player.getInstanceId()/* && player.getInstanceId() != -1*/)
+		{
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
+		}
+		
+		if (_isShiftAction)
+			target.onActionShift(player);
+		else
+			target.onAction(player, false, _isShiftAction);
 	}
 	
 	@Override

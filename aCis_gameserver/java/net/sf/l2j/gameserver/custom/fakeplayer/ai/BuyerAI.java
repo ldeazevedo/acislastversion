@@ -4,6 +4,8 @@ import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.custom.fakeplayer.FakeHelper;
 import net.sf.l2j.gameserver.custom.fakeplayer.FakePlayer;
+import net.sf.l2j.gameserver.enums.actors.OperateType;
+import net.sf.l2j.gameserver.network.serverpackets.PrivateStoreMsgBuy;
 
 import java.util.List;
 
@@ -28,9 +30,11 @@ public class BuyerAI extends FakeShopAI {
 				//_fakePlayer.setOnline(false);
 				_fakePlayer.getBuyList().setTitle(buyerShopNames[Rnd.get(buyerShopNames.length)]);
 				_fakePlayer.getBuyList().setPackaged(false);
-				_fakePlayer.tryOpenPrivateBuyStore();
+				_fakePlayer.getMove().stop();
 				_fakePlayer.sitDown();
+				_fakePlayer.setOperateType(OperateType.BUY);
 				_fakePlayer.broadcastUserInfo();
+				_fakePlayer.broadcastPacket(new PrivateStoreMsgBuy(_fakePlayer));
 			}, Rnd.get(20000, 60000));
 		}
 	}

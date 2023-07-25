@@ -16,6 +16,7 @@ import net.sf.l2j.commons.util.SysUtil;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.communitybbs.CommunityBoard;
+import net.sf.l2j.gameserver.custom.fakeplayer.FakePlayerManager;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.cache.CrestCache;
 import net.sf.l2j.gameserver.data.cache.HtmCache;
@@ -42,6 +43,7 @@ import net.sf.l2j.gameserver.data.manager.SpawnManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.sql.BookmarkTable;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
+import net.sf.l2j.gameserver.data.sql.ItemMarketTable;
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.data.sql.ServerMemoTable;
 import net.sf.l2j.gameserver.data.xml.AdminData;
@@ -49,6 +51,7 @@ import net.sf.l2j.gameserver.data.xml.AnnouncementData;
 import net.sf.l2j.gameserver.data.xml.ArmorSetData;
 import net.sf.l2j.gameserver.data.xml.AugmentationData;
 import net.sf.l2j.gameserver.data.xml.DoorData;
+import net.sf.l2j.gameserver.data.xml.DressMeData;
 import net.sf.l2j.gameserver.data.xml.FishData;
 import net.sf.l2j.gameserver.data.xml.HealSpsData;
 import net.sf.l2j.gameserver.data.xml.HennaData;
@@ -63,8 +66,10 @@ import net.sf.l2j.gameserver.data.xml.ObserverGroupData;
 import net.sf.l2j.gameserver.data.xml.PlayerData;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
 import net.sf.l2j.gameserver.data.xml.RecipeData;
+import net.sf.l2j.gameserver.data.xml.SchemeBufferData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.data.xml.SkillTreeData;
+import net.sf.l2j.gameserver.data.xml.SkillsIconsData;
 import net.sf.l2j.gameserver.data.xml.SoulCrystalData;
 import net.sf.l2j.gameserver.data.xml.SpellbookData;
 import net.sf.l2j.gameserver.data.xml.StaticObjectData;
@@ -85,6 +90,8 @@ import net.sf.l2j.gameserver.model.boat.BoatGludinRune;
 import net.sf.l2j.gameserver.model.boat.BoatInnadrilTour;
 import net.sf.l2j.gameserver.model.boat.BoatRunePrimeval;
 import net.sf.l2j.gameserver.model.boat.BoatTalkingGludin;
+import net.sf.l2j.gameserver.model.buffer.SchemeBufferManager;
+import net.sf.l2j.gameserver.model.events.HappyHourTask;
 import net.sf.l2j.gameserver.model.events.TvTManager;
 import net.sf.l2j.gameserver.model.olympiad.Olympiad;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadGameManager;
@@ -147,10 +154,14 @@ public class GameServer
 		
 		StringUtil.printSection("World");
 		World.getInstance();
+	//	InstanceManager.getInstance();
 		MapRegionData.getInstance();
 		AnnouncementData.getInstance();
 		ServerMemoTable.getInstance();
-		
+
+		StringUtil.printSection("Icons");
+		SkillsIconsData.getInstance();
+
 		StringUtil.printSection("Skills");
 		SkillTable.getInstance();
 		SkillTreeData.getInstance();
@@ -175,6 +186,7 @@ public class GameServer
 		PetitionManager.getInstance();
 		
 		StringUtil.printSection("Characters");
+		DressMeData.getInstance();
 		PlayerData.getInstance();
 		PlayerInfoTable.getInstance();
 		PlayerLevelData.getInstance();
@@ -218,6 +230,8 @@ public class GameServer
 		
 		StringUtil.printSection("NPCs");
 		BufferManager.getInstance();
+		SchemeBufferData.getInstance();
+		SchemeBufferManager.getInstance();
 		NpcData.getInstance();
 		WalkerRouteData.getInstance();
 		DoorData.getInstance().spawn();
@@ -271,7 +285,11 @@ public class GameServer
 		LOGGER.info("Loaded {} target handlers.", TargetHandler.getInstance().size());
 		LOGGER.info("Loaded {} user command handlers.", UserCommandHandler.getInstance().size());
 
+		StringUtil.printSection("Custom");
 		TvTManager.getInstance();
+		FakePlayerManager.getInstance().init();
+		HappyHourTask.getInstance();
+		ItemMarketTable.getInstance();
 		
 		StringUtil.printSection("System");
 		Runtime.getRuntime().addShutdownHook(Shutdown.getInstance());

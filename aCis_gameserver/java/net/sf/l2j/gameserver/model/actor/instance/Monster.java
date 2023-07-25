@@ -9,6 +9,7 @@ import java.util.concurrent.ScheduledFuture;
 
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
+import net.sf.l2j.commons.random.Rnd;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
@@ -26,6 +27,7 @@ import net.sf.l2j.gameserver.model.actor.container.npc.AbsorbInfo;
 import net.sf.l2j.gameserver.model.actor.container.npc.AggroInfo;
 import net.sf.l2j.gameserver.model.actor.container.npc.RewardInfo;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
+import net.sf.l2j.gameserver.model.events.ServerFeature;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
@@ -154,7 +156,10 @@ public class Monster extends Attackable
 					
 					long exp = expSp[0];
 					int sp = expSp[1];
-					
+
+				//	exp *= ServerFeature.getRateVitalityRateXpSp(1);
+				//	sp *= ServerFeature.getRateVitalityRateXpSp(2);
+
 					exp *= 1 - penalty;
 					
 					// Test over-hit.
@@ -166,9 +171,16 @@ public class Monster extends Attackable
 					
 					// Set new karma.
 					attacker.updateKarmaLoss(exp);
-					
 					// Distribute the Exp and SP.
-					attacker.addExpAndSp(exp, sp, rewards);
+					attacker.addExpAndSp(!attacker.isExpOff() ? exp : 0, sp, rewards);
+					int points = Rnd.get(4, 6);
+					int lvl = attacker.getStatus().getLevel();
+					int moblvl = getStatus().getLevel();
+					if (lvl >= (moblvl + 7) && lvl <= (moblvl + 9))
+						points -= Rnd.get(1, 3);
+					else if (lvl >= (moblvl + 10))
+						points = 0;
+					ServerFeature.onCalculateRewards(attacker, exp, points, damage, this);
 				}
 			}
 			// Share with party members.
@@ -238,7 +250,7 @@ public class Monster extends Attackable
 				
 				// Distribute Experience and SP rewards to Player Party members in the known area of the last attacker.
 				if (partyDmg > 0)
-					attackerParty.distributeXpAndSp(exp, sp, rewardedMembers, partyLvl, playersWithPets);
+					attackerParty.distributeXpAndSp(exp, sp, rewardedMembers, partyLvl, playersWithPets, damage, this);
 			}
 		}
 	}
@@ -557,6 +569,7 @@ public class Monster extends Attackable
 			// Create the ItemInstance and add it in the world as a visible object.
 			final ItemInstance item = ItemInstance.create(holder.getId(), holder.getValue(), player, this);
 			item.setDropProtection(player.getObjectId(), isRaidBoss());
+			item.setInstanceId(getInstanceId());
 			item.dropMe(this, 70);
 			
 			// If stackable, end loop as entire count is included in 1 instance of item.

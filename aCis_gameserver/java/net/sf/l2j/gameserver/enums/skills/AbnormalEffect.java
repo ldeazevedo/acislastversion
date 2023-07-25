@@ -12,7 +12,7 @@ public enum AbnormalEffect
 	WIND("wind", 0x000010),
 	FEAR("fear", 0x000020),
 	STUN("stun", 0x000040),
-	SLEEP("sleep", 0x000080),
+	VITALITY("vitality", 0x000080),//IMPRISIONING_2("imprison2", 0x400000),
 	MUTED("mute", 0x000100),
 	ROOT("root", 0x000200),
 	HOLD_1("hold1", 0x000400),
@@ -27,7 +27,7 @@ public enum AbnormalEffect
 	FIREROOT_STUN("firerootstun", 0x080000),
 	STEALTH("stealth", 0x100000),
 	IMPRISIONING_1("imprison1", 0x200000),
-	IMPRISIONING_2("imprison2", 0x400000),
+	SLEEP("sleep", 0x400000),//SLEEP("sleep", 0x000080),
 	MAGIC_CIRCLE("magiccircle", 0x800000);
 	
 	private final int _mask;

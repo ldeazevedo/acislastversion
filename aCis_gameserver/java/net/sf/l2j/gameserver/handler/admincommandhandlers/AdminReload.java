@@ -12,6 +12,7 @@ import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.data.xml.AnnouncementData;
 import net.sf.l2j.gameserver.data.xml.DoorData;
+import net.sf.l2j.gameserver.data.xml.DressMeData;
 import net.sf.l2j.gameserver.data.xml.InstantTeleportData;
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.data.xml.MultisellData;
@@ -84,6 +85,11 @@ public class AdminReload implements IAdminCommandHandler
 				{
 					ItemData.getInstance().reload();
 					player.sendMessage("Items' templates have been reloaded.");
+				}
+				else if (type.startsWith("dress"))
+				{
+					DressMeData.getInstance().reload();
+					player.sendMessage("Dress me have been reloaded.");
 				}
 				else if (type.equals("multisell"))
 				{

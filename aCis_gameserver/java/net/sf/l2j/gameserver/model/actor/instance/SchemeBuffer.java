@@ -346,6 +346,7 @@ public class SchemeBuffer extends Folk
 			return list.size() * Config.BUFFER_STATIC_BUFF_COST;
 		
 		int fee = 0;
+		if (Config.OLDBUFF)
 		for (int sk : list)
 			fee += BufferManager.getInstance().getAvailableBuff(sk).getPrice();
 		

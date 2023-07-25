@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='utf-8'?>
+<list>
+	<icons>
+		<icon id="1" name="icon.skill1388"/>
+		<icon id="2" name="icon.skill1389"/>
+		<icon id="3" name="icon.skill1085"/>
+		<icon id="4" name="icon.skill1059"/>
+		<icon id="5" name="icon.skill1363"/>
+		<icon id="6" name="icon.skill1413"/>
+		<icon id="7" name="icon.skill1062"/>
+		<icon id="8" name="icon.skill4011"/>
+		<icon id="9" name="icon.skill4010"/>
+		<icon id="10" name="icon.skill4012"/>
+		<icon id="11" name="icon.skill4009"/>
+		<icon id="12" name="icon.skill4289"/>
+		<icon id="13" name="icon.skill1351"/>
+		<icon id="14" name="icon.skill1350"/>
+		<icon id="15" name="icon.skill0130"/>
+		<icon id="16" name="icon.skill0106"/>
+		<icon id="23" name="icon.skill0432"/>
+		<icon id="24" name="icon.skill0435"/>
+		<icon id="19" name="icon.skill0229"/>
+		<icon id="20" name="icon.skill0213"/>
+		<icon id="21" name="icon.skill0212"/>
+		<icon id="22" name="icon.skill0211"/>
+	</icons>
+<buffs>
+		<!-- BUFFS -->
+		<buff skillId="1204" price_id="57" price_count="10" group="Buffs" order="11" name="Wind walk" description="Increases movement"/>
+		<buff skillId="1036" price_id="57" price_count="10" group="Buffs" order="79" name="Magic barrier" description="Increases magic defense"/>
+		<buff skillId="1040" price_id="57" price_count="10" group="Buffs" order="83" name="Shield" description="Increases physical defense"/>
+		<buff skillId="1389" price_id="57" price_count="10" group="Buffs" order="84" name="Greater shield" description="Increase physical defense"/>
+		<buff skillId="1068" price_id="57" price_count="10" group="Buffs" order="50" name="Might" description="Increases physical attack"/>
+		<buff skillId="1388" price_id="57" price_count="10" group="Buffs" order="51" name="Greater might" description="Increases physical attack"/>
+		
+		<buff skillId="1087" price_id="57" price_count="10" group="Buffs" order="4" name="Agility" description="Increases evasion"/>
+		<buff skillId="1397" price_id="57" price_count="10" group="Buffs" order="44" name="Clarity" description="Decreases mana consumption"/>
+		<buff skillId="1044" price_id="57" price_count="10" group="Buffs" order="20" name="Regeneration" description="Increases health regeneration"/>
+		<buff skillId="1048" price_id="57" price_count="10" group="Buffs" order="89" name="Bless the soul" description="Increases mana points"/>
+		<buff skillId="1045" price_id="57" price_count="10" group="Buffs" order="90" name="Bless the body" description="Increases health points"/>
+		<buff skillId="1062" price_id="57" price_count="10" group="Buffs" order="92" name="Berserker Spirit" description="Modify many statistics"/>
+		
+		<buff skillId="1086" price_id="57" price_count="10" group="Buffs" order="57" name="Haste" description="Increases attack speed"/>
+		<buff skillId="1077" price_id="57" price_count="10" group="Buffs" order="74" name="Focus" description="Increases critical rate"/>
+		<buff skillId="1242" price_id="57" price_count="10" group="Buffs" order="69" name="Death whisper" description="Increases critical power"/>
+		<buff skillId="1240" price_id="57" price_count="10" group="Buffs" order="45" name="Guidance" description="Increases accuracy"/>
+		<buff skillId="1268" price_id="57" price_count="10" group="Buffs" order="22" name="Vampiric rage" description="Absorbs health from damage"/>
+		<buff skillId="1259" price_id="57" price_count="10" group="Buffs" order="39" name="Resist shock" description="Increases stun resistance"/>
+
+		<buff skillId="1243" price_id="57" price_count="10" group="Buffs" order="13" name="Bless shield" description="Increases shield defense rate"/>
+		<buff skillId="1304" price_id="57" price_count="10" group="Buffs" order="14" name="Advanced block" description="Increases shield defense"/>
+		<buff skillId="1085" price_id="57" price_count="10" group="Buffs" order="61" name="Acumen" description="Increases casting speed"/>
+		<buff skillId="1059" price_id="57" price_count="10" group="Buffs" order="66" name="Empower" description="Increases magic attack"/>
+		<buff skillId="1303" price_id="57" price_count="10" group="Buffs" order="77" name="Wild magic" description="Increases magic critical rate"/>
+		<buff skillId="1078" price_id="57" price_count="10" group="Buffs" order="43" name="Concentration" description="Decreseses magic skills interruption"/>
+
+		<buff skillId="1035" price_id="57" price_count="10" group="Buffs" order="40" name="Mental shield" description="Increases de-buffs resistance"/>
+		<buff skillId="1189" price_id="57" price_count="10" group="Buffs" order="25" name="Resist wind" description="Increases wind resistance"/>
+		<buff skillId="1182" price_id="57" price_count="10" group="Buffs" order="26" name="Resist aqua" description="Increases water resistance"/>
+		<buff skillId="1191" price_id="57" price_count="10" group="Buffs" order="27" name="Resist fire" description="Increases fire resistance"/>
+		<buff skillId="1392" price_id="57" price_count="10" group="Buffs" order="28" name="Holy resistance" description="Increases divine resistance"/>
+		<buff skillId="1393" price_id="57" price_count="10" group="Buffs" order="29" name="Unholy resistance" description="Increases dark resistance"/>
+		
+		<buff skillId="1354" price_id="57" price_count="10" group="Buffs" order="30" name="Arcane protection" description="Increases de-buffs resistance"/>	
+		<buff skillId="1353" price_id="57" price_count="10" group="Buffs" order="31" name="Divine protection" description="Increases dark/holy resistance"/>
+		<buff skillId="1352" price_id="57" price_count="10" group="Buffs" order="32" name="Elemental protection" description="Increases elements resistance"/>	
+		<buff skillId="1357" price_id="57" price_count="10" group="Buffs" order="100" name="Prophecy of wind" description="Spirit of an ancient assassin"/>
+		<buff skillId="1355" price_id="57" price_count="10" group="Buffs" order="98" name="Prophecy of water"  description="Spirit of an ancient wizard"/>
+		<buff skillId="1356" price_id="57" price_count="10" group="Buffs" order="99" name="Prophecy of fire" description="Spirit of an ancient warrior"/>
+		
+		<buff skillId="1043" price_id="57" price_count="10" group="Buffs" order="16" name="Holy weapon" description="Increases divine damage"/>
+		<buff skillId="1033" price_id="57" price_count="10" group="Buffs" order="2" name="Resist poison" description="Increases poison resistance"/>
+		<buff skillId="1032" price_id="57" price_count="10" group="Buffs" order="3" name="Invigor" description="Increases bleed resistance"/>
+		<buff skillId="1073" price_id="57" price_count="10" group="Buffs" order="1" name="Kiss of eva" description="Increases lung capacity"/>
+	
+		<!-- DANCES -->
+		<buff skillId="277" price_id="57" price_count="10" group="Dances" order="17" name="Dance of light" description="Increases divine damage"/>
+		<buff skillId="274" price_id="57" price_count="10" group="Dances" order="72" name="Dance of the fire" description="Increases critical power"/>
+		<buff skillId="275" price_id="57" price_count="10" group="Dances" order="60" name="Dance of fury" description="Increases attack speed"/>
+		<buff skillId="271" price_id="57" price_count="10" group="Dances" order="55" name="Dance of the warrior" description="Increases physical attack"/>
+		<buff skillId="272" price_id="57" price_count="10" group="Dances" order="48" name="Dance of inspiration" description="Increases accuracy"/>
+		<buff skillId="310" price_id="57" price_count="10" group="Dances" order="24" name="Dance of vampire" description="Absorbs health from damage"/>
+		
+		<buff skillId="273" price_id="57" price_count="10" group="Dances" order="68" name="Dance of the mystic" description="Increases magic attack"/>
+		<buff skillId="276" price_id="57" price_count="10" group="Dances" order="64" name="Dance of the concentration" description="Increases casting speed"/>
+		<buff skillId="365" price_id="57" price_count="10" group="Dances" order="78" name="Dance of siren" description="Increases magic critical rate"/>
+		<buff skillId="307" price_id="57" price_count="10" group="Dances" order="35" name="Dance of aqua guard" description="Increases water resistance"/>
+		<buff skillId="309" price_id="57" price_count="10" group="Dances" order="34" name="Dance of earth guard" description="Increases earth resistance"/>
+		<buff skillId="311" price_id="57" price_count="10" group="Dances" order="33" name="Dance of protection" description="Increases terrain resistance"/>
+		
+		<!-- SONGS -->
+		<buff skillId="268" price_id="57" price_count="10" group="Songs" order="12" name="Song of wind" description="Increases movement"/>
+		<buff skillId="267" price_id="57" price_count="10" group="Songs" order="82" name="Song of warding" description="Increases magic defense"/>
+		<buff skillId="264" price_id="57" price_count="10" group="Songs" order="88" name="Song of earth" description="Increases physical defense"/>
+		<buff skillId="304" price_id="57" price_count="10" group="Songs" order="91" name="Song of vitality" description="Increases health points"/>
+		<buff skillId="265" price_id="57" price_count="10" group="Songs" order="21" name="Song of life" description="Increases health regeneration"/>
+		<buff skillId="363" price_id="57" price_count="10" group="Songs" order="18" name="Song of meditation" description="Increases mana regeneration"/>
+		
+		<buff skillId="269" price_id="57" price_count="10" group="Songs" order="76" name="Song of hunter" description="Increases critical rate"/>
+		<buff skillId="364" price_id="57" price_count="10" group="Songs" order="94" name="Song of champion" description="Decreases physical skills re-use time"/>
+		<buff skillId="349" price_id="57" price_count="10" group="Songs" order="95" name="Song of renewal" description="Decreases skills re-use time"/>
+		<buff skillId="308" price_id="57" price_count="10" group="Songs" order="36" name="Song of storm guard" description="Increases wind resistance"/>
+		<buff skillId="270" price_id="57" price_count="10" group="Songs" order="38" name="Song of invocation" description="Increases dark resistance"/>
+		<buff skillId="306" price_id="57" price_count="10" group="Songs" order="37" name="Song of flame guard" description="Increases fire resistance"/>
+		
+		<buff skillId="266" price_id="57" price_count="10" group="Songs" order="7" name="Song of water" description="Increases evasion"/>
+		<buff skillId="305" price_id="57" price_count="10" group="Songs" order="10" name="Song of vengeance" description="Reflects damage back to opponent"/>
+		
+		<!-- CHANTS -->
+		<!-- <buff skillId="1008" price_id="57" price_count="10" group="Chants" order="81" name="Glory of pa'agrio" description="Increases magic defense"/> -->
+		<!-- <buff skillId="1006" price_id="57" price_count="10" group="Chants" order="80" name="Chant of fire" description="Increases magic defense"/> -->
+		<!-- <buff skillId="1005" price_id="57" price_count="10" group="Chants" order="87" name="Blessings of pa'agrio" description="Increases physical defense"/> -->
+		<!-- <buff skillId="1009" price_id="57" price_count="10" group="Chants" order="85" name="Chant of shielding" description="Increases physical defense"/> -->
+		<!-- <buff skillId="1391" price_id="57" price_count="10" group="Chants" order="86" name="Earth chant" description="Increases physical defense"/> -->
+		<!-- <buff skillId="1250" price_id="57" price_count="10" group="Chants" order="15" name="Shield of pa'agrio" description="Increases shield defense"/> -->
+		
+		<!-- <buff skillId="1003" price_id="57" price_count="10" group="Chants" order="54" name="Pa'agrian gift" description="Increases physical attack"/> -->
+		<!-- <buff skillId="1007" price_id="57" price_count="10" group="Chants" order="52" name="Chant of battle" description="Increases physical attack"/> -->
+		<!-- <buff skillId="1390" price_id="57" price_count="10" group="Chants" order="53" name="War chant" description="Increases physical attack"/> -->
+		<!-- <buff skillId="1249" price_id="57" price_count="10" group="Chants" order="47" name="Vision of pa'agrio" description="Increases accuracy"/> -->
+		<!-- <buff skillId="1309" price_id="57" price_count="10" group="Chants" order="46" name="Chant of eagle" description="Increases accuracy"/> -->
+		<!-- <buff skillId="1261" price_id="57" price_count="10" group="Chants" order="93" name="Rage of pa'agrio" description="Modify many statistics"/> -->
+		
+		<!-- <buff skillId="1282" price_id="57" price_count="10" group="Chants" order="59" name="Pa'agrian haste" description="Increases attack speed"/> -->
+		<!-- <buff skillId="1251" price_id="57" price_count="10" group="Chants" order="58" name="Chant of fury" description="Increases attack speed"/> -->
+		<!-- <buff skillId="1364" price_id="57" price_count="10" group="Chants" order="71" name="Eye of pa'agrio" description="Increases critical power"/> -->
+		<!-- <buff skillId="1253" price_id="57" price_count="10" group="Chants" order="70" name="Chant of rage" description="Increases critical power"/> -->
+		<!-- <buff skillId="1308" price_id="57" price_count="10" group="Chants" order="75" name="Chant of predator" description="Increases critical rate"/> -->
+		<!-- <buff skillId="1310" price_id="57" price_count="10" group="Chants" order="23" name="Chant of vampire" description="Absorbs health from damage"/> -->
+		
+		<!-- <buff skillId="1004" price_id="57" price_count="10" group="Chants" order="63" name="Wisdom of pa'agrio" description="Increases casting speed"/> -->
+		<!-- <buff skillId="1002" price_id="57" price_count="10" group="Chants" order="62" name="Flame chant" description="Increases casting speed"/> -->
+		<!-- <buff skillId="1365" price_id="57" price_count="10" group="Chants" order="67" name="Soul of pa'agrio" description="Increases magic attack"/> -->
+		<buff skillId="1413" price_id="57" price_count="10" group="Chants" order="97" name="Magnus" description="Icreases magic abilities"/>
+		<buff skillId="1363" price_id="57" price_count="10" group="Chants" order="101" name="Chant of victory" description="Spirit of ancient hero"/>
+		<!-- <buff skillId="1414" price_id="57" price_count="10" group="Chants" order="102" name="Victory of pa'agrio" description="Spirit of ancient hero"/> -->
+		
+		<!-- <buff skillId="1362" price_id="57" price_count="10" group="Chants" order="41" naem="Chant of spirit" description="Increases de-buffs resistance"/> -->
+		<!-- <buff skillId="1415" price_id="57" price_count="10" group="Chants" order="42" naem="Pa'agrio's emblem" description="Increases de-buffs resistance"/> -->
+		<!-- <buff skillId="1260" price_id="57" price_count="10" group="Chants" order="6" name="Tact of pa'agrio" description="Increases evasion"/> -->	
+		<!-- <buff skillId="1252" price_id="57" price_count="10" group="Chants" order="5" name="Chant of evasion" description="Increases evasion"/> -->
+		<buff skillId="1284" price_id="57" price_count="10" group="Chants" order="9" name="Chant of revenge" description="Reflects damage back to opponent"/>
+		<buff skillId="1416" price_id="57" price_count="10" group="Chants" order="8" name="Pa'agrio's fist" description="Increases combat points"/>
+
+		<!-- OTHER -->
+		<buff skillId="4703" price_id="57" price_count="10" group="Other" order="96" name="Gift of seraphim" description="Decreases skills re-use time"/>
+		<buff skillId="4702" price_id="57" price_count="10" group="Other" order="19" name="Blessing of seraphim" description="Increases mana regeneration"/>
+		<buff skillId="4700" price_id="57" price_count="10" group="Other" order="56" name="Gift of queen" description="Increases physical attack, accuracy"/>
+		<buff skillId="4699" price_id="57" price_count="10" group="Other" order="73" name="Blessing of queen" description="Increases critical power/rate"/>
+		<!-- <buff skillId="4552" price_id="57" price_count="10" group="Other" order="49" name="Cholera" description="Increases accuracy"/> -->
+		<!-- <buff skillId="4554" price_id="57" price_count="10" group="Other" order="65" name="Malaria" description="Increases casting speed"/> -->
+		<!-- <buff skillId="1374" price_id="57" price_count="10" group="Other" order="103" name="Heroic valor" description="Increases physical capabilities"/> -->
+		<buff skillId="1323" price_id="57" price_count="10" group="Other" order="104" name="Noblesse blessing" description="Maintains buff/de-buff condition"/>
+	</buffs>
+</list>

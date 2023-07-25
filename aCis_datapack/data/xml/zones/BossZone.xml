@@ -2,7 +2,7 @@
 <list>
 	<!-- Boss Zones -->
 	<zone id="110000" shape="NPoly" minZ="-4815" maxZ="-315"><!-- Zaken Boss -->
-		<stat name="InvadeTime" val="1800000"/>
+<!-- 		<stat name="InvadeTime" val="1800000"/> -->
 		<node x="50797" y="213515"/>
 		<node x="57617" y="213510"/>
 		<node x="57669" y="221683"/>
@@ -23,7 +23,7 @@
 		<node x="114825" y="19589"/>
 	</zone>
 	<zone id="110003" shape="NPoly" minZ="-5504" maxZ="-5104"><!-- Anakim and Lilith Boss -->
-		<stat name="InvadeTime" val="1800000"/>
+<!--		<stat name="InvadeTime" val="1800000"/> -->
 		<node x="183938" y="-13697"/>
 		<node x="186190" y="-13692"/>
 		<node x="186176" y="-8513"/>
@@ -31,7 +31,7 @@
 	</zone>
 	<!-- Forge of the Gods/Hall of Flames -->
 	<zone id="110004" shape="NPoly" minZ="-3326" maxZ="-1326"><!-- Fire 1 -->
-		<stat name="InvadeTime" val="1800000"/>
+<!--		<stat name="InvadeTime" val="1800000"/> -->
 		<node x="183373" y="-117179"/>
 		<node x="184098" y="-116718"/>
 		<node x="184137" y="-115290"/>
@@ -41,7 +41,7 @@
 		<node x="182338" y="-116737"/>
 	</zone>
 	<zone id="110005" shape="NPoly" minZ="-2208" maxZ="792"><!-- Fire 2 -->
-		<stat name="InvadeTime" val="1800000"/>
+<!--		<stat name="InvadeTime" val="1800000"/> -->
 		<node x="183432" y="-117590"/>
 		<node x="196325" y="-119107"/>
 		<node x="196377" y="-103657"/>
@@ -109,12 +109,10 @@
 		<node x="26846" y="-8117"/>
 		<node x="28231" y="-8163"/>
 	</zone>
-	<zone id="110012" shape="NPoly" minZ="-5200" maxZ="-4680"><!-- Frintezza -->
-		<stat name="InvadeTime" val="1800000"/>
-		<node x="172031" y="-90127"/>
-		<node x="176428" y="-90089"/>
-		<node x="176428" y="-74051"/>
-		<node x="172057" y="-74108"/>
+	<zone id="110012" shape="Cuboid" minZ="-5150" maxZ="-4000"> <!-- LastImperialTomb -->
+		<stat name="InvadeTime" val="1800000" />
+		<node x="172176" y="-74106" />
+		<node x="176284" y="-90033" />
 	</zone>
 	<zone id="110013" shape="NPoly" minZ="-5136" maxZ="864"><!-- Ice Fairy 1 -->
 		<stat name="InvadeTime" val="1800000"/>
@@ -127,7 +125,7 @@
 		<node x="99655" y="-124976"/>
 	</zone>
 	<zone id="110014" shape="NPoly" minZ="-5280" maxZ="1280"><!-- Ice Fairy 2 -->
-		<stat name="InvadeTime" val="1800000"/>
+<!--		<stat name="InvadeTime" val="1800000"/> -->
 		<node x="110637" y="-130411"/>
 		<node x="111992" y="-129365"/>
 		<node x="113242" y="-128876"/>
@@ -138,14 +136,14 @@
 		<node x="112368" y="-125158"/>
 	</zone>
 	<zone id="110015" shape="NPoly" minZ="-3768" maxZ="-2768"><!-- Ice Fairy 3 -->
-		<stat name="InvadeTime" val="1800000"/>
+<!--		<stat name="InvadeTime" val="1800000"/> -->
 		<node x="113885" y="-125859"/>
 		<node x="114148" y="-125769"/>
 		<node x="114035" y="-125527"/>
 		<node x="113804" y="-125437"/>
 	</zone>
 	<zone id="110016" shape="NPoly" minZ="-10749" maxZ="-10249"><!-- Altar of Sacrifice -->
-		<stat name="InvadeTime" val="1800000"/>
+<!-- 		<stat name="InvadeTime" val="1800000"/> -->
 		<node x="-16006" y="-51725"/>
 		<node x="-16394" y="-51620"/>
 		<node x="-16776" y="-51732"/>

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
@@ -103,6 +104,9 @@ public final class ItemInstance extends WorldObject implements Runnable, Compara
 	private ScheduledFuture<?> _dropProtection;
 	
 	private int _shotsMask = 0;
+	
+	private boolean isAgathion;
+	private Future<?> _protectedTask;
 	
 	/**
 	 * Constructor of the ItemInstance from the objectId and the itemId.
@@ -487,7 +491,7 @@ public final class ItemInstance extends WorldObject implements Runnable, Compara
 	 */
 	public boolean isDropable()
 	{
-		return isAugmented() ? false : _item.isDropable();
+		return isAgathion || isAugmented() ? false : _item.isDropable();
 	}
 	
 	/**
@@ -495,7 +499,7 @@ public final class ItemInstance extends WorldObject implements Runnable, Compara
 	 */
 	public boolean isDestroyable()
 	{
-		return isQuestItem() ? false : _item.isDestroyable();
+		return isAgathion || isQuestItem() ? false : _item.isDestroyable();
 	}
 	
 	/**
@@ -503,7 +507,7 @@ public final class ItemInstance extends WorldObject implements Runnable, Compara
 	 */
 	public boolean isTradable()
 	{
-		return isAugmented() ? false : _item.isTradable();
+		return isAgathion || isAugmented() ? false : _item.isTradable();
 	}
 	
 	/**
@@ -521,7 +525,7 @@ public final class ItemInstance extends WorldObject implements Runnable, Compara
 	public boolean isDepositable(boolean isPrivateWareHouse)
 	{
 		// equipped, hero and quest items
-		if (isEquipped() || !_item.isDepositable())
+		if (isEquipped() || !_item.isDepositable() || isAgathion)
 			return false;
 		
 		if (!isPrivateWareHouse)
@@ -1274,5 +1278,48 @@ public final class ItemInstance extends WorldObject implements Runnable, Compara
 			return time;
 		
 		return Integer.compare(item.getObjectId(), getObjectId());
+	}
+	
+	public void setAgathion(Player player, boolean isAgathion)
+	{
+		this.isAgathion = isAgathion;
+	}
+	
+	public void checkProtected(Player player)
+	{
+		if (_protectedTask != null)
+			_protectedTask.cancel(true);
+		_protectedTask = ThreadPool.schedule(new Protected(player), 5500);
+	}
+
+	public boolean isAgathion()
+	{
+		return isAgathion;
+	}
+	
+	public void setAgathionItem(Player player)
+	{
+		player.getAgathion().setAgathionItem(this);
+	}	
+
+	private class Protected implements Runnable
+	{
+		private final Player player;
+		
+		protected Protected(Player player)
+		{
+			this.player = player;
+		}
+		
+		@Override
+		public void run()
+		{
+			if (player.getAgathion() != null)
+				isAgathion = true;
+			else 
+				isAgathion = false;
+			if (_protectedTask != null)
+				_protectedTask.cancel(true);
+		}
 	}
 }

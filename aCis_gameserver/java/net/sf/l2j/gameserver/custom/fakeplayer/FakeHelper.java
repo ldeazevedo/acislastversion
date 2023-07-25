@@ -24,7 +24,7 @@ import java.util.List;
 
 public class FakeHelper {
 
-	private static final CLogger _log = new CLogger(FakeHelper.class.getName());
+	private static final CLogger LOGGER = new CLogger(FakeHelper.class.getName());
 	public static String[] FAKE_PLAYER_NAMES = new String[]{"DraNe", "ArTAR", "DoLtHAL", "naREREs", "LeThE", "edHElrien", "neroR", "ThANeWen",
 			"pHiacaROr", "gORdHRoS", "eRIaN", "uILrO", "LeGA", "vANeL", "me", "dalthIL", "gRIeLdalMaI", "AE", "sAelRa", "DeHCU",
 			"UmRuN", "HLIFcloRN", "moCHRIpDUUM", "GLo", "clornrUk", "ima", "dRORNdRiL", "duhan", "rinroM", "Babthor", "Hua",
@@ -46,7 +46,7 @@ public class FakeHelper {
 	public static void createFakePlayers(int count, City city, FakePlayerType fakePlayerType) {
 		for (int i = 0; i < count; i++)
 			createRandomFakePlayer(city, fakePlayerType);
-		_log.info("Created " + count + " " + fakePlayerType.name().toUpperCase() + " in " + city);
+		LOGGER.info("Created " + count + " " + fakePlayerType.name().toUpperCase() + " in " + city);
 	}
 
 	private static void createRandomFakePlayer(City city, FakePlayerType fakePlayerType) {
@@ -170,6 +170,7 @@ public class FakeHelper {
 		player.broadcastCharInfo();
 	}
 
+	@SuppressWarnings("unused")
 	private static void generateRandomPet() {
 		int[] pets = new int[]{6650, 2375, 6648, 6649};
 		int petItemId = pets[Rnd.get(pets.length)];

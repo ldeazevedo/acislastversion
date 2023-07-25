@@ -115,6 +115,7 @@ public abstract class Item
 	private final int _bodyPart;
 	private final int _referencePrice;
 	private final int _crystalCount;
+	private int _skinId;
 	
 	private final boolean _sellable;
 	private final boolean _dropable;
@@ -133,7 +134,7 @@ public abstract class Item
 	private IntIntHolder[] _skillHolder;
 	
 	private List<Quest> _questEvents = Collections.emptyList();
-	
+    
 	protected Item(StatSet set)
 	{
 		_itemId = set.getInteger("item_id");
@@ -181,6 +182,21 @@ public abstract class Item
 	public final int getItemId()
 	{
 		return _itemId;
+	}
+	
+	public final boolean isSkin()
+	{
+		return _skinId > 0;
+	}
+	
+	public final int getSkinId()
+	{
+		return _skinId;
+	}
+
+	public void setSkin(int id)
+	{
+		_skinId = id;
 	}
 	
 	public abstract int getItemMask();

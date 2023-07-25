@@ -13,6 +13,7 @@ import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
+import net.sf.l2j.gameserver.model.actor.instance.Agathion;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
 import net.sf.l2j.gameserver.model.actor.instance.SiegeSummon;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
@@ -25,6 +26,7 @@ public class L2SkillSummon extends L2Skill
 	private final int _npcId;
 	private final float _expPenalty;
 	private final boolean _isCubic;
+	private final boolean _isAgathion;
 	
 	private final int _activationTime;
 	private final int _activationChance;
@@ -48,6 +50,7 @@ public class L2SkillSummon extends L2Skill
 		_npcId = set.getInteger("npcId", 0); // default for undescribed skills
 		_expPenalty = set.getFloat("expPenalty", 0.f);
 		_isCubic = set.getBool("isCubic", false);
+		_isAgathion = set.getBool("isAgathion", false);
 		
 		_activationTime = set.getInteger("activationtime", 8);
 		_activationChance = set.getInteger("activationchance", 30);
@@ -84,8 +87,7 @@ public class L2SkillSummon extends L2Skill
 			{
 				if (player.isInObserverMode())
 					return false;
-				
-				if (player.getSummon() != null)
+				if (!_isAgathion && player.getSummon() != null)
 				{
 					player.sendPacket(SystemMessageId.SUMMON_ONLY_ONE);
 					return false;
@@ -133,6 +135,36 @@ public class L2SkillSummon extends L2Skill
 		}
 		else
 		{
+			if (_isAgathion)
+			{
+				NpcTemplate summonTemplate = NpcData.getInstance().getTemplate(_npcId);
+
+				if (summonTemplate == null)
+				{
+					LOGGER.warn("Couldn't properly spawn with id {} ; the template is missing.", _npcId);
+					return;
+				}
+				if (activeChar.getAgathion() != null)
+					activeChar.getAgathion().unSummon(activeChar);
+				Agathion summon;
+				summon = new Agathion(IdFactory.getInstance().getNextId(), summonTemplate, activeChar);
+				activeChar.setAgathion(summon);
+				
+				summon.setName(summonTemplate.getName());
+				summon.setTitle(activeChar.getName());
+				summon.getStatus().setMaxHpMp();
+				summon.forceRunStance();
+				
+				final SpawnLocation spawnLoc = activeChar.getPosition().clone();
+				spawnLoc.addStrictOffset(40);
+				spawnLoc.setHeadingTo(activeChar.getPosition());
+				spawnLoc.set(GeoEngine.getInstance().getValidLocation(activeChar, spawnLoc));
+				
+				summon.spawnMe(spawnLoc);
+				summon.setInvul(true);
+				summon.getAI().setFollowStatus(true);
+				return;
+			}
 			if (activeChar.getSummon() != null || activeChar.isMounted())
 				return;
 			
@@ -168,13 +200,18 @@ public class L2SkillSummon extends L2Skill
 			if (getId() == SUMMON_SOULLESS)
 				SkillTable.getInstance().getInfo(Summon.CONTRACT_PAYMENT, MathUtil.limit(getLevel() - 2, 1, 12)).getEffects(activeChar, activeChar);
 		}
-		
+
 		activeChar.setChargedShot(activeChar.isChargedShot(ShotType.BLESSED_SPIRITSHOT) ? ShotType.BLESSED_SPIRITSHOT : ShotType.SPIRITSHOT, isStaticReuse());
 	}
 	
 	public final boolean isCubic()
 	{
 		return _isCubic;
+	}
+	
+	public final boolean isAgathion()
+	{
+		return _isAgathion;
 	}
 	
 	public final int getTotalLifeTime()

@@ -171,9 +171,9 @@ public abstract class Creature extends WorldObject
 	{
 		if (!super.knows(target))
 			return false;
-		
+
 		// If current Creature isn't a GM, it can't see any invisible Players.
-		if (!isGM() && target instanceof Player && !((Player) target).getAppearance().isVisible())
+		if (!isGM() && target instanceof Player && !((Player) target).getAppearance().isVisible() || getInstanceId() != target.getInstanceId())
 			return false;
 		
 		return true;

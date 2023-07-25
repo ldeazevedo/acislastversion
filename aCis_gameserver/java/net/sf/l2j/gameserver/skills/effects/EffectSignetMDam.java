@@ -93,7 +93,8 @@ public class EffectSignetMDam extends AbstractEffect
 			final boolean sps = caster.isChargedShot(ShotType.SPIRITSHOT);
 			final boolean bsps = caster.isChargedShot(ShotType.BLESSED_SPIRITSHOT);
 			final int damage = (int) Formulas.calcMagicDam(caster, target, getSkill(), sDef, sps, bsps, isCrit);
-			
+			if (target.getInstanceId() != caster.getInstanceId())
+				continue;
 			if (target instanceof Summon)
 				target.getStatus().broadcastStatusUpdate();
 			

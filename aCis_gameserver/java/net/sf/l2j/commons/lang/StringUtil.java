@@ -132,8 +132,7 @@ public final class StringUtil
 	public static void printSection(String text)
 	{
 		final StringBuilder sb = new StringBuilder(80);
-		for (int i = 0; i < (73 - text.length()); i++)
-			sb.append("-");
+		sb.append("-".repeat(Math.max(0, (73 - text.length()))));
 		
 		StringUtil.append(sb, "=[ ", text, " ]");
 		

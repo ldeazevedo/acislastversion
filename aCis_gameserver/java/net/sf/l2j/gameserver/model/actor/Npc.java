@@ -34,15 +34,18 @@ import net.sf.l2j.gameserver.enums.actors.NpcRace;
 import net.sf.l2j.gameserver.enums.actors.NpcSkillType;
 import net.sf.l2j.gameserver.enums.actors.NpcTalkCond;
 import net.sf.l2j.gameserver.enums.items.ShotType;
+import net.sf.l2j.gameserver.enums.skills.ElementType;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.ai.type.NpcAI;
+import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.status.NpcStatus;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.clanhall.ClanHall;
 import net.sf.l2j.gameserver.model.clanhall.SiegableHall;
 import net.sf.l2j.gameserver.model.entity.Castle;
+import net.sf.l2j.gameserver.model.events.HappyHourTask;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
@@ -878,7 +881,7 @@ public class Npc extends Creature
 	 */
 	public int getExpReward()
 	{
-		return (int) (getTemplate().getRewardExp() * Config.RATE_XP);
+		return (int) (getTemplate().getRewardExp() * ((HappyHourTask.getInstance().isInEvent()) ? Config.HAPPY_HOUR_EXP : Config.RATE_XP));
 	}
 	
 	/**
@@ -886,7 +889,7 @@ public class Npc extends Creature
 	 */
 	public int getSpReward()
 	{
-		return (int) (getTemplate().getRewardSp() * Config.RATE_SP);
+		return (int) (getTemplate().getRewardSp() * ((HappyHourTask.getInstance().isInEvent()) ? Config.HAPPY_HOUR_SP : Config.RATE_SP));
 	}
 	
 	/**
@@ -1860,5 +1863,122 @@ public class Npc extends Creature
 			for (Quest quest : getTemplate().getEventQuests(EventHandler.SEE_CREATURE))
 				quest.onSeeCreature(this, creature);
 		}
+	}
+	
+	private boolean isFlying = false;
+	private Location _spawnAroundPos;
+	
+	@Override
+	public boolean isFlying()
+	{
+		return isFlying;
+	}
+	
+	public void setIsFlying(boolean a)
+	{
+		isFlying = a;
+	}
+	
+	public void setMoveAroundPos(Location loc)
+	{
+		_spawnAroundPos = loc;
+	}
+	
+	public Location getMoveAroundPos()
+	{
+		return _spawnAroundPos;
+	}
+	
+	@Override
+	public void onActionShift(Player player)
+	{
+		if (player.isGM())
+		{
+			final NpcHtmlMessage html = new NpcHtmlMessage(0);
+
+			final WorldObject targetWorldObject = player.getTarget();
+			if (targetWorldObject instanceof Door)
+			{
+				final Door targetDoor = (Door) targetWorldObject;
+				html.setFile("data/html/admin/doorinfo.htm");
+				html.replace("%name%", targetDoor.getName());
+				html.replace("%objid%", targetDoor.getObjectId());
+				html.replace("%doorid%", targetDoor.getTemplate().getId());
+				html.replace("%doortype%", targetDoor.getTemplate().getType().toString());
+				html.replace("%doorlvl%", targetDoor.getTemplate().getLevel());
+				html.replace("%castle%", (targetDoor.getCastle() != null) ? targetDoor.getCastle().getName() : "none");
+				html.replace("%clanhall%", (targetDoor.getClanHall() != null) ? targetDoor.getClanHall().getName() : "none");
+				html.replace("%opentype%", targetDoor.getTemplate().getOpenType().toString());
+				html.replace("%initial%", targetDoor.getTemplate().isOpened() ? "Opened" : "Closed");
+				html.replace("%ot%", targetDoor.getTemplate().getOpenTime());
+				html.replace("%ct%", targetDoor.getTemplate().getCloseTime());
+				html.replace("%rt%", targetDoor.getTemplate().getRandomTime());
+				html.replace("%controlid%", targetDoor.getTemplate().getTriggerId());
+				html.replace("%hp%", (int) targetDoor.getStatus().getHp());
+				html.replace("%hpmax%", targetDoor.getStatus().getMaxHp());
+				html.replace("%hpratio%", targetDoor.getStatus().getUpgradeHpRatio());
+				html.replace("%pdef%", targetDoor.getStatus().getPDef(null));
+				html.replace("%mdef%", targetDoor.getStatus().getMDef(null, null));
+				html.replace("%spawn%", targetDoor.getPosition().toString());
+				html.replace("%height%", targetDoor.getTemplate().getCollisionHeight());
+			}
+			else
+			{
+				html.setFile("data/html/admin/npcinfo/stat.htm");
+				
+				html.replace("%hp%", (int) getStatus().getHp());
+				html.replace("%hpmax%", getStatus().getMaxHp());
+				html.replace("%mp%", (int) getStatus().getMp());
+				html.replace("%mpmax%", getStatus().getMaxMp());
+				html.replace("%patk%", getStatus().getPAtk(null));
+				html.replace("%matk%", getStatus().getMAtk(null, null));
+				html.replace("%pdef%", getStatus().getPDef(null));
+				html.replace("%mdef%", getStatus().getMDef(null, null));
+				html.replace("%accu%", getStatus().getAccuracy());
+				html.replace("%evas%", getStatus().getEvasionRate(null));
+				html.replace("%crit%", getStatus().getCriticalHit(null, null));
+				html.replace("%rspd%", (int) getStatus().getMoveSpeed());
+				html.replace("%aspd%", getStatus().getPAtkSpd());
+				html.replace("%cspd%", getStatus().getMAtkSpd());
+				html.replace("%str%", getStatus().getSTR());
+				html.replace("%dex%", getStatus().getDEX());
+				html.replace("%con%", getStatus().getCON());
+				html.replace("%int%", getStatus().getINT());
+				html.replace("%wit%", getStatus().getWIT());
+				html.replace("%men%", getStatus().getMEN());
+				html.replace("%ele_fire%", getStatus().getDefenseElementValue(ElementType.FIRE));
+				html.replace("%ele_water%", getStatus().getDefenseElementValue(ElementType.WATER));
+				html.replace("%ele_wind%", getStatus().getDefenseElementValue(ElementType.WIND));
+				html.replace("%ele_earth%", getStatus().getDefenseElementValue(ElementType.EARTH));
+				html.replace("%ele_holy%", getStatus().getDefenseElementValue(ElementType.HOLY));
+				html.replace("%ele_dark%", getStatus().getDefenseElementValue(ElementType.DARK));
+			}
+			player.sendPacket(html);
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+		}
+		else
+			super.onAction(player, false, true);
+	}
+
+	private Creature _factionEnemy;
+	private Creature _factionHelp;
+	public final Creature getFactionEnemy()
+	{
+		return _factionEnemy;
+	}
+	
+	public final void setFactionEnemy(Creature value)
+	{
+		_factionEnemy = value;
+	}
+	
+	public final void setFactionHelp(Creature value)
+	{
+		_factionHelp = value;
+	}
+	
+	public final Creature getFactionHelp()
+	{
+		return _factionHelp;
 	}
 }

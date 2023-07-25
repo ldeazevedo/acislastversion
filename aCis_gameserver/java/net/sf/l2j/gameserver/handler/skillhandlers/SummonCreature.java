@@ -6,10 +6,12 @@ import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.handler.ISkillHandler;
+import net.sf.l2j.gameserver.idfactory.IdFactory;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.instance.Agathion;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
@@ -41,10 +43,6 @@ public class SummonCreature implements ISkillHandler
 		if (item.getOwnerId() != player.getObjectId() || item.getLocation() != ItemLocation.INVENTORY)
 			return;
 		
-		// Owner has a pet listed in world.
-		if (World.getInstance().getPet(player.getObjectId()) != null)
-			return;
-		
 		// Check summon item validity.
 		final IntIntHolder summonItem = SummonItemData.getInstance().getSummonItem(item.getItemId());
 		if (summonItem == null)
@@ -53,6 +51,37 @@ public class SummonCreature implements ISkillHandler
 		// Check NpcTemplate validity.
 		final NpcTemplate npcTemplate = NpcData.getInstance().getTemplate(summonItem.getId());
 		if (npcTemplate == null)
+			return;
+		
+		if (npcTemplate.getType().equalsIgnoreCase("Agathion"))
+		{
+			if (player.getAgathion() != null)
+				player.getAgathion().unSummon(player);
+			
+			Agathion summon;
+			summon = new Agathion(IdFactory.getInstance().getNextId(), npcTemplate, player);
+			player.setAgathion(summon);
+			summon.setInstanceId(player.getInstanceId());
+			
+			summon.setName(npcTemplate.getName());
+			summon.setTitle(player.getName());
+			summon.getStatus().setMaxHpMp();
+			summon.forceRunStance();
+			
+			final SpawnLocation spawnLoc = activeChar.getPosition().clone();
+			spawnLoc.addStrictOffset(40);
+			spawnLoc.setHeadingTo(activeChar.getPosition());
+			spawnLoc.set(GeoEngine.getInstance().getValidLocation(activeChar, spawnLoc));
+			
+			summon.spawnMe(spawnLoc);
+			summon.setInvul(true);
+			summon.getAI().setFollowStatus(true);
+			item.setAgathionItem(player);
+			return;
+		}
+		
+		// Owner has a pet listed in world.
+		if (World.getInstance().getPet(player.getObjectId()) != null)
 			return;
 		
 		// Add the pet instance to world.

@@ -41,7 +41,8 @@ public class AdminSpawn implements IAdminCommandHandler
 		"admin_show_npcs",
 		"admin_spawnfence",
 		"admin_deletefence",
-		"admin_listfence"
+		"admin_listfence",
+		"admin_delete"
 	};
 	
 	@Override
@@ -246,6 +247,39 @@ public class AdminSpawn implements IAdminCommandHandler
 				sendFile(player, "spawns.htm");
 			}
 		}
+		else if (command.startsWith("admin_delete"))
+		{
+			// Target must be a Npc.
+			final WorldObject targetWorldObject = player.getTarget();
+			if (!(targetWorldObject instanceof Npc))
+			{
+				player.sendPacket(SystemMessageId.INVALID_TARGET);
+				return;
+			}
+			
+			final Npc targetNpc = (Npc) targetWorldObject;
+			
+			// Npc ASpawn must be Spawn type.
+			final ASpawn spawn = targetNpc.getSpawn();
+			if (!(spawn instanceof Spawn))
+			{
+				player.sendPacket(SystemMessageId.INVALID_TARGET);
+				return;
+			}
+			
+			// Delete the Npc.
+			targetNpc.deleteMe();
+			targetNpc.decayMe();
+			
+			// Stop the respawn.
+			spawn.setRespawnState(false);
+			
+			// Delete the Spawn entry.
+			SpawnManager.getInstance().deleteSpawn((Spawn) spawn);
+			
+			// Send Player log.
+			player.sendMessage("You deleted " + targetNpc.getName() + ".");
+		}
 	}
 	
 	@Override
@@ -274,6 +308,7 @@ public class AdminSpawn implements IAdminCommandHandler
 		{
 			final Spawn spawn = new Spawn(template);
 			spawn.setLoc(targetWorldObject.getX(), targetWorldObject.getY(), targetWorldObject.getZ(), player.getHeading());
+			spawn.setInstanceId(player.getInstanceId());
 			spawn.setRespawnDelay(respawnTime);
 			spawn.setRespawnState(permanent);
 			spawn.doSpawn(false);

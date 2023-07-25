@@ -92,6 +92,10 @@ $MYG < ../sql/castle_manor_production.sql &> /dev/null
 $MYG < ../sql/castle_trapupgrade.sql &> /dev/null
 $MYG < ../sql/character_friends.sql &> /dev/null
 $MYG < ../sql/character_hennas.sql &> /dev/null
+$MYG < ../sql/character_instance_time &> /dev/null
+$MYG < ../sql/ex_buffer_schemes &> /dev/null
+$MYG < ../sql/character_pccafe_points &> /dev/null
+$MYG < ../sql/market &> /dev/null
 $MYG < ../sql/character_macroses.sql &> /dev/null
 $MYG < ../sql/character_memo.sql &> /dev/null
 $MYG < ../sql/character_quests.sql &> /dev/null
@@ -139,6 +143,7 @@ $MYG < ../sql/seven_signs_festival.sql &> /dev/null
 $MYG < ../sql/seven_signs_status.sql &> /dev/null
 $MYG < ../sql/siege_clans.sql &> /dev/null
 $MYG < ../sql/spawn_data.sql &> /dev/null
+$MYG < ../sql/character_vitality.sql &> /dev/null
 echo ""
 echo "Was fast, isn't it ?"
 }

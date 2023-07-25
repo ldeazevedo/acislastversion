@@ -68,6 +68,8 @@ public class NpcTemplate extends CreatureTemplate
 	private ClanHall _clanHall;
 	private SiegableHall _siegableHall;
 	
+	private float baseVitalityDivider;
+	
 	public NpcTemplate(StatSet set)
 	{
 		super(set);
@@ -146,6 +148,7 @@ public class NpcTemplate extends CreatureTemplate
 				break;
 			}
 		}
+		setBaseVitalityDivider((float) (getLevel() > 0 && getRewardExp() > 0 ? getBaseHpMax(0) * 9 * getLevel() * getLevel() / (100 * getRewardExp()) : 0));
 	}
 	
 	public int getNpcId()
@@ -502,5 +505,13 @@ public class NpcTemplate extends CreatureTemplate
 			if (type.isMultipleRegistrationAllowed() || list.isEmpty())
 				list.add(quest);
 		}
+	}
+
+	public float getBaseVitalityDivider() {
+		return baseVitalityDivider;
+	}
+
+	public void setBaseVitalityDivider(float baseVitalityDivider) {
+		this.baseVitalityDivider = baseVitalityDivider;
 	}
 }

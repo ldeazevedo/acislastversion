@@ -1,0 +1,9 @@
+<html><title>Player Info</title><body>
+	<center><img src="L2UI_CH3.onscrmsg_pattern01_1" width=512 height=32>
+		<table width=260><tr>
+                </tr></table>
+		<img src="L2UI_CH3.onscrmsg_pattern01_2" width=512 height=32><br>
+
+		%name%    <tr>     	%lvl%  %class%
+	</center>
+</body></html>

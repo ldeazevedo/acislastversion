@@ -77,7 +77,7 @@
 		<set name="effectRange" val="1400" />
 		<set name="ignoreResists" val="true" />
 		<set name="isMagic" val="true" />
-		<set name="magicLvl" val="90" />
+		<set name="magicLvl" val="85" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="power" val="100" />
 		<set name="skillType" val="PARALYZE" />
@@ -89,7 +89,7 @@
 	<skill id="5006" levels="1" name="Frintezza's Melody" >
 		<set name="aggroPoints" val="100" />
 		<set name="hitTime" val="34000" />
-		<set name="magicLvl" val="90" />
+		<set name="magicLvl" val="85" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="skillType" val="DUMMY" />
 		<set name="target" val="SELF" />
@@ -98,7 +98,7 @@
 		<table name="#hitTime"> 32000 32000 32000 31000 35000 </table>
 		<set name="aggroPoints" val="100" />
 		<set name="hitTime" val="#hitTime" />
-		<set name="magicLvl" val="90" />
+		<set name="magicLvl" val="85" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="skillType" val="DUMMY" />
 		<set name="target" val="SELF" />
@@ -108,28 +108,33 @@
 		<table name="#isDebuff"> false false false true true </table>
 		<table name="#isMagic"> true false false true true </table>
 		<table name="#power"> 3 0 0 10 10 </table>
-		<table name="#skillType"> HEAL_PERCENT DUMMY BUFF DEBUFF STUN </table>
+		<table name="#skillType"> HEAL_PERCENT BUFF BUFF DEBUFF STUN </table>
 		<table name="#stackOrder"> 0 0 1 1 1 </table>
 		<table name="#stackType"> none none ultimate_buff heal_effect_down stun </table>
 		<table name="#attackAndSpeed"> 1 1 1.2 1 1 </table>
-		<table name="#time"> 0 0 5 5 5 </table>
+		<table name="#time"> 0 30 30 15 8 </table>
 		<table name="#gainHp"> 1 1 1 0.5 1 </table>
 		<table name="#lvlDepend"> 0 0 0 1 1 </table>
-		<table name="#effectname1"> Buff Buff Buff Buff Stun </table>
-		<table name="#effectname2"> Buff Buff Buff Buff Cancel </table>
+		<table name="#effectname1"> Buff Buff Buff Debuff DanceStun </table><!-- EffectDanceStun.java -->
+		<table name="#effectname2"> Buff Buff Buff Buff Stun </table>
 		<table name="#effectPower"> 0 0 0 0 20 </table>
-		<table name="#effectType"> BUFF BUFF BUFF BUFF CANCEL </table>
+		<table name="#effectType"> BUFF BUFF BUFF DEBUFF STUN </table>
 		<table name="#maxNegated"> 0 0 0 0 10 </table>
+		<table name="#target"> SELF SELF SELF AURA AURA </table>
+		<table name="#effectRange"> 6000 6000 6000 -1 -1 </table>
+		<table name="#skillRadius"> -1 -1 -1 8000 8000 </table>
 		<set name="aggroPoints" val="#aggroPoints" />
 		<set name="isDebuff" val="#isDebuff" />
 		<set name="isMagic" val="#isMagic" />
 		<set name="lvlDepend" val="#lvlDepend" />
-		<set name="magicLvl" val="90" />
+		<set name="magicLvl" val="85" />
 		<set name="maxNegated" val="#maxNegated" />
 		<set name="operateType" val="ACTIVE" />
+		<set name="effectRange" val="#effectRange" />
 		<set name="power" val="#power" />
 		<set name="skillType" val="#skillType" />
-		<set name="target" val="SELF" />
+		<set name="target" val="#target" />
+		<set name="skillRadius" val="#skillRadius" />
 		<for>
 			<effect name="#effectname1" time="#time" val="0" stackOrder="1" stackType="#stackType">
 				<mul stat="pAtk" val="#attackAndSpeed" />
@@ -139,7 +144,7 @@
 				<add stat="runSpd" val="#attackAndSpeed" />
 				<mul stat="gainHp" val="#gainHp" />
 			</effect>
-			<effect name="#effectname2" noicon="1" val="0" effectPower="#effectPower" effectType="#effectType" />
+			<effect name="#effectname2" val="0" effectPower="#effectPower" effectType="#effectType" />
 		</for>
 	</skill>
 	<skill id="5009" levels="1" name="Frintezza's Ghostly Fighter" >
@@ -170,6 +175,8 @@
 	<skill id="5011" levels="1" name="Frintezza's Bomber Ghost" >
 		<set name="element" val="DARK" />
 		<set name="hitTime" val="1000" />
+		<set name="coolTime" val="2000" />
+		<set name="isMagic" val="false" />
 		<set name="isSuicideAttack" val="true" />
 		<set name="magicLvl" val="85" />
 		<set name="operateType" val="ACTIVE" />
@@ -222,12 +229,14 @@
 		<set name="target" val="FRONT_AREA" />
 	</skill>
 	<skill id="5015" levels="6" name="Frintezza's Daemon Charge" >
+		<table name="#baseCritRate"> 10 12 12 10 12 12 </table>
 		<table name="#coolTime"> 0 0 0 1500 1500 1500 </table>
 		<table name="#radius"> 400 500 700 400 500 700 </table>
 		<table name="#power"> 48761 52970 68074 48761 52970 68074 </table>
-		<set name="castRange" val="150" />
+		<set name="baseCritRate" val="#baseCritRate" />
+		<set name="castRange" val="250" />
 		<set name="coolTime" val="#coolTime" />
-		<set name="effectRange" val="650" />
+		<set name="effectRange" val="925" />
 		<set name="element" val="DARK" />
 		<set name="flyRadius" val="#radius" />
 		<set name="flyType" val="CHARGE" />
@@ -238,6 +247,10 @@
 		<set name="skillRadius" val="#radius" />
 		<set name="skillType" val="PDAM" />
 		<set name="target" val="FRONT_AREA" />
+		<set name="flyCourse" val="180" />
+		<for>
+			<effect self="1" name="Warp" val="0" noicon="1" />
+		</for>
 	</skill>
 	<skill id="5016" levels="1" name="Yoke of Scarlet" >
 		<set name="castRange" val="500" />
@@ -248,12 +261,11 @@
 		<set name="isDebuff" val="true" />
 		<set name="magicLvl" val="75" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="power" val="80" />
 		<set name="skillRadius" val="200" />
 		<set name="skillType" val="PARALYZE" />
 		<set name="target" val="AREA" />
 		<for>
-			<effect name="Paralyze" time="20" val="0" abnormal="floatroot" stackOrder="1" stackType="paralyze" />
+			<effect name="FloatStun" time="15" val="0" stackOrder="1" stackType="stun" abnormal="floatroot" effectPower="80" effectType="STUN" />
 		</for>
 	</skill>
 	<skill id="5017" levels="1" name="Frintezza's Daemon Morph" >
@@ -277,6 +289,7 @@
 		<set name="coolTime" val="1000" />
 		<set name="element" val="DARK" />
 		<set name="hitTime" val="7000" />
+		<set name="isMagic" val="false" />
 		<set name="magicLvl" val="85" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="power" val="#power" />

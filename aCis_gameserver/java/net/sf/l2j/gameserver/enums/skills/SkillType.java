@@ -132,6 +132,7 @@ public enum SkillType
 	FAKE_DEATH,
 	BEAST_FEED,
 	FUSION,
+	SUMMON_BOMB,
 	
 	CHANGE_APPEARANCE(L2SkillAppearance.class),
 	

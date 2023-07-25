@@ -39,6 +39,7 @@ import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
 import net.sf.l2j.gameserver.data.manager.DimensionalRiftManager;
 import net.sf.l2j.gameserver.data.manager.FestivalOfDarknessManager;
 import net.sf.l2j.gameserver.data.manager.HeroManager;
+import net.sf.l2j.gameserver.data.manager.InstanceManager;
 import net.sf.l2j.gameserver.data.manager.PartyMatchRoomManager;
 import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
@@ -80,6 +81,7 @@ import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.enums.items.ItemState;
 import net.sf.l2j.gameserver.enums.items.ShotType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
+import net.sf.l2j.gameserver.enums.skills.AbnormalEffect;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
@@ -88,6 +90,7 @@ import net.sf.l2j.gameserver.handler.IItemHandler;
 import net.sf.l2j.gameserver.handler.ItemHandler;
 import net.sf.l2j.gameserver.handler.skillhandlers.SummonFriend;
 import net.sf.l2j.gameserver.model.AccessLevel;
+import net.sf.l2j.gameserver.model.DressMe;
 import net.sf.l2j.gameserver.model.PetDataEntry;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
@@ -108,6 +111,7 @@ import net.sf.l2j.gameserver.model.actor.container.player.RecipeBook;
 import net.sf.l2j.gameserver.model.actor.container.player.Request;
 import net.sf.l2j.gameserver.model.actor.container.player.ShortcutList;
 import net.sf.l2j.gameserver.model.actor.container.player.SubClass;
+import net.sf.l2j.gameserver.model.actor.instance.Agathion;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.FestivalMonster;
 import net.sf.l2j.gameserver.model.actor.instance.Folk;
@@ -123,8 +127,12 @@ import net.sf.l2j.gameserver.model.actor.template.PlayerTemplate;
 import net.sf.l2j.gameserver.model.craft.ManufactureList;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
+import net.sf.l2j.gameserver.model.entity.Instance;
+import net.sf.l2j.gameserver.model.events.TextCommandHandler;
 import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.model.events.L2Event;
+import net.sf.l2j.gameserver.model.events.RandomFightEngine;
+import net.sf.l2j.gameserver.model.events.ServerFeature;
 import net.sf.l2j.gameserver.model.events.TvTEvent;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
 import net.sf.l2j.gameserver.model.group.Party;
@@ -165,6 +173,7 @@ import net.sf.l2j.gameserver.network.serverpackets.DeleteObject;
 import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.ExAutoSoulShot;
 import net.sf.l2j.gameserver.network.serverpackets.ExOlympiadMode;
+import net.sf.l2j.gameserver.network.serverpackets.ExPCCafePointInfo;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 import net.sf.l2j.gameserver.network.serverpackets.ExSetCompassZoneCode;
 import net.sf.l2j.gameserver.network.serverpackets.ExStorageMaxCount;
@@ -339,7 +348,6 @@ public class Player extends Playable
 	private boolean _isStanding;
 	private boolean _isSittingNow;
 	private boolean _isStandingNow;
-	private boolean isReadChat;
 
 	private Location _savedLocation = new Location(0, 0, 0);
 	
@@ -381,6 +389,7 @@ public class Player extends Playable
 	private final QuestList _questList = new QuestList(this);
 	
 	private Summon _summon;
+	private Agathion aga;
 	private TamedBeast _tamedBeast;
 	
 	private int _partyRoom;
@@ -516,6 +525,7 @@ public class Player extends Playable
 		getInventory().restore();
 		getWarehouse();
 		getFreight();
+		startVitalityTask();
 	}
 	
 	/**
@@ -2117,7 +2127,7 @@ public class Player extends Playable
 			
 			return false;
 		}
-		
+		item.setInstanceId(getInstanceId());
 		item.dropMe(this, 25);
 		
 		// Send inventory update packet
@@ -2161,7 +2171,9 @@ public class Player extends Playable
 			
 			return null;
 		}
-		
+
+		item.setInstanceId(getInstanceId());
+
 		item.dropMe(this, x, y, z);
 		
 		// Send inventory update packet
@@ -2756,8 +2768,8 @@ public class Player extends Playable
 			
 			if (atEvent && pk != null)
 				pk.kills.add(getName());
-			
-			if (isInEvent(this) && isInEvent(pk) && EventManager.getInstance().onKill(this, pk))
+
+			if (isInEvent(this) && isInEvent(pk) && EventManager.getInstance().onKill(this, pk) || RandomFightEngine.getInstance().onKill(killer.getActingPlayer()))
 				return true;
 			// Clear resurrect xp calculation
 			setExpBeforeDeath(0);
@@ -4328,7 +4340,10 @@ public class Player extends Playable
 					else
 						player.setClanPrivileges(Clan.CP_NOTHING);
 					
+                   // player.setDressMePurchased(rs.getString("dressme_purchased"));//TODO: DB dressme
+                   // player.setDressMeEquiped(rs.getInt("dressme_equiped"));
 					player.setDeleteTimer(rs.getLong("deletetime"));
+					
 					player.setTitle(rs.getString("title"));
 					player.setAccessLevel(rs.getInt("accesslevel"));
 					player.setUptime(System.currentTimeMillis());
@@ -4386,6 +4401,8 @@ public class Player extends Playable
 					// Note that Clan, Noblesse and Hero skills are given separately and not here.
 					player.restoreCharData();
 					player.giveSkills();
+					player.loadPcBangPoints();
+					player.restoreExpVitality();
 					
 					// buff and status icons
 					if (Config.STORE_SKILL_COOLTIME)
@@ -4523,8 +4540,39 @@ public class Player extends Playable
 		storeCharBase();
 		storeCharSub();
 		storeEffect(storeActiveEffects);
+		storeCharPcBangPoints();
+		storeExpVitality();
 	}
 	
+    private void storeCharPcBangPoints()
+    {
+        try (Connection con = ConnectionPool.getConnection();
+        	PreparedStatement statement = con.prepareStatement("DELETE FROM character_pccafe_points WHERE (objectId=?)"))
+        {
+        	statement.setInt(1, getObjectId());
+        	statement.execute();
+        }
+        catch (final Exception e)
+        {
+        	LOGGER.warn("Could not store char PC Cafe data: " + e);
+        }
+        
+        if (getPcBangScore() <= 0)
+            return;
+
+        try (Connection con = ConnectionPool.getConnection();
+        	PreparedStatement statement = con.prepareStatement("INSERT INTO character_pccafe_points VALUES(?,?);"))
+        {
+            statement.setInt(1, getObjectId());
+            statement.setInt(2, getPcBangScore());
+            statement.execute();
+        }
+        catch (Exception e)
+        {
+        	LOGGER.warn("Could not store char PC Cafe data: " + e);
+        }
+    }
+
 	public void store()
 	{
 		store(true);
@@ -5533,6 +5581,7 @@ public class Player extends Playable
 		setIsParalyzed(false);
 		_isInObserverMode = false;
 		
+		setInstanceId(0);
 		sendPacket(new ObserverEnd(_savedLocation));
 		teleportTo(_savedLocation, 0);
 		
@@ -6213,6 +6262,8 @@ public class Player extends Playable
 		
 		revalidateZone(true);
 		notifyFriends(true);
+		
+		ServerFeature.checkEnterWorld(this);
 	}
 	
 	public long getLastAccess()
@@ -6233,6 +6284,13 @@ public class Player extends Playable
 		
 		if (isMounted())
 			startFeed(_mountNpcId);
+		
+		if (getInstanceId() > 0)
+		{
+			final Instance instance = InstanceManager.getInstance(getInstanceId());
+			if (instance != null)
+				instance.cancelEjectDeadPlayer(this);
+		}
 	}
 	
 	@Override
@@ -6353,7 +6411,7 @@ public class Player extends Playable
 		
 		// Modify the position of the pet if necessary
 		if (_summon != null)
-			_summon.teleportTo(getPosition(), 0);
+			_summon.teleportTo(getPosition(), 60);
 		
 		// If under shop mode, cancel it. Leave the Player sat down.
 		if (isInStoreMode())
@@ -6558,6 +6616,9 @@ public class Player extends Playable
 			else if (_summon != null)
 				_summon.unSummon(this);
 			
+			if (getAgathion() != null)
+				aga.unSummon(this);
+			
 			// Stop all scheduled tasks.
 			stopChargeTask();
 			
@@ -6660,6 +6721,37 @@ public class Player extends Playable
 
 			EventManager.getInstance().onLogout(this);
 			TvTEvent.onLogout(this);
+			stopVitalityTask();
+
+			// remove player from instance and set spawn location if any
+			try
+			{
+				final int instanceId = getInstanceId();
+				if ((instanceId != 0))
+				{
+					final Instance inst = InstanceManager.getInstance(instanceId);
+					if (inst != null)
+					{
+						inst.removePlayer(getObjectId());
+						final Location loc = inst.getExitLoc();
+						if (loc != null)
+						{
+							final int x = loc.getX() + Rnd.get(-30, 30);
+							final int y = loc.getY() + Rnd.get(-30, 30);
+							setXYZInvisible(x, y, loc.getZ());
+							if (getSummon() != null) // dead pet
+							{
+								getSummon().teleportTo(loc, /*true*/ 20);
+								getSummon().setInstanceId(0);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				LOGGER.error("deleteMe() {}", e);
+			}
 			
 			World.getInstance().removePlayer(this); // force remove in case of crash during teleport
 			
@@ -7487,17 +7579,18 @@ public class Player extends Playable
 		_savedLocation = _lastLocation;
 	}
 	
-	public Location getLastLocation()
-	{
-		return _savedLocation;
-	}
-	
 	public void enterObserverMode(Location loc)
 	{
 		enterObserverMode();
 
 		teleportTo(loc, 0);
 		sendPacket(new ObserverStart(loc));
+	}
+	
+	public void enterObserverMode(Location loc, int instanceId)
+	{
+		setInstanceId(instanceId);
+		enterObserverMode(loc);
 	}
 	
 	public void enterObserverMode()
@@ -7510,7 +7603,8 @@ public class Player extends Playable
 		standUp();
 		
 		_isInObserverMode = true;
-		_savedLocation.set(getPosition());
+		if (!isInObserverMode())
+			_savedLocation.set(getPosition());
 		
 		setInvul(true);
 		getAppearance().setVisible(false);
@@ -7519,6 +7613,16 @@ public class Player extends Playable
 		// Abort attack, cast and move.
 		abortAll(true);
 	}
+
+	private DressMe dress;
+    private int pcBangPoint = 0;
+
+	private boolean isReadChat;
+	private boolean showHair = true;
+    private boolean expOff = false;
+	public boolean effectVita = true;
+    
+	private ScheduledFuture<?> _vitalityTask;
 	
 	public void setReadChat(boolean a)
 	{
@@ -7529,14 +7633,216 @@ public class Player extends Playable
 	{
 		return isReadChat;
 	}
-
-	public boolean test;
-	/**
-	 * @return
-	 */
-	public boolean inTest()
+	
+	public boolean getInEvent()
 	{
-		// TODO Auto-generated method stub
-		return test;
+		return atEvent || isInSurvival;
+	}
+	
+/*	public void setVitalityExp()
+	{
+		long exp = getStatus().getExpForNextLevel() - getStatus().getExpForThisLevel();
+		final int lvl = getStatus().getLevel();
+		if (lvl > 70)
+			exp*=1.5;
+		else if (lvl < 20)
+			exp*=6;
+		else if (lvl < 40)
+			exp*=5;
+		else if (lvl < 50)
+			exp*=4;
+		else if (lvl < 60)
+			exp*=3;
+		else if (lvl < 70)
+			exp*=2;
+		_exp = exp;
+	}*/
+	
+	public void restoreExpVitality()
+	{
+		try (Connection con = ConnectionPool.getConnection();
+			PreparedStatement statement = con.prepareStatement("SELECT points FROM character_vitality WHERE (objectId=?)"))
+		{
+			statement.setInt(1, getObjectId());
+            try (ResultSet rset = statement.executeQuery())
+            {
+            	while (rset.next())
+            		getStatus().setVitalityPoints(rset.getInt("points"), true);
+            }
+        }
+        catch (final Exception e)
+        {
+			LOGGER.warn("Could not restore Vitality data: " + e);
+        }
+	}
+	
+	public void storeExpVitality()
+	{
+        try (Connection con = ConnectionPool.getConnection();
+        	PreparedStatement statement = con.prepareStatement("DELETE FROM character_vitality WHERE (objectId=?)"))
+        {
+        	statement.setInt(1, getObjectId());
+        	statement.execute();
+        }
+        catch (final Exception e)
+        {
+        	LOGGER.warn("Could not store char Vitality data DELETE FROM: " + e);
+        }
+        
+        if (getStatus().getVitalityPoints() <= 0)
+            return;
+
+        try (Connection con = ConnectionPool.getConnection();
+        	PreparedStatement statement = con.prepareStatement("INSERT INTO character_vitality VALUES(?,?);"))
+        {
+            statement.setInt(1, getObjectId());
+            statement.setInt(2, getStatus().getVitalityPoints());
+            statement.execute();
+        }
+        catch (Exception e)
+        {
+        	LOGGER.warn("Could not store char Vitality data INSERT INTO: " + e);
+        }
+	}
+	
+    public boolean isExpOff()
+    {
+        return expOff;
+    }
+    
+    public void invertExpOff()
+    {
+        expOff = !expOff;
+        sendMessage(expOff ? "[Exp off] You dont get EXP from now." : "[Exp on] You get EXP from now."); // | A partir de ahora no obtenes EXP. | A partir de ahora obtenes EXP.
+    }
+    
+    public void updatePcBangScore(int amount)
+    {
+        pcBangPoint += amount;
+        sendPacket(new ExPCCafePointInfo(this, amount, amount > 0, 1000, false));
+        if (amount > 0)
+            sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_PCPOINT).addNumber(amount));
+    }
+    
+    
+    public int getPcBangScore()
+    {
+        return pcBangPoint;
+    }
+    
+    public void showPcBangWindow()
+    {
+        sendPacket(new ExPCCafePointInfo(this, 0, false, 1000, false));
+    }
+    
+    public void loadPcBangPoints()
+    {
+        try (Connection con = ConnectionPool.getConnection();
+        	PreparedStatement statement = con.prepareStatement("SELECT points FROM character_pccafe_points WHERE (objectId=?)"))
+        {
+        	statement.setInt(1, getObjectId());
+            try (ResultSet rset = statement.executeQuery())
+            {
+            	while (rset.next())
+            		updatePcBangScore(rset.getInt("points"));
+            }
+        }
+        catch (final Exception e)
+        {
+			LOGGER.warn("Could not restore Pc Bang data: " + e);
+        }
+    }
+    
+    public Player getShiftTarget()
+    {
+    	return TextCommandHandler.getShiftTarget();
+    }
+    
+	@Override
+	public void onActionShift(Player player)
+	{
+		if (isDead() && player.getTarget() != this)
+		{
+			player.setTarget(this);
+			return;
+		}
+		TextCommandHandler.showHtml(player, this);
+	}
+	
+	public DressMe getDress()
+	{
+		return dress;
+	}
+	
+	public void setDress(DressMe dress)
+	{
+		this.dress = dress;
+	}
+	
+	public void setSwitchHair(boolean b)
+	{
+		showHair =  b;
+		broadcastUserInfo();
+	}
+	
+	public boolean getHair()
+	{
+		return showHair;
+	}
+
+    public void startVitalityTask()
+    {
+    	if (_vitalityTask == null)
+    		_vitalityTask = ThreadPool.scheduleAtFixedRate(new VitalityTask(), 1000, 60000);
+    }
+
+    public void stopVitalityTask()
+    {
+    	if (_vitalityTask != null)
+    	{
+    		_vitalityTask.cancel(false);
+    		_vitalityTask = null;
+    	}
+    }
+
+    private class VitalityTask implements Runnable
+    {
+    	protected VitalityTask()
+    	{
+    	}
+
+    	@Override
+		public void run()
+    	{
+    		if (!isInsideZone(ZoneId.PEACE))
+    			return;
+
+			if (getStatus().getVitalityPoints() >= PlayerStatus.MAX_VITALITY_POINTS)
+    			return;
+
+			getStatus().updateVitalityPoints(Config.RATE_RECOVERY_VITALITY_PEACE_ZONE * 2, false, false);
+    		if (/*getVitalityPoints() > 0*/getStatus().getVitaLevel() > 0) //sendPacket(new ExVitalityPointInfo(getVitalityPoints()));
+    		{
+    			if (!effectVita)
+    				startAbnormalEffect(AbnormalEffect.VITALITY);
+    		}
+    		else
+    			stopAbnormalEffect(AbnormalEffect.VITALITY);
+    	}
+    }
+	
+	public void setAgathion(Agathion aga)
+	{
+		this.aga = aga;
+	}
+	
+	public Agathion getAgathion()
+	{
+		return aga;
+	}
+	
+	public void setEffectVita()
+	{
+		effectVita = effectVita ? false : true;
 	}
 }

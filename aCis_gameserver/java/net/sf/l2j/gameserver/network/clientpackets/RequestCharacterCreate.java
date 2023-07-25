@@ -13,6 +13,7 @@ import net.sf.l2j.gameserver.idfactory.IdFactory;
 import net.sf.l2j.gameserver.model.Shortcut;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.status.PlayerStatus;
 import net.sf.l2j.gameserver.model.actor.template.PlayerTemplate;
 import net.sf.l2j.gameserver.model.holder.ItemTemplateHolder;
 import net.sf.l2j.gameserver.model.holder.skillnode.GeneralSkillNode;
@@ -135,6 +136,7 @@ public final class RequestCharacterCreate extends L2GameClientPacket
 		
 		player.getPosition().set(template.getRandomSpawn());
 		player.setTitle("");
+		player.getStatus().setVitalityPoints(PlayerStatus.MAX_VITALITY_POINTS, true);
 		
 		// Register shortcuts.
 		player.getShortcutList().addShortcut(new Shortcut(0, 0, ShortcutType.ACTION, 2, -1, 1)); // attack shortcut

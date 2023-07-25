@@ -45,7 +45,7 @@ public class Pdam implements ISkillHandler
 				continue;
 			
 			final Creature target = ((Creature) obj);
-			if (target.isDead())
+			if (target.isDead() || (target.getInstanceId() != activeChar.getInstanceId()))
 				continue;
 			
 			if (target instanceof Playable && ArraysUtil.contains(EffectFear.DOESNT_AFFECT_PLAYABLE, skill.getId()))

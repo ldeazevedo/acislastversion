@@ -572,25 +572,25 @@
 			<player flying="False" />
 		</cond>
 	</skill>
-	<skill id="2234" levels="1" name="Soul Breaking Arrow" >
+	<skill id="2234" levels="1" name="Disrupting Arrow" >
 		<set name="target" val="ONE" />
 		<set name="trait" val="SHOCK" />
 		<set name="skillType" val="PDAM" />
 		<set name="castRange" val="900" />
 		<set name="effectRange" val="1400" />
-		<set name="power" val="2320" />
-		<set name="magicLvl" val="80" />
-		<set name="ignoreResists" val="true" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="hitTime" val="500" />
+		<set name="hitTime" val="2000" />
+		<set name="coolTime" val="1000" />
 		<set name="reuseDelay" val="30000" />
 		<set name="staticHitTime" val="true" />
+		<set name="staticReuse" val="true" />
 		<cond msgId="113" addName="1">
-			<using kind="BOW" />
+			<and>
+				<using kind="BOW" />
+				<player flying="False" />
+				<target npcId="29045" />
+			</and>
 		</cond>
-		<for>
-			<effect name="Stun" time="9" val="0" effectPower="50" effectType="STUN" stackOrder="1" stackType="stun" />
-		</for>
 	</skill>
 	<skill id="2235" levels="1" name="Anteroom Door Key" >
 		<set name="magicLvl" val="1"/>
@@ -1264,13 +1264,23 @@
 			<player flying="False" />
 		</cond>
 	</skill>
-	<skill id="2276" levels="1" name="Dewdrop of Destruction" >
-		<set name="magicLvl" val="80"/>
-		<set name="target" val="NONE" />
-		<set name="skillType" val="NOTDONE" />
+	<skill id="2276" levels="1" name="Dewdrop of Destruction">
+		<set name="target" val="ONE" />
+		<set name="skillType" val="PDAM" />
 		<set name="operateType" val="ACTIVE" />
+		<set name="castRange" val="900" />
+		<set name="effectRange" val="1400" />
 		<set name="hitTime" val="2000" />
+		<set name="coolTime" val="1000" />
+		<set name="reuseDelay" val="3000" />
 		<set name="staticHitTime" val="true" />
+		<set name="staticReuse" val="true" />
+		<cond msgId="113" addName="1">
+			<and>
+				<player flying="False" />
+				<target npcId="29048, 29049" /> <!-- Evil Spirit -->
+			</and>
+		</cond>
 	</skill>
 	<skill id="2277" levels="6" name="Event Gift Box" >
 		<table name="#extractableItems">

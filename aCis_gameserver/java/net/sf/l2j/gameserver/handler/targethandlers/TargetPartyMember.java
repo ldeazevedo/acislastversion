@@ -44,7 +44,7 @@ public class TargetPartyMember implements ITargetHandler
 		if (skill.getId() == 1403)
 		{
 			// Doesn't work on non Player targets, or on dead targets.
-			if (!(target instanceof Player) || target.isDead())
+			if (!(target instanceof Player) || target.isDead() || caster.getInstanceId() != target.getInstanceId())
 			{
 				caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_CANNOT_BE_USED).addSkillName(skill));
 				return false;
@@ -59,7 +59,7 @@ public class TargetPartyMember implements ITargetHandler
 				return true;
 			
 			// Doesn't work on non Playable targets, or on dead targets.
-			if (!(target instanceof Playable) || target.isDead())
+			if (!(target instanceof Playable) || target.isDead() || caster.getInstanceId() != target.getInstanceId())
 			{
 				caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_CANNOT_BE_USED).addSkillName(skill));
 				return false;
