@@ -228,33 +228,26 @@ public class RandomFightEngine
 	public boolean onKill(Player killer)
 	{
 		// boolean isInEvent = false;
-		if (isInProgress() && currentState == State.FIGHT)
-		{
-			currentState = State.ENDING;
-			if (killer != null)
-			{
-				killer.sendMessage("Sos el ganador!");
-				announce("Resultado Random Fight: " + killer.getName() + " es el ganador.");
-				announce("Evento finalizado");
-				// pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
+		if (isInProgress() && currentState == State.FIGHT && killer != null) {
+			var optionalTuple = tuple.stream().filter(tp -> tp.left().equals(killer) || tp.right().equals(killer)).findFirst();
+			optionalTuple.ifPresent(playerPlayerTuple -> log.info("RandomFight " + playerPlayerTuple.getInstanceId() + " finished! " + killer.getName() + " is the winner!"));
+			killer.sendMessage("Sos el ganador!");
+			announce("Resultado Random Fight: " + killer.getName() + " es el ganador.");
+			announce("Evento finalizado");
+			// pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
 
-				// Guardar en la base de datos
-				try (var con = ConnectionPool.getConnection();
-					var statement = con.prepareStatement(DataBaseQuery.QUERY_EVENT_INFO))
-				{
-					statement.setString(1, killer.getName());
-					boolean existsRow = statement.executeQuery().first();
-					String sql = existsRow ? DataBaseQuery.UPDATE_EVENT_INFO : DataBaseQuery.INSERT_EVENT_INFO;
-					try (var statement2 = con.prepareStatement(sql))
-					{
-						statement2.setString(1, killer.getName());
-						statement2.execute();
-					}
+			// Guardar en la base de datos
+			try (var con = ConnectionPool.getConnection();
+				 var statement = con.prepareStatement(DataBaseQuery.QUERY_EVENT_INFO)) {
+				statement.setString(1, killer.getName());
+				boolean existsRow = statement.executeQuery().first();
+				String sql = existsRow ? DataBaseQuery.UPDATE_EVENT_INFO : DataBaseQuery.INSERT_EVENT_INFO;
+				try (var statement2 = con.prepareStatement(sql)) {
+					statement2.setString(1, killer.getName());
+					statement2.execute();
 				}
-				catch (Exception e)
-				{
-					log.warning("Error en RF Ranking: " + e);
-				}
+			} catch (Exception e) {
+				log.warning("Error en RF Ranking: " + e);
 			}
 			ThreadPool.schedule(new RevertTask(killer), 15000);
 			return true;
@@ -325,9 +318,6 @@ public class RandomFightEngine
 			ThreadPool.schedule(new RevertTask(), 15000);
 			return;
 		}
-
-		log.info("State: " + currentState);
-		log.info("New state: " + newState);
 
 		switch (currentState)
 		{
