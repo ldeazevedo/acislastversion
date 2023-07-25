@@ -2,31 +2,31 @@ package net.sf.l2j.gameserver.model.events;
 
 import net.sf.l2j.gameserver.idfactory.IdFactory;
 
-public class Tuple<T, Y> {
+public class Tuple<R, L> {
 
-	private final T leftElement;
-	private final Y rightElement;
+	private final R leftElement;
+	private final L rightElement;
 	private final Integer instanceId;
 
 	public Tuple(){
 		this(null, null, false);
 	}
 
-	public Tuple(T leftElement, Y rightElement) {
+	public Tuple(R leftElement, L rightElement) {
 		this(leftElement, rightElement, true);
 	}
 
-	public Tuple(T leftElement, Y rightElement, boolean newInstanceId){
+	public Tuple(R leftElement, L rightElement, boolean newInstanceId){
 		this.leftElement = leftElement;
 		this.rightElement = rightElement;
 		this.instanceId = newInstanceId ? IdFactory.getInstance().getNextId() : -1;
 	}
 
-	public T left() {
+	public R left() {
 		return leftElement;
 	}
 
-	public Y right() {
+	public L right() {
 		return rightElement;
 	}
 
