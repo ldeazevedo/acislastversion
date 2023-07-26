@@ -20,6 +20,7 @@ import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.util.EventConstants;
 import net.sf.l2j.gameserver.model.events.util.EventUtil;
 import net.sf.l2j.gameserver.model.events.util.State;
 import net.sf.l2j.gameserver.model.events.util.Tuple;

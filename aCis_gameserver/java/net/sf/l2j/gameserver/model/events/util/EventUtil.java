@@ -50,10 +50,10 @@ public class EventUtil
 		stringBuilder.append("<table width=270>");
 		instances.forEach(i -> {
 			stringBuilder.append("<tr>");
-			stringBuilder.append("<td width=180 align=center>").append(i.left()).append(" vs. ").append(i.right()).append("</td><br>");
+			stringBuilder.append("<td width=180 align=center>").append(i.left().getName()).append(" vs. ").append(i.right().getName()).append("</td><br>");
 			stringBuilder.append("<td width=45><button value=\"Mirar\" action=\"bypass -h instance_ ").append(i.getInstanceId())
 					.append("\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td><br>");
-			stringBuilder.append("</tr>");
+			stringBuilder.append("</tr><br>");
 		});
 		stringBuilder.append("</table><br>");
 		stringBuilder.append("</body></html>");

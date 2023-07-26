@@ -1,6 +1,4 @@
-package net.sf.l2j.gameserver.model.events;
-
-import net.sf.l2j.gameserver.model.events.util.Tuple;
+package net.sf.l2j.gameserver.model.events.util;
 
 import java.util.ArrayList;
 import java.util.List;
