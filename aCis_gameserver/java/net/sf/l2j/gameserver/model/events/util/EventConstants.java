@@ -34,4 +34,6 @@ public class EventConstants {
 	public static final String QUERY_EVENT_INFO = "select * from rf where char_name=?";
 	public static final String UPDATE_EVENT_INFO = "update rf set count=count+1 where char_name=?";
 	public static final String INSERT_EVENT_INFO = "insert rf set count=1,char_name=?";
+	
+	public static final String INSUFFICIENT = "Arena Fight no comenzara por que faltan participantes.";
 }

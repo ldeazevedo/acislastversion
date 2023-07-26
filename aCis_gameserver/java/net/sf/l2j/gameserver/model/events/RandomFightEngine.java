@@ -14,11 +14,20 @@
  */
 package net.sf.l2j.gameserver.model.events;
 
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
+
+import net.sf.l2j.gameserver.data.xml.MapRegionData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
+import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
+import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.events.util.EventConstants;
 import net.sf.l2j.gameserver.model.events.util.EventUtil;
@@ -26,14 +35,12 @@ import net.sf.l2j.gameserver.model.events.util.State;
 import net.sf.l2j.gameserver.model.events.util.Tuple;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
+import net.sf.l2j.gameserver.network.SystemMessageId;
+import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
+import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
 import net.sf.l2j.gameserver.network.serverpackets.StopMove;
-
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class RandomFightEngine
 {
@@ -41,11 +48,12 @@ public class RandomFightEngine
 	private final List<Player> registeredPlayers = new ArrayList<>();
 
 	private State currentState = State.INACTIVE;
+	
+	private static Npc npc;
 
 	private final List<Tuple<Player, Player>> tuple = Collections.synchronizedList(new ArrayList<>());
-	//Arriba de gc
-	//179621, 54371, -3093
-	//178167, 54851, -3093
+	
+	//Arriba de gc - 179621, 54371, -3093 - 178167, 54851, -3093
 	private final Location loc1 = new Location(148862, 46716, -3408); //Coliseo
 	private final Location loc2 = new Location(150053, 46730, -3408);
 
@@ -67,11 +75,44 @@ public class RandomFightEngine
 		return currentState == State.FIGHT && registeredPlayers.contains(player);
 	}
 
-	public static void announce(String msg)
+	public static void announcePlayer(String msg, boolean exShowScreen, Player... players)
 	{
-		World.announceToOnlinePlayers(msg);
+		Arrays.stream(players).forEach(player -> {
+			if (msg != null)
+			{
+				player.sendMessage(msg);
+				if (exShowScreen) player.sendPacket(new ExShowScreenMessage(msg, 3500, SMPOS.MIDDLE_RIGHT, false));
+			}
+		});
+		
 	}
-
+	
+	public static void announceAll(String msg)
+	{
+		for (Player players : World.getInstance().getPlayers())
+			if (players.isOnline())
+				players.sendMessage(msg);
+	}
+	
+	public static void announceNpc(String msg)
+	{
+		if (npc == null)
+		{
+			for (Player players : World.getInstance().getPlayers())
+				if (players.isOnline())
+					players.sendMessage(msg);
+			return;
+		}
+		final CreatureSay cs = new CreatureSay(npc, SayType.SHOUT, msg);
+		final int region = MapRegionData.getInstance().getMapRegion(npc.getX(), npc.getY());
+		
+		for (Player worldPlayer : World.getInstance().getPlayers())
+		{
+			if (region == MapRegionData.getInstance().getMapRegion(worldPlayer.getX(), worldPlayer.getY()))
+				worldPlayer.sendPacket(cs);
+		}
+	}
+	
 	public boolean isInProgress()
 	{
 		return currentState != State.INACTIVE;
@@ -114,43 +155,41 @@ public class RandomFightEngine
 				EventUtil.sendHtmlMessage(player, html, false);
 				return;
 			}
-			if (text.equalsIgnoreCase(EventConstants.REGISTER))
+			if (currentState == State.REGISTER)
 			{
-				if (player.isDead())
-					return;
-				if (player.isInObserverMode())
+				if (text.equalsIgnoreCase(EventConstants.REGISTER))
 				{
-					player.sendMessage("No te podes anotar si estas mirando el evento.");
+					if (player.isDead())
+						return;
+					if (player.isInObserverMode())
+					{
+						player.sendMessage("No te podes anotar si estas mirando el evento.");
+						return;
+					}
+					if (registeredPlayers.contains(player))
+					{
+						player.sendMessage("Ya estas registrado en el evento.");
+						return;
+					}
+					registeredPlayers.add(player);
+					player.sendMessage("Te registraste al evento!");
 					return;
 				}
-				if (registeredPlayers.contains(player))
+				if (text.equalsIgnoreCase(EventConstants.UNREGISTER))
 				{
-					player.sendMessage("Ya estas registrado en el evento.");
-					return;
+					if (!isPlayerRegistered)
+					{
+						player.sendMessage("No te registraste al evento.");
+						return;
+					}
+					registeredPlayers.remove(player);
+					player.sendMessage("Saliste del evento.");
 				}
-				if (currentState != State.REGISTER)
-				{
-					player.sendMessage("El evento ya comenzo.");
-					return;
-				}
-				registeredPlayers.add(player);
-				player.sendMessage("Te registraste al evento!");
-				return;
 			}
-			if (text.equalsIgnoreCase(EventConstants.UNREGISTER))
+			else
 			{
-				if (!isPlayerRegistered)
-				{
-					player.sendMessage("No te registraste al evento.");
-					return;
-				}
-				if (currentState != State.REGISTER)
-				{
-					player.sendMessage("El evento ya comenzo.");
-					return;
-				}
-				registeredPlayers.remove(player);
-				player.sendMessage("Saliste del evento.");
+				player.sendMessage("El evento ya comenzo.");
+				return;
 			}
 		} else
 			log.info("The event is inactive");
@@ -207,8 +246,8 @@ public class RandomFightEngine
 			var optionalTuple = tuple.stream().filter(tp -> tp.left().equals(killer) || tp.right().equals(killer)).findFirst();
 			optionalTuple.ifPresent(playerPlayerTuple -> log.info("RandomFight " + playerPlayerTuple.getInstanceId() + " finished! " + killer.getName() + " is the winner!"));
 			killer.sendMessage("Sos el ganador!");
-			announce("Resultado Random Fight: " + killer.getName() + " es el ganador.");
-			announce("Evento finalizado");
+			announcePlayer("Resultado Arena Fight: " + killer.getName() + " es el ganador.", false, killer);
+			announcePlayer("Pelea finalizada", true, killer); //TODO: trendia que ser para los 2, si estan online
 			// pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
 
 			// Guardar en la base de datos
@@ -287,39 +326,31 @@ public class RandomFightEngine
 
 	public void setRandomFight(State newState)
 	{
-		if (TvTEvent.isInProgress()/* || event == Events.SURVIVAL || event == Events.DM */)
-		{
-			announce("TvTEvent.isInProgress()");
-			ThreadPool.schedule(new RevertTask(), 15000);
-			return;
-		}
-
 		switch (currentState)
 		{
 			case INACTIVE:
 				currentState = newState;
-				announce("State." + currentState);
+				announceAll("Open registration to participate in the Arena Fight!");
 				break;
 			case REGISTER:
 				log.info("New state: " + currentState);
 				if (reqPlayers())
 				{
-					announce("Random Fight no comenzara por que faltan participantes.");
+					announceNpc(EventConstants.INSUFFICIENT);
 					ThreadPool.schedule(new RevertTask(), 1000);
 					return;
 				}
 
-				announce("Cantidad de registrados: " + registeredPlayers.size());
-				announce("2 personajes al azar seran elegidos en 10 segundos!");
+				announceNpc("Cantidad de registrados: " + registeredPlayers.size());
+				announceNpc("Los participantes seran seleccionados en 10 segundos!");
 				currentState = newState;
-				announce("State.LOADING");
 				break;
 			case LOADING:
 				try
 				{
 					if (reqPlayers())
 					{
-						announce("Random Fight no comenzara por que faltan participantes.");
+						announceNpc(EventConstants.INSUFFICIENT);
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
@@ -334,12 +365,8 @@ public class RandomFightEngine
 					for (int i = 0; i < sortedPlayers.size(); i += 2)
 						tuple.add(new Tuple<>(sortedPlayers.get(i), sortedPlayers.get(i + 1)));
 
-					/*
-					 * int rnd1 = Rnd.get(getPlayers().size()); int rnd2 = Rnd.get(getPlayers().size()); while (rnd2 == rnd1) rnd2 = Rnd.get(getPlayers().size()); announce("Personajes elegidos: " + getPlayers().get(0).getName() + " || " + getPlayers().get(getPlayers().size() - 1).getName());
-					 */
-					announce("Los personajes seran teleportados en 15 segundos.");
+					announceNpc("Los personajes seran teleportados en 15 segundos.");
 					currentState = newState;
-					announce("State.PREPARING;");
 				} catch (Exception ex)
 				{
 					log.log(Level.SEVERE, ex.getMessage(), ex);
@@ -350,7 +377,7 @@ public class RandomFightEngine
 				{
 					if (reqPlayers())
 					{
-						announce("Random Fight no comenzara por que faltan participantes.");
+						announceNpc(EventConstants.INSUFFICIENT);
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
@@ -363,17 +390,12 @@ public class RandomFightEngine
 						tuple.left().setTeam(TeamType.BLUE);
 						tuple.right().setTeam(TeamType.RED);
 					});
-					announce("State.PREPARING stage2");
-
-					/*
-					 * Player player1 = getPlayers().get(0); Player player2 = getPlayers().get(getPlayers().size() - 1); preparePlayer(player1); preparePlayer(player2); // Arriba de GC player1.teleportTo(loc1, 0); player2.teleportTo(loc2, 0); player1.setTeam(TeamType.BLUE);
-					 * player2.setTeam(TeamType.RED); announce("get PREPARING.");
-					 */
+					
 				} else if (newState == State.FIGHT)
 				{
 					if (reqPlayers())
 					{
-						announce("Uno de los personajes no esta Online, se cancela el evento.");
+		//				announce("Uno de los personajes no esta Online, se cancela el evento.");
 						ThreadPool.schedule(new RevertTask(), 15000);
 						return;
 					}
@@ -381,7 +403,6 @@ public class RandomFightEngine
 					tuple.forEach(tuple -> setPlayersStats("Pelea!", tuple.right(), tuple.left()));
 
 					currentState = newState;
-					announce("State.FIGHT");
 				}
 				break;
 			case FIGHT:
@@ -389,12 +410,8 @@ public class RandomFightEngine
 				{
 					currentState = newState;
 					tuple.forEach(tuple -> {
-						announce("State.ENDING");
 						if (!tuple.left().isDead() && !tuple.right().isDead())
-						{
-							log.info("ENDING RF[" + tuple.getInstanceId() + "]");
-							announce("[RandomFight] Termino en empate!");
-						}
+							announcePlayer("Finalizado en empate!", false, tuple.right(), tuple.left());
 					});
 					ThreadPool.schedule(new RevertTask(), 15000);
 				}
@@ -434,9 +451,7 @@ public class RandomFightEngine
 		player.broadcastPacket(new StopMove(player));
 		getBuffs(player);
 		player.getStatus().setMaxCpHpMp();
-		String message = "La pelea comenzara en 30 segundos!";
-		player.sendMessage(message);
-		player.sendPacket(new ExShowScreenMessage(message, 3500, SMPOS.MIDDLE_RIGHT, false));
+		announcePlayer("La pelea comenzara en 30 segundos!", true, player);
 	}
 
 	private static void preparePlayer(Integer instanceId, Player... players)
@@ -451,11 +466,40 @@ public class RandomFightEngine
 	{
 		Arrays.stream(players).forEach(player -> {
 			if (message != null)
-				player.sendMessage(message);
+				announcePlayer(message, false, player);
 			player.stopAbnormalEffect(0x0200);
 			player.setIsImmobilized(false);
 			player.setInvul(false);
 			player.getStatus().setMaxCpHpMp();
 		});
+	}
+	
+	public void askJoinTeam(Player leader, Player target)
+	{
+		ConfirmDlg confirm = new ConfirmDlg(SystemMessageId.S1.getId());
+		confirm.addString("Do you wish to join " + leader.getName() + "'s Tournament Team?");
+		confirm.addTime(30000);
+	//	target.setTournamentTeamRequesterId(leader.getObjectId());
+		//target.setTournamentTeamBeingInvited(true);
+		target.sendPacket(confirm);
+		leader.sendMessage(target.getName() + " was invited to your team.");
+		
+	}
+	
+	public void askTeleport(Player player)
+	{
+		ConfirmDlg confirm = new ConfirmDlg(SystemMessageId.S1.getId());
+		confirm.addString("Do you wish to teleport to Tournament Zone?");
+		confirm.addTime(30000);
+	//	setTournamentTeleporting(true);
+		ThreadPool.schedule(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				//setTournamentTeleporting(false);
+			}
+		}, 30000);
+		player.sendPacket(confirm);
 	}
 }
