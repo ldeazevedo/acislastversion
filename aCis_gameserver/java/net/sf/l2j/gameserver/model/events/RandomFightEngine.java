@@ -20,6 +20,9 @@ import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.util.EventUtil;
+import net.sf.l2j.gameserver.model.events.util.State;
+import net.sf.l2j.gameserver.model.events.util.Tuple;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage;
@@ -73,10 +76,8 @@ public class RandomFightEngine
 
 	public void processCommand(String text, Player player)
 	{
-		log.info("inside processCommand(): text = " + text);
 		if (isInProgress())
 		{
-			log.info("Event is in progress");
 			if (player.isInObserverMode() || player.isInOlympiadMode() || player.isFestivalParticipant() || player.isInJail() || player.isCursedWeaponEquipped() || player.getKarma() > 0 || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(player.getObjectId()))
 			{
 				player.sendMessage("You do not meet the conditions to participate.");
@@ -87,6 +88,7 @@ public class RandomFightEngine
 				player.sendMessage("No puedes participar ni ver el evento mientras estas registrado en oly.");
 				return;
 			}
+
 			var isPlayerRegistered = registeredPlayers.contains(player);
 
 			if (text.equalsIgnoreCase(EventConstants.EXIT))
@@ -96,18 +98,20 @@ public class RandomFightEngine
 				if (player.isDead())
 				{
 					registeredPlayers.remove(player);
-					revertPlayer(player);
+					EventUtil.revertPlayer(player);
 				}
 				return;
 			}
 			if (text.equalsIgnoreCase(EventConstants.WATCH))
 			{
-				List<Integer> instances = tuple.stream().map(Tuple::getInstanceId).collect(Collectors.toList());
-				//TODO: mostrar un html para elegir que pelea ver
 				if (isPlayerRegistered || player.isInObserverMode())
 					return;
 
-				player.enterObserverMode(new Location(179747, 54696, -2805));
+				List<Integer> instances = tuple.stream().map(Tuple::getInstanceId).collect(Collectors.toList());
+				String html = EventUtil.generateHtmlForInstances(instances);
+				EventUtil.sendHtmlMessage(player, html, false);
+
+				//player.enterObserverMode(new Location(179747, 54696, -2805));
 				return;
 			}
 			if (text.equalsIgnoreCase(EventConstants.REGISTER))
@@ -154,29 +158,7 @@ public class RandomFightEngine
 
 	public void revertPlayers(Player... players)
 	{
-		Arrays.stream(players).forEach(this::revertPlayer);
-	}
-
-	public void revertPlayer(Player player)
-	{
-		if (player.getInEvent())
-			player.setIsInEvent(false);
-		if (player.isDead())
-			player.doRevive();
-		player.getStatus().setMaxCpHpMp();
-		player.broadcastUserInfo();
-
-		if (player.getSavedLocation() != null)
-			player.teleportTo(player.getSavedLocation(), 0);
-		else
-			player.teleportTo(82698, 148638, -3473, 0);
-
-		if (player.getKarma() > 0)
-			player.setKarma(0);
-
-		player.setPvpFlag(0);
-		player.setTeam(TeamType.NONE);
-		player.setInstanceId(0);
+		Arrays.stream(players).forEach(EventUtil::revertPlayer);
 	}
 
 	private class RevertTask implements Runnable
@@ -231,11 +213,12 @@ public class RandomFightEngine
 
 			// Guardar en la base de datos - chau warning de mierda :D
 			try (var con = ConnectionPool.getConnection();
-				var statement = con.prepareStatement(EventConstants.QUERY_EVENT_INFO);
-				var rs = statement.executeQuery())
+				 var statement = con.prepareStatement(EventConstants.QUERY_EVENT_INFO))
 			{
 				statement.setString(1, killer.getName());
-				try (var statement2 = con.prepareStatement(rs.first() ? EventConstants.UPDATE_EVENT_INFO : EventConstants.INSERT_EVENT_INFO))
+				boolean existsRow = statement.executeQuery().first();
+				String sql = existsRow ? EventConstants.UPDATE_EVENT_INFO : EventConstants.INSERT_EVENT_INFO;
+				try (var statement2 = con.prepareStatement(sql))
 				{
 					statement2.setString(1, killer.getName());
 					statement2.execute();

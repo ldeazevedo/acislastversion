@@ -31,6 +31,7 @@ import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.util.EventUtil;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
@@ -176,7 +177,7 @@ public class EventManager
 			if (player.isDead())
 			{
 				removePlayer(player);
-				revertPlayer(player);
+				EventUtil.revertPlayer(player);
 			}
 			return;
 		}
@@ -236,28 +237,7 @@ public class EventManager
 			player.sendMessage("Saliste del evento.");
 		}
 	}
-	
-	public void revertPlayer(Player player)
-	{
-		if (player.getInEvent())
-			player.setIsInEvent(false);
-		if (player.isDead())
-			player.doRevive();
-		player.getStatus().setMaxCpHpMp();
-		player.broadcastUserInfo();
-		
-		if (player.getSavedLocation() != null)
-			player.teleportTo(player.getSavedLocation(), 0);
-		else
-			player.teleportTo(82698, 148638, -3473, 0);
-		
-		if (player.getKarma() > 0)
-			player.setKarma(0);
-		
-		player.setPvpFlag(0);
-		player.setTeam(TeamType.NONE);
-	}
-	
+
 	private class RevertTask implements Runnable
 	{
 		RevertTask()
@@ -275,7 +255,7 @@ public class EventManager
 					
 					if (state == State.FIGHT || state == State.ENDING)
 					{
-						revertPlayer(p);
+						EventUtil.revertPlayer(p);
 						if (stateEvent == 3)
 							for (Player player : players)
 								setPlayerStats(player, null);

@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.model.events;
+package net.sf.l2j.gameserver.model.events.util;
 
 import net.sf.l2j.gameserver.idfactory.IdFactory;
 
