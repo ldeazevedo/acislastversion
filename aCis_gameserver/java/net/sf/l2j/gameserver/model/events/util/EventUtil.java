@@ -50,8 +50,12 @@ public class EventUtil
 		StringBuilder stringBuilder = new StringBuilder("<html><body>");
 		stringBuilder.append("<table width=270>");
 		stringBuilder.append("<tr>");
-		stringBuilder.append("<td width=45><button value=\"Main\" action=\"bypass -h admin_admin\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
-		instances.forEach(i -> stringBuilder.append("<td width=180 align=center>Mirar ").append(i).append("</td>"));
+		instances.forEach(i -> {
+			stringBuilder.append("<td width=180 align=center>Mirar ").append(i).append("</td><br>");
+			stringBuilder.append("<td width=45><button value=\"Main\" action=\"bypass -h instance_ "+i+"\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td><br>");
+		});
+	//	instances.forEach(i -> stringBuilder.append("<td width=45><button value=\"Main\" action=\"bypass -h instance_ "+i+ "\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>"));
+	//	stringBuilder.append("<td width=45><button value=\"Main\" action=\"bypass -h instance_ \" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
 		stringBuilder.append("</tr>");
 		stringBuilder.append("</table><br>");
 		stringBuilder.append("</body></html>");

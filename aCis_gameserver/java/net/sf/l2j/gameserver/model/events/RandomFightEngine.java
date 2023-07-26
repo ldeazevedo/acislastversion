@@ -42,10 +42,12 @@ public class RandomFightEngine
 	private State currentState = State.INACTIVE;
 
 	private final List<Tuple<Player, Player>> tuple = Collections.synchronizedList(new ArrayList<>());
-
-	private final Location loc1 = new Location(179621, 54371, -3093);
-	private final Location loc2 = new Location(178167, 54851, -3093);
-
+	//Arriba de gc
+	//179621, 54371, -3093
+	//178167, 54851, -3093
+	private final Location loc1 = new Location(148862, 46716, -3408); //Coliseo
+	private final Location loc2 = new Location(150053, 46730, -3408);
+	
 	protected RandomFightEngine()
 	{
 	}
@@ -211,7 +213,7 @@ public class RandomFightEngine
 			announce("Evento finalizado");
 			// pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
 
-			// Guardar en la base de datos - chau warning de mierda :D
+			// Guardar en la base de datos
 			try (var con = ConnectionPool.getConnection();
 				 var statement = con.prepareStatement(EventConstants.QUERY_EVENT_INFO))
 			{

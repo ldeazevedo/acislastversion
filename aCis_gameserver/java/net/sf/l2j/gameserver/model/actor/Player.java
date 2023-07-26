@@ -7598,9 +7598,9 @@ public class Player extends Playable
 		
 		standUp();
 		
-		_isInObserverMode = true;
 		if (!isInObserverMode())
 			_savedLocation.set(getPosition());
+		_isInObserverMode = true;
 		
 		setInvul(true);
 		getAppearance().setVisible(false);
