@@ -47,7 +47,7 @@ public class RandomFightEngine
 	//178167, 54851, -3093
 	private final Location loc1 = new Location(148862, 46716, -3408); //Coliseo
 	private final Location loc2 = new Location(150053, 46730, -3408);
-	
+
 	protected RandomFightEngine()
 	{
 	}
@@ -109,11 +109,8 @@ public class RandomFightEngine
 				if (isPlayerRegistered || player.isInObserverMode())
 					return;
 
-				List<Integer> instances = tuple.stream().map(Tuple::getInstanceId).collect(Collectors.toList());
-				String html = EventUtil.generateHtmlForInstances(instances);
+				String html = EventUtil.generateHtmlForInstances(tuple);
 				EventUtil.sendHtmlMessage(player, html, false);
-
-				//player.enterObserverMode(new Location(179747, 54696, -2805));
 				return;
 			}
 			if (text.equalsIgnoreCase(EventConstants.REGISTER))

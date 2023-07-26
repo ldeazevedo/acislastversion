@@ -44,19 +44,17 @@ public class EventUtil
 		player.sendPacket(html);
 	}
 
-	public static String generateHtmlForInstances(List<Integer> instances)
+	public static String generateHtmlForInstances(List<Tuple<Player, Player>> instances)
 	{
-		//TODO: cambiar esto a como quede mejor
 		StringBuilder stringBuilder = new StringBuilder("<html><body>");
 		stringBuilder.append("<table width=270>");
-		stringBuilder.append("<tr>");
 		instances.forEach(i -> {
-			stringBuilder.append("<td width=180 align=center>Mirar ").append(i).append("</td><br>");
-			stringBuilder.append("<td width=45><button value=\"Main\" action=\"bypass -h instance_ "+i+"\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td><br>");
+			stringBuilder.append("<tr>");
+			stringBuilder.append("<td width=180 align=center>").append(i.left()).append(" vs. ").append(i.right()).append("</td><br>");
+			stringBuilder.append("<td width=45><button value=\"Mirar\" action=\"bypass -h instance_ ").append(i.getInstanceId())
+					.append("\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td><br>");
+			stringBuilder.append("</tr>");
 		});
-	//	instances.forEach(i -> stringBuilder.append("<td width=45><button value=\"Main\" action=\"bypass -h instance_ "+i+ "\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>"));
-	//	stringBuilder.append("<td width=45><button value=\"Main\" action=\"bypass -h instance_ \" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
-		stringBuilder.append("</tr>");
 		stringBuilder.append("</table><br>");
 		stringBuilder.append("</body></html>");
 		return stringBuilder.toString();
