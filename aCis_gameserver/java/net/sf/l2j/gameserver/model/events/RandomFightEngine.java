@@ -20,14 +20,15 @@ import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.util.EventUtil;
+import net.sf.l2j.gameserver.model.events.util.State;
+import net.sf.l2j.gameserver.model.events.util.Tuple;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
 import net.sf.l2j.gameserver.network.serverpackets.StopMove;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,13 +59,6 @@ public class RandomFightEngine
 			killer.getSkill(1086, 2); // haste
 	}
 
-	private static class DataBaseQuery
-	{
-		public static final String QUERY_EVENT_INFO = "select * from rf where char_name=?";
-		public static final String UPDATE_EVENT_INFO = "update rf set count=count+1 where char_name=?";
-		public static final String INSERT_EVENT_INFO = "insert rf set count=1,char_name=?";
-	}
-
 	public boolean isInEvent(Player player)
 	{
 		return currentState == State.FIGHT && registeredPlayers.contains(player);
@@ -82,10 +76,8 @@ public class RandomFightEngine
 
 	public void processCommand(String text, Player player)
 	{
-		log.info("inside processCommand(): text = " + text);
 		if (isInProgress())
 		{
-			log.info("Event is in progress");
 			if (player.isInObserverMode() || player.isInOlympiadMode() || player.isFestivalParticipant() || player.isInJail() || player.isCursedWeaponEquipped() || player.getKarma() > 0 || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(player.getObjectId()))
 			{
 				player.sendMessage("You do not meet the conditions to participate.");
@@ -96,6 +88,7 @@ public class RandomFightEngine
 				player.sendMessage("No puedes participar ni ver el evento mientras estas registrado en oly.");
 				return;
 			}
+
 			var isPlayerRegistered = registeredPlayers.contains(player);
 
 			if (text.equalsIgnoreCase(EventConstants.EXIT))
@@ -105,17 +98,20 @@ public class RandomFightEngine
 				if (player.isDead())
 				{
 					registeredPlayers.remove(player);
-					revertPlayer(player);
+					EventUtil.revertPlayer(player);
 				}
 				return;
 			}
 			if (text.equalsIgnoreCase(EventConstants.WATCH))
 			{
-				//TODO: mostrar un html para elegir que pelea ver
 				if (isPlayerRegistered || player.isInObserverMode())
 					return;
 
-				player.enterObserverMode(new Location(179747, 54696, -2805));
+				List<Integer> instances = tuple.stream().map(Tuple::getInstanceId).collect(Collectors.toList());
+				String html = EventUtil.generateHtmlForInstances(instances);
+				EventUtil.sendHtmlMessage(player, html, false);
+
+				//player.enterObserverMode(new Location(179747, 54696, -2805));
 				return;
 			}
 			if (text.equalsIgnoreCase(EventConstants.REGISTER))
@@ -162,99 +158,74 @@ public class RandomFightEngine
 
 	public void revertPlayers(Player... players)
 	{
-		Arrays.stream(players).forEach(this::revertPlayer);
-	}
-
-	public void revertPlayer(Player player)
-	{
-		if (player.atEvent)
-			player.atEvent = false;
-		if (player.isInSurvival)
-			player.isInSurvival = false;
-		if (player.isDead())
-			player.doRevive();
-		player.getStatus().setMaxCpHpMp();
-		player.broadcastUserInfo();
-
-		if (player.getSavedLocation() != null)
-			player.teleportTo(player.getSavedLocation(), 0);
-		else
-			player.teleportTo(82698, 148638, -3473, 0);
-
-		if (player.getKarma() > 0)
-			player.setKarma(0);
-
-		player.setPvpFlag(0);
-		player.setTeam(TeamType.NONE);
+		Arrays.stream(players).forEach(EventUtil::revertPlayer);
 	}
 
 	private class RevertTask implements Runnable
 	{
 		private Player killer = null;
 
-		RevertTask(Player killer) {
+		RevertTask(Player killer)
+		{
 			this.killer = killer;
 		}
 
-		public RevertTask() {
+		public RevertTask()
+		{
 		}
 
 		@Override
 		public void run()
 		{
-			if (killer == null) {
+			if (killer == null)
+			{
 				log.info("Running RevertTask for every tuple because there's no winner.");
 				tuple.forEach(t -> {
-					log.info("Doing " +t.getInstanceId() + " ...");
+					log.info("Doing " + t.getInstanceId() + " ...");
 					revertPlayers(t.left(), t.right());
 					setPlayersStats(null, t.left(), t.right());
 				});
-			} else {
+				clean();
+			} else
+			{
 				var pt = tuple.stream().filter(p -> p.getInstanceId() == killer.getInstanceId()).findFirst();
 				log.info("RevertTask::PlayerTuple found? " + pt.isPresent());
-				if (pt.isPresent() && (currentState == State.FIGHT || currentState == State.ENDING)) {
+				if (pt.isPresent() && (currentState == State.FIGHT || currentState == State.ENDING))
+				{
 					revertPlayers(pt.get().left(), pt.get().right());
 					setPlayersStats(null, pt.get().right(), pt.get().left());
 				}
 			}
-			clean();
-
-			/*
-			 * if (!getPlayers().isEmpty()) for (Player p : getPlayers()) { if (p == null) continue; if (currentState == State.FIGHT || currentState == State.ENDING) { revertPlayer(p); for (Player player : getPlayers()) setPlayerStats(player, null); } }
-			 */
 		}
 	}
 
 	public boolean onKill(Player killer)
 	{
 		// boolean isInEvent = false;
-		if (isInProgress() && currentState == State.FIGHT)
+		if (isInProgress() && currentState == State.FIGHT && killer != null)
 		{
-			currentState = State.ENDING;
-			if (killer != null)
-			{
-				killer.sendMessage("Sos el ganador!");
-				announce("Resultado Random Fight: " + killer.getName() + " es el ganador.");
-				announce("Evento finalizado");
-				// pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
+			var optionalTuple = tuple.stream().filter(tp -> tp.left().equals(killer) || tp.right().equals(killer)).findFirst();
+			optionalTuple.ifPresent(playerPlayerTuple -> log.info("RandomFight " + playerPlayerTuple.getInstanceId() + " finished! " + killer.getName() + " is the winner!"));
+			killer.sendMessage("Sos el ganador!");
+			announce("Resultado Random Fight: " + killer.getName() + " es el ganador.");
+			announce("Evento finalizado");
+			// pk.addItem("", Config.RANDOM_FIGHT_REWARD_ID, Config.RANDOM_FIGHT_REWARD_COUNT, null, true);
 
-				// Guardar en la base de datos
-				try (var con = ConnectionPool.getConnection();
-					var statement = con.prepareStatement(DataBaseQuery.QUERY_EVENT_INFO))
+			// Guardar en la base de datos - chau warning de mierda :D
+			try (var con = ConnectionPool.getConnection();
+				 var statement = con.prepareStatement(EventConstants.QUERY_EVENT_INFO))
+			{
+				statement.setString(1, killer.getName());
+				boolean existsRow = statement.executeQuery().first();
+				String sql = existsRow ? EventConstants.UPDATE_EVENT_INFO : EventConstants.INSERT_EVENT_INFO;
+				try (var statement2 = con.prepareStatement(sql))
 				{
-					statement.setString(1, killer.getName());
-					boolean existsRow = statement.executeQuery().first();
-					String sql = existsRow ? DataBaseQuery.UPDATE_EVENT_INFO : DataBaseQuery.INSERT_EVENT_INFO;
-					try (var statement2 = con.prepareStatement(sql))
-					{
-						statement2.setString(1, killer.getName());
-						statement2.execute();
-					}
+					statement2.setString(1, killer.getName());
+					statement2.execute();
 				}
-				catch (Exception e)
-				{
-					log.warning("Error en RF Ranking: " + e);
-				}
+			} catch (Exception e)
+			{
+				log.warning("Error en RF Ranking: " + e);
 			}
 			ThreadPool.schedule(new RevertTask(killer), 15000);
 			return true;
@@ -269,7 +240,7 @@ public class RandomFightEngine
 		if (pc != null)
 		{
 			var isPlayerRegistered = registeredPlayers.contains(pc);
-			if (isPlayerRegistered || pc.atEvent || pc.isInSurvival)
+			if (isPlayerRegistered || pc.getInEvent())
 			{
 				Location loc = pc.getSavedLocation();
 				if (loc != null)
@@ -280,11 +251,10 @@ public class RandomFightEngine
 			if (isPlayerRegistered)
 				registeredPlayers.remove(pc);
 
-			pc.atEvent = false;
-			pc.isInSurvival = false;
+			pc.setIsInEvent(false);
 		}
 		for (Player player : registeredPlayers)
-			if (!player.isDead() || player.isInSurvival)
+			if (!player.isDead() || player.getInEvent())
 			{
 				alive++;
 				pk = player;
@@ -305,10 +275,8 @@ public class RandomFightEngine
 			registeredPlayers.forEach(p -> p.setTeam(TeamType.NONE));
 
 		tuple.forEach(t -> {
-			t.left().isInSurvival = false;
-			t.left().atEvent = false;
-			t.right().isInSurvival = false;
-			t.right().atEvent = false;
+			t.left().setIsInEvent(false);
+			t.right().setIsInEvent(false);
 		});
 
 		registeredPlayers.clear();
@@ -326,9 +294,6 @@ public class RandomFightEngine
 			return;
 		}
 
-		log.info("State: " + currentState);
-		log.info("New state: " + newState);
-
 		switch (currentState)
 		{
 			case INACTIVE:
@@ -337,7 +302,8 @@ public class RandomFightEngine
 				break;
 			case REGISTER:
 				log.info("New state: " + currentState);
-				if (reqPlayers()) {
+				if (reqPlayers())
+				{
 					announce("Random Fight no comenzara por que faltan participantes.");
 					ThreadPool.schedule(new RevertTask(), 1000);
 					return;
@@ -374,8 +340,7 @@ public class RandomFightEngine
 					announce("Los personajes seran teleportados en 15 segundos.");
 					currentState = newState;
 					announce("State.PREPARING;");
-				}
-				catch (Exception ex)
+				} catch (Exception ex)
 				{
 					log.log(Level.SEVERE, ex.getMessage(), ex);
 				}
@@ -390,8 +355,7 @@ public class RandomFightEngine
 						return;
 					}
 
-					tuple.forEach(tuple ->
-					{
+					tuple.forEach(tuple -> {
 						preparePlayer(tuple.getInstanceId(), tuple.left(), tuple.right());
 
 						tuple.left().teleportTo(loc1, 0);
@@ -405,8 +369,7 @@ public class RandomFightEngine
 					 * Player player1 = getPlayers().get(0); Player player2 = getPlayers().get(getPlayers().size() - 1); preparePlayer(player1); preparePlayer(player2); // Arriba de GC player1.teleportTo(loc1, 0); player2.teleportTo(loc2, 0); player1.setTeam(TeamType.BLUE);
 					 * player2.setTeam(TeamType.RED); announce("get PREPARING.");
 					 */
-				}
-				else if (newState == State.FIGHT)
+				} else if (newState == State.FIGHT)
 				{
 					if (reqPlayers())
 					{
@@ -462,7 +425,7 @@ public class RandomFightEngine
 	private static void preparePlayer(Player player)
 	{
 		player.setLastLocation(new Location(player.getX(), player.getY(), player.getZ()));
-		player.atEvent = true;
+		player.setIsInEvent(true);
 		player.stopAllEffectsExceptThoseThatLastThroughDeath();
 		if (player.getSummon() != null)
 			player.getSummon().stopAllEffectsExceptThoseThatLastThroughDeath();

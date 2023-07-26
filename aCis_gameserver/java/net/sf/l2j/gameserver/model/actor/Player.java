@@ -482,18 +482,14 @@ public class Player extends Playable
 	private Door _requestedGate;
 	
 	/** Event parameters */
-	public int eventX;
-	public int eventY;
-	public int eventZ;
 	public int eventkarma;
 	public int eventpvpkills;
 	public int eventpkkills;
 	public String eventTitle;
 	public LinkedList<String> kills = new LinkedList<>();
 	public boolean eventSitForced = false;
-	public boolean atEvent = false;
+	private boolean isInEvent = false;
 	
-	public boolean isInSurvival = false;
 	public int countDMkills;
 	boolean _isInObserverMode = false;
 	
@@ -2766,7 +2762,7 @@ public class Player extends Playable
 
 			TvTEvent.onKill(killer, this);
 			
-			if (atEvent && pk != null)
+			if (isInEvent && pk != null)
 				pk.kills.add(getName());
 
 			if (isInEvent(this) && isInEvent(pk) && EventManager.getInstance().onKill(this, pk) || RandomFightEngine.getInstance().onKill(killer.getActingPlayer()))
@@ -2834,7 +2830,7 @@ public class Player extends Playable
 	
 	private void onDieDropItem(Creature killer)
 	{
-		if (atEvent || killer == null)
+		if (isInEvent || killer == null)
 			return;
 		
 		final Player pk = killer.getActingPlayer();
@@ -3065,7 +3061,7 @@ public class Player extends Playable
 		// Calculate the xp loss.
 		long lostExp = 0;
 		
-		if (!atEvent)
+		if (!isInEvent)
 		{
 			final int maxLevel = PlayerLevelData.getInstance().getMaxLevel();
 			if (lvl < maxLevel)
@@ -7636,7 +7632,12 @@ public class Player extends Playable
 	
 	public boolean getInEvent()
 	{
-		return atEvent || isInSurvival;
+		return isInEvent;
+	}
+	
+	public void setIsInEvent(boolean event)
+	{
+		isInEvent = event;
 	}
 	
 /*	public void setVitalityExp()

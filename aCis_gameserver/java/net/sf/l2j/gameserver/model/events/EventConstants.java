@@ -1,5 +1,7 @@
 package net.sf.l2j.gameserver.model.events;
 
+import net.sf.l2j.gameserver.model.events.util.Tuple;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,4 +32,8 @@ public class EventConstants {
 		RANDOM_FIGHT_TIMER_CONFIG.add(new Tuple<>(STAGE_4, FIGHT_START_TIME));
 		RANDOM_FIGHT_TIMER_CONFIG.add(new Tuple<>(STAGE_5, ENDING_START_TIME));
 	}
+
+	public static final String QUERY_EVENT_INFO = "select * from rf where char_name=?";
+	public static final String UPDATE_EVENT_INFO = "update rf set count=count+1 where char_name=?";
+	public static final String INSERT_EVENT_INFO = "insert rf set count=1,char_name=?";
 }
