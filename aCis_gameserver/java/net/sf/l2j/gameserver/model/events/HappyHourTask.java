@@ -50,10 +50,7 @@ public class HappyHourTask
 	{
 		if (hourOfDay == happyHourStart && minutes == 0)
 		{
-			if (!isInEvent)
-				isInEvent = true;
-			else
-				isInEvent = false;
+			isInEvent = !isInEvent;
 			EventManager.announce(isInEvent ? "Evento HAPPY HOUR iniciado. EXP aumentado a x" + Config.HAPPY_HOUR_EXP + "!." : "Evento HAPPY HOUR finalizado. EXP vuelve a la normalidad: x" + Config.RATE_XP + "!.");
 			_log.info(isInEvent ? "Comenzo HappyHour." : "Finalizo HappyHour.");
 			// HappyHourTask.getInstance().setTask();

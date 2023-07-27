@@ -21,7 +21,7 @@ import java.util.TimerTask;
 
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.events.EventConstants;
+import net.sf.l2j.gameserver.model.events.util.EventConstants;
 import net.sf.l2j.gameserver.model.events.RandomFightEngine;
 import net.sf.l2j.gameserver.model.events.util.State;
 import net.sf.l2j.gameserver.scripting.Quest;

@@ -1,6 +1,4 @@
-package net.sf.l2j.gameserver.model.events;
-
-import net.sf.l2j.gameserver.model.events.util.Tuple;
+package net.sf.l2j.gameserver.model.events.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,4 +34,6 @@ public class EventConstants {
 	public static final String QUERY_EVENT_INFO = "select * from rf where char_name=?";
 	public static final String UPDATE_EVENT_INFO = "update rf set count=count+1 where char_name=?";
 	public static final String INSERT_EVENT_INFO = "insert rf set count=1,char_name=?";
+	
+	public static final String INSUFFICIENT = "Arena Fight no comenzara por que faltan participantes.";
 }

@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.model.events.util;
 
-import net.sf.l2j.Config;
-import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -13,8 +11,7 @@ public class EventUtil
 
 	public static void revertPlayer(Player player)
 	{
-		if (player.getInEvent())
-			player.setIsInEvent(false);
+		player.setIsInEvent(false);
 		if (player.isDead())
 			player.doRevive();
 		player.getStatus().setMaxCpHpMp();
@@ -38,21 +35,20 @@ public class EventUtil
 		final NpcHtmlMessage html = new NpcHtmlMessage(player.getObjectId());
 		if (isFile) html.setFile(fileOrHtml);
 		else html.setHtml(fileOrHtml);
-		html.replace("%objectId%", player.getObjectId());
-		html.replace("%adenasCost%", StringUtil.formatNumber(Config.WEDDING_PRICE));
-		html.replace("%needOrNot%", Config.WEDDING_FORMALWEAR ? "will" : "won't");
 		player.sendPacket(html);
 	}
 
-	public static String generateHtmlForInstances(List<Integer> instances)
+	public static String generateHtmlForInstances(List<Tuple<Player, Player>> instances)
 	{
-		//TODO: cambiar esto a como quede mejor
 		StringBuilder stringBuilder = new StringBuilder("<html><body>");
 		stringBuilder.append("<table width=270>");
-		stringBuilder.append("<tr>");
-		stringBuilder.append("<td width=45><button value=\"Main\" action=\"bypass -h admin_admin\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td>");
-		instances.forEach(i -> stringBuilder.append("<td width=180 align=center>Mirar ").append(i).append("</td>"));
-		stringBuilder.append("</tr>");
+		instances.forEach(i -> {
+			stringBuilder.append("<tr>");
+			stringBuilder.append("<td width=180 align=center>").append(i.left().getName()).append(" vs. ").append(i.right().getName()).append("</td><br>");
+			stringBuilder.append("<td width=45><button value=\"Mirar\" action=\"bypass -h instance_ ").append(i.getInstanceId())
+					.append("\" width=40 height=15 back=\"sek.cbui94\" fore=\"sek.cbui92\"></td><br>");
+			stringBuilder.append("</tr><br>");
+		});
 		stringBuilder.append("</table><br>");
 		stringBuilder.append("</body></html>");
 		return stringBuilder.toString();

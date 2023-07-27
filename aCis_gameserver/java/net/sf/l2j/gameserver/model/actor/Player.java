@@ -6716,6 +6716,7 @@ public class Player extends Playable
 			}
 
 			EventManager.getInstance().onLogout(this);
+			RandomFightEngine.getInstance().onLogout(this);
 			TvTEvent.onLogout(this);
 			stopVitalityTask();
 
@@ -7598,9 +7599,9 @@ public class Player extends Playable
 		
 		standUp();
 		
-		_isInObserverMode = true;
 		if (!isInObserverMode())
 			_savedLocation.set(getPosition());
+		_isInObserverMode = true;
 		
 		setInvul(true);
 		getAppearance().setVisible(false);

@@ -1,6 +1,7 @@
 package net.sf.l2j.gameserver.model.events;
 
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.util.EventConstants;
 
 import java.util.ArrayList;
 import java.util.List;

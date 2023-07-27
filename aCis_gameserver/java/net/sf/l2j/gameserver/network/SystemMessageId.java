@@ -11796,6 +11796,9 @@ public final class SystemMessageId
 	 */
 	public static final SystemMessageId PLEASE_WAIT_A_MOMENT;
 	
+	public static final SystemMessageId ARENA_PERIOD_BEGUN;
+	public static final SystemMessageId ARENA_S1;
+	
 	/**
 	 * Array containing all SystemMessageIds<br>
 	 * Important: Always initialize with a length of the highest SystemMessageId + 1!!!
@@ -13765,6 +13768,8 @@ public final class SystemMessageId
 		S1_CANNOT_PARTICIPATE_IN_OLYMPIAD_DURING_TELEPORT = new SystemMessageId(2029);
 		CURRENTLY_LOGGING_IN = new SystemMessageId(2030);
 		PLEASE_WAIT_A_MOMENT = new SystemMessageId(2031);
+		ARENA_PERIOD_BEGUN = new SystemMessageId(2032);
+		ARENA_S1 = new SystemMessageId(2033);
 		
 		buildFastLookupTable();
 	}
