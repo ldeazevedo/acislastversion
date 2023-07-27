@@ -48,11 +48,11 @@ public class RandomFightEngine
 	private final List<Player> registeredPlayers = new ArrayList<>();
 
 	private State currentState = State.INACTIVE;
-	
+
 	private static Npc npc;
 
 	private final List<Tuple<Player, Player>> tuple = Collections.synchronizedList(new ArrayList<>());
-	
+
 	//Arriba de gc - 179621, 54371, -3093 - 178167, 54851, -3093
 	private final Location loc1 = new Location(148862, 46716, -3408); //Coliseo
 	private final Location loc2 = new Location(150053, 46730, -3408);
@@ -84,16 +84,16 @@ public class RandomFightEngine
 				if (exShowScreen) player.sendPacket(new ExShowScreenMessage(msg, 3500, SMPOS.MIDDLE_RIGHT, false));
 			}
 		});
-		
+
 	}
-	
+
 	public static void announceAll(String msg)
 	{
 		for (Player players : World.getInstance().getPlayers())
 			if (players.isOnline())
 				players.sendMessage(msg);
 	}
-	
+
 	public static void announceNpc(String msg)
 	{
 		if (npc == null)
@@ -105,14 +105,14 @@ public class RandomFightEngine
 		}
 		final CreatureSay cs = new CreatureSay(npc, SayType.SHOUT, msg);
 		final int region = MapRegionData.getInstance().getMapRegion(npc.getX(), npc.getY());
-		
+
 		for (Player worldPlayer : World.getInstance().getPlayers())
 		{
 			if (region == MapRegionData.getInstance().getMapRegion(worldPlayer.getX(), worldPlayer.getY()))
 				worldPlayer.sendPacket(cs);
 		}
 	}
-	
+
 	public boolean isInProgress()
 	{
 		return currentState != State.INACTIVE;
@@ -185,8 +185,7 @@ public class RandomFightEngine
 					registeredPlayers.remove(player);
 					player.sendMessage("Saliste del evento.");
 				}
-			}
-			else
+			} else
 			{
 				player.sendMessage("El evento ya comenzo.");
 				return;
@@ -377,12 +376,12 @@ public class RandomFightEngine
 						tuple.left().setTeam(TeamType.BLUE);
 						tuple.right().setTeam(TeamType.RED);
 					});
-					
+
 				} else if (newState == State.FIGHT)
 				{
 					if (reqPlayers())
 					{
-		//				announce("Uno de los personajes no esta Online, se cancela el evento.");
+						//				announce("Uno de los personajes no esta Online, se cancela el evento.");
 						ThreadPool.schedule(new RevertTask(), 15000);
 						return;
 					}
@@ -460,25 +459,25 @@ public class RandomFightEngine
 			player.getStatus().setMaxCpHpMp();
 		});
 	}
-	
+
 	public void askJoinTeam(Player leader, Player target)
 	{
 		ConfirmDlg confirm = new ConfirmDlg(SystemMessageId.S1.getId());
 		confirm.addString("Do you wish to join " + leader.getName() + "'s Tournament Team?");
 		confirm.addTime(30000);
-	//	target.setTournamentTeamRequesterId(leader.getObjectId());
+		//	target.setTournamentTeamRequesterId(leader.getObjectId());
 		//target.setTournamentTeamBeingInvited(true);
 		target.sendPacket(confirm);
 		leader.sendMessage(target.getName() + " was invited to your team.");
-		
+
 	}
-	
+
 	public void askTeleport(Player player)
 	{
 		ConfirmDlg confirm = new ConfirmDlg(SystemMessageId.S1.getId());
 		confirm.addString("Do you wish to teleport to Tournament Zone?");
 		confirm.addTime(30000);
-	//	setTournamentTeleporting(true);
+		//	setTournamentTeleporting(true);
 		ThreadPool.schedule(new Runnable()
 		{
 			@Override
