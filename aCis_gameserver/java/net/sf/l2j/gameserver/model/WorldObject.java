@@ -875,7 +875,7 @@ public abstract class WorldObject
 		{
 			if (_instanceId > 0 && oldI != null)
 				oldI.removePlayer(getObjectId());
-			if (instanceId > 0)
+			if (instanceId > 0 && newI != null)
 				newI.addPlayer(getObjectId());
 			
 			if (((Player)this).getSummon() != null)
@@ -885,7 +885,7 @@ public abstract class WorldObject
 		{
 			if (_instanceId > 0 && oldI != null)
 				oldI.removeNpc(((Npc)this));
-			if (instanceId > 0)
+			if (instanceId > 0 && newI != null)
 				newI.addNpc(((Npc)this));
 		}
 		if (_instanceId != instanceId)
