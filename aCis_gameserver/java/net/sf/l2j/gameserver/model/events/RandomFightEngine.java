@@ -274,33 +274,20 @@ public class RandomFightEngine
 
 	public void onLogout(Player pc)
 	{
-		Player pk = null;
-		int alive = 0;
-		if (pc != null)
+		var playerTuple = tuple.stream().filter(t -> t.left().equals(pc) || t.right().equals(pc)).findFirst();
+		if (playerTuple.isPresent())
 		{
-			var isPlayerRegistered = registeredPlayers.contains(pc);
-			if (isPlayerRegistered || pc.getInEvent())
-			{
-				Location loc = pc.getSavedLocation();
-				if (loc != null)
-					pc.setXYZInvisible(loc.getX(), loc.getY(), loc.getZ());
-				else
-					pc.setXYZInvisible(82698, 148638, -3473);
-			}
-			if (isPlayerRegistered)
-				registeredPlayers.remove(pc);
+			Location loc = pc.getSavedLocation();
+			if (loc != null)
+				pc.setXYZInvisible(loc);
+			else
+				pc.setXYZInvisible(82698, 148638, -3473);
 
-			pc.setIsInEvent(false);
+			registeredPlayers.remove(pc);
+
+			var killer = playerTuple.get().left().equals(pc) ? playerTuple.get().right() : playerTuple.get().left();
+			onKill(killer);
 		}
-		for (Player player : registeredPlayers)
-			if (!player.isDead() || player.getInEvent())
-			{
-				alive++;
-				pk = player;
-			}
-
-		if (alive == 1)
-			onKill(pk);
 	}
 
 	public boolean reqPlayers()

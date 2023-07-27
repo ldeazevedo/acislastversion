@@ -38,9 +38,6 @@ public class EventUtil
 		final NpcHtmlMessage html = new NpcHtmlMessage(player.getObjectId());
 		if (isFile) html.setFile(fileOrHtml);
 		else html.setHtml(fileOrHtml);
-		html.replace("%objectId%", player.getObjectId());
-		html.replace("%adenasCost%", StringUtil.formatNumber(Config.WEDDING_PRICE));
-		html.replace("%needOrNot%", Config.WEDDING_FORMALWEAR ? "will" : "won't");
 		player.sendPacket(html);
 	}
 
