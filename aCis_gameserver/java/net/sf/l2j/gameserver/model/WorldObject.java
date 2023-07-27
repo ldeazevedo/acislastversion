@@ -861,9 +861,12 @@ public abstract class WorldObject
 
 	public void setInstanceId(int instanceId)
 	{
-		_instanceId = instanceId;
-	//	decayMe();
-	//	spawnMe();
+		if (_instanceId != instanceId)
+		{
+			_instanceId = instanceId;
+			decayMe();
+			spawnMe();
+		}
 		if (instanceId != 0)
 			LOGGER.info(getName()+ " WorldObject : " + instanceId);
 		if (_instanceId != 0)
