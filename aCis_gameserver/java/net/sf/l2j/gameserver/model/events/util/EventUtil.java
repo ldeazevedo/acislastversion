@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.model.events.util;
 
-import net.sf.l2j.Config;
-import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -13,8 +11,7 @@ public class EventUtil
 
 	public static void revertPlayer(Player player)
 	{
-		if (player.getInEvent())
-			player.setIsInEvent(false);
+		player.setIsInEvent(false);
 		if (player.isDead())
 			player.doRevive();
 		player.getStatus().setMaxCpHpMp();

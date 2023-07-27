@@ -365,7 +365,6 @@ public class EventManager
 	
 	public void onLogout(Player pc)
 	{
-		RandomFightEngine.getInstance().onLogout(pc);
 		Player pk = null;
 		int alive = 0;
 		if (pc != null)

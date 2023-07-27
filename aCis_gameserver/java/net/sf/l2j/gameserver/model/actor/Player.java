@@ -6716,6 +6716,7 @@ public class Player extends Playable
 			}
 
 			EventManager.getInstance().onLogout(this);
+			RandomFightEngine.getInstance().onLogout(this);
 			TvTEvent.onLogout(this);
 			stopVitalityTask();
 

@@ -46,6 +46,7 @@ public class RandomFightEngine
 {
 	protected static final Logger log = Logger.getLogger(RandomFightEngine.class.getName());
 	private final List<Player> registeredPlayers = new ArrayList<>();
+	private final Location defaultLocation = new Location(82698, 148638, -3473);
 
 	private State currentState = State.INACTIVE;
 
@@ -276,14 +277,8 @@ public class RandomFightEngine
 		var playerTuple = tuple.stream().filter(t -> t.left().equals(pc) || t.right().equals(pc)).findFirst();
 		if (playerTuple.isPresent())
 		{
-			Location loc = pc.getSavedLocation();
-			if (loc != null)
-				pc.setXYZInvisible(loc);
-			else
-				pc.setXYZInvisible(82698, 148638, -3473);
-
+			pc.setXYZInvisible(pc.getSavedLocation() != null ? pc.getSavedLocation() : defaultLocation);
 			registeredPlayers.remove(pc);
-
 			var killer = playerTuple.get().left().equals(pc) ? playerTuple.get().right() : playerTuple.get().left();
 			onKill(killer);
 		}
