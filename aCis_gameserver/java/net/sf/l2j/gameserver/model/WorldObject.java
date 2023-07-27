@@ -861,22 +861,16 @@ public abstract class WorldObject
 
 	public void setInstanceId(int instanceId)
 	{
-		if (_instanceId != instanceId)
-		{
-			_instanceId = instanceId;
-			decayMe();
-			spawnMe();
-		}
+		if (_instanceId == instanceId)
+			return;
+
 		if (instanceId != 0)
 			LOGGER.info(getName()+ " WorldObject : " + instanceId);
 		if (_instanceId != 0)
 			LOGGER.info(getName()+ " WorldObject : " + _instanceId);
 		Instance oldI = InstanceManager.getInstance(_instanceId);
 		Instance newI = InstanceManager.getInstance(instanceId);
-		
-		if (newI == null)
-			return;
-		
+
 		if (this instanceof Player)
 		{
 			if (_instanceId > 0 && oldI != null)
@@ -894,24 +888,11 @@ public abstract class WorldObject
 			if (instanceId > 0)
 				newI.addNpc(((Npc)this));
 		}
-		
-		_instanceId = instanceId;
-		/*
-		// If we change it for visible objects, me must clear & revalidate knownlists
-		if (_isVisible && getDifferentInstanceObjects() != null) // if (_isVisible && _knownList != null)
+		if (_instanceId != instanceId)
 		{
-			if (this instanceof Player)
-			{
-				
-				// We don't want some ugly looking disappear/appear effects, so don't update
-				// the knownlist here, but players usually enter instancezones through teleporting
-				// and the teleport will do the revalidation for us.
-			}
-			else
-			{
-				decayMe();
-				spawnMe();
-			}
-		}*/
+			_instanceId = instanceId;
+			decayMe();
+			spawnMe();
+		}
 	}
 }
