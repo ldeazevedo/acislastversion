@@ -45,7 +45,7 @@ import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.clanhall.ClanHall;
 import net.sf.l2j.gameserver.model.clanhall.SiegableHall;
 import net.sf.l2j.gameserver.model.entity.Castle;
-import net.sf.l2j.gameserver.model.events.HappyHourTask;
+import net.sf.l2j.gameserver.model.events.happyhour.HappyHourTask;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;

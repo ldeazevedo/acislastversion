@@ -13,7 +13,7 @@ import net.sf.l2j.gameserver.model.clanhall.ClanHall;
 import net.sf.l2j.gameserver.model.clanhall.ClanHallFunction;
 import net.sf.l2j.gameserver.model.entity.Siege;
 import net.sf.l2j.gameserver.model.events.EventManager;
-import net.sf.l2j.gameserver.model.events.TvTEvent;
+import net.sf.l2j.gameserver.model.events.tvt.TvTEvent;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 

@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.model.events;
+package net.sf.l2j.gameserver.model.events.happyhour;
 
 import java.util.Calendar;
 import java.util.List;
@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import net.sf.l2j.commons.pool.ThreadPool;
 
 import net.sf.l2j.Config;
+import net.sf.l2j.gameserver.model.events.EventManager;
 
 public class HappyHourTask
 {

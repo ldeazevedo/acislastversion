@@ -16,7 +16,7 @@ import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
 
 import net.sf.l2j.gameserver.enums.GeoType;
-import net.sf.l2j.gameserver.model.events.HappyHour;
+import net.sf.l2j.gameserver.model.events.happyhour.HappyHour;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 
 /**

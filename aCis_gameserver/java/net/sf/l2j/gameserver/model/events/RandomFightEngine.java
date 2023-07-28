@@ -29,6 +29,7 @@ import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.tvt.TvTEvent;
 import net.sf.l2j.gameserver.model.events.util.EventConstants;
 import net.sf.l2j.gameserver.model.events.util.EventUtil;
 import net.sf.l2j.gameserver.model.events.util.State;
@@ -42,9 +43,8 @@ import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
 import net.sf.l2j.gameserver.network.serverpackets.StopMove;
 
-public class RandomFightEngine
+public class RandomFightEngine extends AbstractEvent
 {
-	protected static final Logger log = Logger.getLogger(RandomFightEngine.class.getName());
 	private final List<Player> registeredPlayers = new ArrayList<>();
 	private final Location defaultLocation = new Location(82698, 148638, -3473);
 
@@ -58,7 +58,7 @@ public class RandomFightEngine
 	private final Location loc1 = new Location(148862, 46716, -3408); //Coliseo
 	private final Location loc2 = new Location(150053, 46730, -3408);
 
-	protected RandomFightEngine()
+	private RandomFightEngine()
 	{
 	}
 
@@ -123,7 +123,7 @@ public class RandomFightEngine
 	{
 		if (isInProgress())
 		{
-			if (player.isInObserverMode() || player.isInOlympiadMode() || player.isFestivalParticipant() || player.isInJail() || player.isCursedWeaponEquipped() || player.getKarma() > 0 || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(player.getObjectId()))
+			if (player.isInObserverMode() || player.isInOlympiadMode() || player.isFestivalParticipant() || player.isInJail() || player.isCursedWeaponEquipped() || player.getKarma() > 0 || net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isInProgress() && net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isPlayerParticipant(player.getObjectId()))
 			{
 				player.sendMessage("You do not meet the conditions to participate.");
 				return;
@@ -403,7 +403,7 @@ public class RandomFightEngine
 	private void checkRequirements()
 	{
 		for (var p : registeredPlayers)
-			if (p.isInOlympiadMode() || p.isInObserverMode() || OlympiadManager.getInstance().isRegistered(p) && p.getKarma() > 0 || p.isCursedWeaponEquipped() || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(p.getObjectId()))
+			if (p.isInOlympiadMode() || p.isInObserverMode() || OlympiadManager.getInstance().isRegistered(p) && p.getKarma() > 0 || p.isCursedWeaponEquipped() || net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(p.getObjectId()))
 			{
 				registeredPlayers.remove(p);
 				p.sendMessage("No cumples los requisitos para participar en el evento.");
@@ -482,5 +482,11 @@ public class RandomFightEngine
 			}
 		}, 30000);
 		player.sendPacket(confirm);
+	}
+
+	@Override
+	protected String getClassName()
+	{
+		return getClass().getName();
 	}
 }

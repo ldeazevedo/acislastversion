@@ -23,7 +23,7 @@ import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.events.EventManager;
-import net.sf.l2j.gameserver.model.events.TvTEvent;
+import net.sf.l2j.gameserver.model.events.tvt.TvTEvent;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.scripting.Quest;
 

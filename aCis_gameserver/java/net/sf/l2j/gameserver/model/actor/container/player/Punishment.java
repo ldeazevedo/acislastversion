@@ -9,7 +9,7 @@ import net.sf.l2j.gameserver.enums.PunishmentType;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.events.EventManager;
-import net.sf.l2j.gameserver.model.events.TvTEvent;
+import net.sf.l2j.gameserver.model.events.tvt.TvTEvent;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;

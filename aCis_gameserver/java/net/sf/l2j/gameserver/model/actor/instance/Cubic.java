@@ -24,7 +24,7 @@ import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.entity.Duel;
 import net.sf.l2j.gameserver.model.events.EventManager;
-import net.sf.l2j.gameserver.model.events.TvTEvent;
+import net.sf.l2j.gameserver.model.events.tvt.TvTEvent;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.MagicSkillUse;

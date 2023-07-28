@@ -133,7 +133,7 @@ import net.sf.l2j.gameserver.model.events.EventManager;
 import net.sf.l2j.gameserver.model.events.L2Event;
 import net.sf.l2j.gameserver.model.events.RandomFightEngine;
 import net.sf.l2j.gameserver.model.events.ServerFeature;
-import net.sf.l2j.gameserver.model.events.TvTEvent;
+import net.sf.l2j.gameserver.model.events.tvt.TvTEvent;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.group.PartyMatchRoom;
