@@ -89,6 +89,9 @@ public class TeleportLocation extends Location
 	 */
 	public int getCalculatedPriceCount(Player player)
 	{
+		if (_type == TeleportType.STANDARD && player.getStatus().getLevel() <= 20)
+			return 0;
+		
 		if (_priceId == PcInventory.ANCIENT_ADENA_ID)
 		{
 			final SevenSignsManager ss = SevenSignsManager.getInstance();
@@ -96,9 +99,6 @@ public class TeleportLocation extends Location
 			
 			return (check) ? _priceCount : (int) (_priceCount * 1.6);
 		}
-
-		if (_type == TeleportType.STANDARD && player.getStatus().getLevel() <= 20)
-			return 0;
 		
 		// Half price system.
 		if (_type == TeleportType.STANDARD && isCoreTime())

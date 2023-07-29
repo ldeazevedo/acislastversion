@@ -871,21 +871,21 @@ public abstract class WorldObject
 		Instance oldI = InstanceManager.getInstance(_instanceId);
 		Instance newI = InstanceManager.getInstance(instanceId);
 
-		if (this instanceof Player)
+		if (this instanceof Player && oldI != null && newI != null)
 		{
-			if (_instanceId > 0 && oldI != null)
+			if (_instanceId > 0)
 				oldI.removePlayer(getObjectId());
-			if (instanceId > 0 && newI != null)
+			if (instanceId > 0)
 				newI.addPlayer(getObjectId());
 			
 			if (((Player)this).getSummon() != null)
 				((Player)this).getSummon().setInstanceId(instanceId);
 		}
-		else if (this instanceof Npc)
+		else if (this instanceof Npc && oldI != null && newI != null)
 		{
-			if (_instanceId > 0 && oldI != null)
+			if (_instanceId > 0)
 				oldI.removeNpc(((Npc)this));
-			if (instanceId > 0 && newI != null)
+			if (instanceId > 0)
 				newI.addNpc(((Npc)this));
 		}
 		if (_instanceId != instanceId)
