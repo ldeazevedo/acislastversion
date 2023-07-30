@@ -3,7 +3,8 @@ package net.sf.l2j.gameserver.model.events.util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventConstants {
+public class EventConstants
+{
 
 	public static final String REGISTER = ".reg1";
 	public static final String UNREGISTER = ".unreg1";
@@ -23,7 +24,8 @@ public class EventConstants {
 
 	public static List<Tuple<String, Integer>> RANDOM_FIGHT_TIMER_CONFIG = new ArrayList<>();
 
-	static {
+	static
+	{
 		RANDOM_FIGHT_TIMER_CONFIG.add(new Tuple<>(STAGE_1, LOADING_START_TIME));
 		RANDOM_FIGHT_TIMER_CONFIG.add(new Tuple<>(STAGE_2, PREPARING_START_TIME));
 		RANDOM_FIGHT_TIMER_CONFIG.add(new Tuple<>(STAGE_3, PREPARING_START_TIME2));
@@ -34,6 +36,10 @@ public class EventConstants {
 	public static final String QUERY_EVENT_INFO = "select * from rf where char_name=?";
 	public static final String UPDATE_EVENT_INFO = "update rf set count=count+1 where char_name=?";
 	public static final String INSERT_EVENT_INFO = "insert rf set count=1,char_name=?";
-	
+
 	public static final String INSUFFICIENT = "Arena Fight no comenzara por que faltan participantes.";
+
+	// Survival Event
+	public static final int SURVIVAL_REWARD_ID = 5575;
+	public static final int SURVIVAL_REWARD_AMOUNT = 100_000;
 }

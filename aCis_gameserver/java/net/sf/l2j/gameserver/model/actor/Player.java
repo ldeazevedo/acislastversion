@@ -128,12 +128,8 @@ import net.sf.l2j.gameserver.model.craft.ManufactureList;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
 import net.sf.l2j.gameserver.model.entity.Instance;
-import net.sf.l2j.gameserver.model.events.TextCommandHandler;
-import net.sf.l2j.gameserver.model.events.EventManager;
-import net.sf.l2j.gameserver.model.events.L2Event;
-import net.sf.l2j.gameserver.model.events.RandomFightEngine;
-import net.sf.l2j.gameserver.model.events.ServerFeature;
-import net.sf.l2j.gameserver.model.events.TvTEvent;
+import net.sf.l2j.gameserver.model.events.*;
+import net.sf.l2j.gameserver.model.events.tvt.TvTEvent;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.group.PartyMatchRoom;
@@ -2765,7 +2761,7 @@ public class Player extends Playable
 			if (isInEvent && pk != null)
 				pk.kills.add(getName());
 
-			if (isInEvent(this) && isInEvent(pk) && EventManager.getInstance().onKill(this, pk) || RandomFightEngine.getInstance().onKill(killer.getActingPlayer()))
+			if (isInEvent(this) && isInEvent(pk) && EventManager.getInstance().onKill(this, pk) || NewEventManager.getInstance().onKill(this, pk.getActingPlayer()))
 				return true;
 			// Clear resurrect xp calculation
 			setExpBeforeDeath(0);
@@ -7631,7 +7627,7 @@ public class Player extends Playable
 		return isReadChat;
 	}
 	
-	public boolean getInEvent()
+	public boolean isInEvent()
 	{
 		return isInEvent;
 	}

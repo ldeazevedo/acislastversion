@@ -15,6 +15,9 @@ import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminEditChar;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.tvt.TvTEvent;
+import net.sf.l2j.gameserver.model.events.tvt.TvTEventTeleporter;
+import net.sf.l2j.gameserver.model.events.tvt.TvTManager;
 import net.sf.l2j.gameserver.model.events.util.EventConstants;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
@@ -42,16 +45,16 @@ public class TextCommandHandler
 				return true;
 		}
 
-		if (!TvTEvent.isInactive())
+		if (!net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isInactive())
 		{
 			if (text.equalsIgnoreCase(".register"))
 			{
-				TvTEvent.onBypass("tvt_event_participation", player);
+				net.sf.l2j.gameserver.model.events.tvt.TvTEvent.onBypass("tvt_event_participation", player);
 				return true;
 			}
 			else if (text.equalsIgnoreCase(".tvt"))
 			{
-				TvTEvent.addParticipant(player);
+				net.sf.l2j.gameserver.model.events.tvt.TvTEvent.addParticipant(player);
 				return true;
 			}
 		}
@@ -138,7 +141,7 @@ public class TextCommandHandler
 					add(player, player.getTarget().getActingPlayer());
 					break;
 				case ".tvt_start":
-					TvTManager.getInstance().startTvT();
+					net.sf.l2j.gameserver.model.events.tvt.TvTManager.getInstance().startTvT();
 					return true;
 				case ".tvt_remove":
 					if (!(player.getTarget() instanceof Player)) {
@@ -299,20 +302,20 @@ public class TextCommandHandler
 
 	private static void add(Player player, Player playerInstance)
 	{
-		if (TvTEvent.isPlayerParticipant(playerInstance.getObjectId()))
+		if (net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isPlayerParticipant(playerInstance.getObjectId()))
 		{
 			player.sendMessage("Player already participated in the event!");
 			return;
 		}
 		
-		if (!TvTEvent.addParticipant(playerInstance))
+		if (!net.sf.l2j.gameserver.model.events.tvt.TvTEvent.addParticipant(playerInstance))
 		{
 			player.sendMessage("Player instance could not be added, it seems to be null!");
 			return;
 		}
 		
-		if (TvTEvent.isStarted())
-			new TvTEventTeleporter(playerInstance, TvTEvent.getParticipantTeamCoordinates(playerInstance.getObjectId()), true, false);
+		if (net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isStarted())
+			new net.sf.l2j.gameserver.model.events.tvt.TvTEventTeleporter(playerInstance, net.sf.l2j.gameserver.model.events.tvt.TvTEvent.getParticipantTeamCoordinates(playerInstance.getObjectId()), true, false);
 	}
 	
 	private static void remove(Player player, Player playerInstance)

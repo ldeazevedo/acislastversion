@@ -1,13 +1,16 @@
 package net.sf.l2j.gameserver.model.events.util;
 
+import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class EventUtil
 {
+	private final static Logger log = Logger.getLogger(EventUtil.class.getName());
 
 	public static void revertPlayer(Player player)
 	{
@@ -52,5 +55,24 @@ public class EventUtil
 		stringBuilder.append("</table><br>");
 		stringBuilder.append("</body></html>");
 		return stringBuilder.toString();
+	}
+
+	public static void storeEventResults(Player killer)
+	{
+		try (var con = ConnectionPool.getConnection();
+			 var statement = con.prepareStatement(EventConstants.QUERY_EVENT_INFO))
+		{
+			statement.setString(1, killer.getName());
+			boolean existsRow = statement.executeQuery().first();
+			String sql = existsRow ? EventConstants.UPDATE_EVENT_INFO : EventConstants.INSERT_EVENT_INFO;
+			try (var statement2 = con.prepareStatement(sql))
+			{
+				statement2.setString(1, killer.getName());
+				statement2.execute();
+			}
+		} catch (Exception e)
+		{
+			log.warning("Error when storing event results in database for: " + killer.getName() + " | " + e);
+		}
 	}
 }

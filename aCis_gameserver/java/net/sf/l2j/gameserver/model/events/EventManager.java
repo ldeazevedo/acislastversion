@@ -31,6 +31,7 @@ import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.events.tvt.TvTEvent;
 import net.sf.l2j.gameserver.model.events.util.EventUtil;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
@@ -161,7 +162,7 @@ public class EventManager
 	
 	public void checkEvents(String text, Player player)
 	{
-		if (!isInProgress() || player == null || player.isInObserverMode() || player.isInOlympiadMode() || player.isFestivalParticipant() || /*player.isInsideZone(ZoneId.SIEGE) ||/* player.isInSiege() || */ player.isInJail() || player.isFestivalParticipant() || player.isCursedWeaponEquipped() || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(player.getObjectId()) || player.getKarma() > 0)
+		if (!isInProgress() || player == null || player.isInObserverMode() || player.isInOlympiadMode() || player.isFestivalParticipant() || /*player.isInsideZone(ZoneId.SIEGE) ||/* player.isInSiege() || */ player.isInJail() || player.isFestivalParticipant() || player.isCursedWeaponEquipped() || net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isInProgress() && net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isPlayerParticipant(player.getObjectId()) || player.getKarma() > 0)
 			return;
 		
 		if (OlympiadManager.getInstance().isRegistered(player))
@@ -287,7 +288,7 @@ public class EventManager
 					{
 						if (pk.equals(player))
 							continue;
-						if (player.getInEvent())
+						if (player.isInEvent())
 						{
 							allDead = false;
 							break;
@@ -353,7 +354,7 @@ public class EventManager
 			{
 				if (pc != null && pk != null)
 				{
-					if (pc.getInEvent() && pk.getInEvent())
+					if (pc.isInEvent() && pk.isInEvent())
 						if (pc != pk) // pk.addAncientAdena("DM", 25000, pk, true);
 							pk.countDMkills++;
 				}
@@ -369,7 +370,7 @@ public class EventManager
 		int alive = 0;
 		if (pc != null)
 		{
-			if (containsPlayer(pc) || pc.getInEvent())
+			if (containsPlayer(pc) || pc.isInEvent())
 			{
 				Location loc = pc.getSavedLocation();
 				if (loc != null)
@@ -385,7 +386,7 @@ public class EventManager
 		synchronized (players) // cuando un player se desconecta se redirecciona a onkill si solo queda un pj vivo en el evento
 		{
 			for (Player player : players)
-				if (!player.isDead() || player.getInEvent())
+				if (!player.isDead() || player.isInEvent())
 				{
 					alive++;
 					pk = player;
@@ -426,7 +427,7 @@ public class EventManager
 	
 	public void setSurvival(int stage)
 	{
-		if (TvTEvent.isInProgress() || event == Events.RF || event == Events.DM)
+		if (net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isInProgress() || event == Events.RF || event == Events.DM)
 		{
 			ThreadPool.schedule(new RevertTask(), 15000);
 			return;
@@ -511,7 +512,7 @@ public class EventManager
 					
 					int alive = 0;
 					for (Player player : players)
-						if (player.getInEvent())
+						if (player.isInEvent())
 							alive++;
 						
 					if (alive >= 2)
@@ -527,7 +528,7 @@ public class EventManager
 	
 	public void setRandomFight(int _status)
 	{
-		if (TvTEvent.isInProgress() || event == Events.SURVIVAL || event == Events.DM)
+		if (net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isInProgress() || event == Events.SURVIVAL || event == Events.DM)
 		{
 			ThreadPool.schedule(new RevertTask(), 15000);
 			return;
@@ -671,7 +672,7 @@ public class EventManager
 	{
 		List<Player> newPlayers = new ArrayList<>(players);
 		for (Player p : players)
-			if (p.isInOlympiadMode() || p.isInObserverMode() || OlympiadManager.getInstance().isRegistered(p) && p.getKarma() > 0 || p.isCursedWeaponEquipped() || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(p.getObjectId()))
+			if (p.isInOlympiadMode() || p.isInObserverMode() || OlympiadManager.getInstance().isRegistered(p) && p.getKarma() > 0 || p.isCursedWeaponEquipped() || net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isInProgress() && net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isPlayerParticipant(p.getObjectId()))
 			{
 				newPlayers.remove(p);
 				p.sendMessage("No cumples los requisitos para participar en el evento.");
@@ -714,7 +715,7 @@ public class EventManager
 	
 	public void setDM(int stage)
 	{
-		if (TvTEvent.isInProgress() || event == Events.RF || event == Events.SURVIVAL)
+		if (net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isInProgress() || event == Events.RF || event == Events.SURVIVAL)
 		{
 			ThreadPool.schedule(new RevertTask(), 15000);
 			return;
@@ -745,7 +746,7 @@ public class EventManager
 					for (Player p : players)
 					{
 						newPlayers.add(p);
-						if (p.isInOlympiadMode() || p.isInObserverMode() || OlympiadManager.getInstance().isRegistered(p) && p.getKarma() > 0 || p.isCursedWeaponEquipped() || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(p.getObjectId()))
+						if (p.isInOlympiadMode() || p.isInObserverMode() || OlympiadManager.getInstance().isRegistered(p) && p.getKarma() > 0 || p.isCursedWeaponEquipped() || net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(p.getObjectId()))
 						{
 							newPlayers.remove(p);
 							p.sendMessage("no cumples los requisitos para participar en el evento.");

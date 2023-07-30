@@ -45,7 +45,7 @@ import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.clanhall.ClanHall;
 import net.sf.l2j.gameserver.model.clanhall.SiegableHall;
 import net.sf.l2j.gameserver.model.entity.Castle;
-import net.sf.l2j.gameserver.model.events.HappyHourTask;
+import net.sf.l2j.gameserver.model.events.happyhour.HappyHourTask;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
@@ -1211,10 +1211,7 @@ public class Npc extends Creature
 			}
 		}
 
-		if (teleport.getType() == TeleportType.STANDARD && player.getStatus().getLevel() <= 20)
-			player.teleportTo(teleport, 20);
-		
-		if (Config.FREE_TELEPORT || teleport.getPriceCount() == 0 || player.destroyItemByItemId("InstantTeleport", teleport.getPriceId(), teleport.getPriceCount(), this, true))
+		if (teleport.getType() == TeleportType.STANDARD && player.getStatus().getLevel() <= 20 || Config.FREE_TELEPORT || teleport.getPriceCount() == 0 || player.destroyItemByItemId("InstantTeleport", teleport.getPriceId(), teleport.getPriceCount(), this, true))
 			player.teleportTo(teleport, 20);
 		
 		player.sendPacket(ActionFailed.STATIC_PACKET);
