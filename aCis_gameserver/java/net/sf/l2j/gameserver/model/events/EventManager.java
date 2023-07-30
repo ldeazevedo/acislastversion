@@ -288,7 +288,7 @@ public class EventManager
 					{
 						if (pk.equals(player))
 							continue;
-						if (player.getInEvent())
+						if (player.isInEvent())
 						{
 							allDead = false;
 							break;
@@ -354,7 +354,7 @@ public class EventManager
 			{
 				if (pc != null && pk != null)
 				{
-					if (pc.getInEvent() && pk.getInEvent())
+					if (pc.isInEvent() && pk.isInEvent())
 						if (pc != pk) // pk.addAncientAdena("DM", 25000, pk, true);
 							pk.countDMkills++;
 				}
@@ -370,7 +370,7 @@ public class EventManager
 		int alive = 0;
 		if (pc != null)
 		{
-			if (containsPlayer(pc) || pc.getInEvent())
+			if (containsPlayer(pc) || pc.isInEvent())
 			{
 				Location loc = pc.getSavedLocation();
 				if (loc != null)
@@ -386,7 +386,7 @@ public class EventManager
 		synchronized (players) // cuando un player se desconecta se redirecciona a onkill si solo queda un pj vivo en el evento
 		{
 			for (Player player : players)
-				if (!player.isDead() || player.getInEvent())
+				if (!player.isDead() || player.isInEvent())
 				{
 					alive++;
 					pk = player;
@@ -512,7 +512,7 @@ public class EventManager
 					
 					int alive = 0;
 					for (Player player : players)
-						if (player.getInEvent())
+						if (player.isInEvent())
 							alive++;
 						
 					if (alive >= 2)

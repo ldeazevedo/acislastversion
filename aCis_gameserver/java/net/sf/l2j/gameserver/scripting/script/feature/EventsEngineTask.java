@@ -55,13 +55,13 @@ public class EventsEngineTask extends Quest
 			startRandomFight();
 		}
 		else if (event.equalsIgnoreCase(EventConstants.STAGE_1))
-			RandomFightEngine.getInstance().setRandomFight(State.LOADING);
+			RandomFightEngine.getInstance().setNewState(State.LOADING);
 		else if (event.equalsIgnoreCase(EventConstants.STAGE_2) || event.equalsIgnoreCase(EventConstants.STAGE_3))
-			RandomFightEngine.getInstance().setRandomFight(State.PREPARING);
+			RandomFightEngine.getInstance().setNewState(State.PREPARING);
 		else if (event.equalsIgnoreCase(EventConstants.STAGE_4))
-			RandomFightEngine.getInstance().setRandomFight(State.FIGHT);
+			RandomFightEngine.getInstance().setNewState(State.FIGHT);
 		else if (event.equalsIgnoreCase(EventConstants.STAGE_5))
-			RandomFightEngine.getInstance().setRandomFight(State.ENDING);
+			RandomFightEngine.getInstance().setNewState(State.ENDING);
 		else if (event.equalsIgnoreCase("cancelQuestTimers"))
 		{
 			EventConstants.RANDOM_FIGHT_TIMER_CONFIG.forEach(tuple -> cancelQuestTimers(tuple.left()));
@@ -72,7 +72,7 @@ public class EventsEngineTask extends Quest
 
 	private void startRandomFight()
 	{
-		RandomFightEngine.getInstance().setRandomFight(State.REGISTER);
+		RandomFightEngine.getInstance().setNewState(State.REGISTER);
 		EventConstants.RANDOM_FIGHT_TIMER_CONFIG.forEach(tuple -> startQuestTimer(tuple.left(), tuple.right(), null, null, false));
 	}
 

@@ -27,6 +27,7 @@ import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.model.World;
+import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.events.AbstractEvent;
 import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
 
@@ -176,6 +177,24 @@ public class TvTManager extends AbstractEvent
 	protected String getClassName()
 	{
 		return getClass().getName();
+	}
+
+	@Override
+	public void onLogout(Player player)
+	{
+
+	}
+
+	@Override
+	public void clean()
+	{
+
+	}
+
+	@Override
+	public boolean onKill(Player player, Player killer)
+	{
+		return false;
 	}
 
 	/**

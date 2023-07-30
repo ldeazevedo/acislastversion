@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.events;
 
-import java.util.ArrayList;
-import java.util.List;
+import net.sf.l2j.gameserver.model.actor.Player;
+
 import java.util.logging.Logger;
 
 public class NewEventManager
@@ -9,8 +9,6 @@ public class NewEventManager
 	protected final Logger log = Logger.getLogger(this.getClass().getName());
 	private static NewEventManager instance;
 	private AbstractEvent runningEvent = null;
-	private List<AbstractEvent> availableEvents = new ArrayList<>();
-
 
 	public static NewEventManager getInstance()
 	{
@@ -32,5 +30,10 @@ public class NewEventManager
 			return;
 		}
 		runningEvent = EventEnum.getEventByEnum(eventEnum);
+	}
+
+	public boolean onKill(Player player, Player killer)
+	{
+		return runningEvent.onKill(player, killer);
 	}
 }

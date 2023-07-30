@@ -7,7 +7,8 @@ import java.util.Arrays;
 public enum EventEnum
 {
 	RANDOM_FIGHT(1, RandomFightEngine.getInstance()),
-	TVT(2, TvTManager.getInstance());
+	TVT(2, TvTManager.getInstance()),
+	SURVIVAL(3, SurvivalEvenEngine.getInstance());
 
 	private final int id;
 	private final AbstractEvent event;
