@@ -877,9 +877,6 @@ public abstract class WorldObject
 				oldI.removePlayer(getObjectId());
 			if (instanceId > 0)
 				newI.addPlayer(getObjectId());
-			
-			if (((Player)this).getSummon() != null)
-				((Player)this).getSummon().setInstanceId(instanceId);
 		}
 		else if (this instanceof Npc && oldI != null && newI != null)
 		{
@@ -891,6 +888,14 @@ public abstract class WorldObject
 		if (_instanceId != instanceId)
 		{
 			_instanceId = instanceId;
+			if (this instanceof Player)
+			{
+				if (((Player)this).getSummon() != null)
+					((Player)this).getSummon().setInstanceId(instanceId);
+				
+				if (((Player)this).getAgathion() != null)
+					((Player)this).getAgathion().setInstanceId(instanceId);
+			}
 			decayMe();
 			spawnMe();
 		}

@@ -60,8 +60,8 @@ public class SummonCreature implements ISkillHandler
 			
 			Agathion summon;
 			summon = new Agathion(IdFactory.getInstance().getNextId(), npcTemplate, player);
-			player.setAgathion(summon);
 			summon.setInstanceId(player.getInstanceId());
+			player.setAgathion(summon);
 			
 			summon.setName(npcTemplate.getName());
 			summon.setTitle(player.getName());
@@ -101,6 +101,7 @@ public class SummonCreature implements ISkillHandler
 		spawnLoc.addStrictOffset(40);
 		spawnLoc.setHeadingTo(activeChar.getPosition());
 		spawnLoc.set(GeoEngine.getInstance().getValidLocation(activeChar, spawnLoc));
+		pet.setInstanceId(player.getInstanceId());
 		
 		pet.spawnMe(spawnLoc);
 		pet.getAI().setFollowStatus(true);

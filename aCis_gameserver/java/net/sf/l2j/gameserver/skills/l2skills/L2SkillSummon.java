@@ -148,6 +148,7 @@ public class L2SkillSummon extends L2Skill
 					activeChar.getAgathion().unSummon(activeChar);
 				Agathion summon;
 				summon = new Agathion(IdFactory.getInstance().getNextId(), summonTemplate, activeChar);
+				summon.setInstanceId(activeChar.getInstanceId());
 				activeChar.setAgathion(summon);
 				
 				summon.setName(summonTemplate.getName());
@@ -182,7 +183,8 @@ public class L2SkillSummon extends L2Skill
 				summon = new Servitor(IdFactory.getInstance().getNextId(), summonTemplate, activeChar, this);
 			
 			activeChar.setSummon(summon);
-			
+
+			summon.setInstanceId(activeChar.getInstanceId());
 			summon.setName(summonTemplate.getName());
 			summon.setTitle(activeChar.getName());
 			summon.setExpPenalty(_expPenalty);

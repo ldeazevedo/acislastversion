@@ -21,7 +21,7 @@ import net.sf.l2j.gameserver.network.serverpackets.SocialAction;
  */
 public class Agathion extends Npc
 {
-	private Player _owner;
+	private Player owner;
 	private Future<?> _followTask;
 	
 	private ItemInstance item;
@@ -30,13 +30,13 @@ public class Agathion extends Npc
 	{
 		super(objectId, template);
 		
-        setInstanceId(owner.getInstanceId()); // set instance to same as owner
-		
 		// Set the magical circle animation.
 		setShowSummonAnimation(true);
 		
 		// Set the Player owner.
-		_owner = owner;
+		this.owner = owner;
+		
+        setInstanceId(owner.getInstanceId()); // set instance to same as owner
 	}
 	
 	@Override
@@ -57,7 +57,7 @@ public class Agathion extends Npc
 		owner.sendPacket(new PetDelete(2, getObjectId()));
 		owner.setAgathion(null);
 		
-		if (_owner.getSummon() != null)
+		if (owner.getSummon() != null)
 			owner.getSummon().sendInfo(owner);
 		owner.broadcastUserInfo();
 		
@@ -75,9 +75,6 @@ public class Agathion extends Npc
 		if (_followTask == null)
 			_followTask = ThreadPool.scheduleAtFixedRate(new Follow(this), 1000, 1000);
 		
-		// TODO Auto-generated method stub
-
-		Player owner = _owner;
 		SpawnLocation loc = owner.getPosition();
 		int rnd = Rnd.get(-20, +30);
 		boolean action = Rnd.get(100) < 15;
