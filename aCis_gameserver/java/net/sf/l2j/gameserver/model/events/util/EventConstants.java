@@ -22,7 +22,7 @@ public class EventConstants
 	public static final String STAGE_4 = "STG04";
 	public static final String STAGE_5 = "STG05";
 
-	public static List<Tuple<String, Integer>> RANDOM_FIGHT_TIMER_CONFIG = new ArrayList<>();
+	public static final List<Tuple<String, Integer>> RANDOM_FIGHT_TIMER_CONFIG = new ArrayList<>();
 
 	static
 	{

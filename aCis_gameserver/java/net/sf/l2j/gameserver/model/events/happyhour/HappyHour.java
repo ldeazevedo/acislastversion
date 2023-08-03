@@ -19,9 +19,9 @@ package net.sf.l2j.gameserver.model.events.happyhour;
  */
 public class HappyHour
 {
-	private int _day;
-	private int _startHour;
-	private int _endHour;
+	private int day;
+	private int startHour;
+	private int endHour;
 	
 	/**
 	 * @param day Dia en el cual funciona
@@ -47,31 +47,31 @@ public class HappyHour
 	
 	public void setDay(int day)
 	{
-		_day = day;
+		this.day = day;
 	}
 	
 	public int getDay()
 	{
-		return _day;
+		return day;
 	}
 	
 	public void setStartHour(int startHour)
 	{
-		_startHour = startHour;
+		this.startHour = startHour;
 	}
 	
 	public int getStartHour()
 	{
-		return _startHour;
+		return startHour;
 	}
 	
 	public void setEndHour(int endHour)
 	{
-		_endHour = endHour;
+		this.endHour = endHour;
 	}
 	
 	public int getEndHour()
 	{
-		return _endHour;
+		return endHour;
 	}
 }

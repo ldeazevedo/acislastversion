@@ -2761,7 +2761,7 @@ public class Player extends Playable
 			if (isInEvent && pk != null)
 				pk.kills.add(getName());
 
-			if (isInEvent(this) && isInEvent(pk) && EventManager.getInstance().onKill(this, pk) || NewEventManager.getInstance().onKill(this, pk.getActingPlayer()))
+			if (isInEvent(this) && isInEvent(pk) && EventManager.getInstance().onKill(this, pk) || NewEventManager.getInstance().onKill(this, pk))
 				return true;
 			// Clear resurrect xp calculation
 			setExpBeforeDeath(0);
@@ -6711,6 +6711,7 @@ public class Player extends Playable
 					((StaticObject) object).setBusy(false);
 			}
 
+			NewEventManager.getInstance().onLogout(this);
 			EventManager.getInstance().onLogout(this);
 			RandomFightEngine.getInstance().onLogout(this);
 			TvTEvent.onLogout(this);

@@ -4,7 +4,7 @@ import net.sf.l2j.gameserver.model.actor.Player;
 
 import java.util.logging.Logger;
 
-public class NewEventManager
+public class NewEventManager implements IEvent
 {
 	protected final Logger log = Logger.getLogger(this.getClass().getName());
 	private static NewEventManager instance;
@@ -32,8 +32,26 @@ public class NewEventManager
 		runningEvent = EventEnum.getEventByEnum(eventEnum);
 	}
 
+	@Override
+	public void onLogout(Player player)
+	{
+		runningEvent.onLogout(player);
+	}
+
+	@Override
+	public void clean()
+	{
+		runningEvent.clean();
+	}
+
+	@Override
 	public boolean onKill(Player player, Player killer)
 	{
 		return runningEvent.onKill(player, killer);
+	}
+
+	public boolean isInEvent(Player player)
+	{
+		return runningEvent.isInEvent(player);
 	}
 }
