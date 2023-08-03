@@ -10,7 +10,11 @@ import java.util.logging.Logger;
 
 public class EventUtil
 {
-	private final static Logger log = Logger.getLogger(EventUtil.class.getName());
+	private static final Logger log = Logger.getLogger(EventUtil.class.getName());
+
+	private EventUtil()
+	{
+	}
 
 	public static void revertPlayer(Player player)
 	{

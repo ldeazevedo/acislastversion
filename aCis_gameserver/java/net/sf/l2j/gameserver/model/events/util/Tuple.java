@@ -19,7 +19,7 @@ public class Tuple<L, R> {
 	public Tuple(L leftElement, R rightElement, boolean newInstanceId) {
 		this.leftElement = leftElement;
 		this.rightElement = rightElement;
-		this.instanceId = newInstanceId ? IdFactory.getInstance().getNextId() : -1;
+		this.instanceId = newInstanceId ? IdFactory.getInstance().getNextId() : 0;
 	}
 
 	public L left() {
