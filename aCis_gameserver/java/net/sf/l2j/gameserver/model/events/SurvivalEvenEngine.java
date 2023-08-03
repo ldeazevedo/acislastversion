@@ -16,8 +16,6 @@ package net.sf.l2j.gameserver.model.events;
 
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
-import net.sf.l2j.gameserver.data.xml.MapRegionData;
-import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
@@ -58,25 +56,6 @@ public class SurvivalEvenEngine extends AbstractEvent implements IEvent
 					player.sendPacket(new ExShowScreenMessage(msg, 3500, SMPOS.MIDDLE_RIGHT, false));
 			}
 		});
-	}
-
-	public static void announceNpc(String msg)
-	{
-		if (npc == null)
-		{
-			for (Player players : World.getInstance().getPlayers())
-				if (players.isOnline())
-					players.sendMessage(msg);
-			return;
-		}
-		final CreatureSay cs = new CreatureSay(npc, SayType.SHOUT, msg);
-		final int region = MapRegionData.getInstance().getMapRegion(npc.getX(), npc.getY());
-
-		for (Player worldPlayer : World.getInstance().getPlayers())
-		{
-			if (region == MapRegionData.getInstance().getMapRegion(worldPlayer.getX(), worldPlayer.getY()))
-				worldPlayer.sendPacket(cs);
-		}
 	}
 
 	public void processCommand(String text, Player player)
@@ -248,7 +227,7 @@ public class SurvivalEvenEngine extends AbstractEvent implements IEvent
 				break;
 			case REGISTER:
 				checkRequirements();
-				if (reqPlayers())
+				if (areRequiredPlayersRegistered())
 				{
 					World.announceToOnlinePlayers("Survival no comenzara por que faltan participantes.");
 					ThreadPool.schedule(new RevertTask(), 1000);
@@ -260,7 +239,7 @@ public class SurvivalEvenEngine extends AbstractEvent implements IEvent
 				currentState = newState;
 				break;
 			case LOADING:
-				if (reqPlayers())
+				if (areRequiredPlayersRegistered())
 				{
 					World.announceToOnlinePlayers("Survival no comenzara por que faltan participantes.");
 					ThreadPool.schedule(new RevertTask(), 1000);
@@ -272,7 +251,7 @@ public class SurvivalEvenEngine extends AbstractEvent implements IEvent
 			case PREPARING:
 				if (newState == State.PREPARING)
 				{
-					if (reqPlayers())
+					if (areRequiredPlayersRegistered())
 					{
 						World.announceToOnlinePlayers("Uno de los personajes no esta Online, se cancela el evento.");
 						ThreadPool.schedule(new RevertTask(), 1000);

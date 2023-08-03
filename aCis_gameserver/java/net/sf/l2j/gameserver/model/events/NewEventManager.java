@@ -42,6 +42,7 @@ public class NewEventManager implements IEvent
 	public void clean()
 	{
 		runningEvent.clean();
+		runningEvent = null;
 	}
 
 	@Override

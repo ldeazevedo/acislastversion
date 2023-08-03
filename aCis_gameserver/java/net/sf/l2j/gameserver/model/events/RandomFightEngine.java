@@ -14,18 +14,9 @@
  */
 package net.sf.l2j.gameserver.model.events;
 
-import java.util.*;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
-
 import net.sf.l2j.commons.pool.ThreadPool;
-
-import net.sf.l2j.gameserver.data.xml.MapRegionData;
-import net.sf.l2j.gameserver.data.xml.ScriptData;
-import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.model.World;
-import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.events.tvt.TvTEvent;
 import net.sf.l2j.gameserver.model.events.util.EventConstants;
@@ -36,14 +27,16 @@ import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
-import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessage.SMPOS;
 import net.sf.l2j.gameserver.network.serverpackets.StopMove;
 
+import java.util.*;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
+
 public class RandomFightEngine extends AbstractEvent implements IEvent
 {
-	private static Npc npc;
 	private final List<Tuple<Player, Player>> tuple = Collections.synchronizedList(new ArrayList<>());
 
 	//Arriba de gc - 179621, 54371, -3093 - 178167, 54851, -3093
@@ -64,25 +57,6 @@ public class RandomFightEngine extends AbstractEvent implements IEvent
 					player.sendPacket(new ExShowScreenMessage(msg, 3500, SMPOS.MIDDLE_RIGHT, false));
 			}
 		});
-	}
-
-	public static void announceNpc(String msg)
-	{
-		if (npc == null)
-		{
-			for (Player players : World.getInstance().getPlayers())
-				if (players.isOnline())
-					players.sendMessage(msg);
-			return;
-		}
-		final CreatureSay cs = new CreatureSay(npc, SayType.SHOUT, msg);
-		final int region = MapRegionData.getInstance().getMapRegion(npc.getX(), npc.getY());
-
-		for (Player worldPlayer : World.getInstance().getPlayers())
-		{
-			if (region == MapRegionData.getInstance().getMapRegion(worldPlayer.getX(), worldPlayer.getY()))
-				worldPlayer.sendPacket(cs);
-		}
 	}
 
 	public void processCommand(String text, Player player)
@@ -241,9 +215,8 @@ public class RandomFightEngine extends AbstractEvent implements IEvent
 				break;
 			case REGISTER:
 				log.info("New state: " + currentState);
-				if (reqPlayers())
+				if (!areRequiredPlayersRegistered())
 				{
-					announceNpc(EventConstants.INSUFFICIENT);
 					ThreadPool.schedule(new RevertTask(), 1000);
 					return;
 				}
@@ -255,9 +228,8 @@ public class RandomFightEngine extends AbstractEvent implements IEvent
 			case LOADING:
 				try
 				{
-					if (reqPlayers())
+					if (areRequiredPlayersRegistered())
 					{
-						announceNpc(EventConstants.INSUFFICIENT);
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
@@ -282,32 +254,31 @@ public class RandomFightEngine extends AbstractEvent implements IEvent
 			case PREPARING:
 				if (newState == State.PREPARING)
 				{
-					if (reqPlayers())
+					if (areRequiredPlayersRegistered())
 					{
-						announceNpc(EventConstants.INSUFFICIENT);
 						ThreadPool.schedule(new RevertTask(), 1000);
 						return;
 					}
 
-					tuple.forEach(tuple -> {
-						preparePlayer(tuple.getInstanceId(), tuple.left(), tuple.right());
+					tuple.forEach(t -> {
+						preparePlayer(t.getInstanceId(), t.left(), t.right());
 
-						tuple.left().teleportTo(loc1, 0);
-						tuple.right().teleportTo(loc2, 0);
-						tuple.left().setTeam(TeamType.BLUE);
-						tuple.right().setTeam(TeamType.RED);
+						t.left().teleportTo(loc1, 0);
+						t.right().teleportTo(loc2, 0);
+						t.left().setTeam(TeamType.BLUE);
+						t.right().setTeam(TeamType.RED);
 					});
 
 				} else if (newState == State.FIGHT)
 				{
-					if (reqPlayers())
+					if (areRequiredPlayersRegistered())
 					{
 						//				announce("Uno de los personajes no esta Online, se cancela el evento.");
 						ThreadPool.schedule(new RevertTask(), 15000);
 						return;
 					}
 
-					tuple.forEach(tuple -> setPlayersStats("Pelea!", tuple.right(), tuple.left()));
+					tuple.forEach(t -> setPlayersStats("Pelea!", t.right(), t.left()));
 
 					currentState = newState;
 				}
@@ -316,9 +287,9 @@ public class RandomFightEngine extends AbstractEvent implements IEvent
 				if (newState == State.ENDING)
 				{
 					currentState = newState;
-					tuple.forEach(tuple -> {
-						if (!tuple.left().isDead() && !tuple.right().isDead())
-							announcePlayer("Finalizado en empate!", false, tuple.right(), tuple.left());
+					tuple.forEach(t -> {
+						if (!t.left().isDead() && !t.right().isDead())
+							announcePlayer("Finalizado en empate!", false, t.right(), t.left());
 					});
 					ThreadPool.schedule(new RevertTask(), 15000);
 				}
