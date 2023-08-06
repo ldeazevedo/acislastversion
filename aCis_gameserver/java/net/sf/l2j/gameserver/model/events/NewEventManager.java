@@ -51,6 +51,12 @@ public class NewEventManager implements IEvent
 		return runningEvent.onKill(player, killer);
 	}
 
+	@Override
+	public void processCommand(String text, Player player)
+	{
+		runningEvent.processCommand(text, player);
+	}
+
 	public boolean isInEvent(Player player)
 	{
 		return runningEvent.isInEvent(player);

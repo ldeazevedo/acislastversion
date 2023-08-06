@@ -9,4 +9,6 @@ public interface IEvent
 	void clean();
 
 	boolean onKill(Player player, Player killer);
+
+	void processCommand(String text, Player player);
 }

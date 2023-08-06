@@ -58,78 +58,22 @@ public class SurvivalEvenEngine extends AbstractEvent implements IEvent
 		});
 	}
 
+	@Override
 	public void processCommand(String text, Player player)
 	{
-		if (isInProgress())
+		if (!validateCommand(text, player))
+			return;
+
+		if (text.equalsIgnoreCase(EventConstants.WATCH))
 		{
-			if (player.isInObserverMode() || player.isInOlympiadMode() || player.isFestivalParticipant() || player.isInJail() || player.isCursedWeaponEquipped() || player.getKarma() > 0 || TvTEvent.isInProgress() && TvTEvent.isPlayerParticipant(player.getObjectId()))
-			{
-				player.sendMessage("You do not meet the conditions to participate.");
+			if (registeredPlayers.contains(player) || player.isInObserverMode())
 				return;
-			}
-			if (OlympiadManager.getInstance().isRegistered(player))
-			{
-				player.sendMessage("No puedes participar ni ver el evento mientras estas registrado en oly.");
-				return;
-			}
 
-			var isPlayerRegistered = registeredPlayers.contains(player);
+			player.enterObserverMode(new Location(85574, 256964, -11674));
+			return;
+		}
 
-			if (text.equalsIgnoreCase(EventConstants.EXIT))
-			{
-				if (!isPlayerRegistered || currentState != State.FIGHT)
-					return;
-				if (player.isDead())
-				{
-					registeredPlayers.remove(player);
-					EventUtil.revertPlayer(player);
-				}
-				return;
-			}
-			if (text.equalsIgnoreCase(EventConstants.WATCH))
-			{
-				if (isPlayerRegistered || player.isInObserverMode())
-					return;
-
-				player.enterObserverMode(new Location(85574, 256964, -11674));
-				return;
-			}
-			if (currentState == State.REGISTER)
-			{
-				if (text.equalsIgnoreCase(EventConstants.REGISTER))
-				{
-					if (player.isDead())
-						return;
-					if (player.isInObserverMode())
-					{
-						player.sendMessage("No te podes anotar si estas mirando el evento.");
-						return;
-					}
-					if (registeredPlayers.contains(player))
-					{
-						player.sendMessage("Ya estas registrado en el evento.");
-						return;
-					}
-					registeredPlayers.add(player);
-					player.sendMessage("Te registraste al evento!");
-					return;
-				}
-				if (text.equalsIgnoreCase(EventConstants.UNREGISTER))
-				{
-					if (!isPlayerRegistered)
-					{
-						player.sendMessage("No te registraste al evento.");
-						return;
-					}
-					registeredPlayers.remove(player);
-					player.sendMessage("Saliste del evento.");
-				}
-			} else
-			{
-				player.sendMessage("El evento ya comenzo.");
-			}
-		} else
-			log.info("The event is inactive");
+		validateRegister(text, player);
 	}
 
 	private class RevertTask implements Runnable
