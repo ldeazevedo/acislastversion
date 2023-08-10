@@ -46,22 +46,10 @@ public class SurvivalEvenEngine extends AbstractEvent implements IEvent
 	{
 	}
 
-	public static void announcePlayer(String msg, boolean exShowScreen, Player... players)
-	{
-		Arrays.stream(players).forEach(player -> {
-			if (msg != null)
-			{
-				player.sendMessage(msg);
-				if (exShowScreen)
-					player.sendPacket(new ExShowScreenMessage(msg, 3500, SMPOS.MIDDLE_RIGHT, false));
-			}
-		});
-	}
-
 	@Override
 	public void processCommand(String text, Player player)
 	{
-		if (!validateCommand(text, player))
+		if (isCommandInvalid(text, player))
 			return;
 
 		if (text.equalsIgnoreCase(EventConstants.WATCH))
@@ -245,21 +233,6 @@ public class SurvivalEvenEngine extends AbstractEvent implements IEvent
 		protected static final SurvivalEvenEngine _instance = new SurvivalEvenEngine();
 	}
 
-	private void preparePlayer(Player player)
-	{
-		player.setLastLocation(new Location(player.getX(), player.getY(), player.getZ()));
-		player.setIsInEvent(true);
-		player.stopAllEffectsExceptThoseThatLastThroughDeath();
-		if (player.getSummon() != null)
-			player.getSummon().stopAllEffectsExceptThoseThatLastThroughDeath();
-		player.startAbnormalEffect(0x0200);
-		player.setIsImmobilized(true);
-		player.broadcastPacket(new StopMove(player));
-		getBuffs(player);
-		player.getStatus().setMaxCpHpMp();
-		announcePlayer("La pelea comenzara en 30 segundos!", true, player);
-	}
-
 	private void preparePlayer(Integer instanceId, Player... players)
 	{
 		Arrays.stream(players).forEach(player -> {
@@ -268,11 +241,10 @@ public class SurvivalEvenEngine extends AbstractEvent implements IEvent
 		});
 	}
 
-	private static void setPlayersStats(String message, Player... players)
+	private void setPlayersStats(String message, Player... players)
 	{
 		Arrays.stream(players).forEach(player -> {
-			if (message != null)
-				announcePlayer(message, false, player);
+			announceToPlayer(message, false, player);
 			player.stopAbnormalEffect(0x0200);
 			player.setIsImmobilized(false);
 			player.setInvul(false);
