@@ -22,6 +22,7 @@ import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
+import net.sf.l2j.gameserver.model.spawn.ASpawn;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 
 public class RaidBossStatus extends Npc
@@ -50,50 +51,54 @@ public class RaidBossStatus extends Npc
 		
 		for (int rboss : RBOSSES)
 		{
-			
-			long delay = SpawnManager.getInstance().getSpawn(rboss).getRespawnDelay(); //aidBossSpawnManager.getInstance().getRespawntime(rboss)
+			if (NpcData.getInstance().getTemplate(rboss) == null)
+				continue;
+			ASpawn spawn = SpawnManager.getInstance().getSpawn(rboss);
+			if (spawn == null)
+				continue;
+			if (spawn.getSpawnData() == null)
+				continue;
+			long delay = spawn.getSpawnData().getRespawnTime();
 			String name = NpcData.getInstance().getTemplate(rboss).getName().toUpperCase();
 			
 			if (delay == 0)
-			{
 				sb.append("" + name + "&nbsp;<font color=\"FFFF00\">IS ALIVE!</font><br1>");
-			}
-			else if (delay < 0)
+			else if (delay > 0)
 			{
 				sb.append("&nbsp;" + name + "&nbsp;<font color=\"FF0000\">IS DEAD</font><br1>");
-			}
-			else
-			{
-				delay = SpawnManager.getInstance().getSpawn(rboss).getRespawnDelay()/*RaidBossSpawnManager.getInstance().getRespawntime(rboss)*/ - Calendar.getInstance().getTimeInMillis();
+				delay = spawn.getSpawnData().getRespawnTime() - Calendar.getInstance().getTimeInMillis();
 				sb.append("" + name + "&nbsp;<font color=\"b09979\">:&nbsp;" + ConverTime(delay) + "</font><br1>");
 			}
 		}
-		
-		long m_delay = SpawnManager.getInstance().getSpawn(MBOSS).getRespawnDelay();//RaidBossSpawnManager.getInstance().getRespawntime(MBOSS);
-		String m_name = NpcData.getInstance().getTemplate(MBOSS).getName().toUpperCase();
-		
-		String mainBossInfo = "";
-		
-		if (m_delay == 0)
+
+		ASpawn spawn = SpawnManager.getInstance().getSpawn(MBOSS);
+		if (spawn != null)
 		{
-			mainBossInfo = "WE SHOULD HAVE ACTED<br1><font color=\"FFFF00\">" + m_name + "&nbsp;IS ALIVE!</font><br1>";
+			long m_delay = spawn.getSpawnData().getRespawnTime();
+			String m_name = NpcData.getInstance().getTemplate(MBOSS).getName().toUpperCase();
+			
+			String mainBossInfo = "";
+			
+			if (m_delay == 0)
+				//sb.append("" + m_name + "&nbsp;<font color=\"FFFF00\">IS ALIVE!</font><br1>");
+				mainBossInfo += "State<br1><font color=\"FFFF00\">" + m_name + "&nbsp;IS ALIVE!</font><br1>";
+			else if (m_delay > 0)
+			{
+			//	sb.append("&nbsp;" + m_name + "&nbsp;<font color=\"FF0000\">IS DEAD</font><br1>");
+			//	m_delay = spawn.getSpawnData().getRespawnTime() - Calendar.getInstance().getTimeInMillis();
+			//	sb.append("" + m_name + "&nbsp;<font color=\"b09979\">:&nbsp;" + ConverTime(m_delay) + "</font><br1>");
+				mainBossInfo += "State<br1><font color=\"FF0000\">&nbsp;" + m_name + "&nbsp;IS DEAD</font><br1>";
+				m_delay = m_delay - Calendar.getInstance().getTimeInMillis();
+				mainBossInfo += "<font color=\"b09979\">" + ConverTime(m_delay) + "</font><br1> Time until respawn!";
+			}
+			
+			NpcHtmlMessage html = new NpcHtmlMessage(1);
+			html.setFile(getHtmlPath(getNpcId(), 0));
+			html.replace("%objectId%", getObjectId());
+			html.replace("%bosslist%", sb.toString());
+			html.replace("%mboss%", mainBossInfo);
+			activeChar.sendPacket(html);
 		}
-		else if (m_delay < 0)
-		{
-			mainBossInfo = "IT'S ALL OVER<br1><font color=\"FF0000\">&nbsp;" + m_name + "&nbsp;IS DEAD</font><br1>";
-		}
-		else
-		{
-			m_delay = m_delay - Calendar.getInstance().getTimeInMillis();
-			mainBossInfo = "<font color=\"b09979\">" + ConverTime(m_delay) + "</font><br1>UNTIL OBLIVION OPEN!";
-		}
-		
-		NpcHtmlMessage html = new NpcHtmlMessage(1);
-		html.setFile(getHtmlPath(getNpcId(), 0));
-		html.replace("%objectId%", getObjectId());
-		html.replace("%bosslist%", sb.toString());
-		html.replace("%mboss%", mainBossInfo);
-		activeChar.sendPacket(html);
 	}
 	
 	private static String ConverTime(long mseconds)
