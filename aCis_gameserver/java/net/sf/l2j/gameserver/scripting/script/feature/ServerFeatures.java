@@ -18,19 +18,34 @@
  */
 package net.sf.l2j.gameserver.scripting.script.feature;
 
+import java.util.Calendar;
+
 import net.sf.l2j.commons.random.Rnd;
 
+import net.sf.l2j.gameserver.data.cache.HtmCache;
+import net.sf.l2j.gameserver.data.manager.GrandBossManager;
+import net.sf.l2j.gameserver.data.manager.SpawnManager;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
+import net.sf.l2j.gameserver.model.spawn.ASpawn;
+import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.scripting.Quest;
 
 public class ServerFeatures extends Quest
 {
+	private static final int[] RBOSSES =
+	{
+		29001, 29006, 29014, 29019, 29020, 29022, 29028, 25325, 25163, 25322, 25276, 25252, 25527, 25220, 25296, 25299, 25336
+	};
+	
+	private static final int MBOSS = 25126;
+	
 	private static final int ARENA_NPC = 50095;
 	private static final int CUSTOM_NPC = 50096;
+	
 	//Npcs para shops, teleports y $
 	protected static final int[][] CUSTOM_SPAWNS =
 	{
@@ -89,5 +104,126 @@ public class ServerFeatures extends Quest
 		int score = Rnd.get(100, 250);
 		player.updatePcBangScore(score);
 		super.onMyDying(npc, killer);
+	}
+	
+	@Override
+	public String onAdvEvent(String event, Npc npc, Player player)
+	{
+		switch (event)
+		{
+			case "teleport.htm":
+				if (player.getKarma() != 0)
+					return "teleport-no.htm";
+			case "boss":
+				generateFirstWindow(npc, player);
+				return "";
+		}
+		
+		return event;
+	}
+	
+
+	@Override
+	public String onFirstTalk(Npc npc, Player player)
+	{
+		String htmltext = "";
+		switch (npc.getNpcId())
+		{
+			case CUSTOM_NPC:
+				htmltext = "main.htm";
+				break;
+			case ARENA_NPC:
+				if (player.getKarma() != 0)
+					return "arena-karma.htm";
+				htmltext = "arena_main.htm";
+				break;
+		}
+		return htmltext;
+	}
+	
+	private void generateFirstWindow(Npc npc, Player player)
+	{
+		if (npc == null || player == null)
+			return;
+		final StringBuilder sb = new StringBuilder();
+		
+		for (int rboss : RBOSSES)
+		{
+			if (NpcData.getInstance().getTemplate(rboss) == null)
+				continue;
+			
+			if (GrandBossManager.getInstance().getBoss(npc.getNpcId()) != null)
+				continue;
+			
+			ASpawn spawn = SpawnManager.getInstance().getSpawn(rboss);
+			if (spawn == null || spawn.getSpawnData() == null)
+				continue;
+			long delay = spawn.getSpawnData().getRespawnTime();
+			String name = NpcData.getInstance().getTemplate(rboss).getName().toUpperCase();
+			
+			if (delay == 0)
+				sb.append("" + name + "&nbsp;<font color=\"FFFF00\">IS ALIVE!</font><br1>");
+			else if (delay > 0)
+			{
+				sb.append("&nbsp;" + name + "&nbsp;<font color=\"FF0000\">IS DEAD</font><br1>");
+				delay = spawn.getSpawnData().getRespawnTime() - Calendar.getInstance().getTimeInMillis();
+				sb.append("" + name + "&nbsp;<font color=\"b09979\">:&nbsp;" + ConverTime(delay) + "</font><br1>");
+			}
+		}
+
+		ASpawn spawn = SpawnManager.getInstance().getSpawn(MBOSS);
+		if (spawn != null)
+		{
+			long m_delay = spawn.getSpawnData().getRespawnTime();
+			String m_name = NpcData.getInstance().getTemplate(MBOSS).getName().toUpperCase();
+			
+			String mainBossInfo = "";
+			
+			if (m_delay == 0)
+				mainBossInfo += "State<br1><font color=\"FFFF00\">" + m_name + "&nbsp;IS ALIVE!</font><br1>";
+			else if (m_delay > 0)
+			{
+				mainBossInfo += "State<br1><font color=\"FF0000\">&nbsp;" + m_name + "&nbsp;IS DEAD</font><br1>";
+				m_delay = m_delay - Calendar.getInstance().getTimeInMillis();
+				mainBossInfo += "<font color=\"b09979\">" + ConverTime(m_delay) + "</font><br1> Time until respawn!";
+			}
+			
+			NpcHtmlMessage html = new NpcHtmlMessage(1);
+			html.setFile(getHtmlPath(npc.getNpcId(), 0));
+			html.replace("%objectId%", npc.getObjectId());
+			html.replace("%bosslist%", sb.toString());
+			html.replace("%mboss%", mainBossInfo);
+			player.sendPacket(html);
+		}
+	}
+	
+	private static String ConverTime(long mseconds)
+	{
+		long remainder = mseconds;
+		
+		long hours = (long) Math.ceil((mseconds / (60 * 60 * 1000)));
+		remainder = mseconds - (hours * 60 * 60 * 1000);
+		
+		long minutes = (long) Math.ceil((remainder / (60 * 1000)));
+		remainder = remainder - (minutes * (60 * 1000));
+		
+		long seconds = (long) Math.ceil((remainder / 1000));
+		
+		return hours + ":" + minutes + ":" + seconds;
+	}
+	
+	public String getHtmlPath(int npcId, int val)
+	{
+		String filename;
+		
+		if (val == 0)
+			filename = "data/html/mods/RaidBossStatus/" + npcId + ".htm";
+		else
+			filename = "data/html/mods/RaidBossStatus/" + npcId + "-" + val + ".htm";
+		
+		if (HtmCache.getInstance().isLoadable(filename))
+			return filename;
+		
+		return "data/html/mods/RaidBossStatus/" + npcId + ".htm";
 	}
 }
