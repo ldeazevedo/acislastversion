@@ -51,7 +51,7 @@ public class NewEventManager implements IEvent
 	@Override
 	public boolean onKill(Player player, Player killer)
 	{
-		return runningEvent.onKill(player, killer);
+		return runningEvent != null && runningEvent.onKill(player, killer);
 	}
 
 	@Override
