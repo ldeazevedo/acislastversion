@@ -18,11 +18,16 @@
  */
 package net.sf.l2j.gameserver.scripting.script.feature;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
+import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.random.Rnd;
 
-import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.data.manager.SpawnManager;
 import net.sf.l2j.gameserver.data.xml.NpcData;
@@ -33,18 +38,18 @@ import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.spawn.ASpawn;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.scripting.Quest;
+import net.sf.l2j.gameserver.scripting.script.ai.boss.Antharas;
+import net.sf.l2j.gameserver.scripting.script.ai.boss.Frintezza;
+import net.sf.l2j.gameserver.scripting.script.ai.boss.Valakas;
 
 public class ServerFeatures extends Quest
 {
-	private static final int[] RBOSSES =
-	{
-		29001, 29006, 29014, 29019, 29020, 29022, 29028, 25325, 25163, 25322, 25276, 25252, 25527, 25220, 25296, 25299, 25336
-	};
-	
-	private static final int MBOSS = 25126;
+	private static final int[] BOSSES = {29001, 29006, 29014, 29022};
+	private static final String SQL_BOSS = "SELECT boss_id, respawn_time, status, name, id, level FROM grandboss_data LEFT JOIN npc ON grandboss_data.boss_id=npc.id WHERE boss_id ORDER BY grandboss_data.status DESC";
 	
 	private static final int ARENA_NPC = 50095;
 	private static final int CUSTOM_NPC = 50096;
+	private static final int BUFFER = 50012;
 	
 	//Npcs para shops, teleports y $
 	protected static final int[][] CUSTOM_SPAWNS =
@@ -70,9 +75,9 @@ public class ServerFeatures extends Quest
 	// Npcs para el Arena Fight
 	protected static final int[][] ARENA_SPAWNS =
 	{
-		{ 83587, 147598, -3400, 16384 },
-		{ 148102, -55695, -2744, 27280 },
-		{ 147074, 25630, -2008, 10495 }
+		{ 83587, 147598, -3400, 16384 },  			// Giran
+		{ 148102, -55695, -2744, 27280 },  			// Goddard
+		{ 147074, 25630, -2008, 10495 }  			// Aden
 	};
 	
 	public ServerFeatures()
@@ -81,8 +86,10 @@ public class ServerFeatures extends Quest
 
 		addTalkId(ARENA_NPC);
 		addTalkId(CUSTOM_NPC);
+		addTalkId(BUFFER);
 		addFirstTalkId(ARENA_NPC);
 		addFirstTalkId(CUSTOM_NPC);
+		addFirstTalkId(BUFFER);
 		
 		for (NpcTemplate t : NpcData.getInstance().getTemplates(t -> t.isType("RaidBoss")))
 			addMyDying(t.getIdTemplate());
@@ -114,6 +121,7 @@ public class ServerFeatures extends Quest
 			case "teleport.htm":
 				if (player.getKarma() != 0)
 					return "teleport-no.htm";
+				break;
 			case "boss":
 				generateFirstWindow(npc, player);
 				return "";
@@ -122,7 +130,6 @@ public class ServerFeatures extends Quest
 		return event;
 	}
 	
-
 	@Override
 	public String onFirstTalk(Npc npc, Player player)
 	{
@@ -147,54 +154,81 @@ public class ServerFeatures extends Quest
 			return;
 		final StringBuilder sb = new StringBuilder();
 		
-		for (int rboss : RBOSSES)
+		try (Connection con = ConnectionPool.getConnection();
+			 PreparedStatement statement = con.prepareStatement(SQL_BOSS);
+			 ResultSet result = statement.executeQuery())
 		{
-			if (NpcData.getInstance().getTemplate(rboss) == null)
+			while (result.next()) //Tomados del GrandBoss data.
+			{
+				NpcTemplate npcinfo = NpcData.getInstance().getTemplate(result.getInt("boss_id"));
+				long respawnTime = (GrandBossManager.getInstance().getStatSet(npcinfo.getNpcId()).getLong("respawn_time"));
+
+				int npcid = npcinfo.getNpcId();
+				boolean diffentId = npcid == Valakas.VALAKAS || npcid == Frintezza.FRINTEZZA || npcid == Antharas.ANTHARAS;
+				boolean isStatus = GrandBossManager.getInstance().getBossStatus(npcid) == (diffentId ? 3 : 2);
+				String name = NpcData.getInstance().getTemplate(npcid).getName().toUpperCase();
+				if (name.equalsIgnoreCase("Scarlet van Halisha"))
+					continue;
+
+				if (!isStatus)
+					sb.append("" + name + "&nbsp;<font color=\"FFFF00\">IS ALIVE!</font><br1>");
+				else
+				{
+					sb.append("&nbsp;" + name + "&nbsp;<font color=\"FF0000\">IS DEAD</font><br1>");
+					sb.append("Time until respawn: " + name + "&nbsp;<font color=\"b09979\">:&nbsp;" + ConverTime(respawnTime - Calendar.getInstance().getTimeInMillis()) + "</font><br1>");
+				}
+			}
+		} catch (Exception e)
+		{
+			log.error("There was an error when loading bosses: " + e.getMessage());
+		}
+		Arrays.stream(BOSSES).forEach(boss -> {
+			NpcTemplate npcinfo = NpcData.getInstance().getTemplate(boss);
+			if (npcinfo == null)
+				return;
+			ASpawn spawn = SpawnManager.getInstance().getSpawn(boss);
+	
+			if (spawn != null && spawn.getSpawnData() != null)
+			{
+				long delay = spawn.getSpawnData().getRespawnTime();
+				String name = NpcData.getInstance().getTemplate(boss).getName().toUpperCase();
+				
+				if (delay == 0)
+					sb.append("" + name + "&nbsp;<font color=\"FFFF00\">IS ALIVE!</font><br1>");
+				else if (delay > 0)
+				{
+					sb.append("&nbsp;" + name + "&nbsp;<font color=\"FF0000\">IS DEAD</font><br1>");
+					sb.append("Time until respawn: " + name + "&nbsp;<font color=\"b09979\">:&nbsp;" + ConverTime(delay - Calendar.getInstance().getTimeInMillis()) + "</font><br1>");
+				}
+			}
+		});
+		final List<NpcTemplate> mobs = NpcData.getInstance().getTemplates(t -> t.isType("RaidBoss"));
+		String mainBossInfo = "";
+
+		for (int i = 0; i < mobs.size(); i++)
+		{
+			ASpawn spawn = SpawnManager.getInstance().getSpawn(mobs.get(i).getNpcId());
+			if (NpcData.getInstance().getTemplate(mobs.get(i).getNpcId()) == null || spawn == null || spawn.getSpawnData() == null)
 				continue;
-			
-			if (GrandBossManager.getInstance().getBoss(npc.getNpcId()) != null)
-				continue;
-			
-			ASpawn spawn = SpawnManager.getInstance().getSpawn(rboss);
-			if (spawn == null || spawn.getSpawnData() == null)
+			if ((NpcData.getInstance().getTemplate(mobs.get(i).getNpcId()).getLevel() < 75))
 				continue;
 			long delay = spawn.getSpawnData().getRespawnTime();
-			String name = NpcData.getInstance().getTemplate(rboss).getName().toUpperCase();
+			String name = NpcData.getInstance().getTemplate(mobs.get(i).getNpcId()).getName().toUpperCase();
 			
 			if (delay == 0)
-				sb.append("" + name + "&nbsp;<font color=\"FFFF00\">IS ALIVE!</font><br1>");
+				mainBossInfo += ("" + name + "&nbsp;<font color=\"FFFF00\">IS ALIVE!</font><br1>");
 			else if (delay > 0)
 			{
-				sb.append("&nbsp;" + name + "&nbsp;<font color=\"FF0000\">IS DEAD</font><br1>");
-				delay = spawn.getSpawnData().getRespawnTime() - Calendar.getInstance().getTimeInMillis();
-				sb.append("" + name + "&nbsp;<font color=\"b09979\">:&nbsp;" + ConverTime(delay) + "</font><br1>");
+				mainBossInfo += ("&nbsp;" + name + "&nbsp;<font color=\"FF0000\">IS DEAD</font><br1>");
+				mainBossInfo += ("Time until respawn: " +name+ "&nbsp;<font color=\"b09979\">:&nbsp;" + ConverTime(delay - Calendar.getInstance().getTimeInMillis()) + "</font><br1>");
 			}
 		}
-
-		ASpawn spawn = SpawnManager.getInstance().getSpawn(MBOSS);
-		if (spawn != null)
-		{
-			long m_delay = spawn.getSpawnData().getRespawnTime();
-			String m_name = NpcData.getInstance().getTemplate(MBOSS).getName().toUpperCase();
-			
-			String mainBossInfo = "";
-			
-			if (m_delay == 0)
-				mainBossInfo += "State<br1><font color=\"FFFF00\">" + m_name + "&nbsp;IS ALIVE!</font><br1>";
-			else if (m_delay > 0)
-			{
-				mainBossInfo += "State<br1><font color=\"FF0000\">&nbsp;" + m_name + "&nbsp;IS DEAD</font><br1>";
-				m_delay = m_delay - Calendar.getInstance().getTimeInMillis();
-				mainBossInfo += "<font color=\"b09979\">" + ConverTime(m_delay) + "</font><br1> Time until respawn!";
-			}
-			
-			NpcHtmlMessage html = new NpcHtmlMessage(1);
-			html.setFile(getHtmlPath(npc.getNpcId(), 0));
-			html.replace("%objectId%", npc.getObjectId());
-			html.replace("%bosslist%", sb.toString());
-			html.replace("%mboss%", mainBossInfo);
-			player.sendPacket(html);
-		}
+		NpcHtmlMessage html = new NpcHtmlMessage(1);
+		html.setFile("./data/html/script/" + getDescr() + "/" + getName() + "/" + "boss.htm");
+		html.replace("%objectId%", npc.getObjectId());
+		html.replace("%bosslist%", sb.toString());
+		html.replace("%mboss%", mainBossInfo);
+		player.sendPacket(html);
 	}
 	
 	private static String ConverTime(long mseconds)
@@ -210,20 +244,5 @@ public class ServerFeatures extends Quest
 		long seconds = (long) Math.ceil((remainder / 1000));
 		
 		return hours + ":" + minutes + ":" + seconds;
-	}
-	
-	public String getHtmlPath(int npcId, int val)
-	{
-		String filename;
-		
-		if (val == 0)
-			filename = "data/html/mods/RaidBossStatus/" + npcId + ".htm";
-		else
-			filename = "data/html/mods/RaidBossStatus/" + npcId + "-" + val + ".htm";
-		
-		if (HtmCache.getInstance().isLoadable(filename))
-			return filename;
-		
-		return "data/html/mods/RaidBossStatus/" + npcId + ".htm";
 	}
 }
