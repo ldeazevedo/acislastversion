@@ -23,7 +23,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -44,7 +46,7 @@ import net.sf.l2j.gameserver.scripting.script.ai.boss.Valakas;
 
 public class ServerFeatures extends Quest
 {
-	private static final int[] BOSSES = {29001, 29006, 29014, 29022};
+	private static final int[] GBOSSES = {29001, 29006, 29014, 29022};
 	private static final String SQL_BOSS = "SELECT boss_id, respawn_time, status, name, id, level FROM grandboss_data LEFT JOIN npc ON grandboss_data.boss_id=npc.id WHERE boss_id ORDER BY grandboss_data.status DESC";
 	
 	private static final int ARENA_NPC = 50095;
@@ -72,12 +74,34 @@ public class ServerFeatures extends Quest
 		{ 117102, 76966, -2696, 34826 }  			// Hunter
 	}; 
 	
+	//Npcs buffers
+	protected static final int[][] BUFFER_SPAWNS =
+	{
+		{ 146816, 25590, -1984, 22517 },   			// Aden
+		{ 148069, -55461, -2728, 35906 },   		// Goddard
+		{ 82262, 148608, -3464, 1154 },   			// Giran
+		{ 82891, 53068, -1488, 11547 },   			// Oren
+		{ 111492, 219278, -3544, 49152 },   		// Heine
+		{ 15741, 142768, -2696, 19961 },   			// Dion
+		{ -12865, 122908, -3112, 49152 },   		// Gludio
+		{ 86977, -143230, -1288, 4554 },   			// Schuttgart
+		{ 43502, -48405, -792, 17078 },   			// Rune
+		{ -80932, 149697, -3040, 16141 },   		// Gludin
+		{ -84481, 243182, -3728, 23832 },   		// Talking Island
+		{ 45411, 49276, -3064, 51140 },   			// Elven
+		{ 11033, 16054, -4584, 13481 },   			// Dark Elf
+		{ -45083, -112959, -240, 62980 },   		// Orc
+		{ 114863, -178210, -824, 58824 },   		// Dwarven
+		{ 117193, 76758, -2688, 38489 }   			// Hunter
+	};
+	
 	// Npcs para el Arena Fight
 	protected static final int[][] ARENA_SPAWNS =
 	{
 		{ 83587, 147598, -3400, 16384 },  			// Giran
 		{ 148102, -55695, -2744, 27280 },  			// Goddard
-		{ 147074, 25630, -2008, 10495 }  			// Aden
+		{ 147074, 25630, -2008, 10495 },  			// Aden
+		{ 42913, -47924, -792, 60699 }  			// Rune
 	};
 	
 	public ServerFeatures()
@@ -89,16 +113,19 @@ public class ServerFeatures extends Quest
 		addTalkId(BUFFER);
 		addFirstTalkId(ARENA_NPC);
 		addFirstTalkId(CUSTOM_NPC);
-		addFirstTalkId(BUFFER);
 		
 		for (NpcTemplate t : NpcData.getInstance().getTemplates(t -> t.isType("RaidBoss")))
 			addMyDying(t.getIdTemplate());
 		
 		for (int[] loc : ARENA_SPAWNS)
-			addSpawn(50095, loc[0], loc[1], loc[2], loc[3], false, 0, false);
+			addSpawn(ARENA_NPC, loc[0], loc[1], loc[2], loc[3], false, 0, false);
 		
 		for (int[] loc : CUSTOM_SPAWNS)
-			addSpawn(50096, loc[0], loc[1], loc[2], loc[3], false, 0, false);
+			addSpawn(CUSTOM_NPC, loc[0], loc[1], loc[2], loc[3], false, 0, false);
+		
+		for (int[] loc : BUFFER_SPAWNS)
+			addSpawn(BUFFER, loc[0], loc[1], loc[2], loc[3], false, 0, false);
+		
 	}
 
 	@Override
@@ -166,23 +193,29 @@ public class ServerFeatures extends Quest
 				int npcid = npcinfo.getNpcId();
 				boolean diffentId = npcid == Valakas.VALAKAS || npcid == Frintezza.FRINTEZZA || npcid == Antharas.ANTHARAS;
 				boolean isStatus = GrandBossManager.getInstance().getBossStatus(npcid) == (diffentId ? 3 : 2);
-				String name = NpcData.getInstance().getTemplate(npcid).getName().toUpperCase();
+				String name = NpcData.getInstance().getTemplate(npcid).getName()/*.toUpperCase()*/;
+				int level = NpcData.getInstance().getTemplate(npcid).getLevel();
 				if (name.equalsIgnoreCase("Scarlet van Halisha"))
 					continue;
 
 				if (!isStatus)
-					sb.append("" + name + "&nbsp;<font color=\"FFFF00\">IS ALIVE!</font><br1>");
+				{
+					sb.append("&nbsp;<font color=\"FFFF00\">" + name + "</font> - Level: "+level+ "<br1>");
+					sb.append("&nbsp;<font color=\"00FF00\">IS ALIVE!</font>");
+					sb.append("&nbsp;<img src=\"l2ui.SquareWhite\" width=125 height=1>");
+				}
 				else
 				{
-					sb.append("&nbsp;" + name + "&nbsp;<font color=\"FF0000\">IS DEAD</font><br1>");
-					sb.append("Time until respawn: " + name + "&nbsp;<font color=\"b09979\">:&nbsp;" + ConverTime(respawnTime - Calendar.getInstance().getTimeInMillis()) + "</font><br1>");
+					sb.append("&nbsp;<font color=\"FF0000\">" + name + "</font> - Level: "+level+ "<br1>");
+					sb.append("&nbsp;<font color=\"FF0000\">IS DEAD!</font><font color=\"FFFF00\"> Time until respawn: </font>"+ ConverTime(respawnTime - Calendar.getInstance().getTimeInMillis())+" ");
+					sb.append("&nbsp;<img src=\"l2ui.SquareWhite\" width=125 height=1>");
 				}
 			}
 		} catch (Exception e)
 		{
 			log.error("There was an error when loading bosses: " + e.getMessage());
 		}
-		Arrays.stream(BOSSES).forEach(boss -> {
+		Arrays.stream(GBOSSES).forEach(boss -> {
 			NpcTemplate npcinfo = NpcData.getInstance().getTemplate(boss);
 			if (npcinfo == null)
 				return;
@@ -191,18 +224,25 @@ public class ServerFeatures extends Quest
 			if (spawn != null && spawn.getSpawnData() != null)
 			{
 				long delay = spawn.getSpawnData().getRespawnTime();
-				String name = NpcData.getInstance().getTemplate(boss).getName().toUpperCase();
+				String name = NpcData.getInstance().getTemplate(boss).getName()/*.toUpperCase()*/;
+				int level = NpcData.getInstance().getTemplate(boss).getLevel();
 				
 				if (delay == 0)
-					sb.append("" + name + "&nbsp;<font color=\"FFFF00\">IS ALIVE!</font><br1>");
+				{
+					sb.append("&nbsp;<font color=\"FFFF00\">" + name + "</font> - Level: "+level+ "<br1>");
+					sb.append("&nbsp;<font color=\"00FF00\">IS ALIVE!</font>");
+					sb.append("&nbsp;<img src=\"l2ui.SquareWhite\" width=125 height=1>");
+				}
 				else if (delay > 0)
 				{
-					sb.append("&nbsp;" + name + "&nbsp;<font color=\"FF0000\">IS DEAD</font><br1>");
-					sb.append("Time until respawn: " + name + "&nbsp;<font color=\"b09979\">:&nbsp;" + ConverTime(delay - Calendar.getInstance().getTimeInMillis()) + "</font><br1>");
+					sb.append("&nbsp;<font color=\"FF0000\">" + name + "</font> - Level: "+level+ "<br1>");
+					sb.append("&nbsp;<font color=\"FF0000\">IS DEAD!</font><font color=\"FFFF00\"> Time until respawn: </font>"+ ConverTime(delay - Calendar.getInstance().getTimeInMillis())+" ");
+					sb.append("&nbsp;<img src=\"l2ui.SquareWhite\" width=125 height=1>");
 				}
 			}
 		});
-		final List<NpcTemplate> mobs = NpcData.getInstance().getTemplates(t -> t.isType("RaidBoss"));
+		List<NpcTemplate> mobs = NpcData.getInstance().getTemplates(t -> t.isType("RaidBoss")).stream().sorted(Comparator.comparingInt(p -> p.getLevel())).collect(Collectors.toList());
+
 		String mainBossInfo = "";
 
 		for (int i = 0; i < mobs.size(); i++)
@@ -213,14 +253,20 @@ public class ServerFeatures extends Quest
 			if ((NpcData.getInstance().getTemplate(mobs.get(i).getNpcId()).getLevel() < 75))
 				continue;
 			long delay = spawn.getSpawnData().getRespawnTime();
-			String name = NpcData.getInstance().getTemplate(mobs.get(i).getNpcId()).getName().toUpperCase();
+			int level = NpcData.getInstance().getTemplate(mobs.get(i).getNpcId()).getLevel();
+			String name = NpcData.getInstance().getTemplate(mobs.get(i).getNpcId()).getName()/*.toUpperCase()*/;
 			
 			if (delay == 0)
-				mainBossInfo += ("" + name + "&nbsp;<font color=\"FFFF00\">IS ALIVE!</font><br1>");
+			{
+				mainBossInfo +=("&nbsp;<font color=\"FFFF00\">" + name + "</font> - Level: "+level+ "<br1>");
+				mainBossInfo +=("&nbsp;<font color=\"00FF00\">IS ALIVE!</font>");
+				mainBossInfo +=("&nbsp;<img src=\"l2ui.SquareWhite\" width=125 height=1>");
+			}
 			else if (delay > 0)
 			{
-				mainBossInfo += ("&nbsp;" + name + "&nbsp;<font color=\"FF0000\">IS DEAD</font><br1>");
-				mainBossInfo += ("Time until respawn: " +name+ "&nbsp;<font color=\"b09979\">:&nbsp;" + ConverTime(delay - Calendar.getInstance().getTimeInMillis()) + "</font><br1>");
+				mainBossInfo +=("&nbsp;<font color=\"FF0000\">" + name + "</font> - Level: "+level+ "<br1>");
+				mainBossInfo +=("&nbsp;<font color=\"FF0000\">IS DEAD!</font><font color=\"FFFF00\"> Time until respawn: </font>"+ ConverTime(delay - Calendar.getInstance().getTimeInMillis())+" ");
+				mainBossInfo +=("&nbsp;<img src=\"l2ui.SquareWhite\" width=125 height=1>");
 			}
 		}
 		NpcHtmlMessage html = new NpcHtmlMessage(1);

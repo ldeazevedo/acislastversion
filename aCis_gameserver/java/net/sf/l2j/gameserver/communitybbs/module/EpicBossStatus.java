@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import net.sf.l2j.commons.pool.ConnectionPool;
 
@@ -52,7 +54,7 @@ public class EpicBossStatus
 			if (spawn != null)
 				populateHTML(spawn.getTemplate().getName(), spawn.getTemplate().getLevel(), spawn.getSpawnData().getRespawnTime(), spawn.getSpawnData().checkDead());
 		});
-		final List<NpcTemplate> mobs = NpcData.getInstance().getTemplates(t -> t.isType("RaidBoss"));
+		List<NpcTemplate> mobs = NpcData.getInstance().getTemplates(t -> t.isType("RaidBoss")).stream().sorted(Comparator.comparingInt(p -> p.getLevel())).collect(Collectors.toList());
 		
 		for (int i = 0; i < mobs.size(); i++)
 		{
