@@ -1,10 +1,16 @@
 package net.sf.l2j.gameserver.model.events.util;
 
+import net.sf.l2j.gameserver.model.location.Location;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventConstants
 {
+
+	private EventConstants()
+	{
+	}
 
 	public static final String REGISTER = ".reg1";
 	public static final String UNREGISTER = ".unreg1";
@@ -42,4 +48,6 @@ public class EventConstants
 	// Survival Event
 	public static final int SURVIVAL_REWARD_ID = 5575;
 	public static final int SURVIVAL_REWARD_AMOUNT = 100_000;
+
+	public static final Location DEFAULT_LOCATION = new Location(82698, 148638, -3473);
 }

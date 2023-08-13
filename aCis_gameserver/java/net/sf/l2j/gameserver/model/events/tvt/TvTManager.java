@@ -197,6 +197,11 @@ public class TvTManager extends AbstractEvent
 		return false;
 	}
 
+	@Override
+	public void processCommand(String text, Player player)
+	{
+	}
+
 	/**
 	 * Class for TvT cycles
 	 */

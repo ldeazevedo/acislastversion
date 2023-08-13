@@ -24,10 +24,7 @@ public class EventUtil
 		player.getStatus().setMaxCpHpMp();
 		player.broadcastUserInfo();
 
-		if (player.getSavedLocation() != null)
-			player.teleportTo(player.getSavedLocation(), 0);
-		else
-			player.teleportTo(82698, 148638, -3473, 0);
+		player.teleportTo(player.getSavedLocation() != null ? player.getSavedLocation() : EventConstants.DEFAULT_LOCATION, 0);
 
 		if (player.getKarma() > 0)
 			player.setKarma(0);

@@ -21,6 +21,7 @@ public class ExHeroList extends L2GameServerPacket
 	{
 		writeC(0xfe);
 		writeH(0x23);
+
 		writeD(_sets.size());
 		
 		for (StatSet set : _sets)

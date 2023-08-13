@@ -35,19 +35,29 @@ public class NewEventManager implements IEvent
 	@Override
 	public void onLogout(Player player)
 	{
-		runningEvent.onLogout(player);
+		if (runningEvent != null)
+			runningEvent.onLogout(player);
 	}
 
 	@Override
 	public void clean()
 	{
+		if (runningEvent == null)
+			return;
 		runningEvent.clean();
+		runningEvent = null;
 	}
 
 	@Override
 	public boolean onKill(Player player, Player killer)
 	{
-		return runningEvent.onKill(player, killer);
+		return runningEvent != null && runningEvent.onKill(player, killer);
+	}
+
+	@Override
+	public void processCommand(String text, Player player)
+	{
+		runningEvent.processCommand(text, player);
 	}
 
 	public boolean isInEvent(Player player)
