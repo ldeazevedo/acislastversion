@@ -1,12 +1,11 @@
 package net.sf.l2j.gameserver.model.events;
 
+import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.gameserver.model.actor.Player;
-
-import java.util.logging.Logger;
 
 public class NewEventManager implements IEvent
 {
-	protected final Logger log = Logger.getLogger(this.getClass().getName());
+	protected final CLogger log = new CLogger(this.getClass().getName());
 	private static NewEventManager instance;
 	private AbstractEvent runningEvent = null;
 

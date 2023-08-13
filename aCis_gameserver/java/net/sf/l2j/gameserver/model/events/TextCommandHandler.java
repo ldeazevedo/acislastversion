@@ -2,6 +2,7 @@ package net.sf.l2j.gameserver.model.events;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.StringUtil;
+import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
@@ -15,25 +16,24 @@ import net.sf.l2j.gameserver.model.events.tvt.TvTEvent;
 import net.sf.l2j.gameserver.model.events.tvt.TvTEventTeleporter;
 import net.sf.l2j.gameserver.model.events.tvt.TvTManager;
 import net.sf.l2j.gameserver.model.events.util.EventConstants;
-import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.network.serverpackets.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 public class TextCommandHandler
 {
-	protected static final Logger log = Logger.getLogger(TextCommandHandler.class.getName());
+	protected static final CLogger log = new CLogger(TextCommandHandler.class.getName());
 
 	private static Player pShift;
 
 	public static boolean process(String text, Player player)
 	{
+		text = text.toLowerCase();
 		//	final Player target = player.getTarget().getActingPlayer();
-		switch (text.toLowerCase())
+		switch (text)
 		{
 			case EventConstants.REGISTER:
 			case EventConstants.UNREGISTER:
@@ -46,28 +46,28 @@ public class TextCommandHandler
 
 		if (!TvTEvent.isInactive())
 		{
-			if (text.equalsIgnoreCase(".register"))
+			if (text.equals(".register"))
 			{
 				TvTEvent.onBypass("tvt_event_participation", player);
 				return true;
-			} else if (text.equalsIgnoreCase(".tvt"))
+			} else if (text.equals(".tvt"))
 			{
 				TvTEvent.addParticipant(player);
 				return true;
 			}
 		}
-		if (text.equalsIgnoreCase(".hair"))
+		if (text.equals(".hair"))
 		{
 			player.setSwitchHair(!player.getHair());
 			return true;
 		}
-		if (text.equalsIgnoreCase(".register") || text.equalsIgnoreCase(".unregister") || text.equalsIgnoreCase(".ver") || text.equalsIgnoreCase(".salir"))
+		if (text.equals(".register") || text.equals(".unregister") || text.equals(".ver") || text.equals(".salir"))
 		{
 			//	EventManager.getInstance().checkEvents(text, player);
 			return true;
 		}
 
-		if (text.equalsIgnoreCase(".expoff"))
+		if (text.equals(".expoff"))
 		{
 			player.invertExpOff();
 			return true;
@@ -75,23 +75,23 @@ public class TextCommandHandler
 
 		if (player.isGM())
 		{
-			if (text.equalsIgnoreCase(".stopvita"))
+			if (text.equals(".stopvita"))
 			{
 				player.setEffectVita();
 				player.stopAbnormalEffect(AbnormalEffect.VITALITY);
 				return true;
 			}
-			if (text.equalsIgnoreCase(".heading"))
+			if (text.equals(".heading"))
 			{
 				player.sendMessage("GetHeading: " + player.getHeading());
 				return true;
 			}
-			if (text.equalsIgnoreCase(".test"))
+			if (text.equals(".test"))
 			{
 				int[] midpoint = calculateMidpoint(player.getPosition().toString(), player.getTarget().getPosition().toString());
 
 				player.sendMessage("Midpoint: (" + midpoint[0] + ", " + midpoint[1] + ", " + midpoint[2] + ")");
-				log.info("Midpoint: (" + midpoint[0] + ", " + midpoint[1] + ", " + midpoint[2] + ")");
+				log.info("Midpoint: ({}, {}, {})", midpoint[0], midpoint[1], midpoint[2]);
 				return true;
 			}
 			if (text.startsWith(".setinstance"))
@@ -166,28 +166,22 @@ public class TextCommandHandler
 
 			if (text.startsWith(".clanchat"))
 			{
-				StringTokenizer st = new StringTokenizer(text);
 				try
 				{
-					final String clanName = st.nextToken();
-					StringBuilder message = new StringBuilder();
+					var st = new StringTokenizer(text);
+					var clanName = st.nextToken();
+					var message = new StringBuilder();
 					while (st.hasMoreTokens())
 						message.append(st.nextToken()).append(" ");
-					Clan receiverClan = null;
-					for (Clan clan : ClanTable.getInstance().getClans())
-						if (clan.getName().equalsIgnoreCase(clanName))
-						{
-							receiverClan = clan;
-							break;
-						}
-					if (receiverClan != null)
+					var receiverClan = ClanTable.getInstance().getClans().stream().filter(c -> c.getName().equalsIgnoreCase(clanName)).findFirst();
+					if (receiverClan.isPresent())
 					{
-						receiverClan.broadcastToMembers(new CreatureSay(player.getObjectId(), SayType.CLAN, player.getName(), message.toString()));
-						player.sendPacket(new CreatureSay(player.getObjectId(), SayType.ALLIANCE, player.getName(), "[" + receiverClan.getName() + "]:" + message));
+						receiverClan.get().broadcastToMembers(new CreatureSay(player.getObjectId(), SayType.CLAN, player.getName(), message.toString()));
+						player.sendPacket(new CreatureSay(player.getObjectId(), SayType.ALLIANCE, player.getName(), "[" + receiverClan.get().getName() + "]:" + message));
 					}
 				} catch (Exception e)
 				{
-					log.severe("Error when trying to use .chat|.all|.clan - " + e.getMessage());
+					log.error("Error when trying to use .chat|.all|.clan - ", e);
 					player.sendMessage("Usage: .clanchat <clanname> [text]");
 				}
 				return true;
@@ -229,7 +223,7 @@ public class TextCommandHandler
 					}
 				} catch (Exception e)
 				{
-					log.severe("Error when trying to use .chat|.all|.clan - " + e.getMessage());
+					log.error("Error when trying to use .chat|.all|.clan - ", e);
 					player.sendMessage("Usage: .clanchat <clanname> [text]");
 				}
 				return true;
