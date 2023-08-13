@@ -57,6 +57,11 @@ public class NewEventManager implements IEvent
 	@Override
 	public void processCommand(String text, Player player)
 	{
+		if (runningEvent == null)
+		{
+			player.sendMessage("No hay ningun evento activo.");
+			return;
+		}
 		runningEvent.processCommand(text, player);
 	}
 

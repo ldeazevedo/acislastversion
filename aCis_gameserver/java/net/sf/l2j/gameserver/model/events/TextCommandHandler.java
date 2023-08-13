@@ -1,11 +1,7 @@
 package net.sf.l2j.gameserver.model.events;
 
-import java.util.StringTokenizer;
-import java.util.logging.Logger;
-
-import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.Config;
+import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
@@ -20,41 +16,43 @@ import net.sf.l2j.gameserver.model.events.tvt.TvTEventTeleporter;
 import net.sf.l2j.gameserver.model.events.tvt.TvTManager;
 import net.sf.l2j.gameserver.model.events.util.EventConstants;
 import net.sf.l2j.gameserver.model.pledge.Clan;
-import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
-import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
-import net.sf.l2j.gameserver.network.serverpackets.GMHennaInfo;
-import net.sf.l2j.gameserver.network.serverpackets.GMViewItemList;
-import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
+import net.sf.l2j.gameserver.network.serverpackets.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 public class TextCommandHandler
 {
 	protected static final Logger log = Logger.getLogger(TextCommandHandler.class.getName());
-	
+
 	private static Player pShift;
-	
+
 	public static boolean process(String text, Player player)
 	{
-	//	final Player target = player.getTarget().getActingPlayer();
-		switch (text.toLowerCase()){
+		//	final Player target = player.getTarget().getActingPlayer();
+		switch (text.toLowerCase())
+		{
 			case EventConstants.REGISTER:
 			case EventConstants.UNREGISTER:
 			case EventConstants.WATCH:
 			case EventConstants.EXIT:
 				log.info("Event command is being processed");
-				RandomFightEngine.getInstance().processCommand(text, player);
+				NewEventManager.getInstance().processCommand(text, player);
 				return true;
 		}
 
-		if (!net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isInactive())
+		if (!TvTEvent.isInactive())
 		{
 			if (text.equalsIgnoreCase(".register"))
 			{
-				net.sf.l2j.gameserver.model.events.tvt.TvTEvent.onBypass("tvt_event_participation", player);
+				TvTEvent.onBypass("tvt_event_participation", player);
 				return true;
-			}
-			else if (text.equalsIgnoreCase(".tvt"))
+			} else if (text.equalsIgnoreCase(".tvt"))
 			{
-				net.sf.l2j.gameserver.model.events.tvt.TvTEvent.addParticipant(player);
+				TvTEvent.addParticipant(player);
 				return true;
 			}
 		}
@@ -65,16 +63,16 @@ public class TextCommandHandler
 		}
 		if (text.equalsIgnoreCase(".register") || text.equalsIgnoreCase(".unregister") || text.equalsIgnoreCase(".ver") || text.equalsIgnoreCase(".salir"))
 		{
-		//	EventManager.getInstance().checkEvents(text, player);
-            return true;
+			//	EventManager.getInstance().checkEvents(text, player);
+			return true;
 		}
-		
+
 		if (text.equalsIgnoreCase(".expoff"))
 		{
 			player.invertExpOff();
 			return true;
 		}
-		
+
 		if (player.isGM())
 		{
 			if (text.equalsIgnoreCase(".stopvita"))
@@ -85,7 +83,7 @@ public class TextCommandHandler
 			}
 			if (text.equalsIgnoreCase(".heading"))
 			{
-				player.sendMessage("GetHeading: "+player.getHeading());
+				player.sendMessage("GetHeading: " + player.getHeading());
 				return true;
 			}
 			if (text.equalsIgnoreCase(".test"))
@@ -93,20 +91,20 @@ public class TextCommandHandler
 				int[] midpoint = calculateMidpoint(player.getPosition().toString(), player.getTarget().getPosition().toString());
 
 				player.sendMessage("Midpoint: (" + midpoint[0] + ", " + midpoint[1] + ", " + midpoint[2] + ")");
-		        log.info("Midpoint: (" + midpoint[0] + ", " + midpoint[1] + ", " + midpoint[2] + ")");
+				log.info("Midpoint: (" + midpoint[0] + ", " + midpoint[1] + ", " + midpoint[2] + ")");
 				return true;
 			}
 			if (text.startsWith(".setinstance"))
 			{
 				final StringTokenizer st = new StringTokenizer(text, " ");
 				st.nextToken();
-		
+
 				if (!st.hasMoreTokens())
 				{
 					player.sendMessage("Usage: .setinstance <id>");
 					return true;
 				}
-			
+
 				final WorldObject targetWorldObject = player.getTarget();
 
 				final String param = st.nextToken();
@@ -131,9 +129,11 @@ public class TextCommandHandler
 				return;
 			}
 			else */
-			switch (text) {
+			switch (text)
+			{
 				case ".tvt_add":
-					if (!(player.getTarget() instanceof Player)) {
+					if (!(player.getTarget() instanceof Player))
+					{
 						player.sendMessage("You should select a player!");
 						return true;
 					}
@@ -141,10 +141,11 @@ public class TextCommandHandler
 					add(player, player.getTarget().getActingPlayer());
 					break;
 				case ".tvt_start":
-					net.sf.l2j.gameserver.model.events.tvt.TvTManager.getInstance().startTvT();
+					TvTManager.getInstance().startTvT();
 					return true;
 				case ".tvt_remove":
-					if (!(player.getTarget() instanceof Player)) {
+					if (!(player.getTarget() instanceof Player))
+					{
 						player.sendMessage("You should select a player!");
 						return true;
 					}
@@ -166,7 +167,6 @@ public class TextCommandHandler
 			if (text.startsWith(".clanchat"))
 			{
 				StringTokenizer st = new StringTokenizer(text);
-				text = st.nextToken();
 				try
 				{
 					final String clanName = st.nextToken();
@@ -185,10 +185,9 @@ public class TextCommandHandler
 						receiverClan.broadcastToMembers(new CreatureSay(player.getObjectId(), SayType.CLAN, player.getName(), message.toString()));
 						player.sendPacket(new CreatureSay(player.getObjectId(), SayType.ALLIANCE, player.getName(), "[" + receiverClan.getName() + "]:" + message));
 					}
-				}
-				catch (Exception e)
+				} catch (Exception e)
 				{
-					e.printStackTrace();
+					log.severe("Error when trying to use .chat|.all|.clan - " + e.getMessage());
 					player.sendMessage("Usage: .clanchat <clanname> [text]");
 				}
 				return true;
@@ -198,7 +197,6 @@ public class TextCommandHandler
 				boolean global = text.startsWith(".all");
 				boolean clan = text.startsWith(".clan");
 				StringTokenizer st = new StringTokenizer(text);
-				text = st.nextToken();
 				try
 				{
 					final String charName = st.nextToken();
@@ -223,17 +221,15 @@ public class TextCommandHandler
 										victim.sendPacket(cs);
 									}
 								}
-						}
-						else if (victim.getClan() != null)
+						} else if (victim.getClan() != null)
 						{
 							AdminData.getInstance().broadcastToGMs(new CreatureSay(victim.getObjectId(), SayType.ALLIANCE, victim.getName(), "[" + victim.getClan().getName() + "]:" + message));
 							victim.getClan().broadcastToMembers(new CreatureSay(victim.getObjectId(), SayType.CLAN, victim.getName(), message.toString()));
 						}
 					}
-				}
-				catch (Exception e)
+				} catch (Exception e)
 				{
-					e.printStackTrace();
+					log.severe("Error when trying to use .chat|.all|.clan - " + e.getMessage());
 					player.sendMessage("Usage: .clanchat <clanname> [text]");
 				}
 				return true;
@@ -241,7 +237,7 @@ public class TextCommandHandler
 		}
 		return false;
 	}
-	
+
 	public void bypass(Player client, String command)
 	{
 		final Player player = client.getActingPlayer();
@@ -253,16 +249,14 @@ public class TextCommandHandler
 		{
 			html.setFile("data/html/mods/shift/clan.htm");
 			player.sendPacket(html);
-		}
-		else if (command.equalsIgnoreCase("shift_stats"))
+		} else if (command.equalsIgnoreCase("shift_stats"))
 		{
 			html.setFile("data/html/mods/shift/stats.htm");
 			html.replace("%class%", shift.getClass().getSimpleName());
 			html.replace("%name%", shift.getName());
 			html.replace("%lvl%", shift.getStatus().getLevel());
 			player.sendPacket(html);
-		}
-		else if (command.equalsIgnoreCase("shift_equipped"))
+		} else if (command.equalsIgnoreCase("shift_equipped"))
 		{
 			if (!player.isGM())
 			{
@@ -270,29 +264,27 @@ public class TextCommandHandler
 					player.sendPacket(new GMViewItemList(shift, true));
 				else
 					player.sendMessage("You can't use it on GMs!");
-			}
-			else
+			} else
 				player.sendPacket(new GMViewItemList(shift));
 			player.sendPacket(new GMHennaInfo(shift));
 			player.sendPacket(ActionFailed.STATIC_PACKET);
 			return;
-		}
-		else if (command.equalsIgnoreCase("home"))
+		} else if (command.equalsIgnoreCase("home"))
 		{
 			html.setFile("data/html/mods/shift/initial.htm");
 			player.sendPacket(html);
 		}
 		player.sendPacket(ActionFailed.STATIC_PACKET);
 	}
-	
+
 	public static void showHtml(Player player, Player shift)
 	{
 		final NpcHtmlMessage html = new NpcHtmlMessage(player.getObjectId());
 		if (player.isGM())
 		{
-				AdminEditChar.gatherPlayerInfo(player, shift, html);
-				player.sendPacket(ActionFailed.STATIC_PACKET);
-				return;
+			AdminEditChar.gatherPlayerInfo(player, shift, html);
+			player.sendPacket(ActionFailed.STATIC_PACKET);
+			return;
 		}
 		html.setFile("data/html/mods/shift/initial.htm");
 		pShift = shift;
@@ -302,22 +294,22 @@ public class TextCommandHandler
 
 	private static void add(Player player, Player playerInstance)
 	{
-		if (net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isPlayerParticipant(playerInstance.getObjectId()))
+		if (TvTEvent.isPlayerParticipant(playerInstance.getObjectId()))
 		{
 			player.sendMessage("Player already participated in the event!");
 			return;
 		}
-		
-		if (!net.sf.l2j.gameserver.model.events.tvt.TvTEvent.addParticipant(playerInstance))
+
+		if (!TvTEvent.addParticipant(playerInstance))
 		{
 			player.sendMessage("Player instance could not be added, it seems to be null!");
 			return;
 		}
-		
-		if (net.sf.l2j.gameserver.model.events.tvt.TvTEvent.isStarted())
-			new net.sf.l2j.gameserver.model.events.tvt.TvTEventTeleporter(playerInstance, net.sf.l2j.gameserver.model.events.tvt.TvTEvent.getParticipantTeamCoordinates(playerInstance.getObjectId()), true, false);
+
+		if (TvTEvent.isStarted())
+			new TvTEventTeleporter(playerInstance, TvTEvent.getParticipantTeamCoordinates(playerInstance.getObjectId()), true, false);
 	}
-	
+
 	private static void remove(Player player, Player playerInstance)
 	{
 		if (!TvTEvent.removeParticipant(playerInstance.getObjectId()))
@@ -327,52 +319,30 @@ public class TextCommandHandler
 		}
 		new TvTEventTeleporter(playerInstance, Config.TVT_EVENT_PARTICIPATION_NPC_COORDINATES, true, true);
 	}
-	
-    public static Player getShiftTarget()
-    {
-    	return pShift;
-    }
-    
+
+	public static Player getShiftTarget()
+	{
+		return pShift;
+	}
+
 	public static TextCommandHandler getInstance()
 	{
 		return SingletonHolder.INSTANCE;
 	}
-	
+
 	private static class SingletonHolder
 	{
 		protected static final TextCommandHandler INSTANCE = new TextCommandHandler();
 	}
-	
-	public static class MidPointCalculator
+
+	public static int[] calculateMidpoint(String object1, String object2)
 	{
-	    public static void main(String[] args)
-	    {
-	        String object1 = "1, 2, 3";
-	        String object2 = "-1, 4, 5";
+		String[] coordinates1 = object1.split(", ");
+		String[] coordinates2 = object2.split(", ");
 
-	        int[] midpoint = calculateMidpoint(object1, object2);
-
-	        System.out.println("Midpoint: (" + midpoint[0] + ", " + midpoint[1] + ", " + midpoint[2] + ")");
-	    }
+		return IntStream.range(0, 3).boxed()
+				.collect(ArrayList<Integer>::new, (l, i) -> l.add((Integer.parseInt(coordinates1[i]) + Integer.parseInt(coordinates2[i])) / 2), List::addAll)
+				.stream().mapToInt(Integer::intValue)
+				.toArray();
 	}
-	
-    public static int[] calculateMidpoint(String object1, String object2)
-    {
-        String[] coordinates1 = object1.split(", ");
-        String[] coordinates2 = object2.split(", ");
-
-        int x1 = Integer.parseInt(coordinates1[0]);
-        int y1 = Integer.parseInt(coordinates1[1]);
-        int z1 = Integer.parseInt(coordinates1[2]);
-
-        int x2 = Integer.parseInt(coordinates2[0]);
-        int y2 = Integer.parseInt(coordinates2[1]);
-        int z2 = Integer.parseInt(coordinates2[2]);
-
-        int midpointX = (x1 + x2) / 2;
-        int midpointY = (y1 + y2) / 2;
-        int midpointZ = (z1 + z2) / 2;
-
-        return new int[] { midpointX, midpointY, midpointZ };
-    }
 }
